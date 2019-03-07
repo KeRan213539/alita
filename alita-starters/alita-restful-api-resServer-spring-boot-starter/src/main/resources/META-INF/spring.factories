@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+top.klw8.alita.starter.cfg.OAuth2ResourceServerConfig,\
+top.klw8.alita.starter.cfg.WebFluxConfiguration

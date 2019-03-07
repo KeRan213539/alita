@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>alita-system-log-recorder</artifactId>
+	<packaging>jar</packaging>
+	<name>系统日志纪录组件</name>
+	<description>系统日志纪录组件--从rocketMQ中消费日志消息并纪录到ElasticSearch中</description>
+
+	<parent>
+        <groupId>top.klw8.alita</groupId>
+        <artifactId>alita-spring-boot-base</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+
+	<properties>
+	</properties>
+
+
+	<dependencies>
+
+		<dependency>
+			<groupId>top.klw8.alita</groupId>
+			<artifactId>alita-rocketmq-consumers-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.elasticsearch.client</groupId>
+			<artifactId>elasticsearch-rest-high-level-client</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.elasticsearch</groupId>
+			<artifactId>elasticsearch</artifactId>
+		</dependency>
+
+	</dependencies>
+</project>

@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: demo-service
+  profiles:
+    active: @profile.active@
+  cloud:
+    nacos:
+      config:
+        serverAddr: 127.0.0.1:8848
+        fileExtension: yml

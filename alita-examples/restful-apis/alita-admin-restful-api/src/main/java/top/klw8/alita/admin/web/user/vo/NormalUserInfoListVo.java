@@ -1,0 +1,21 @@
+package top.klw8.alita.admin.web.user.vo;
+
+import top.klw8.alita.entitys.user.NormalUserInfo;
+import top.klw8.alita.starter.web.base.vo.ListPrarmVo;
+
+/**
+ * @ClassName: NormalUserInfoListVo
+ * @Description: 查询客户列表(不分页)VO
+ * @author klw
+ * @date 2019年1月31日 下午2:23:32
+ */
+public class NormalUserInfoListVo extends ListPrarmVo<NormalUserInfo> {
+
+    private static final long serialVersionUID = -8753740521433616073L;
+
+    @Override
+    public NormalUserInfo buildEntity() {
+	return new NormalUserInfo();
+    }
+
+}

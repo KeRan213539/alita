@@ -1,0 +1,16 @@
+server:
+  port: 8782
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      maxFileSize: 10MB
+      maxRequestSize: 50MB
+alita:
+  pkGenerator:  # 雪花算法配制
+    workerId: 1  # 相同服务不同节点累加此ID
+    datacenterId: 19  # 相同服务使用相同ID, web项目从17开始,最大32
+  oauth2:
+    resServer:
+      authPath: 
+        - /oss/**

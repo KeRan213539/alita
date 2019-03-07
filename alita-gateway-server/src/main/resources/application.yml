@@ -1,0 +1,15 @@
+server:
+  port: 80     
+spring:
+  application:
+    name: alita-gateway-server
+  cloud: 
+    nacos: 
+      discovery:
+        serverAddr: 127.0.0.1:8848
+#alita:
+#  gatewayServer:
+#    routesCfgInNacos:
+#      nacosServerAddr: 127.0.0.1:8848
+#      dataid: alita-gateway-server-routes.json
+    

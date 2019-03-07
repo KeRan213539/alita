@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>alita-fileupload-restful-api</artifactId>
+	<packaging>jar</packaging>
+	<name>alita-fileupload-restful-api</name>
+	<description>alita restful-api - 文件上传</description>
+
+	<parent>
+        <groupId>top.klw8.alita</groupId>
+        <artifactId>alita-spring-boot-base</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    
+    <dependencies>
+    
+        <dependency>
+			<groupId>top.klw8.alita</groupId>
+			<artifactId>alita-restful-api-resServer-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-alicloud-oss</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+		</dependency>
+
+	</dependencies>
+
+</project>

@@ -1,0 +1,14 @@
+server:
+  port: 8781
+spring:
+  rocketmq:
+    producer:
+      group: demoGroup
+alita:
+  pkGenerator:  # 雪花算法配制
+    workerId: 1  # 相同服务不同节点累加此ID
+    datacenterId: 18  # 相同服务使用相同ID, web项目从17开始,最大32
+  oauth2:
+    resServer:
+      authPath:
+        - /demo/**
