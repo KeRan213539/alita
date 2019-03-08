@@ -208,7 +208,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-	KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("authorizationKey.jks"), "alita&$&#*&Password".toCharArray());
+	KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("authorizationKey.jks"), "aLitAPAsSwOrd".toCharArray());
 	converter.setKeyPair(keyStoreKeyFactory.getKeyPair("alita"));
 	return converter;
     }

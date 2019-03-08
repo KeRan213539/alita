@@ -1,0 +1,22 @@
+spring:
+  rocketmq:
+    nameServer: 127.0.0.1:9876
+  cloud: 
+    nacos: 
+      discovery:
+        serverAddr: 127.0.0.1:8848
+    alicloud:
+      access-key: LTAIxGfASJ8DH9Rt
+      secret-key: 7PJgeGI0JAkvMlH8EdiwS5xlghxyOE
+      oss:
+        endpoint: oss-cn-shenzhen.aliyuncs.com
+dubbo:
+  application:
+    name: restful-api-fileupload
+  registry:
+    address: nacos://127.0.0.1:8848
+alita:
+  redis:
+    enabled: true
+    defaultHost: 127.0.0.1
+    defaultPort: 6379

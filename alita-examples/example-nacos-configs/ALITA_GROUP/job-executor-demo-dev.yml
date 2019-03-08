@@ -1,0 +1,10 @@
+spring:
+  cloud: 
+    nacos: 
+      discovery:
+        serverAddr: 127.0.0.1:8848
+dubbo:
+  application:
+    name: executor-demo
+  registry:
+    address: nacos://127.0.0.1:8848

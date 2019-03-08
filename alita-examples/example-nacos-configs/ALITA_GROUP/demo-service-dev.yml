@@ -1,0 +1,6 @@
+mongodb: 
+  connectUrl: mongodb://alita:alita123456@127.0.0.1:10041/?authSource=alita_db
+  dbName: alita_db
+dubbo:
+  registry:
+    address: nacos://127.0.0.1:8848

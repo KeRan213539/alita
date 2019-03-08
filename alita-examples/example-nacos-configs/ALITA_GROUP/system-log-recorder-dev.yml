@@ -1,0 +1,6 @@
+spring:
+  elasticsearch:
+    host: 127.0.0.1
+    port: 9200
+  rocketmq:
+    nameServer: 127.0.0.1:9876

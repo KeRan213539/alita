@@ -6,5 +6,6 @@ spring:
   cloud:
     nacos:
       config:
+        group: ALITA_GROUP
         serverAddr: 127.0.0.1:8848
         fileExtension: yml
