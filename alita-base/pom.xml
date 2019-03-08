@@ -7,6 +7,24 @@
 	<packaging>pom</packaging>
 	<name>alita-base</name>
 	<description>alita-base项目,主要用于控制各个jar包的版本号</description>
+	<url>https://github.com/KeRan213539/alita</url>
+	<licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>ranke</name>
+            <email>213539@qq.com</email>
+        </developer>
+    </developers>
+    <scm>
+        <connection>https://github.com/KeRan213539/alita.git</connection>
+        <developerConnection>https://github.com/KeRan213539/alita.git</developerConnection>
+        <url>https://github.com/KeRan213539/alita.git</url>
+    </scm>
 	<properties>
 		<project.build.jdkVersion>1.8</project.build.jdkVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -433,55 +451,6 @@
 		</dependency>
 
 	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>${project.build.jdkVersion}</source>
-					<target>${project.build.jdkVersion}</target>
-					<encoding>${project.build.sourceEncoding}</encoding>
-					<compilerArguments>
-						<verbose />
-					</compilerArguments>
-				</configuration>
-			</plugin>
-			<plugin>
-		        <groupId>org.projectlombok</groupId>
-		        <artifactId>lombok-maven-plugin</artifactId>
-		        <version>1.18.6.0</version>
-		        <executions>
-		            <execution>
-		                <phase>generate-sources</phase>
-		                <goals>
-		                    <goal>delombok</goal>
-		                </goals>
-		            </execution>
-		        </executions>
-		    </plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<skip>${skipJunitTest}</skip>
-				</configuration>
-			</plugin>
-		</plugins>
-		<sourceDirectory>src/main/java</sourceDirectory>
-		<testSourceDirectory>src/test/java</testSourceDirectory>
-		<resources>
-			<resource>
-				<directory>${basedir}/src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
-		<testResources>
-			<testResource>
-				<directory>${basedir}/src/test/resources</directory>
-			</testResource>
-		</testResources>
-	</build>
 
 	<repositories>
 	    <repository>
@@ -497,8 +466,8 @@
         </repository>
 		<repository>
 			<id>nexus</id>
-			<name>Team Nexus Repository</name>
-			<url>http://repo.9lue.com.cn:8070/repository/maven-public/</url>
+			<name>aliyun maven Repository</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
 			<releases>
                 <enabled>true</enabled>
             </releases>
@@ -508,20 +477,6 @@
 		</repository>
 	</repositories>
 
-
-	<distributionManagement>
-		<repository>
-			<id>nexus-releases</id>
-			<name>Nexus Release Repository</name>
-			<url>http://repo.9lue.com.cn:8070/repository/maven-releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>nexus-snapshots</id>
-			<name>Nexus Snapshot Repository</name>
-			<url>http://repo.9lue.com.cn:8070/repository/maven-snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-
 	<profiles>
 		<profile>
 			<id>dev</id>
@@ -530,7 +485,7 @@
 			</activation>
 			<properties>
 				<profile.active>dev</profile.active>
-				<log.rocketMQ.address>47.99.210.119:9876</log.rocketMQ.address>
+				<log.rocketMQ.address>127.0.0.1:9876</log.rocketMQ.address>
 			</properties>
 		</profile>
 
@@ -538,10 +493,132 @@
 			<id>test</id>
 			<properties>
 				<profile.active>test</profile.active>
-				<log.rocketMQ.address>47.99.210.119:9876</log.rocketMQ.address>
+				<log.rocketMQ.address>127.0.0.1:9876</log.rocketMQ.address>
 			</properties>
 		</profile>
+		
+		<profile>
+            <id>release</id>
+            <properties>
+                <profile.active>release</profile.active>
+                <log.rocketMQ.address>127.0.0.1:9876</log.rocketMQ.address>
+            </properties>
+            <build>
+                <plugins>
+                    <!-- Source -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Javadoc -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <configuration>
+                            <show>private</show>
+                            <nohelp>true</nohelp>
+                            <charset>UTF-8</charset>
+                            <encoding>UTF-8</encoding>
+                            <docencoding>UTF-8</docencoding>
+                            <additionalparam>-Xdoclint:none</additionalparam>  <!-- TODO 临时解决不规范的javadoc生成报错,后面要规范化后把这行去掉 -->
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- GPG -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>oss-releases</id>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+                </snapshotRepository>
+                <repository>
+                    <id>oss-releases</id>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
 
 	</profiles>
+	
+	<build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${project.build.jdkVersion}</source>
+                    <target>${project.build.jdkVersion}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <compilerArguments>
+                        <verbose />
+                    </compilerArguments>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-maven-plugin</artifactId>
+                <version>1.18.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>delombok</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>${skipJunitTest}</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>${basedir}/src/test/resources</directory>
+            </testResource>
+        </testResources>
+    </build>
 
 </project>
