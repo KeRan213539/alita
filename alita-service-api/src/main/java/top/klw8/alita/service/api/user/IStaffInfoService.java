@@ -1,6 +1,8 @@
 package top.klw8.alita.service.api.user;
 
 
+import org.bson.types.ObjectId;
+
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.entitys.user.StaffInfo;
 import top.klw8.alita.service.base.api.IBaseService;
@@ -20,7 +22,7 @@ public interface IStaffInfoService extends IBaseService<StaffInfo> {
      * @param accountId
      * @return
      */
-    StaffInfo findByAccountId(Long accountId);
+    StaffInfo findByAccountId(ObjectId accountId);
     
     /**
      * @Title: addSaveStaff

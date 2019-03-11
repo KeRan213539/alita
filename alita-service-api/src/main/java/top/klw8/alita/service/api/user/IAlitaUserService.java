@@ -2,6 +2,8 @@ package top.klw8.alita.service.api.user;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.service.base.api.IBaseService;
@@ -22,7 +24,7 @@ public interface IAlitaUserService extends IBaseService<AlitaUserAccount> {
      * @param role
      * @return
      */
-    int addRole2User(Long userId, SystemRole role);
+    Integer addRole2User(ObjectId userId, SystemRole role);
     
     /**
      * @Title: removeRoleFromUser
@@ -32,7 +34,7 @@ public interface IAlitaUserService extends IBaseService<AlitaUserAccount> {
      * @param role
      * @return
      */
-    int removeRoleFromUser(Long userId, SystemRole role);
+    Integer removeRoleFromUser(ObjectId userId, SystemRole role);
     
     /**
      * @Title: replaceRole2User
@@ -42,6 +44,6 @@ public interface IAlitaUserService extends IBaseService<AlitaUserAccount> {
      * @param roleList
      * @return
      */
-    int replaceRole2User(Long userId, List<SystemRole> roleList);
+    Integer replaceRole2User(ObjectId userId, List<SystemRole> roleList);
     
 }

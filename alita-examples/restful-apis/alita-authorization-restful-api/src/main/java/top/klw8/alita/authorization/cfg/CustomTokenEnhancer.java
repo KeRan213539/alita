@@ -45,7 +45,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
 	AlitaUserAccount user = null;
 	if(principal instanceof AlitaUserAccount) {
 	    user = (AlitaUserAccount)principal;
-	    additionalInfo.put("userId", user.getId());
+	    additionalInfo.put("userId", user.getId().toString());
 	}
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         

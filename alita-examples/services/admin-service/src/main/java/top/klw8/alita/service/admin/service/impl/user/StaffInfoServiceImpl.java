@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.apache.dubbo.config.annotation.Service;
+import org.bson.types.ObjectId;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -17,7 +18,6 @@ import top.klw8.alita.service.admin.dao.IAlitaUserDao;
 import top.klw8.alita.service.admin.dao.user.IStaffInfoDao;
 import top.klw8.alita.service.api.user.IStaffInfoService;
 import top.klw8.alita.starter.service.BaseServiceImpl;
-import top.klw8.alita.utils.generator.PkGeneratorBySnowflake;
 
 /**
  * @ClassName: StaffInfoServiceImpl
@@ -40,7 +40,7 @@ public class StaffInfoServiceImpl extends BaseServiceImpl<StaffInfo> implements 
     }
     
     @Override
-    public StaffInfo findByAccountId(Long accountId) {
+    public StaffInfo findByAccountId(ObjectId accountId) {
 	AlitaUserAccount account = new AlitaUserAccount();
 	StaffInfo query = new StaffInfo();
 	account.setId(accountId);
@@ -56,8 +56,8 @@ public class StaffInfoServiceImpl extends BaseServiceImpl<StaffInfo> implements 
     
     @Override
     public StaffInfo addSaveStaff(AlitaUserAccount account, StaffInfo user) {
-	user.setId(PkGeneratorBySnowflake.INSTANCE.nextId());
-	account.setId(PkGeneratorBySnowflake.INSTANCE.nextId());
+	user.setId(new ObjectId());
+	account.setId(new ObjectId());
 	account.setUserType(UserTypeEnum.ADMIN_USER);
 	account.setUserTypeId(user.getId());
 	BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();

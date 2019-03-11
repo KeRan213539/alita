@@ -1,6 +1,7 @@
 package top.klw8.alita.entitys.authority;
 
 
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Getter;
@@ -26,6 +27,7 @@ public class SystemAuthoritysCatlog extends BaseEntity {
      * @author klw
      * @Fields catlogName : 目录名称
      */
+    @Indexed
     private String catlogName;
     
     /**

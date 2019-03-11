@@ -2,6 +2,7 @@ package top.klw8.alita.service.base.dao;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.geo.Point;
@@ -55,7 +56,7 @@ public interface IMongoBaseDao<T extends BaseEntity> {
      * @param id
      * @return
      */
-    Mono<Long> deleteById(Long id);
+    Mono<Long> deleteById(ObjectId id);
 
     /**
      * 根据多个ID删除数据
@@ -64,7 +65,7 @@ public interface IMongoBaseDao<T extends BaseEntity> {
      * 
      * @return
      */
-    Mono<List<T>> deleteByIds(Long[] ids);
+    Mono<List<T>> deleteByIds(ObjectId[] ids);
 
     /**
      * 根据多个ID查询数据
@@ -72,7 +73,7 @@ public interface IMongoBaseDao<T extends BaseEntity> {
      * @param ids
      * @return
      */
-    Mono<List<T>> findByIds(Long[] ids, String... excludeFields);
+    Mono<List<T>> findByIds(ObjectId[] ids, String... excludeFields);
 
     /**
      * 根据ID查询一条数据
@@ -80,7 +81,7 @@ public interface IMongoBaseDao<T extends BaseEntity> {
      * @param id
      * @return
      */
-    Mono<T> findById(Long id, String... excludeFields);
+    Mono<T> findById(ObjectId id, String... excludeFields);
 
     /**
      * 根据ID修改一条数据
@@ -194,7 +195,7 @@ public interface IMongoBaseDao<T extends BaseEntity> {
      * @param ids
      * @return
      */
-    Mono<List<T>> findByIdsWithRefQuery(Long[] ids, String... excludeFields);
+    Mono<List<T>> findByIdsWithRefQuery(ObjectId[] ids, String... excludeFields);
     
     /**
      * @Title: findByIdWithRefQuery
@@ -203,7 +204,7 @@ public interface IMongoBaseDao<T extends BaseEntity> {
      * @param id
      * @return
      */
-    Mono<T> findByIdWithRefQuery(Long id, String... excludeFields);
+    Mono<T> findByIdWithRefQuery(ObjectId id, String... excludeFields);
     
     /**
      * @Title: findAllWithRefQuery

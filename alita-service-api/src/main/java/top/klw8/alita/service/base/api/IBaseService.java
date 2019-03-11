@@ -2,6 +2,7 @@ package top.klw8.alita.service.base.api;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 
 import top.klw8.alita.service.base.beans.PagePrarmBean;
@@ -41,7 +42,7 @@ public interface IBaseService<T extends BaseEntity> {
      * @param id
      * @return
      */
-    Integer deleteById(Long id);
+    Integer deleteById(ObjectId id);
 
     /**
      * @Title: deleteByIds
@@ -59,7 +60,7 @@ public interface IBaseService<T extends BaseEntity> {
      * @param ids
      * @return
      */
-    Integer deleteByIds(Long[] ids);
+    Integer deleteByIds(ObjectId[] ids);
 
     /**
      * @Title: findById
@@ -68,7 +69,7 @@ public interface IBaseService<T extends BaseEntity> {
      * @param id
      * @return
      */
-    T findById(Long id, String... excludeFields);
+    T findById(ObjectId id, String... excludeFields);
     
     /**
      * @Title: findById
@@ -78,7 +79,7 @@ public interface IBaseService<T extends BaseEntity> {
      * @param isQueryRef  是否查询关联数据
      * @return
      */
-    T findById(Long id, boolean isQueryRef, String... excludeFields);
+    T findById(ObjectId id, boolean isQueryRef, String... excludeFields);
 
     /**
      * @Title: findByIds
@@ -107,7 +108,7 @@ public interface IBaseService<T extends BaseEntity> {
      * @param isQueryRef  是否查询关联数据
      * @return
      */
-    List<T> findByIds(Long[] ids, boolean isQueryRef, String... excludeFields);
+    List<T> findByIds(ObjectId[] ids, boolean isQueryRef, String... excludeFields);
     
     /**
      * @Title: findByIds
@@ -116,7 +117,7 @@ public interface IBaseService<T extends BaseEntity> {
      * @param ids
      * @return
      */
-    List<T> findByIds(Long[] ids, String... excludeFields);
+    List<T> findByIds(ObjectId[] ids, String... excludeFields);
 
     /**
      * @Title: updateById

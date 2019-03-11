@@ -12,6 +12,7 @@ import java.util.concurrent.Future;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.rpc.RpcContext;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,7 +46,6 @@ import top.klw8.alita.starter.common.UserCacheHelper;
 import top.klw8.alita.starter.web.base.WebapiBaseController;
 import top.klw8.alita.starter.web.base.WebapiCrudBaseController;
 import top.klw8.alita.starter.web.common.JsonResult;
-import top.klw8.alita.utils.generator.PkGeneratorBySnowflake;
 
 /**
  * @ClassName: DevHelperController
@@ -130,7 +130,6 @@ public class DevHelperController {
 		    catlog = catlogTask.get();
 		    if (catlog == null) {
 			catlog = new SystemAuthoritysCatlog();
-			catlog.setId(PkGeneratorBySnowflake.INSTANCE.nextId());
 			catlog.setCatlogName(catlogRegister.name());
 			catlog.setShowIndex(catlogRegister.showIndex());
 			catlog.setRemark(catlogRegister.remark());
@@ -187,7 +186,6 @@ public class DevHelperController {
 		    catlog = catlogTask.get();
 		    if (catlog == null) {
 			catlog = new SystemAuthoritysCatlog();
-			catlog.setId(PkGeneratorBySnowflake.INSTANCE.nextId());
 			catlog.setCatlogName(register.catlogName());
 			catlog.setShowIndex(register.catlogShowIndex());
 			catlog.setRemark(register.catlogRemark());
@@ -197,7 +195,6 @@ public class DevHelperController {
 		    }
 		}
 		au = new SystemAuthoritys();
-		au.setId(PkGeneratorBySnowflake.INSTANCE.nextId());
 		au.setAuthorityName(moduleName + register.authorityName());
 		au.setAuthorityType(register.authorityType());
 		au.setAuthorityAction(authorityAction);
@@ -210,12 +207,12 @@ public class DevHelperController {
 
 		// 添加到超级管理员角色和用户中
 		if (isAdd2SuperAdmin) {
-		    roleService.findById(14045157016080384L);
+		    roleService.findById(new ObjectId("5c85fc8b645d423b3c071ab6"));
 		    Future<SystemRole> roleTask = RpcContext.getContext().getFuture();
 		    SystemRole superAdminRole = roleTask.get();
 		    if (superAdminRole == null) {
 			superAdminRole = new SystemRole();
-			superAdminRole.setId(14045157016080384L);
+			superAdminRole.setId(new ObjectId("5c85fc8b645d423b3c071ab6"));
 			superAdminRole.setRoleName("超级管理员");
 			superAdminRole.setRemark("超级管理员");
 			roleService.save(superAdminRole);
@@ -223,13 +220,13 @@ public class DevHelperController {
 			roleSaveTask.get();
 		    }
 
-		    userService.findById(14045157020274688L);
+		    userService.findById(new ObjectId("5c85fc8b645d423b3c071ab7"));
 		    Future<AlitaUserAccount> superAdminTask = RpcContext.getContext().getFuture();
 		    AlitaUserAccount superAdmin = superAdminTask.get();
 		    if (superAdmin == null) {
 			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 			superAdmin = new AlitaUserAccount("admin", pwdEncoder.encode("123456"));
-			superAdmin.setId(14045157020274688L);
+			superAdmin.setId(new ObjectId("5c85fc8b645d423b3c071ab7"));
 			superAdmin.setUserType(UserTypeEnum.ADMIN_USER);
 			superAdmin.setCreateDate(LocalDateTime.now());
 			userService.save(superAdmin);
@@ -258,7 +255,7 @@ public class DevHelperController {
     @PostMapping("/refreshAdminAuthoritys")
     public Mono<JsonResult> refreshAdminAuthoritys() throws Exception {
 	//查询管理员用户,把权限查出来
-	userService.findById(14045157020274688L, true);
+	userService.findById(new ObjectId("5c85fc8b645d423b3c071ab7"), true);
 	Future<AlitaUserAccount> superAdminTask = RpcContext.getContext().getFuture();
 	return Mono.just(superAdminTask.get()).map(superAdmin -> {
 	    if (EntityUtil.isEntityEmpty(superAdmin)) {

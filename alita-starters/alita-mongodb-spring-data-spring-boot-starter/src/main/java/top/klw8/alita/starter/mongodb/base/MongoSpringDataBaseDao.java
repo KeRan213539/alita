@@ -12,6 +12,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -143,19 +144,19 @@ public class MongoSpringDataBaseDao<T extends BaseEntity> implements IMongoBaseP
 
     
     @Override
-    public Mono<Long> deleteById(Long id) {
+    public Mono<Long> deleteById(ObjectId id) {
 	Assert.notNull(id, "id不能为空");
 	return mongoTemplate.remove(Query.query(Criteria.where(MongoDBConstant.ID_KEY).is(id)), this.entityClazz).map(result -> result.getDeletedCount());
     }
 
     @Override
-    public Mono<List<T>> deleteByIds(Long[] ids) {
+    public Mono<List<T>> deleteByIds(ObjectId[] ids) {
 	Assert.notEmpty(ids, "ids不能为空");
 	return mongoTemplate.findAllAndRemove(Query.query(Criteria.where(MongoDBConstant.ID_KEY).in(Arrays.asList(ids))), this.entityClazz).collectList();
     }
 
     @Override
-    public Mono<List<T>> findByIds(Long[] ids, String... excludeFields) {
+    public Mono<List<T>> findByIds(ObjectId[] ids, String... excludeFields) {
 	Assert.notNull(ids, "ids不能为空");
 	Query query = Query.query(Criteria.where(MongoDBConstant.ID_KEY).in((Object[])ids));
 	excludeDBRefFields(query, excludeFields);
@@ -163,7 +164,7 @@ public class MongoSpringDataBaseDao<T extends BaseEntity> implements IMongoBaseP
     }
 
     @Override
-    public Mono<T> findById(Long id, String... excludeFields) {
+    public Mono<T> findById(ObjectId id, String... excludeFields) {
 	Assert.notNull(id, "id不能为空");
 	Query query = Query.query(Criteria.where(MongoDBConstant.ID_KEY).is(String.valueOf(id)));
 	excludeDBRefFields(query, excludeFields);
@@ -199,9 +200,6 @@ public class MongoSpringDataBaseDao<T extends BaseEntity> implements IMongoBaseP
 	
 	list.stream().forEach(item -> {
 	    Assert.notNull(item.getId(), "批量更新的元素必须有ID!");
-	    if(item.getId() <= 0) {
-		throw new IllegalArgumentException("批量更新的元素的ID不正确!");
-	    }
 	    Document update = new Document();
             update.put("q", Query.query(Criteria.where(MongoDBConstant.ID_KEY).is(item.getId())).getQueryObject());
             update.put("u", this.generateUpdateByEntity(item).getUpdateObject());
@@ -399,7 +397,7 @@ public class MongoSpringDataBaseDao<T extends BaseEntity> implements IMongoBaseP
     
 
     @Override
-    public Mono<List<T>> findByIdsWithRefQuery(Long[] ids, String... excludeFields) {
+    public Mono<List<T>> findByIdsWithRefQuery(ObjectId[] ids, String... excludeFields) {
 	Assert.notEmpty(ids, "ids不能为空");
 	Query query = Query.query(Criteria.where(MongoDBConstant.ID_KEY).in((Object[])ids));
 	excludeFields(query, excludeFields);
@@ -411,7 +409,7 @@ public class MongoSpringDataBaseDao<T extends BaseEntity> implements IMongoBaseP
     }
 
     @Override
-    public Mono<T> findByIdWithRefQuery(Long id, String... excludeFields) {
+    public Mono<T> findByIdWithRefQuery(ObjectId id, String... excludeFields) {
 	Assert.notNull(id, "id不能为空");
 	Query query = Query.query(Criteria.where(MongoDBConstant.ID_KEY).is(id));
 	excludeFields(query, excludeFields);

@@ -10,7 +10,7 @@ dubbo:
     basePackages: top.klw8.alita.service.admin.service.impl
   application:
     name: admin-service
-alita:
-  pkGenerator:  # 雪花算法配制
-    workerId: 1  # 相同服务不同节点累加此ID
-    datacenterId: 1  # 相同服务使用相同ID, service项目从1开始,最大16
+#alita:
+#  pkGenerator:  # 雪花算法配制
+#    workerId: 1  # 相同服务不同节点累加此ID
+#    datacenterId: 1  # 相同服务使用相同ID, service项目从1开始,最大16

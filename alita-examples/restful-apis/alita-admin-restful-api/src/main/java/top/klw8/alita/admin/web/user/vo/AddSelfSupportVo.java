@@ -36,12 +36,14 @@ import top.klw8.alita.validator.annotations.Required;
 public class AddSelfSupportVo implements IBaseCrudVo<StaffInfo> {
 
     
+    private static final long serialVersionUID = -6611801551767285533L;
+
     @ApiModelProperty(value = "照片路径")
     private String photoUrl;
 
     @ApiModelProperty(value = "区域ID", required=true)
     @Required(validatFailMessage = "区域ID不能为空")
-    private Long staffRegionId;
+    private String staffRegionId;
 
     @ApiModelProperty(value = "所属城市", required=true)
     @Required(validatFailMessage = "所属城市不能为空")
@@ -168,7 +170,7 @@ public class AddSelfSupportVo implements IBaseCrudVo<StaffInfo> {
     @ApiModelProperty(value = "服务类型的ID", required=true)
     @Required(validatFailMessage = "服务类型的ID不能为空")
     @NotEmpty(validatFailMessage = "服务类型的ID不能为空")
-    private List<Long> serviceTypeIds;
+    private List<String> serviceTypeIds;
     
     @ApiModelProperty(value = "职业")
     private String occupation;

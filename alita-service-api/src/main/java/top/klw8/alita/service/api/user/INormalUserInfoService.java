@@ -1,6 +1,8 @@
 package top.klw8.alita.service.api.user;
 
 
+import org.bson.types.ObjectId;
+
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.entitys.user.NormalUserInfo;
 import top.klw8.alita.service.base.api.IBaseService;
@@ -20,7 +22,7 @@ public interface INormalUserInfoService extends IBaseService<NormalUserInfo> {
      * @param accountId
      * @return
      */
-    public NormalUserInfo findByAccountId(Long accountId);
+    public NormalUserInfo findByAccountId(ObjectId accountId);
     
     /**
      * @Title: addSaveNormalUser

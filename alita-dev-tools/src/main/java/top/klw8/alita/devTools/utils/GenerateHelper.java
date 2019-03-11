@@ -244,7 +244,7 @@ public class GenerateHelper {
 	    Map<String, String> extData = new HashMap<>();
 	    extData.put("fieldName", "id");
 	    extData.put("fieldComment", "ID主键");
-	    extData.put("fieldType", "Long");
+	    extData.put("fieldType", "org.bson.types.ObjectId.ObjectId");
 	    btnCheckButton.setData(extData);
 	    scrolledGroup.addCheckBox(btnCheckButton);
 	    
@@ -573,6 +573,8 @@ public class GenerateHelper {
 		    voImportList.add("top.klw8.alita.service.common.GeoPoint");
 		} else if(fieldType.equals("LocalDateTime")) {
 		    voImportList.add("java.time.LocalDateTime");
+		} else if(fieldType.equals("org.bson.types.ObjectId.ObjectId")) {
+		    voImportList.add("org.bson.types.ObjectId.ObjectId");
 		}
 		fieldData.put("comment", fieldComment);
 		fieldList.add(fieldData);

@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dubbo.config.annotation.Reference;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
@@ -65,7 +66,7 @@ public class UserCacheHelper {
     }
     
     @SuppressWarnings("unchecked")
-    public Map<String, String> getUserAuthority(Long userId){
+    public Map<String, String> getUserAuthority(ObjectId userId){
 	long cacheTimeout = 0;
 	if(EnvHelper.isDev()) {
 	    cacheTimeout = USER_AUS_TIME_OUT_SECOND_DEV;

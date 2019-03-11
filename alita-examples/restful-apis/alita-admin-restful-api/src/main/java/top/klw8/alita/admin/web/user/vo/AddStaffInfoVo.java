@@ -35,15 +35,15 @@ public class AddStaffInfoVo implements IBaseCrudVo<StaffInfo> {
 
     @ApiModelProperty(value = "部门ID", required=true)
     @Required(validatFailMessage = "不能ID不能为空")
-    private Long staffOrgId;
+    private String staffOrgId;
 
     @ApiModelProperty(value = "区域ID", required=true)
     @Required(validatFailMessage = "区域ID不能为空")
-    private Long staffRegionId;
+    private String staffRegionId;
     
     @ApiModelProperty(value = "岗位(角色)ID", required=true)
     @Required(validatFailMessage = "岗位ID不能为空")
-    private Long roleId;
+    private String roleId;
 
     @ApiModelProperty(value = "所属城市", required=true)
     @Required(validatFailMessage = "所属城市不能为空")

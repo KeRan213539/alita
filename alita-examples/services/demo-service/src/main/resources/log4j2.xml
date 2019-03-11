@@ -42,7 +42,7 @@
         <!-- <Root level="trace"> <AppenderRef ref="consoleAppender" /> </Root> -->
         <!-- 定义一个普通的logger，这里我定义为异步的 -->
         <!-- additivity 表式是否向根 longer输出,由于上面配制的根是控制台,所以这里配为ture -->
-        <asyncLogger name="top.klw8.alita.service.order" level="info">
+        <asyncLogger name="top.klw8.alita.service.demo" level="info">
             <AppenderRef ref="rocketmqAppender" />
         </asyncLogger>
         <asyncLogger name="top.klw8.alita.starter.service" level="info">

@@ -16,6 +16,7 @@ import top.klw8.alita.BaseServiceApplication;
 public class AdminServiceApplication extends BaseServiceApplication {
 
     public static void main(String[] args) {
+//	Hooks.onOperatorDebug();
 	System.setProperty("org.springframework.boot.logging.LoggingSystem", LoggingSystem.NONE);  // 彻底关闭 spring boot 自带的 LoggingSystem
 //	SpringApplication.run( AdminServiceApplication.class, args );
 	new SpringApplicationBuilder(AdminServiceApplication.class)

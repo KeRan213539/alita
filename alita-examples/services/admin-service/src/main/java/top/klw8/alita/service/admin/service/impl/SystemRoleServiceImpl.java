@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import org.apache.dubbo.config.annotation.Service;
+import org.bson.types.ObjectId;
 
 import lombok.extern.slf4j.Slf4j;
 import top.klw8.alita.base.mongodb.MongoDBConstant;
@@ -37,7 +38,7 @@ public class SystemRoleServiceImpl extends BaseServiceImpl<SystemRole> implement
 	this.dao = dao;
     }
     
-    public int addAuthority2Role(Long roleId, SystemAuthoritys au) {
+    public Integer addAuthority2Role(ObjectId roleId, SystemAuthoritys au) {
 	if(null == roleId || au == null || null == au.getId()) {
 	    return 0;
 	}
@@ -46,7 +47,7 @@ public class SystemRoleServiceImpl extends BaseServiceImpl<SystemRole> implement
 	return asyncSendData(dao.updateByQuery(Query.query(Criteria.where(MongoDBConstant.ID_KEY).is(roleId)), update));
     }
     
-    public int removeAuthorityFromRole(Long roleId, SystemAuthoritys au) {
+    public Integer removeAuthorityFromRole(ObjectId roleId, SystemAuthoritys au) {
 	if(null == roleId || au == null || null == au.getId()) {
 	    return 0;
 	}
@@ -55,7 +56,7 @@ public class SystemRoleServiceImpl extends BaseServiceImpl<SystemRole> implement
 	return asyncSendData(dao.updateByQuery(Query.query(Criteria.where(MongoDBConstant.ID_KEY).is(roleId)), update));
     }
     
-    public int replaceAuthority2Role(Long roleId, List<SystemAuthoritys> auList) {
+    public Integer replaceAuthority2Role(ObjectId roleId, List<SystemAuthoritys> auList) {
 	if(null == roleId || CollectionUtils.isEmpty(auList)) {
 	    return 0;
 	}

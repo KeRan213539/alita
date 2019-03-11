@@ -9,18 +9,18 @@ import top.klw8.alita.BaseServiceApplication;
 
 
 /**
- * @ClassName: OrderServiceApplication
+ * @ClassName: DemoServiceApplication
  * @Description: 订单服务启动器
  * @author klw
  * @date 2018年9月29日 上午11:43:34
  */
 
-public class OrderServiceApplication extends BaseServiceApplication {
+public class DemoServiceApplication extends BaseServiceApplication {
 
     public static void main(String[] args) {
 	System.setProperty("org.springframework.boot.logging.LoggingSystem", LoggingSystem.NONE);  // 彻底关闭 spring boot 自带的 LoggingSystem
-//	SpringApplication.run( OrderServiceApplication.class, args );
-        new SpringApplicationBuilder(OrderServiceApplication.class)
+//	SpringApplication.run( DemoServiceApplication.class, args );
+        new SpringApplicationBuilder(DemoServiceApplication.class)
         .web(WebApplicationType.NONE) // 非 Web 应用
         .run(args);
     }

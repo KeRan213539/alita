@@ -17,11 +17,11 @@ public class AddRoleAuRequest {
     @Required(validatFailMessage = "角色ID不能为空")
     @NotEmpty(validatFailMessage = "角色ID不能为空")
     @ApiModelProperty(value = "角色ID", required=true)
-    private Long roleId;
+    private String roleId;
     
     @Required(validatFailMessage = "权限ID不能为空")
     @NotEmpty(validatFailMessage = "权限ID不能为空")
     @ApiModelProperty(value = "权限ID", required=true)
-    private Long auId;
+    private String auId;
     
 }

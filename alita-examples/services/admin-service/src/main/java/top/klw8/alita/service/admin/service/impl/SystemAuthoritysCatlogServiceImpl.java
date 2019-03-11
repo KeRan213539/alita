@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import org.apache.dubbo.config.annotation.Service;
+import org.bson.types.ObjectId;
 
 import lombok.extern.slf4j.Slf4j;
 import top.klw8.alita.base.mongodb.MongoDBConstant;
@@ -36,7 +37,7 @@ public class SystemAuthoritysCatlogServiceImpl extends BaseServiceImpl<SystemAut
 	this.dao = dao;
     }
     
-    public int addAuthority2Catlog(Long catlogId, SystemAuthoritys au) {
+    public Integer addAuthority2Catlog(ObjectId catlogId, SystemAuthoritys au) {
 	if(null == catlogId || au == null || null == au.getId()) {
 	    return 0;
 	}
@@ -45,7 +46,7 @@ public class SystemAuthoritysCatlogServiceImpl extends BaseServiceImpl<SystemAut
 	return asyncSendData(dao.updateByQuery(Query.query(Criteria.where(MongoDBConstant.ID_KEY).is(catlogId)), update));
     }
     
-    public int removeAuthorityFromCatlog(Long catlogId, SystemAuthoritys au) {
+    public Integer removeAuthorityFromCatlog(ObjectId catlogId, SystemAuthoritys au) {
 	if(null == catlogId || au == null || null == au.getId()) {
 	    return 0;
 	}
@@ -54,7 +55,7 @@ public class SystemAuthoritysCatlogServiceImpl extends BaseServiceImpl<SystemAut
 	return asyncSendData(dao.updateByQuery(Query.query(Criteria.where(MongoDBConstant.ID_KEY).is(catlogId)), update));
     }
     
-    public int replaceAuthority2Catlog(Long catlogId, List<SystemAuthoritys> auList) {
+    public Integer replaceAuthority2Catlog(ObjectId catlogId, List<SystemAuthoritys> auList) {
 	if(null == catlogId || null == auList) {
 	    return 0;
 	}

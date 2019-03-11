@@ -2,6 +2,8 @@ package top.klw8.alita.service.api.authority;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
 import top.klw8.alita.service.base.api.IBaseService;
@@ -21,7 +23,7 @@ public interface ISystemAuthoritysCatlogService extends IBaseService<SystemAutho
      * @param au
      * @return
      */
-    int addAuthority2Catlog(Long catlogId, SystemAuthoritys au);
+    Integer addAuthority2Catlog(ObjectId catlogId, SystemAuthoritys au);
     
     /**
      * @Title: removeAuthorityFromCatlog
@@ -31,7 +33,7 @@ public interface ISystemAuthoritysCatlogService extends IBaseService<SystemAutho
      * @param au
      * @return
      */
-    int removeAuthorityFromCatlog(Long catlogId, SystemAuthoritys au);
+    Integer removeAuthorityFromCatlog(ObjectId catlogId, SystemAuthoritys au);
     
     /**
      * @Title: replaceAuthority2Catlog
@@ -41,7 +43,7 @@ public interface ISystemAuthoritysCatlogService extends IBaseService<SystemAutho
      * @param auList
      * @return
      */
-    int replaceAuthority2Catlog(Long catlogId, List<SystemAuthoritys> auList);
+    Integer replaceAuthority2Catlog(ObjectId catlogId, List<SystemAuthoritys> auList);
     
     /**
      * @Title: findByCatlogName

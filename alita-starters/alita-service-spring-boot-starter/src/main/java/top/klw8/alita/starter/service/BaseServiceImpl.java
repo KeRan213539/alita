@@ -9,12 +9,12 @@ import top.klw8.alita.service.base.dao.IMongoBaseDao;
 import top.klw8.alita.service.base.dao.prarm.ForPageMode.Mode;
 import top.klw8.alita.service.base.entitys.BaseEntity;
 import top.klw8.alita.utils.ValidateUtil;
-import top.klw8.alita.utils.generator.PkGeneratorBySnowflake;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.rpc.AsyncContext;
 import org.apache.dubbo.rpc.RpcContext;
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -38,10 +38,18 @@ public class BaseServiceImpl<T extends BaseEntity> implements IBaseService<T> {
 	this.dao = dao;
     }
     
+    @SuppressWarnings("unchecked")
     protected <MonoData extends Object, ResultData extends Object> ResultData asyncSendData(Mono<MonoData> mono) {
 	final AsyncContext asyncContext = RpcContext.startAsync();
-	mono.subscribe(obj -> {
+//	mono.log().checkpoint().subscribe(obj -> {
+	mono.defaultIfEmpty((MonoData) new Integer(-1)).subscribe(obj -> {
 	    asyncContext.signalContextSwitch();
+	    if(obj instanceof Integer) {
+		if(((Integer)obj).intValue() == -1) {
+		    asyncContext.write(null);
+		    return;
+		}
+	    }
             asyncContext.write(obj);
 	}, error -> {
 	    error.printStackTrace();
@@ -54,9 +62,6 @@ public class BaseServiceImpl<T extends BaseEntity> implements IBaseService<T> {
 	if(baseBean == null) {
 	    return null;
 	}
-	if (baseBean.getId() == null) {
-	    baseBean.setId(PkGeneratorBySnowflake.INSTANCE.nextId());
-	}
 	return asyncSendData(dao.save(baseBean));
     }
     
@@ -65,16 +70,11 @@ public class BaseServiceImpl<T extends BaseEntity> implements IBaseService<T> {
 	if(list == null || list.isEmpty()) {
 	    return null;
 	}
-	for (T baseBean : list) {
-	    if (baseBean.getId() == null) {
-		baseBean.setId(PkGeneratorBySnowflake.INSTANCE.nextId());
-	    }
-	}
 	return asyncSendData(dao.batchSave(list));
     }
     
     @Override
-    public Integer deleteById(Long id) {
+    public Integer deleteById(ObjectId id) {
 	if(id == null) {
 	    return null;
 	}
@@ -90,7 +90,7 @@ public class BaseServiceImpl<T extends BaseEntity> implements IBaseService<T> {
     }
     
     @Override
-    public Integer deleteByIds(Long[] ids) {
+    public Integer deleteByIds(ObjectId[] ids) {
 	if(ArrayUtils.isEmpty(ids)) {
 	    return null;
 	}
@@ -98,12 +98,12 @@ public class BaseServiceImpl<T extends BaseEntity> implements IBaseService<T> {
     }
     
     @Override
-    public T findById(Long id, String... excludeFields) {
+    public T findById(ObjectId id, String... excludeFields) {
 	return this.findById(id, false, excludeFields);
     }
     
     @Override
-    public T findById(Long id, boolean isQueryRef, String... excludeFields) {
+    public T findById(ObjectId id, boolean isQueryRef, String... excludeFields) {
 	if(id == null) {
 	    return null;
 	}
@@ -130,7 +130,7 @@ public class BaseServiceImpl<T extends BaseEntity> implements IBaseService<T> {
     }
     
     @Override
-    public List<T> findByIds(Long[] ids, boolean isQueryRef, String... excludeFields) {
+    public List<T> findByIds(ObjectId[] ids, boolean isQueryRef, String... excludeFields) {
 	if(ArrayUtils.isEmpty(ids)) {
 	    return null;
 	}
@@ -141,7 +141,7 @@ public class BaseServiceImpl<T extends BaseEntity> implements IBaseService<T> {
     }
     
     @Override
-    public List<T> findByIds(Long[] ids, String... excludeFields) {
+    public List<T> findByIds(ObjectId[] ids, String... excludeFields) {
 	return findByIds(ids, false, excludeFields);
     }
     
@@ -298,16 +298,16 @@ public class BaseServiceImpl<T extends BaseEntity> implements IBaseService<T> {
      * @param ids
      * @return
      */
-    private Long[] convertIdsString2PKArray(String ids) {
+    private ObjectId[] convertIdsString2PKArray(String ids) {
 	Assert.hasText(ids, "ids不能为空!");
 	String[] strIds = ids.split(",");
 	Assert.notEmpty(strIds, "ids不能为空!");
-	Long[] longIds = new Long[strIds.length];
+	ObjectId[] objectIds = new ObjectId[strIds.length];
 	for(int i = 0; i < strIds.length; i++) {
 	    String strId = strIds[i];
-	    longIds[i] = Long.valueOf(strId);
+	    objectIds[i] = new ObjectId(strId);
 	}
-	return longIds;
+	return objectIds;
     }
     
 }

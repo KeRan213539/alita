@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dubbo.config.annotation.Service;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -36,7 +37,7 @@ public class AlitaUserServiceImpl extends BaseServiceImpl<AlitaUserAccount> impl
 	this.dao = dao;
     }
     
-    public int addRole2User(Long userId, SystemRole role) {
+    public Integer addRole2User(ObjectId userId, SystemRole role) {
 	if(null == userId || role == null || null == role.getId()) {
 	    return 0;
 	}
@@ -45,7 +46,7 @@ public class AlitaUserServiceImpl extends BaseServiceImpl<AlitaUserAccount> impl
 	return asyncSendData(dao.updateByQuery(Query.query(Criteria.where(MongoDBConstant.ID_KEY).is(userId)), update));
     }
     
-    public int removeRoleFromUser(Long userId, SystemRole role) {
+    public Integer removeRoleFromUser(ObjectId userId, SystemRole role) {
 	if(null == userId || role == null || null == role.getId()) {
 	    return 0;
 	}
@@ -54,7 +55,7 @@ public class AlitaUserServiceImpl extends BaseServiceImpl<AlitaUserAccount> impl
 	return asyncSendData(dao.updateByQuery(Query.query(Criteria.where(MongoDBConstant.ID_KEY).is(userId)), update));
     }
     
-    public int replaceRole2User(Long userId, List<SystemRole> roleList) {
+    public Integer replaceRole2User(ObjectId userId, List<SystemRole> roleList) {
 	if(null == userId || CollectionUtils.isEmpty(roleList)) {
 	    return 0;
 	}

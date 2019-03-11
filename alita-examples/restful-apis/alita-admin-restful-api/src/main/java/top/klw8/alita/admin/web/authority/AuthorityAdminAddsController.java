@@ -4,6 +4,7 @@ import java.util.concurrent.Future;
 
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.rpc.RpcContext;
+import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +32,6 @@ import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.web.base.WebapiBaseController;
 import top.klw8.alita.starter.web.common.CallBackMessage;
 import top.klw8.alita.starter.web.common.JsonResult;
-import top.klw8.alita.utils.generator.PkGeneratorBySnowflake;
 import top.klw8.alita.validator.UseValidator;
 
 /**
@@ -64,7 +64,7 @@ public class AuthorityAdminAddsController extends WebapiBaseController {
 	    authorityName = "添加权限", authorityType = AuthorityTypeEnum.URL,
 	    authorityShowIndex = 0)
     public Mono<JsonResult> addAuthority(SystemAuthoritysVo auvo) throws Exception {
-	Long catlogId = auvo.getCatlogId();
+	ObjectId catlogId = new ObjectId(auvo.getCatlogId());
 	catlogService.findById(catlogId);
 	Future<SystemAuthoritysCatlog> catlogTask = RpcContext.getContext().getFuture();
 	SystemAuthoritysCatlog catlog = catlogTask.get();
@@ -73,7 +73,7 @@ public class AuthorityAdminAddsController extends WebapiBaseController {
 	}
 	SystemAuthoritys au = new SystemAuthoritys();
 	BeanUtils.copyProperties(auvo, au);
-	au.setId(PkGeneratorBySnowflake.INSTANCE.nextId());
+	au.setId(new ObjectId());
 	au.setCatlog(catlog);
 	SystemAuthoritys saveResult = auService.save(au);
 	if(EntityUtil.isEntityNotEmpty(saveResult)) {
@@ -136,13 +136,13 @@ public class AuthorityAdminAddsController extends WebapiBaseController {
 	    authorityName = "向角色中添加权限", authorityType = AuthorityTypeEnum.URL,
     authorityShowIndex = 0)
     public Mono<JsonResult> addRoleAu(AddRoleAuRequest req) throws Exception {
-	roleService.findById(req.getRoleId());
+	roleService.findById(new ObjectId(req.getRoleId()));
 	Future<SystemRole> roleTask = RpcContext.getContext().getFuture();
 	SystemRole role = roleTask.get();
 	if(role == null || null == role.getId()) {
 	    return Mono.just(JsonResult.sendFailedResult("角色不存在", null)); 
 	}
-	auService.findById(req.getAuId());
+	auService.findById(new ObjectId(req.getAuId()));
 	Future<SystemAuthoritys> auTask = RpcContext.getContext().getFuture();
 	SystemAuthoritys au = auTask.get();
 	if(au == null || null == au.getId()) {
@@ -165,13 +165,13 @@ public class AuthorityAdminAddsController extends WebapiBaseController {
 	    authorityName = "向用户中添加角色", authorityType = AuthorityTypeEnum.URL,
     authorityShowIndex = 0)
     public Mono<JsonResult> addUserRole(AddUserRoleRequest req) throws Exception {
-	userService.findById(req.getUserId());
+	userService.findById(new ObjectId(req.getUserId()));
 	Future<AlitaUserAccount> userTask = RpcContext.getContext().getFuture();
 	AlitaUserAccount user = userTask.get();
 	if(user == null || null == user.getId()) {
 	    return Mono.just(JsonResult.sendFailedResult("用户不存在", null)); 
 	}
-	roleService.findById(req.getRoleId());
+	roleService.findById(new ObjectId(req.getRoleId()));
 	Future<SystemRole> roleTask = RpcContext.getContext().getFuture();
 	SystemRole role = roleTask.get();
 	if(role == null || null == role.getId()) {

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 
 
@@ -18,7 +20,7 @@ public class GetFieldTest {
 
     public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException {
 	AlitaUserAccount bean = new AlitaUserAccount();
-	bean.setId(111L);
+	bean.setId(new ObjectId());
 	bean.setUserPhoneNum("138888888888");
 	bean.setUserPwd("xxxxxxx");
 	

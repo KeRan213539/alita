@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.apache.dubbo.config.annotation.Service;
+import org.bson.types.ObjectId;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -17,7 +18,6 @@ import top.klw8.alita.service.admin.dao.IAlitaUserDao;
 import top.klw8.alita.service.admin.dao.user.INormalUserInfoDao;
 import top.klw8.alita.service.api.user.INormalUserInfoService;
 import top.klw8.alita.starter.service.BaseServiceImpl;
-import top.klw8.alita.utils.generator.PkGeneratorBySnowflake;
 
 /**
  * @ClassName: NormalUserInfoServiceImpl
@@ -40,7 +40,7 @@ public class NormalUserInfoServiceImpl extends BaseServiceImpl<NormalUserInfo> i
     }
     
     @Override
-    public NormalUserInfo findByAccountId(Long accountId) {
+    public NormalUserInfo findByAccountId(ObjectId accountId) {
 	AlitaUserAccount account = new AlitaUserAccount();
 	NormalUserInfo query = new NormalUserInfo();
 	account.setId(accountId);
@@ -56,8 +56,8 @@ public class NormalUserInfoServiceImpl extends BaseServiceImpl<NormalUserInfo> i
     
     @Override
     public NormalUserInfo addSaveNormalUser(AlitaUserAccount account, NormalUserInfo user) {
-	user.setId(PkGeneratorBySnowflake.INSTANCE.nextId());
-	account.setId(PkGeneratorBySnowflake.INSTANCE.nextId());
+	user.setId(new ObjectId());
+	account.setId(new ObjectId());
 	account.setUserType(UserTypeEnum.NORMAL_USER);
 	account.setUserTypeId(user.getId());
 	BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();

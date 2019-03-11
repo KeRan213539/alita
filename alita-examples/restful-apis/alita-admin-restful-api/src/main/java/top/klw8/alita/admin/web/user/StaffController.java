@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.rpc.RpcContext;
+import org.bson.types.ObjectId;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -131,7 +132,7 @@ public class StaffController extends WebapiCrudBaseController<StaffInfo> {
 	    authorityName = "新增行政员工的保存", authorityType = AuthorityTypeEnum.URL,
 	    authorityShowIndex = 0)
     public Mono<JsonResult> saveStaff(AlitaUserAccountVo accountVo, AddStaffInfoVo uservo) throws Exception{
-	Long staffOrgId = uservo.getStaffOrgId();
+	ObjectId staffOrgId = new ObjectId(uservo.getStaffOrgId());
 	orgService.findById(staffOrgId);
 	Future<StaffOrg> orgTask = RpcContext.getContext().getFuture();
 	
@@ -148,7 +149,7 @@ public class StaffController extends WebapiCrudBaseController<StaffInfo> {
 		sink.success(org);
 	    }
 	}).zipWith(Mono.create(sink ->{
-	    Long staffRegionId = uservo.getStaffRegionId();
+	    ObjectId staffRegionId = new ObjectId(uservo.getStaffRegionId());
 	    regionService.findById(staffRegionId);
 	    Future<StaffRegion> regionTask = RpcContext.getContext().getFuture();
 	    try {
@@ -173,7 +174,7 @@ public class StaffController extends WebapiCrudBaseController<StaffInfo> {
 	    data.put("region", region);
 	    return data;
 	}).zipWith(Mono.create(sink ->{
-	    Long roleId = uservo.getRoleId();
+	    ObjectId roleId = new ObjectId(uservo.getRoleId());
 	    roleService.findById(roleId);
 	    Future<SystemRole> roleTask = RpcContext.getContext().getFuture();
 	    try {
@@ -224,7 +225,7 @@ public class StaffController extends WebapiCrudBaseController<StaffInfo> {
 	    authorityName = "新增自营人员的保存", authorityType = AuthorityTypeEnum.URL,
 	    authorityShowIndex = 0)
     public Mono<JsonResult> addSelfSupport(AlitaUserAccountVo accountVo, AddSelfSupportVo uservo) throws Exception {
-	Long staffRegionId = uservo.getStaffRegionId();
+	ObjectId staffRegionId = new ObjectId(uservo.getStaffRegionId());
 	regionService.findById(staffRegionId);
 	Future<StaffRegion> regionTask = RpcContext.getContext().getFuture();
 	return Mono.create(sink ->{
@@ -243,10 +244,10 @@ public class StaffController extends WebapiCrudBaseController<StaffInfo> {
 	    if(region instanceof JsonResult) {
 		return (JsonResult)region;
 	    }
-	    List<Long> serviceTypeIds = uservo.getServiceTypeIds();
+	    List<String> serviceTypeIds = uservo.getServiceTypeIds();
 	    List<ServiceType> serviceTypeList = new ArrayList<>();
-	    for (Long serviceTypeId : serviceTypeIds) {
-		serviceTypeService.findById(serviceTypeId);
+	    for (String serviceTypeId : serviceTypeIds) {
+		serviceTypeService.findById(new ObjectId(serviceTypeId));
 		Future<ServiceType> stTask = RpcContext.getContext().getFuture();
 		ServiceType st = null;
 		try {

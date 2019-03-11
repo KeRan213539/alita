@@ -45,7 +45,7 @@ public class EntityUtil {
      * 		false: 实体中只有ID其他都为null,或者ID都没有,不能用于修改 <br />
      */
     public static <T extends BaseEntity> boolean isEntityCanModify(T baseBean) {
-	if (baseBean.getId() == null || baseBean.getId().longValue() <= 0L) {
+	if (baseBean.getId() == null) {
 	    return false;
 	}
 	boolean isAllNull = true;

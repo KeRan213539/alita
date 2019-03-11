@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -59,7 +60,7 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
      * @author klw
      * @Fields userTypeId : 类型对应的表主键
      */
-    private Long userTypeId;
+    private ObjectId userTypeId;
     
     /**
      * @author klw

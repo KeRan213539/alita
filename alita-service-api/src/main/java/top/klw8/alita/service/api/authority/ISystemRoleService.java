@@ -2,6 +2,8 @@ package top.klw8.alita.service.api.authority;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.service.base.api.IBaseService;
@@ -22,7 +24,7 @@ public interface ISystemRoleService extends IBaseService<SystemRole> {
      * @param au
      * @return
      */
-    int addAuthority2Role(Long roleId, SystemAuthoritys au);
+    Integer addAuthority2Role(ObjectId roleId, SystemAuthoritys au);
     
     /**
      * @Title: removeAuthorityFromRole
@@ -32,7 +34,7 @@ public interface ISystemRoleService extends IBaseService<SystemRole> {
      * @param au
      * @return
      */
-    int removeAuthorityFromRole(Long roleId, SystemAuthoritys au);
+    Integer removeAuthorityFromRole(ObjectId roleId, SystemAuthoritys au);
     
     /**
      * @Title: updateAuthority2Role
@@ -42,6 +44,6 @@ public interface ISystemRoleService extends IBaseService<SystemRole> {
      * @param auList
      * @return
      */
-    int replaceAuthority2Role(Long roleId, List<SystemAuthoritys> auList);
+    Integer replaceAuthority2Role(ObjectId roleId, List<SystemAuthoritys> auList);
     
 }

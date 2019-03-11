@@ -2,6 +2,9 @@ package top.klw8.alita.demo.web.test.vo;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import org.bson.types.ObjectId;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +27,7 @@ public class SkipPageVo extends PagePrarmVo<DevToolsTestEntity> {
     private static final long serialVersionUID = 1L;
     
     @ApiModelProperty(value = "ID主键")
-    private Long id;
+    private String id;
     
     @ApiModelProperty(value = "姓名")
     private String name;
@@ -50,7 +53,7 @@ public class SkipPageVo extends PagePrarmVo<DevToolsTestEntity> {
     @Override
     public DevToolsTestEntity buildEntity() {
         DevToolsTestEntity e = new DevToolsTestEntity();
-        e.setId(id);
+        e.setId(new ObjectId(id));
         e.setName(name);
         e.setSalary(salary);
         e.setSalary2(salary2);

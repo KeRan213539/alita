@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
 
 import org.apache.dubbo.rpc.RpcContext;
+import org.bson.types.ObjectId;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -43,7 +44,6 @@ import top.klw8.alita.starter.web.base.WebapiCrudBaseController;
 import top.klw8.alita.starter.web.base.enums.SearchTypeEnum;
 import top.klw8.alita.starter.web.common.CallBackMessage;
 import top.klw8.alita.starter.web.common.JsonResult;
-import top.klw8.alita.utils.generator.PkGeneratorBySnowflake;
 import top.klw8.alita.validator.UseValidator;
 
 /**
@@ -206,7 +206,6 @@ public class DemoController extends WebapiCrudBaseController<MongoDBTest> {
 	// begin 异步方式调用 dubbo
 	List<MongoDBTest> list = new ArrayList<>();
 	MongoDBTest t1 = new MongoDBTest();
-	t1.setId(PkGeneratorBySnowflake.INSTANCE.nextId());
 	t1.setName("延安医院");
 	t1.setSalary(new BigDecimal(50000.0));
 	t1.setLocation(new GeoPoint(102.73079,25.042475));
@@ -215,7 +214,6 @@ public class DemoController extends WebapiCrudBaseController<MongoDBTest> {
 	Future<List<MongoDBTest>> task = RpcContext.getContext().getFuture();  // 从这里获得 Future
 	
 	MongoDBTest t2 = new MongoDBTest();
-	t2.setId(PkGeneratorBySnowflake.INSTANCE.nextId());
 	t2.setName("长水国际机场");
 	t2.setSalary(new BigDecimal(45000.0));
 	t2.setLocation(new GeoPoint(102.927858,25.100317));
@@ -271,8 +269,8 @@ public class DemoController extends WebapiCrudBaseController<MongoDBTest> {
     @PostMapping("/testDeleteById")
     @AuthorityRegister(authorityName = "testDeleteById", authorityType = AuthorityTypeEnum.URL,
     authorityShowIndex = 0)
-    public Mono<JsonResult> testDeleteById(Long id) throws Exception {
-	service.deleteById(id);
+    public Mono<JsonResult> testDeleteById(String id) throws Exception {
+	service.deleteById(new ObjectId(id));
 	Future<Integer> task = RpcContext.getContext().getFuture();
 	if(task == null) {
 	    return Mono.just(JsonResult.sendFailedResult("服务调用失败", null));
@@ -297,8 +295,8 @@ public class DemoController extends WebapiCrudBaseController<MongoDBTest> {
     @PostMapping("/testFindById")
     @AuthorityRegister(authorityName = "testFindById", authorityType = AuthorityTypeEnum.URL,
     authorityShowIndex = 0)
-    public Mono<JsonResult> testFindById(Long id, boolean isQueryRef) throws Exception {
-	service.findById(id, isQueryRef);
+    public Mono<JsonResult> testFindById(String id, boolean isQueryRef) throws Exception {
+	service.findById(new ObjectId(id), isQueryRef);
 	Future<MongoDBTest> task = RpcContext.getContext().getFuture();
 	if(task == null) {
 	    return Mono.just(JsonResult.sendFailedResult("服务调用失败", null));

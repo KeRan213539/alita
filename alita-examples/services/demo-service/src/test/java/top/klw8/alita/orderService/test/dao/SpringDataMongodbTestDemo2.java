@@ -28,13 +28,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import lombok.Getter;
 import lombok.Setter;
-import top.klw8.alita.OrderServiceApplication;
+import top.klw8.alita.DemoServiceApplication;
 import top.klw8.alita.entitys.demo.MongoDBTest;
 import top.klw8.alita.service.common.GeoPoint;
 import top.klw8.alita.service.demo.dao.demo.IMongoDBTestDao;
 import top.klw8.alita.utils.AnalyzerUtil;
 import top.klw8.alita.utils.LocalDateTimeUtil;
-import top.klw8.alita.utils.generator.PkGeneratorBySnowflake;
 
 
 /**
@@ -45,7 +44,7 @@ import top.klw8.alita.utils.generator.PkGeneratorBySnowflake;
  */
 @RunWith(JUnitPlatform.class)
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes= {OrderServiceApplication.class})
+@SpringBootTest(classes= {DemoServiceApplication.class})
 public class SpringDataMongodbTestDemo2 {
 
     @Autowired
@@ -77,7 +76,7 @@ public class SpringDataMongodbTestDemo2 {
     
 //    @Test
     public void testFindById() {
-	System.out.println(testDao.findById(11415477270351873L));
+//	System.out.println(testDao.findById(11415477270351873L));
 //	MongoDBTest t1 = new MongoDBTest();
 //	t1.setId(PkGeneratorBySnowflake.INSTANCE.nextId());
 //	t1.setName("测试数据");
@@ -120,7 +119,6 @@ public class SpringDataMongodbTestDemo2 {
     public void testBatchSave() {
 	List<MongoDBTest> list = new ArrayList<>();
 	MongoDBTest t1 = new MongoDBTest();
-	t1.setId(10791512900374528L);
 	t1.setName("报业尚都");
 	t1.setSalary(new BigDecimal(50000.0));
 	t1.setLocation(new GeoPoint(102.694699,25.035302));
@@ -128,7 +126,6 @@ public class SpringDataMongodbTestDemo2 {
 	list.add(t1);
 
 	MongoDBTest t2 = new MongoDBTest();
-	t2.setId(10791512904568832L);
 	t2.setName("汇都二栋住宅");
 	t2.setSalary(new BigDecimal(45000.0));
 	t2.setLocation(new GeoPoint(102.707638,25.025478));
@@ -136,7 +133,6 @@ public class SpringDataMongodbTestDemo2 {
 	list.add(t2);
 
 	MongoDBTest t3 = new MongoDBTest();
-	t3.setId(10791512904568833L);
 	t3.setName("翠湖");
 	t3.setSalary(new BigDecimal(40000.0));
 	t3.setLocation(new GeoPoint(102.70399,25.048341));
@@ -144,7 +140,6 @@ public class SpringDataMongodbTestDemo2 {
 	list.add(t3);
 	
 	MongoDBTest t4 = new MongoDBTest();
-	t4.setId(10791512904568834L);
 	t4.setName("西北部骑车客运站");
 	t4.setSalary(new BigDecimal(40000.0));
 	t4.setLocation(new GeoPoint(102.663993,25.092967));
@@ -152,7 +147,6 @@ public class SpringDataMongodbTestDemo2 {
 	list.add(t4);
 	
 	MongoDBTest t5 = new MongoDBTest();
-	t5.setId(PkGeneratorBySnowflake.INSTANCE.nextId());
 	t5.setName("报业尚都旁边");
 	t5.setSalary(new BigDecimal(50000.0));
 	t5.setLocation(new GeoPoint(102.694679,25.035312));
@@ -160,7 +154,6 @@ public class SpringDataMongodbTestDemo2 {
 	list.add(t5);
 	
 	MongoDBTest t6 = new MongoDBTest();
-	t6.setId(11415477270351872L);
 	t6.setName("延安医院");
 	t6.setSalary(new BigDecimal(50000.0));
 	t6.setLocation(new GeoPoint(102.73079,25.042475));
@@ -168,7 +161,6 @@ public class SpringDataMongodbTestDemo2 {
 	list.add(t6);
 	
 	MongoDBTest t7 = new MongoDBTest();
-	t7.setId(11415986618241024L);
 	t7.setName("长水国际机场");
 	t7.setSalary(new BigDecimal(45000.0));
 	t7.setLocation(new GeoPoint(102.927858,25.100317));
@@ -176,7 +168,6 @@ public class SpringDataMongodbTestDemo2 {
 	list.add(t7);
 	
 	MongoDBTest t8 = new MongoDBTest();
-	t8.setId(11415477270351873L);
 	t8.setName("延安医院旁边");
 	t8.setSalary(new BigDecimal(60000.0));
 	t8.setLocation(new GeoPoint(102.73089,25.042485));
@@ -184,7 +175,6 @@ public class SpringDataMongodbTestDemo2 {
 	list.add(t8);
 	
 	MongoDBTest t9 = new MongoDBTest();
-	t9.setId(12226481648570368L);
 	t9.setName("西北部骑车客运站旁边");
 	t9.setSalary(new BigDecimal(41000.0));
 	t9.setLocation(new GeoPoint(102.663903,25.092977));

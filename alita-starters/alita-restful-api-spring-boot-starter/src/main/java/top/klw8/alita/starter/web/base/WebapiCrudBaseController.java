@@ -25,6 +25,7 @@ import java.util.concurrent.Future;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.rpc.RpcContext;
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 
 
@@ -128,7 +129,7 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 	if(!EntityUtil.isEntityCanModify(entity)) {
 	    return Mono.just(JsonResult.sendParamError("保存失败: 修改时不能只有ID!"));
 	}
-	Long id = entity.getId();
+	ObjectId id = entity.getId();
 	E findedEntity = service().findById(id);
 	if(EntityUtil.isEntityEmpty(findedEntity)) {
 	    return Mono.just(JsonResult.sendParamError("保存失败: ID对应的数据不存在!"));

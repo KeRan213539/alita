@@ -20,7 +20,7 @@ public class SystemAuthoritysVo {
     @Required(validatFailMessage = "菜单所属权限目录的ID不能为空")
     @NotEmpty(validatFailMessage = "菜单所属权限目录的ID不能为空")
     @ApiModelProperty(value = "菜单所属权限目录的ID", required=true)
-    private Long catlogId;
+    private String catlogId;
     
     @Required(validatFailMessage = "权限名称不能为空")
     @NotEmpty(validatFailMessage = "权限名称不能为空")

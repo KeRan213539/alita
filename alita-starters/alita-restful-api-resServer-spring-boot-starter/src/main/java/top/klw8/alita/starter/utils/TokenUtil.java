@@ -4,6 +4,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
+import org.bson.types.ObjectId;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 
 import com.alibaba.fastjson.JSON;
@@ -26,12 +27,8 @@ public class TokenUtil {
      * @Description: 获取token中的userId
      * @return
      */
-    public static Long getUserId(String jwtToken) {
-	Object userId = getTokenAdditionalData(jwtToken, "userId");
-	if(userId instanceof Integer) {
-	    return Long.valueOf((Integer)userId);
-	}
-	return (Long) getTokenAdditionalData(jwtToken, "userId");
+    public static ObjectId getUserId(String jwtToken) {
+	return new ObjectId((String) getTokenAdditionalData(jwtToken, "userId"));
     }
     
     /**

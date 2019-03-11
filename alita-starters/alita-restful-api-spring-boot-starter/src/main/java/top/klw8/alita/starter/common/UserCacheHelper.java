@@ -13,6 +13,7 @@ import java.util.concurrent.Future;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.rpc.RpcContext;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
@@ -61,14 +62,14 @@ public class UserCacheHelper {
         
         if(EnvHelper.isDev()) {
             // dev 模式下长时间缓存
-            RedisUtil.set(CACHE_PREFIX_USER_AUS + user.getId(), authorityMap, USER_AUS_TIME_OUT_SECOND_DEV, RedisTagEnum.REDIS_TAG_DEFAULT);
+            RedisUtil.set(CACHE_PREFIX_USER_AUS + user.getIdString(), authorityMap, USER_AUS_TIME_OUT_SECOND_DEV, RedisTagEnum.REDIS_TAG_DEFAULT);
         } else {
-            RedisUtil.set(CACHE_PREFIX_USER_AUS + user.getId(), authorityMap, USER_AUS_TIME_OUT_SECOND, RedisTagEnum.REDIS_TAG_DEFAULT);
+            RedisUtil.set(CACHE_PREFIX_USER_AUS + user.getIdString(), authorityMap, USER_AUS_TIME_OUT_SECOND, RedisTagEnum.REDIS_TAG_DEFAULT);
         }
     }
     
     @SuppressWarnings("unchecked")
-    public Map<String, String> getUserAuthority(Long userId){
+    public Map<String, String> getUserAuthority(ObjectId userId){
 	long cacheTimeout = 0;
 	if(EnvHelper.isDev()) {
 	    cacheTimeout = USER_AUS_TIME_OUT_SECOND_DEV;
