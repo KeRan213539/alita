@@ -10,25 +10,20 @@ import org.springframework.util.Assert;
 
 import lombok.Getter;
 import lombok.Setter;
-import top.klw8.alita.entitys.user.enums.NormalUserClassifyEnum;
-import top.klw8.alita.entitys.user.enums.NormalUserLevelEnum;
-import top.klw8.alita.entitys.user.enums.NormalUserSourceEnum;
-import top.klw8.alita.entitys.user.enums.NormalUserTypeEnum;
-import top.klw8.alita.entitys.user.enums.UserGendersEnum;
 import top.klw8.alita.service.base.entitys.BaseEntity;
 import top.klw8.alita.service.base.entitys.ITextIndexedCustomSupport;
 import top.klw8.alita.utils.AnalyzerUtil;
 
 /**
- * @ClassName: NormalUserInfo
- * @Description: 前台用户(客户)信息
+ * @ClassName: ExtUserInfoDemo
+ * @Description: 扩展用户信息Demo
  * @author klw
- * @date 2019年1月11日 上午10:58:31
+ * @date 2019-03-12 10:32:42
  */
-@Document(collection = "normal_user_info")
+@Document(collection = "ext_user_info_demo")
 @Getter
 @Setter
-public class NormalUserInfo extends BaseEntity implements ITextIndexedCustomSupport {
+public class ExtUserInfoDemo extends BaseEntity implements ITextIndexedCustomSupport {
 
     private static final long serialVersionUID = 6774327869246437799L;
     
@@ -39,12 +34,6 @@ public class NormalUserInfo extends BaseEntity implements ITextIndexedCustomSupp
     @DBRef
     @Indexed(unique=true)
     private AlitaUserAccount accountInfo;
-    
-    /**
-     * @author klw
-     * @Fields faceImg : 头像
-     */
-    private String faceImg;
     
     /**
      * @author klw
@@ -66,42 +55,10 @@ public class NormalUserInfo extends BaseEntity implements ITextIndexedCustomSupp
     
     /**
      * @author klw
-     * @Fields userGender : 客户性别
-     */
-    private UserGendersEnum userGender;
-    
-    /**
-     * @author klw
-     * @Fields level : 客户等级
-     */
-    @Indexed
-    private NormalUserLevelEnum level;
-    
-    /**
-     * @author klw
      * @Fields birthday : 生日
      */
     private LocalDateTime birthday;
     
-    /**
-     * @author klw
-     * @Fields classify : 客户分类
-     */
-    private NormalUserClassifyEnum classify;
-    
-    /**
-     * @author klw
-     * @Fields source : 客户来源
-     */
-    private NormalUserSourceEnum source;
-    
-    /**
-     * @author klw
-     * @Fields userType : 客户的类型
-     */
-    @Indexed
-    private NormalUserTypeEnum userType;
-	
     
     /**
      * @author klw

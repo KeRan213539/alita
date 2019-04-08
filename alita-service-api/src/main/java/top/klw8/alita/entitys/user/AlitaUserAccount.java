@@ -17,7 +17,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import top.klw8.alita.entitys.authority.SystemRole;
-import top.klw8.alita.entitys.user.enums.UserTypeEnum;
 import top.klw8.alita.service.base.entitys.BaseEntity;
 
 /**
@@ -47,14 +46,6 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
      * @Fields userPwd : 用户密码
      */
     private String userPwd;
-    
-    /**
-     * @author klw
-     * @Fields userType : 用户类型
-     */
-    @Indexed
-    private UserTypeEnum userType;
-    
     
     /**
      * @author klw
@@ -126,7 +117,8 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
 	    private static final long serialVersionUID = 5844035690295299785L;
 	    @Override
 	    public String getAuthority() {
-		return userType.name();
+		// 权限管理不使用 spirng security,而是自己实现,所以这里返回什么无所谓了
+		return "user";
 	    }
 	});
 	return rList;

@@ -16,8 +16,10 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
@@ -34,7 +36,6 @@ import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
-import top.klw8.alita.entitys.user.enums.UserTypeEnum;
 import top.klw8.alita.service.api.authority.ISystemAuthoritysCatlogService;
 import top.klw8.alita.service.api.authority.ISystemAuthoritysService;
 import top.klw8.alita.service.api.authority.ISystemRoleService;
@@ -159,6 +160,12 @@ public class DevHelperController {
 	    } else if(method.isAnnotationPresent(GetMapping.class)) {
 		GetMapping mapping = method.getAnnotation(GetMapping.class);
 		authorityAction = authorityActionPrefix + mapping.value()[0];
+	    } else if(method.isAnnotationPresent(PutMapping.class)) {
+		PutMapping mapping = method.getAnnotation(PutMapping.class);
+		authorityAction = authorityActionPrefix + mapping.value()[0];
+	    } else if(method.isAnnotationPresent(DeleteMapping.class)) {
+		DeleteMapping mapping = method.getAnnotation(DeleteMapping.class);
+		authorityAction = authorityActionPrefix + mapping.value()[0];
 	    } else {
 		// 不可能走到这里, RequestMappingHandlerMapping.getHandlerMethods()拿到的都是有mapping注解的方法
 		return JsonResult.sendFailedResult(method.getDeclaringClass().getName() + "." + method.getName() + "() 没有 mapping 注解", null);
@@ -227,7 +234,6 @@ public class DevHelperController {
 			BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 			superAdmin = new AlitaUserAccount("admin", pwdEncoder.encode("123456"));
 			superAdmin.setId(new ObjectId("5c85fc8b645d423b3c071ab7"));
-			superAdmin.setUserType(UserTypeEnum.ADMIN_USER);
 			superAdmin.setCreateDate(LocalDateTime.now());
 			userService.save(superAdmin);
 			Future<AlitaUserAccount> userSaveTask = RpcContext.getContext().getFuture();

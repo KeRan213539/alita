@@ -1,6 +1,6 @@
 package top.klw8.alita.admin.web.user.vo;
 
-import top.klw8.alita.entitys.user.NormalUserInfo;
+import top.klw8.alita.entitys.user.ExtUserInfoDemo;
 import top.klw8.alita.starter.web.base.vo.PagePrarmVo;
 
 /**
@@ -9,13 +9,13 @@ import top.klw8.alita.starter.web.base.vo.PagePrarmVo;
  * @author klw
  * @date 2019年1月31日 下午2:24:23
  */
-public class NormalUserInfoPageVo extends PagePrarmVo<NormalUserInfo> {
+public class NormalUserInfoPageVo extends PagePrarmVo<ExtUserInfoDemo> {
 
     private static final long serialVersionUID = 1369194671740853514L;
 
     @Override
-    public NormalUserInfo buildEntity() {
-	return new NormalUserInfo();
+    public ExtUserInfoDemo buildEntity() {
+	return new ExtUserInfoDemo();
     }
 
 }

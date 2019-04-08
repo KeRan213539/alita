@@ -47,7 +47,7 @@
 		<commons-text.version>1.6</commons-text.version>
 		<spring-security.version>5.1.4.RELEASE</spring-security.version>
 		<spring-security-jwt.version>1.0.10.RELEASE</spring-security-jwt.version>
-		<spring-security-oauth2.version>2.3.4.RELEASE</spring-security-oauth2.version>
+		<spring-security-oauth2.version>2.3.5.RELEASE</spring-security-oauth2.version>
 		<spring-cloud-alibaba-dependencies.version>0.2.1.RELEASE</spring-cloud-alibaba-dependencies.version>
 		<nacos-config-spring-boot-starter.version>0.2.0</nacos-config-spring-boot-starter.version>
 		<dubbo.version>2.7.0</dubbo.version>

@@ -130,16 +130,58 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 	    return Mono.just(JsonResult.sendParamError("保存失败: 修改时不能只有ID!"));
 	}
 	ObjectId id = entity.getId();
-	E findedEntity = service().findById(id);
-	if(EntityUtil.isEntityEmpty(findedEntity)) {
-	    return Mono.just(JsonResult.sendParamError("保存失败: ID对应的数据不存在!"));
+	service().findById(id);
+	Future<E> findByIdTask = RpcContext.getContext().getFuture();
+	return Mono.just(findByIdTask.get()).map(findedEntity -> {
+	    if (EntityUtil.isEntityEmpty(findedEntity)) {
+		return JsonResult.sendParamError("保存失败: ID对应的数据不存在!");
+	    }
+	    service().updateById(entity);
+	    return RpcContext.getContext().getFuture();
+	}).map(obj -> {
+	    if (obj == null) {
+		return JsonResult.sendFailedResult("服务调用失败", null);
+	    }
+	    if(obj instanceof JsonResult) {
+		return (JsonResult) obj;
+	    } else {
+		return JsonResult.sendSuccessfulResult(CallBackMessage.querySuccess, ((RpcContext) obj).get());
+	    }
+	});
+	
+    }
+    
+    /**
+     * @Title: findById
+     * @author klw
+     * @Description: 根据ID查找
+     * @param strId
+     * @return
+     * @throws Exception
+     */
+    protected <V extends IBaseCrudVo<E>> Mono<JsonResult> findById(String strId) throws Exception {
+	
+	if(StringUtils.isBlank(strId)) {
+	    return Mono.just(JsonResult.sendParamError("ID不能为空"));
 	}
-	service().updateById(entity);
-	Future<Integer> task = RpcContext.getContext().getFuture();
+	ObjectId id = null;
+	try {
+	    id = new ObjectId(strId);
+	} catch (Exception e) {
+	    return Mono.just(JsonResult.sendParamError("ID不正确"));
+	}
+	
+	service().findById(id);
+	Future<E> task = RpcContext.getContext().getFuture();
 	if(task == null) {
 	    return Mono.just(JsonResult.sendFailedResult("服务调用失败", null));
 	}
-	return Mono.just(task.get()).map(result -> JsonResult.sendSuccessfulResult(CallBackMessage.querySuccess, result)); 
+	return Mono.just(task.get()).map(findedEntity -> {
+	    if (EntityUtil.isEntityEmpty(findedEntity)) {
+		return JsonResult.sendParamError("ID对应的数据不存在!");
+	    }
+	    return JsonResult.sendSuccessfulResult(CallBackMessage.querySuccess, findedEntity);
+	});
     }
     
     /**
