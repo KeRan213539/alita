@@ -53,7 +53,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.alibaba</groupId>
+			<groupId>org.apache.dubbo</groupId>
 			<artifactId>dubbo-registry-nacos</artifactId>
 		</dependency>
 		
