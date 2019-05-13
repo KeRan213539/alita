@@ -23,5 +23,5 @@ public interface ISpringCloudProviderDemoService extends IBaseService<MongoDBTes
      * @throws Exception
      */
     public List<MongoDBTest> queryAll(String abc) throws Exception;
-    
+
 }

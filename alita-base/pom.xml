@@ -27,6 +27,7 @@
     </scm>
 	<properties>
 		<project.build.jdkVersion>1.8</project.build.jdkVersion>
+		<argLine>-Dfile.encoding=UTF-8</argLine>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skipJunitTest>true</skipJunitTest>
 

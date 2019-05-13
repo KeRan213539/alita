@@ -14,27 +14,25 @@ import top.klw8.alita.service.demo.dao.demo.IMongoDBTestDao;
 import top.klw8.alita.starter.service.BaseServiceImpl;
 
 /**
+ * @author klw
  * @ClassName: SpringCloudProviderDemoController
  * @Description: SpringCloud提供者演示
- * @author klw
  * @date 2018年9月13日 下午5:13:33
  */
 @Slf4j
-@Service(async=true)
+@Service(async = true)
 public class SpringCloudProviderDemoServiceImpl extends BaseServiceImpl<MongoDBTest> implements ISpringCloudProviderDemoService {
 
     private IMongoDBTestDao dao;
-    
+
     public SpringCloudProviderDemoServiceImpl(@Autowired IMongoDBTestDao dao) {
-	super(dao);
-	this.dao = dao;
-    }
-    
-    public List<MongoDBTest> queryAll(String abc) throws Exception {
-	if(StringUtils.isBlank(abc)) throw new Exception("抛个异常玩玩");
-	log.error("queryAll 被调用了888888888888888888");
-	return asyncSendData(dao.findAll());
+        super(dao);
+        this.dao = dao;
     }
 
-    
+    public List<MongoDBTest> queryAll(String abc) throws Exception {
+        if (StringUtils.isBlank(abc)) throw new Exception("抛个异常玩玩");
+        log.error("queryAll 被调用了888888888888888888");
+        return asyncSendData(dao.findAll());
+    }
 }
