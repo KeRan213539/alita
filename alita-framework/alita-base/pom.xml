@@ -55,6 +55,8 @@
 		<dubbo-spring-boot-starter.version>2.7.1</dubbo-spring-boot-starter.version>
 		<alibaba-spring-context-support.version>1.0.2</alibaba-spring-context-support.version>
 		<IK_Analyzer.version>2012FF_hf1_1</IK_Analyzer.version>
+
+		<alita-validator.version>0.2</alita-validator.version>
 	</properties>
 
 	<parent>
@@ -72,12 +74,18 @@
 			<dependency>
 				<groupId>top.klw8.alita</groupId>
 				<artifactId>alita-validator</artifactId>
-				<version>0.1.0-SNAPSHOT</version>
+				<version>${alita-validator.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>top.klw8.alita</groupId>
 				<artifactId>alita-commons</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>top.klw8.alita</groupId>
+				<artifactId>alita-entitys</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -89,7 +97,7 @@
 
 			<dependency>
 				<groupId>top.klw8.alita</groupId>
-				<artifactId>alita-service-starter</artifactId>
+				<artifactId>alita-service-mongodb-starter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
