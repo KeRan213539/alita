@@ -56,7 +56,7 @@ public class RedisRegister implements ApplicationContextAware {
 	defaultRedisTemplate.setHashKeySerializer(stringSerializer);
 	defaultRedisTemplate.setHashValueSerializer(jdkSerializationRedisSerializer);
 	
-	ConfigurableApplicationContext configurableApplicationContext = (ConfigurableApplicationContext) SpringApplicationContextUtil.getApplicationContext();
+	ConfigurableApplicationContext configurableApplicationContext = (ConfigurableApplicationContext) applicationContext;
 	DefaultListableBeanFactory defaultListableBeanFactory = (DefaultListableBeanFactory) configurableApplicationContext.getBeanFactory();
 	defaultListableBeanFactory.registerSingleton("redisDefaultCacheTemplate", defaultRedisTemplate);
 	

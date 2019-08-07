@@ -16,7 +16,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>top.klw8.alita</groupId>
-			<artifactId>alita-service-starter</artifactId>
+			<artifactId>alita-service-mongodb-starter</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>top.klw8.alita</groupId>

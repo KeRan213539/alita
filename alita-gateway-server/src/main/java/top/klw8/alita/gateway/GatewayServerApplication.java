@@ -35,19 +35,19 @@ public class GatewayServerApplication {
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
 	return builder.routes()
 		.route(p -> p
-	                .path("/adminService/**")
+	                .path("/admin/**")
 	                .filters(f -> f
 	                	.hystrix(config -> config
         	                        .setName("adminServiceHystrix")
         	                        .setFallbackUri("forward:/fallback")))
-	                .uri("lb://admin-service"))
+	                .uri("lb://restful-api-admin"))
 		.route(p -> p
 	                .path("/demo/**")
 	                .filters(f -> f
 	                	.hystrix(config -> config
         	                        .setName("demoHystrix")
         	                        .setFallbackUri("forward:/fallback")))
-	                .uri("lb://webapi-order"))
+	                .uri("lb://restful-api-demo"))
 		.build();
     }
 

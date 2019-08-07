@@ -19,5 +19,5 @@ public class AuthorizationWebApiApplication {
 	System.setProperty("org.springframework.boot.logging.LoggingSystem", LoggingSystem.NONE);  // 彻底关闭 spring boot 自带的 LoggingSystem
         SpringApplication.run( AuthorizationWebApiApplication.class, args );
     }
-    
+
 }
