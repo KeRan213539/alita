@@ -1,14 +1,14 @@
 package top.klw8.alita.starter.web.base;
 
+import top.klw8.alita.entitys.base.BaseEntity;
+import top.klw8.alita.entitys.base.IGeoSearchSupport;
+import top.klw8.alita.entitys.base.ITextIndexedCustomSupport;
+import top.klw8.alita.entitys.base.ITextIndexedSupport;
 import top.klw8.alita.service.base.api.IBaseService;
 import top.klw8.alita.service.base.beans.EntityByPage;
 import top.klw8.alita.service.base.beans.PagePrarmBean;
 import top.klw8.alita.service.base.dao.prarm.ForPageMode;
 import top.klw8.alita.service.base.dao.prarm.ForPageMode.FieldDataType;
-import top.klw8.alita.service.base.entitys.BaseEntity;
-import top.klw8.alita.service.base.entitys.IGeoSearchSupport;
-import top.klw8.alita.service.base.entitys.ITextIndexedCustomSupport;
-import top.klw8.alita.service.base.entitys.ITextIndexedSupport;
 import top.klw8.alita.service.utils.EntityUtil;
 import top.klw8.alita.starter.web.base.enums.SearchTypeEnum;
 import top.klw8.alita.starter.web.base.vo.ComparativePagePrarmVo;

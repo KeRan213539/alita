@@ -7,10 +7,10 @@
 	<description>alita restful-api - 文件上传</description>
 
 	<parent>
-        <groupId>top.klw8.alita</groupId>
-        <artifactId>alita-spring-boot-base</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
-    </parent>
+		<groupId>top.klw8.alita</groupId>
+		<artifactId>alita-demo-base</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+	</parent>
     
     <dependencies>
     

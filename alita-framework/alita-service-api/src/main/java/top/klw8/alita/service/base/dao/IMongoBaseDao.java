@@ -8,9 +8,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.geo.Point;
 
 import reactor.core.publisher.Mono;
+import top.klw8.alita.entitys.base.BaseEntity;
 import top.klw8.alita.service.base.beans.EntityByPage;
 import top.klw8.alita.service.base.dao.prarm.ForPageMode.Mode;
-import top.klw8.alita.service.base.entitys.BaseEntity;
 
 /**
  * @ClassName: IMongoBaseDao

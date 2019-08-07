@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import reactor.core.publisher.Mono;
-import top.klw8.alita.service.base.entitys.BaseEntity;
+import top.klw8.alita.entitys.base.BaseEntity;
 
 /**
  * @ClassName: IMongoBasePlusDao

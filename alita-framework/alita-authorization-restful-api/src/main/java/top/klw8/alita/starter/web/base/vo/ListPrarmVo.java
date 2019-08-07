@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import top.klw8.alita.service.base.entitys.BaseEntity;
+import top.klw8.alita.entitys.base.BaseEntity;
 import top.klw8.alita.validator.annotations.GeoLatitude;
 import top.klw8.alita.validator.annotations.GeoLongitude;
 

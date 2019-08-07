@@ -35,15 +35,15 @@ import reactor.core.publisher.Mono;
 import top.klw8.alita.base.mongodb.MongoDBConstant;
 import top.klw8.alita.base.mongodb.annotations.NotPersistence;
 import top.klw8.alita.base.mongodb.annotations.QueryLikeField;
+import top.klw8.alita.entitys.base.BaseEntity;
+import top.klw8.alita.entitys.base.ITextIndexedCustomSupport;
+import top.klw8.alita.entitys.base.ITextIndexedSupport;
 import top.klw8.alita.service.base.beans.EntityByPage;
 import top.klw8.alita.service.base.beans.PageImpl;
 import top.klw8.alita.service.base.dao.IMongoBasePlusDao;
 import top.klw8.alita.service.base.dao.prarm.ForPageMode;
 import top.klw8.alita.service.base.dao.prarm.ForPageMode.ComparisonMode;
 import top.klw8.alita.service.base.dao.prarm.ForPageMode.Mode;
-import top.klw8.alita.service.base.entitys.BaseEntity;
-import top.klw8.alita.service.base.entitys.ITextIndexedCustomSupport;
-import top.klw8.alita.service.base.entitys.ITextIndexedSupport;
 import top.klw8.alita.service.common.DataSecurityCfg;
 import top.klw8.alita.utils.AnalyzerUtil;
 

@@ -1,4 +1,4 @@
-package top.klw8.alita.test.exception;
+package top.klw8.alita.service.test.exception;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

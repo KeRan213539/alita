@@ -1,10 +1,11 @@
 package top.klw8.alita.service.utils;
 
+import top.klw8.alita.entitys.base.BaseEntity;
+
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
-import top.klw8.alita.service.base.entitys.BaseEntity;
 
 /**
  * @ClassName: EntityUtil

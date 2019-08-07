@@ -5,8 +5,6 @@ import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.JobHandler;
 import com.xxl.job.core.log.XxlJobLogger;
 
-import top.klw8.alita.entitys.demo.MongoDBTest;
-import top.klw8.alita.service.api.demo.ISpringCloudProviderDemoService;
 
 import java.math.BigDecimal;
 import java.util.concurrent.Future;
@@ -14,6 +12,8 @@ import java.util.concurrent.Future;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.stereotype.Component;
+import top.klw8.alita.entitys.demo.MongoDBTest;
+import top.klw8.alita.service.api.demo.ISpringCloudProviderDemoService;
 
 
 /**

@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Getter;
 import lombok.Setter;
-import top.klw8.alita.service.base.entitys.BaseEntity;
+import top.klw8.alita.entitys.base.BaseEntity;
 
 /**
  * @ClassName: SystemRole

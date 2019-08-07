@@ -1,12 +1,11 @@
-package top.klw8.alita.service.common;
+package top.klw8.alita.entitys.demo;
+
+import org.springframework.lang.Nullable;
+import top.klw8.alita.utils.ValidateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import org.springframework.lang.Nullable;
-
-import top.klw8.alita.utils.ValidateUtil;
 
 /**
  * @ClassName: GeoPoint

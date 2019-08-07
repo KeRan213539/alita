@@ -36,6 +36,11 @@
 			<groupId>top.klw8.alita</groupId>
 			<artifactId>alita-commons</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>top.klw8.alita</groupId>
+			<artifactId>alita-entitys</artifactId>
+		</dependency>
 		
 		<dependency>
 			<groupId>top.klw8.alita</groupId>

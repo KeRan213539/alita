@@ -10,8 +10,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import top.klw8.alita.entitys.demo.DevToolsTestEntity;
+import top.klw8.alita.entitys.demo.GeoPoint;
 import top.klw8.alita.entitys.demo.enums.DevToolsTestEnum;
-import top.klw8.alita.service.common.GeoPoint;
 import top.klw8.alita.starter.web.base.vo.ComparativePagePrarmVo;
 
 /**

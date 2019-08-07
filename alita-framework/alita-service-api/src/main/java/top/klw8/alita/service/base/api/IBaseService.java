@@ -5,9 +5,9 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 
+import top.klw8.alita.entitys.base.BaseEntity;
 import top.klw8.alita.service.base.beans.PagePrarmBean;
 import top.klw8.alita.service.base.dao.prarm.ForPageMode.Mode;
-import top.klw8.alita.service.base.entitys.BaseEntity;
 
 /**
  * @ClassName: IBaseService

@@ -10,8 +10,8 @@ import org.springframework.util.Assert;
 
 import lombok.Getter;
 import lombok.Setter;
-import top.klw8.alita.service.base.entitys.BaseEntity;
-import top.klw8.alita.service.base.entitys.ITextIndexedCustomSupport;
+import top.klw8.alita.entitys.base.BaseEntity;
+import top.klw8.alita.entitys.base.ITextIndexedCustomSupport;
 import top.klw8.alita.utils.AnalyzerUtil;
 
 /**

@@ -8,12 +8,22 @@
 	
 	<parent>
         <groupId>top.klw8.alita</groupId>
-        <artifactId>alita-spring-boot-base</artifactId>
+        <artifactId>alita-demo-base</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 	
 	<dependencies>
-	
+
+		<dependency>
+			<groupId>top.klw8.alita</groupId>
+			<artifactId>demo-entitys</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>top.klw8.alita</groupId>
+			<artifactId>demo-service-api</artifactId>
+		</dependency>
+
 	    <dependency>
 			<groupId>top.klw8.alita</groupId>
 			<artifactId>alita-restful-api-resServer-starter</artifactId>

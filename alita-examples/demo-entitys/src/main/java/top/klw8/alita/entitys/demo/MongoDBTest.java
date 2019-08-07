@@ -13,10 +13,9 @@ import lombok.Setter;
 import lombok.ToString;
 import top.klw8.alita.base.mongodb.annotations.NotPersistence;
 import top.klw8.alita.base.mongodb.annotations.QueryLikeField;
-import top.klw8.alita.service.base.entitys.BaseEntity;
-import top.klw8.alita.service.base.entitys.IGeoSearchSupport;
-import top.klw8.alita.service.base.entitys.ITextIndexedCustomSupport;
-import top.klw8.alita.service.common.GeoPoint;
+import top.klw8.alita.entitys.base.BaseEntity;
+import top.klw8.alita.entitys.base.IGeoSearchSupport;
+import top.klw8.alita.entitys.base.ITextIndexedCustomSupport;
 import top.klw8.alita.utils.AnalyzerUtil;
 
 

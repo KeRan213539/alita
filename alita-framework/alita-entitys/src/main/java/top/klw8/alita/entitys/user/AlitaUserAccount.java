@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import top.klw8.alita.entitys.authority.SystemRole;
-import top.klw8.alita.service.base.entitys.BaseEntity;
+import top.klw8.alita.entitys.base.BaseEntity;
 
 /**
  * @ClassName: AlitaUserAccount

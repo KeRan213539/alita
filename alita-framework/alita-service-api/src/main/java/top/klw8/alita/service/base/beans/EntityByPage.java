@@ -3,7 +3,7 @@ package top.klw8.alita.service.base.beans;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import top.klw8.alita.config.SysConstants;
-import top.klw8.alita.service.base.entitys.BaseEntity;
+import top.klw8.alita.entitys.base.BaseEntity;
 import top.klw8.alita.utils.BeanUtil;
 
 import java.io.Serializable;

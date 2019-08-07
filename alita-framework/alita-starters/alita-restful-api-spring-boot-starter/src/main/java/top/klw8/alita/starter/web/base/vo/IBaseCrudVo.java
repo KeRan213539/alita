@@ -1,6 +1,7 @@
 package top.klw8.alita.starter.web.base.vo;
 
-import top.klw8.alita.service.base.entitys.BaseEntity;
+
+import top.klw8.alita.entitys.base.BaseEntity;
 
 /**
  * @ClassName: IBaseCrudVo

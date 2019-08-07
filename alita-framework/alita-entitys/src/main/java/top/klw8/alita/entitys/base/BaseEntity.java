@@ -1,4 +1,4 @@
-package top.klw8.alita.service.base.entitys;
+package top.klw8.alita.entitys.base;
 
 import java.io.Serializable;
 

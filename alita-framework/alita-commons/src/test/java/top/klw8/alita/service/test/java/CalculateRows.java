@@ -1,4 +1,4 @@
-package top.klw8.alita.test.java;
+package top.klw8.alita.service.test.java;
 
 import java.io.BufferedReader;
 import java.io.File;
