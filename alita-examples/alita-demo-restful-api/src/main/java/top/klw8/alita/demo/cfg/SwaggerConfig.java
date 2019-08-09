@@ -71,4 +71,26 @@ public class SwaggerConfig extends SwaggerConfigBase  {
                 .securitySchemes(securitySchemes())
                 .securityContexts(securityContexts);
     }
+
+    @Bean
+    public Docket customImplementationDemo2(){
+
+        List<SecurityContext> securityContexts = new ArrayList<>();
+        securityContexts.add(SecurityContext.builder()
+                .securityReferences(securityReference())
+                .forPaths(PathSelectors.ant("/*demo2/**"))
+                .build());
+
+
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("【测试/Demo2】")
+                .select()
+                .paths(PathSelectors.ant("/*demo2/**"))
+//                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
+                .build()
+//                .globalOperationParameters(pars)
+                .apiInfo(apiInfo())
+                .securitySchemes(securitySchemes())
+                .securityContexts(securityContexts);
+    }
 }

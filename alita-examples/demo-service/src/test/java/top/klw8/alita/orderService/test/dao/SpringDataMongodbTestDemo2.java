@@ -1,6 +1,5 @@
 package top.klw8.alita.orderService.test.dao;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,27 +12,12 @@ import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.geo.Distance;
-import org.springframework.data.geo.GeoResults;
-import org.springframework.data.geo.Metrics;
-import org.springframework.data.geo.Point;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.NearQuery;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import lombok.Getter;
-import lombok.Setter;
 import top.klw8.alita.DemoServiceApplication;
 import top.klw8.alita.entitys.demo.GeoPoint;
 import top.klw8.alita.entitys.demo.MongoDBTest;
-import top.klw8.alita.service.demo.dao.demo.IMongoDBTestDao;
-import top.klw8.alita.utils.AnalyzerUtil;
-import top.klw8.alita.utils.LocalDateTimeUtil;
+import top.klw8.alita.service.demo.mapper.demo.IMongoDBTestDao;
 
 
 /**

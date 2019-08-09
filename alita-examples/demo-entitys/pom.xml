@@ -16,10 +16,17 @@
 	<dependencies>
 
         <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+            <version>3.1.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>top.klw8.alita</groupId>
             <artifactId>alita-entitys</artifactId>
         </dependency>
-		
+
 		<dependency>
             <groupId>top.klw8.alita</groupId>
             <artifactId>alita-commons</artifactId>

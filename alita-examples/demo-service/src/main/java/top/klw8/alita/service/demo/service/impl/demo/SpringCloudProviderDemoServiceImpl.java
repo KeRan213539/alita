@@ -10,7 +10,7 @@ import org.apache.dubbo.config.annotation.Service;
 import lombok.extern.slf4j.Slf4j;
 import top.klw8.alita.entitys.demo.MongoDBTest;
 import top.klw8.alita.service.api.demo.ISpringCloudProviderDemoService;
-import top.klw8.alita.service.demo.dao.demo.IMongoDBTestDao;
+import top.klw8.alita.service.demo.mapper.demo.IMongoDBTestDao;
 import top.klw8.alita.starter.service.BaseServiceImpl;
 
 /**

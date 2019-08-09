@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: demo-service-mybatis
+  profiles:
+    active: @profile.active@
+  cloud:
+    nacos:
+      config:
+        group: ALITA_GROUP
+        serverAddr: 127.0.0.1:8848
+        fileExtension: yml

@@ -48,18 +48,18 @@ import top.klw8.alita.validator.UseValidator;
 
 /**
  * @author klw
- * @ClassName: DemoController
- * @Description: demo
+ * @ClassName: MongoDemoController
+ * @Description: mongodb demo
  * @date 2018年9月29日 下午4:33:23
  */
 @Api(tags = {"alita-restful-API--demoAPI"})
 @RestController
 @RequestMapping("/demo")
-@AuthorityCatlogRegister(name = "demo", showIndex = 98, remark = "demo")
+@AuthorityCatlogRegister(name = "mongodb demo", showIndex = 98, remark = "demo")
 @Slf4j
-public class DemoController extends WebapiCrudBaseController<MongoDBTest> {
+public class MongoDemoController extends WebapiCrudBaseController<MongoDBTest> {
 
-    @Reference(async = true)
+//    @Reference(async = true)
     private ISpringCloudProviderDemoService service;
 
     @Override
