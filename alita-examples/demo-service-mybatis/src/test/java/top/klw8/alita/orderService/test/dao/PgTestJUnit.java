@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import top.klw8.alita.DemoServiceApplication;
+import top.klw8.alita.DemoMybatisServiceApplication;
 import top.klw8.alita.entitys.demo.PgTest;
 import top.klw8.alita.service.api.mybatis.IPgTestService;
 
@@ -19,7 +19,7 @@ import top.klw8.alita.service.api.mybatis.IPgTestService;
  */
 @RunWith(JUnitPlatform.class)
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes= {DemoServiceApplication.class})
+@SpringBootTest(classes= {DemoMybatisServiceApplication.class})
 public class PgTestJUnit {
 
     @Autowired
