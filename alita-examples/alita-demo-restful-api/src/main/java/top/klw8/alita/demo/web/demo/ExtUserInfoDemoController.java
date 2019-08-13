@@ -1,4 +1,4 @@
-package top.klw8.alita.admin.web.user;
+package top.klw8.alita.demo.web.demo;
 
 import java.util.concurrent.Future;
 

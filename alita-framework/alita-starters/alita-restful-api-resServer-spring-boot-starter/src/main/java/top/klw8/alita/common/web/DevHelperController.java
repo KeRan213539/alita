@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -40,11 +40,11 @@ import top.klw8.alita.service.api.authority.ISystemAuthoritysService;
 import top.klw8.alita.service.api.authority.ISystemRoleService;
 import top.klw8.alita.service.api.user.IAlitaUserService;
 import top.klw8.alita.service.utils.EntityUtil;
-import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.common.UserCacheHelper;
 import top.klw8.alita.starter.web.base.WebapiBaseController;
 import top.klw8.alita.starter.web.common.JsonResult;
+import top.klw8.alita.utils.UUIDUtil;
 
 /**
  * @author klw
@@ -151,10 +151,8 @@ public class DevHelperController {
             }
             if (method.isAnnotationPresent(AuthorityRegister.class)) {
                 AuthorityRegister register = method.getAnnotation(AuthorityRegister.class);
-                SystemAuthoritys au = null;
-                auService.findByAuAction(authorityAction);
-                Future<SystemAuthoritys> auTask = RpcContext.getContext().getFuture();
-                au = auTask.get();
+                CompletableFuture<SystemAuthoritys> auTask = auService.findByAuAction(authorityAction);
+                SystemAuthoritys au = auTask.get();
                 if (au != null) {
                     // 权限已存在,略过
                     continue;
@@ -167,71 +165,62 @@ public class DevHelperController {
                         ignoredAuList.add(method.getDeclaringClass().getName() + "." + method.getName() + "()");
                         continue;
                     }
-                    catlogService.findByCatlogName(register.catlogName());
-                    Future<SystemAuthoritysCatlog> catlogTask = RpcContext.getContext().getFuture();
+                    CompletableFuture<SystemAuthoritysCatlog> catlogTask = catlogService.findByCatlogName(register.catlogName());
                     catlog = catlogTask.get();
                     if (catlog == null) {
                         catlog = new SystemAuthoritysCatlog();
                         catlog.setCatlogName(register.catlogName());
                         catlog.setShowIndex(register.catlogShowIndex());
                         catlog.setRemark(register.catlogRemark());
-                        catlogService.save(catlog);
-                        Future<SystemAuthoritysCatlog> auSaveTask = RpcContext.getContext().getFuture();
+                        CompletableFuture<Boolean> auSaveTask = catlogService.save(catlog);
                         auSaveTask.get();
                     }
                 }
                 au = new SystemAuthoritys();
+                au.setId(UUIDUtil.getRandomUUIDString());
                 au.setAuthorityName(moduleName + register.authorityName());
                 au.setAuthorityType(register.authorityType());
                 au.setAuthorityAction(authorityAction);
                 au.setShowIndex(register.authorityShowIndex());
                 au.setRemark(register.authorityRemark());
                 au.setCatlog(catlog);
-                auService.save(au);
-                Future<SystemAuthoritys> auSaveTask = RpcContext.getContext().getFuture();
-                au = auSaveTask.get();
+                Future<Boolean> auSaveTask = auService.save(au);
+                auSaveTask.get();
 
                 // 添加到超级管理员角色和用户中
                 if (isAdd2SuperAdmin) {
-                    roleService.findById(new ObjectId("5c85fc8b645d423b3c071ab6"));
-                    Future<SystemRole> roleTask = RpcContext.getContext().getFuture();
-                    SystemRole superAdminRole = roleTask.get();
+                    CompletableFuture<SystemRole> future =  roleService.getById("5c85fc8b645d423b3c071ab6");
+                    SystemRole superAdminRole = future.get();
                     if (superAdminRole == null) {
                         superAdminRole = new SystemRole();
-                        superAdminRole.setId(new ObjectId("5c85fc8b645d423b3c071ab6"));
+                        superAdminRole.setId("5c85fc8b645d423b3c071ab6");
                         superAdminRole.setRoleName("超级管理员");
                         superAdminRole.setRemark("超级管理员");
-                        roleService.save(superAdminRole);
-                        Future<SystemRole> roleSaveTask = RpcContext.getContext().getFuture();
+                        CompletableFuture<Boolean> roleSaveTask = roleService.save(superAdminRole);
                         roleSaveTask.get();
                     }
 
-                    userService.findById(new ObjectId("5c85fc8b645d423b3c071ab7"));
-                    Future<AlitaUserAccount> superAdminTask = RpcContext.getContext().getFuture();
+                    CompletableFuture<AlitaUserAccount> superAdminTask = userService.getById("5c85fc8b645d423b3c071ab7");
                     AlitaUserAccount superAdmin = superAdminTask.get();
                     if (superAdmin == null) {
                         BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
                         superAdmin = new AlitaUserAccount("admin", pwdEncoder.encode("123456"));
-                        superAdmin.setId(new ObjectId("5c85fc8b645d423b3c071ab7"));
+                        superAdmin.setId("5c85fc8b645d423b3c071ab7");
                         superAdmin.setCreateDate(LocalDateTime.now());
-                        userService.save(superAdmin);
-                        Future<AlitaUserAccount> userSaveTask = RpcContext.getContext().getFuture();
+                        CompletableFuture<Boolean> userSaveTask = userService.save(superAdmin);
                         userSaveTask.get();
                     }
                     // 这里有可能用户存在并有这个角色,下面这个操作不会重复添加
-                    userService.addRole2User(superAdmin.getId(), superAdminRole);
-                    Future<Integer> addRole2UserTask = RpcContext.getContext().getFuture();
+                    CompletableFuture<Integer> addRole2UserTask = userService.addRole2User(superAdmin.getId(), superAdminRole);
                     addRole2UserTask.get();
 
-                    auService.findByAuAction(authorityAction);
-                    Future<SystemAuthoritys> auTask2 = RpcContext.getContext().getFuture();
+                    CompletableFuture<SystemAuthoritys> auTask2 = auService.findByAuAction(authorityAction);
                     au = auTask2.get();
                     if (au == null) {
                         // 权限不存在,略过
                         continue;
                     }
-                    roleService.addAuthority2Role(superAdminRole.getId(), au);
-                    Future<Integer> addAuthority2RoleTask = RpcContext.getContext().getFuture();
+                    CompletableFuture<Integer> addAuthority2RoleTask = roleService.addAuthority2Role(superAdminRole.getId(), au);
                     addAuthority2RoleTask.get();
                 }
             }
@@ -248,8 +237,8 @@ public class DevHelperController {
     @PostMapping("/refreshAdminAuthoritys")
     public Mono<JsonResult> refreshAdminAuthoritys() throws Exception {
         //查询管理员用户,把权限查出来
-        userService.findById(new ObjectId("5c85fc8b645d423b3c071ab7"), true);
-        Future<AlitaUserAccount> superAdminTask = RpcContext.getContext().getFuture();
+        // TODO 下面这里需要把角色和权限都关联查询出来
+        CompletableFuture<AlitaUserAccount> superAdminTask = userService.getById("5c85fc8b645d423b3c071ab7");
         return Mono.just(superAdminTask.get()).map(superAdmin -> {
             if (EntityUtil.isEntityEmpty(superAdmin)) {
                 return JsonResult.sendFailedResult("管理员用户不存在", null);

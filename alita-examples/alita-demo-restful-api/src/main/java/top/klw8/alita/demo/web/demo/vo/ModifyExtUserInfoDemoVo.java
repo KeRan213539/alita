@@ -1,4 +1,4 @@
-package top.klw8.alita.admin.web.user.vo;
+package top.klw8.alita.demo.web.demo.vo;
 
 import java.time.LocalDate;
 
