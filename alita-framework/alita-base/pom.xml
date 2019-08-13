@@ -101,6 +101,12 @@
 
 			<dependency>
 				<groupId>top.klw8.alita</groupId>
+				<artifactId>alita-service-mongodb-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>top.klw8.alita</groupId>
 				<artifactId>alita-service-mongodb-starter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -379,6 +385,18 @@
 			<dependency>
 				<groupId>com.baomidou</groupId>
 				<artifactId>mybatis-plus-boot-starter</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-core</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-annotation</artifactId>
 				<version>${mybatis-plus.version}</version>
 			</dependency>
 

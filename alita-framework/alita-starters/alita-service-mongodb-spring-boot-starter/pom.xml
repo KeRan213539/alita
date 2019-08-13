@@ -39,19 +39,9 @@
 
 		<dependency>
 			<groupId>top.klw8.alita</groupId>
-			<artifactId>alita-entitys</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>top.klw8.alita</groupId>
-			<artifactId>alita-service-api</artifactId>
+			<artifactId>alita-service-mongodb-api</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>top.klw8.alita</groupId>
-			<artifactId>alita-entitys</artifactId>
-		</dependency>
-		
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>bson</artifactId>

@@ -2,8 +2,11 @@ package top.klw8.alita.entitys.base;
 
 import java.io.Serializable;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @ClassName: BaseEntity
@@ -11,6 +14,8 @@ import org.springframework.data.annotation.Id;
  * @author klw
  * @date 2018年12月20日 下午2:25:41
  */
+@Getter
+@Setter
 public class BaseEntity implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
@@ -19,18 +24,7 @@ public class BaseEntity implements Serializable, Cloneable {
 	 * @author klw
 	 * @Fields id : 主键ID
 	 */
-	@Id
-	private ObjectId id;
+	@TableId(type = IdType.UUID)
+	private String id;
 
-	public ObjectId getId() {
-		return id;
-	}
-
-	public void setId(ObjectId id) {
-		this.id = id;
-	}
-	
-	public String getIdString() {
-		return id.toString();
-	}
 }

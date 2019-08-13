@@ -13,9 +13,9 @@ import lombok.Setter;
 import lombok.ToString;
 import top.klw8.alita.base.mongodb.annotations.NotPersistence;
 import top.klw8.alita.base.mongodb.annotations.QueryLikeField;
-import top.klw8.alita.entitys.base.BaseEntity;
-import top.klw8.alita.entitys.base.IGeoSearchSupport;
-import top.klw8.alita.entitys.base.ITextIndexedCustomSupport;
+import top.klw8.alita.service.base.mongo.common.IGeoSearchSupport;
+import top.klw8.alita.service.base.mongo.common.ITextIndexedCustomSupport;
+import top.klw8.alita.service.base.mongo.common.MongoBaseEntity;
 import top.klw8.alita.utils.AnalyzerUtil;
 
 
@@ -31,7 +31,7 @@ import top.klw8.alita.utils.AnalyzerUtil;
 @ToString
 //@EqualsAndHashCode(callSuper = false)
 //@ApiModel(value = "MongoDBTest", description = "demo用户")
-public class MongoDBTest extends BaseEntity implements ITextIndexedCustomSupport, IGeoSearchSupport {
+public class MongoDBTest extends MongoBaseEntity implements ITextIndexedCustomSupport, IGeoSearchSupport {
 
     private static final long serialVersionUID = 3002834053850347862L;
 

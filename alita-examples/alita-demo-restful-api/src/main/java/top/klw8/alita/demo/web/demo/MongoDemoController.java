@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,12 +34,11 @@ import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.entitys.demo.GeoPoint;
 import top.klw8.alita.entitys.demo.MongoDBTest;
 import top.klw8.alita.service.api.demo.ISpringCloudProviderDemoService;
-import top.klw8.alita.service.base.api.IBaseService;
-import top.klw8.alita.service.base.dao.prarm.ForPageMode.FieldDataType;
+import top.klw8.alita.service.base.mongo.api.IMongoBaseService;
+import top.klw8.alita.service.base.mongo.dao.prarm.ForPageMode.FieldDataType;
 import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.utils.TokenUtil;
-import top.klw8.alita.starter.web.base.WebapiCrudBaseController;
 import top.klw8.alita.starter.web.base.enums.SearchTypeEnum;
 import top.klw8.alita.starter.web.common.CallBackMessage;
 import top.klw8.alita.starter.web.common.JsonResult;
@@ -63,7 +61,7 @@ public class MongoDemoController extends WebapiCrudBaseController<MongoDBTest> {
     private ISpringCloudProviderDemoService service;
 
     @Override
-    protected IBaseService<MongoDBTest> service() {
+    protected IMongoBaseService<MongoDBTest> service() {
         return service;
     }
 

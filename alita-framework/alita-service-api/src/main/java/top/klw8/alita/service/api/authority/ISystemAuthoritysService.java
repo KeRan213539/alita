@@ -1,7 +1,9 @@
 package top.klw8.alita.service.api.authority;
 
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
-import top.klw8.alita.service.base.api.IBaseService;
+import top.klw8.alita.service.api.IMybatisBaseService;
+
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @ClassName: ISystemAuthoritysService
@@ -9,7 +11,7 @@ import top.klw8.alita.service.base.api.IBaseService;
  * @author klw
  * @date 2018年11月28日 下午3:48:18
  */
-public interface ISystemAuthoritysService extends IBaseService<SystemAuthoritys> {
+public interface ISystemAuthoritysService extends IMybatisBaseService<SystemAuthoritys> {
 
     /**
      * @Title: findByAuAction
@@ -18,6 +20,6 @@ public interface ISystemAuthoritysService extends IBaseService<SystemAuthoritys>
      * @param action
      * @return
      */
-    SystemAuthoritys findByAuAction(String action);
+    CompletableFuture<SystemAuthoritys> findByAuAction(String action);
     
 }

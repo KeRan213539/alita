@@ -3,7 +3,7 @@ package top.klw8.alita.service.api.demo;
 import java.util.List;
 
 import top.klw8.alita.entitys.demo.MongoDBTest;
-import top.klw8.alita.service.base.api.IBaseService;
+import top.klw8.alita.service.base.mongo.api.IMongoBaseService;
 
 
 /**
@@ -12,7 +12,7 @@ import top.klw8.alita.service.base.api.IBaseService;
  * @author klw
  * @date 2018年9月13日 下午5:34:20
  */
-public interface ISpringCloudProviderDemoService extends IBaseService<MongoDBTest> {
+public interface ISpringCloudProviderDemoService extends IMongoBaseService<MongoDBTest> {
 
     /**
      * @Title: queryAll

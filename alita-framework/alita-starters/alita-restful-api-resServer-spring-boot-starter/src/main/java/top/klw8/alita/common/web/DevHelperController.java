@@ -12,7 +12,6 @@ import java.util.concurrent.Future;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.rpc.RpcContext;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,7 +44,6 @@ import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.common.UserCacheHelper;
 import top.klw8.alita.starter.web.base.WebapiBaseController;
-import top.klw8.alita.starter.web.base.WebapiCrudBaseController;
 import top.klw8.alita.starter.web.common.JsonResult;
 
 /**
@@ -83,27 +81,6 @@ public class DevHelperController {
     @PostMapping("/registeAllAuthority")
     public JsonResult registeAllAuthority(boolean isAdd2SuperAdmin) throws Exception {
 
-//	// 清空所有权限目录
-//	List<SystemAuthoritysCatlog> catlogList = catlogService.findAll();
-//	String[] catlogIds = new String[catlogList.size()];
-//	for (int i = 0; i < catlogList.size(); i++) {
-//	    catlogIds[i] = catlogList.get(i).getId();
-//	}
-//	catlogService.deleteByIds(catlogIds);
-//
-//	// 清空角色中的权限
-//	SystemRole role = roleService.findById("1");
-//	role.setAuthorityList(new ArrayList<>(0));
-//	roleService.save(role);
-//	
-//	// 清空所有权限
-//	List<SystemAuthoritys> auList = auService.findAll();
-//	String[] auIds = new String[auList.size()];
-//	for (int i = 0; i < auList.size(); i++) {
-//	    auIds[i] = auList.get(i).getId();
-//	}
-//	auService.deleteByIds(auIds);
-
         // 被略过的控制器方法
         List<String> ignoredAuList = new ArrayList<>();
 
@@ -118,29 +95,31 @@ public class DevHelperController {
             SystemAuthoritysCatlog catlog = null;
 
             // 获取方法所在的控制器类,拿到类注解 RequestMapping, 并从 RequestMapping 中获取url前缀
-//	    Class<?> controllerClass = method.getDeclaringClass();
-//	    Class<?> superClass = controllerClass.getSuperclass();
             Class<?> controllerClass = v.getBeanType();
             Class<?> superClass = controllerClass.getSuperclass();
-            if (superClass.getName().equals(WebapiCrudBaseController.class.getName())) {
-                // 如果是 WebapiCRUDBaseController 的子类,找 AuthorityCatlogRegister
-                if (controllerClass.isAnnotationPresent(AuthorityCatlogRegister.class)) {
-                    AuthorityCatlogRegister catlogRegister = controllerClass.getAnnotation(AuthorityCatlogRegister.class);
-                    catlogService.findByCatlogName(catlogRegister.name());
-                    Future<SystemAuthoritysCatlog> catlogTask = RpcContext.getContext().getFuture();
-                    catlog = catlogTask.get();
-                    if (catlog == null) {
-                        catlog = new SystemAuthoritysCatlog();
-                        catlog.setCatlogName(catlogRegister.name());
-                        catlog.setShowIndex(catlogRegister.showIndex());
-                        catlog.setRemark(catlogRegister.remark());
-                        catlogService.save(catlog);
-                        Future<SystemAuthoritysCatlog> catlogSaveTask = RpcContext.getContext().getFuture();
-                        catlogSaveTask.get();
-                    }
-                    moduleName = "【" + catlog.getCatlogName() + "】";
-                }
-            } else if (!superClass.getName().equals(WebapiBaseController.class.getName())) {
+//            if (superClass.getName().equals(WebapiCrudBaseController.class.getName())) {
+//                // 如果是 WebapiCRUDBaseController 的子类,找 AuthorityCatlogRegister
+//                if (controllerClass.isAnnotationPresent(AuthorityCatlogRegister.class)) {
+//                    AuthorityCatlogRegister catlogRegister = controllerClass.getAnnotation(AuthorityCatlogRegister.class);
+//                    catlogService.findByCatlogName(catlogRegister.name());
+//                    Future<SystemAuthoritysCatlog> catlogTask = RpcContext.getContext().getFuture();
+//                    catlog = catlogTask.get();
+//                    if (catlog == null) {
+//                        catlog = new SystemAuthoritysCatlog();
+//                        catlog.setCatlogName(catlogRegister.name());
+//                        catlog.setShowIndex(catlogRegister.showIndex());
+//                        catlog.setRemark(catlogRegister.remark());
+//                        catlogService.save(catlog);
+//                        Future<SystemAuthoritysCatlog> catlogSaveTask = RpcContext.getContext().getFuture();
+//                        catlogSaveTask.get();
+//                    }
+//                    moduleName = "【" + catlog.getCatlogName() + "】";
+//                }
+//            } else if (!superClass.getName().equals(WebapiBaseController.class.getName())) {
+//                // 既不是 WebapiCRUDBaseController 的子类也不是 WebapiBaseController 的子类,说明不是业务相关(权限相关)的,直接忽略
+//                continue;
+//            }
+            if (!superClass.getName().equals(WebapiBaseController.class.getName())) {
                 // 既不是 WebapiCRUDBaseController 的子类也不是 WebapiBaseController 的子类,说明不是业务相关(权限相关)的,直接忽略
                 continue;
             }

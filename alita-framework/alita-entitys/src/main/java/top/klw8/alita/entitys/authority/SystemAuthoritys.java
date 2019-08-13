@@ -1,10 +1,11 @@
 package top.klw8.alita.entitys.authority;
 
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.entitys.base.BaseEntity;
 
@@ -14,11 +15,10 @@ import top.klw8.alita.entitys.base.BaseEntity;
  * @author klw
  * @date 2018年11月28日 上午11:52:04
  */
-@Document(collection = "sys_authoritys")
+@TableName("sys_authoritys")
 @Getter
 @Setter
-//@EqualsAndHashCode(callSuper = false, exclude = {"catlog"})
-//@ToString(callSuper = false, exclude ={"catlog"})
+@ToString
 public class SystemAuthoritys extends BaseEntity {
     
     private static final long serialVersionUID = 4226666111547632644L;
@@ -27,37 +27,49 @@ public class SystemAuthoritys extends BaseEntity {
      * @author klw
      * @Fields catlog : 权限所属权限目录
      */
-    @Indexed
+    @TableField(exist=false)
     private SystemAuthoritysCatlog catlog;
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 权限所属权限目录 的ID
+     */
+    @TableField("catlog_id")
+    private String catlogId;
     
     /**
      * @author klw
      * @Fields authorityName : 权限名称
      */
+    @TableField("authority_name")
     private String authorityName;
 
     /**
      * @author klw
      * @Fields authorityUrl : 权限动作,根据类型来,如果是url那就放url,如果是菜单就放前端识别的视图标识(相对路径)
      */
+    @TableField("authority_action")
     private String authorityAction;
     
     /**
      * @author klw
      * @Fields authorityType : 权限类型
      */
+    @TableField("authority_type")
     private AuthorityTypeEnum authorityType;
     
     /**
      * @author klw
      * @Fields showIndex : 作为菜单的显示顺序,非菜单为0
      */
+    @TableField("show_index")
     private Integer showIndex;
     
     /**
      * @author klw
      * @Fields remark : 备注
      */
+    @TableField("remark")
     private String remark;
     
 }

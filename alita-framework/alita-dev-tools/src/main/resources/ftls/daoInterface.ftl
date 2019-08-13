@@ -1,6 +1,6 @@
 package ${package};
 
-import top.klw8.alita.service.base.dao.IMongoBasePlusDao;
+import IMongoBasePlusDao;
 <#list importList as importStr>
 import ${importStr};
 </#list>

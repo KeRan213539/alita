@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
@@ -65,7 +64,7 @@ public class AuthorityInterceptor implements WebFilter {
         	    return sendJsonStr(response, JSON.toJSONString(JsonResult.sendResult(ResultStatusEnum.FAILED, ResultCodeEnum._250, "需要token", null, false)));
         	}
         	String jwtToken = tokenList.get(0);
-        	ObjectId userId = TokenUtil.getUserId(jwtToken);
+        	String userId = TokenUtil.getUserId(jwtToken);
         	if(userId == null) {
         	    return sendJsonStr(response, JSON.toJSONString(JsonResult.sendResult(ResultStatusEnum.FAILED, ResultCodeEnum._250, "token不正确", null, false)));
         	}

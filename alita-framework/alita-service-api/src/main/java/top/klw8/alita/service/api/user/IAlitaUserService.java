@@ -1,12 +1,11 @@
 package top.klw8.alita.service.api.user;
 
 import java.util.List;
-
-import org.bson.types.ObjectId;
+import java.util.concurrent.CompletableFuture;
 
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
-import top.klw8.alita.service.base.api.IBaseService;
+import top.klw8.alita.service.api.IMybatisBaseService;
 
 /**
  * @ClassName: IAlitaUserService
@@ -14,7 +13,7 @@ import top.klw8.alita.service.base.api.IBaseService;
  * @author klw
  * @date 2018年11月15日 下午4:15:57
  */
-public interface IAlitaUserService extends IBaseService<AlitaUserAccount> {
+public interface IAlitaUserService extends IMybatisBaseService<AlitaUserAccount> {
 
     /**
      * @Title: addRole2User
@@ -24,7 +23,7 @@ public interface IAlitaUserService extends IBaseService<AlitaUserAccount> {
      * @param role
      * @return
      */
-    Integer addRole2User(ObjectId userId, SystemRole role);
+    CompletableFuture<Integer> addRole2User(String userId, SystemRole role);
     
     /**
      * @Title: removeRoleFromUser
@@ -34,7 +33,7 @@ public interface IAlitaUserService extends IBaseService<AlitaUserAccount> {
      * @param role
      * @return
      */
-    Integer removeRoleFromUser(ObjectId userId, SystemRole role);
+    CompletableFuture<Integer> removeRoleFromUser(String userId, SystemRole role);
     
     /**
      * @Title: replaceRole2User
@@ -44,6 +43,6 @@ public interface IAlitaUserService extends IBaseService<AlitaUserAccount> {
      * @param roleList
      * @return
      */
-    Integer replaceRole2User(ObjectId userId, List<SystemRole> roleList);
+    CompletableFuture<Integer> replaceRole2User(String userId, List<SystemRole> roleList);
     
 }

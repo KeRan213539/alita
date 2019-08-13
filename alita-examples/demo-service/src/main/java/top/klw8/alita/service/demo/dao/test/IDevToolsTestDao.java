@@ -1,7 +1,7 @@
 package top.klw8.alita.service.demo.dao.test;
 
 import top.klw8.alita.entitys.demo.DevToolsTestEntity;
-import top.klw8.alita.service.base.dao.IMongoBasePlusDao;
+import top.klw8.alita.service.base.mongo.dao.IMongoBasePlusDao;
 
 /**
  * @ClassName: IDevToolsTestDao

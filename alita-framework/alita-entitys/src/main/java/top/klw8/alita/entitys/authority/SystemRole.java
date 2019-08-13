@@ -2,8 +2,8 @@ package top.klw8.alita.entitys.authority;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ import top.klw8.alita.entitys.base.BaseEntity;
  * @author klw
  * @date 2018年11月28日 上午11:54:15
  */
-@Document(collection = "sys_role")
+@TableName("sys_role")
 @Getter
 @Setter
 //@EqualsAndHashCode(callSuper = false, exclude = {"authorityList"})
@@ -28,19 +28,21 @@ public class SystemRole extends BaseEntity {
      * @author klw
      * @Fields roleName : 角色名称
      */
+    @TableField("role_name")
     private String roleName;
     
     /**
      * @author klw
      * @Fields remark : 备注
      */
+    @TableField("remark")
     private String remark;
     
     /**
      * @author klw
      * @Fields authorityList : 角色下的权限(冗余数据)
      */
-    @Indexed
+    @TableField(exist=false)
     private List<SystemAuthoritys> authorityList;
     
 }

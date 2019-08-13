@@ -7,7 +7,6 @@ import org.springframework.beans.BeanUtils;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import top.klw8.alita.entitys.user.ExtUserInfoDemo;
 import top.klw8.alita.starter.web.base.vo.IBaseCrudVo;
 import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;

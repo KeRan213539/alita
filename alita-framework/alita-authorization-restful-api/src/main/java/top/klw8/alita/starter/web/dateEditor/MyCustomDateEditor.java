@@ -4,8 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
-import top.klw8.alita.exception.FrameworkException;
-
 import java.beans.PropertyEditorSupport;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,10 +11,10 @@ import java.util.Date;
 import java.util.regex.Pattern;
 
 /**
- * @author: gengyu
- * @date: 2017-06-08 09:30:26
- * @version V1.0
- * create by handwriting
+ * @author klw(213539 @ qq.com)
+ * @ClassName: MybatisDemoController
+ * @Description: mybatis demo
+ * @date 2019/8/8 15:47
  */
 public class MyCustomDateEditor extends PropertyEditorSupport {
 
@@ -27,11 +25,7 @@ public class MyCustomDateEditor extends PropertyEditorSupport {
         if (!StringUtils.hasText(text)) {
             setValue(null);
         } else {
-            try {
-                setValue(this.dateAdapter(text));
-            } catch (FrameworkException e) {
-                e.printStackTrace();
-            }
+            setValue(this.dateAdapter(text));
         }
     }
 
@@ -46,9 +40,9 @@ public class MyCustomDateEditor extends PropertyEditorSupport {
      * 字符串转日期适配方法
      *
      * @param dateStr 日期字符串
-     * @throws FrameworkException
+     * @throws
      */
-    public static Date dateAdapter(String dateStr) throws FrameworkException {
+    public static Date dateAdapter(String dateStr) {
         Date date = null;
         String temp = dateStr;//缓存原始数据
 
@@ -105,7 +99,7 @@ public class MyCustomDateEditor extends PropertyEditorSupport {
                     try {
                         date = new SimpleDateFormat(fm).parse(dateStr);
                     } catch (ParseException e) {
-                        throw new FrameworkException("参数字符串"+dateStr+"无法被转换为日期格式！");
+                        throw new IllegalArgumentException("参数字符串"+dateStr+"无法被转换为日期格式！");
                     }
                 }
             }

@@ -1,8 +1,8 @@
 package top.klw8.alita.entitys.authority;
 
 
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ import top.klw8.alita.entitys.base.BaseEntity;
  * @author klw
  * @date 2018年11月28日 上午11:53:50
  */
-@Document(collection = "sys_authoritys_catlog")
+@TableName("sys_authoritys_catlog")
 @Getter
 @Setter
 //@EqualsAndHashCode(callSuper = false, exclude = {"authorityList"})
@@ -27,19 +27,21 @@ public class SystemAuthoritysCatlog extends BaseEntity {
      * @author klw
      * @Fields catlogName : 目录名称
      */
-    @Indexed
+    @TableField("catlog_name")
     private String catlogName;
     
     /**
      * @author klw
      * @Fields showIndex : 显示顺序
      */
+    @TableField("show_index")
     private Integer showIndex;
     
     /**
      * @author klw
      * @Fields remark : 备注
      */
+    @TableField("remark")
     private String remark;
     
 }

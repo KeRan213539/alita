@@ -1,12 +1,11 @@
 package top.klw8.alita.service.api.authority;
 
 import java.util.List;
-
-import org.bson.types.ObjectId;
+import java.util.concurrent.CompletableFuture;
 
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemRole;
-import top.klw8.alita.service.base.api.IBaseService;
+import top.klw8.alita.service.api.IMybatisBaseService;
 
 /**
  * @ClassName: ISystemRoleService
@@ -14,7 +13,7 @@ import top.klw8.alita.service.base.api.IBaseService;
  * @author klw
  * @date 2018年11月28日 下午3:48:49
  */
-public interface ISystemRoleService extends IBaseService<SystemRole> {
+public interface ISystemRoleService extends IMybatisBaseService<SystemRole> {
     
     /**
      * @Title: addAuthority2Role
@@ -24,7 +23,7 @@ public interface ISystemRoleService extends IBaseService<SystemRole> {
      * @param au
      * @return
      */
-    Integer addAuthority2Role(ObjectId roleId, SystemAuthoritys au);
+    CompletableFuture<Integer> addAuthority2Role(String roleId, SystemAuthoritys au);
     
     /**
      * @Title: removeAuthorityFromRole
@@ -34,7 +33,7 @@ public interface ISystemRoleService extends IBaseService<SystemRole> {
      * @param au
      * @return
      */
-    Integer removeAuthorityFromRole(ObjectId roleId, SystemAuthoritys au);
+    CompletableFuture<Integer> removeAuthorityFromRole(String roleId, SystemAuthoritys au);
     
     /**
      * @Title: updateAuthority2Role
@@ -44,6 +43,6 @@ public interface ISystemRoleService extends IBaseService<SystemRole> {
      * @param auList
      * @return
      */
-    Integer replaceAuthority2Role(ObjectId roleId, List<SystemAuthoritys> auList);
+    CompletableFuture<Integer> replaceAuthority2Role(String roleId, List<SystemAuthoritys> auList);
     
 }

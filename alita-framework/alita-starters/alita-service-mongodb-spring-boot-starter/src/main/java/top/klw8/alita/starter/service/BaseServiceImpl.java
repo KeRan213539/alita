@@ -2,12 +2,12 @@ package top.klw8.alita.starter.service;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
-import top.klw8.alita.entitys.base.BaseEntity;
-import top.klw8.alita.service.base.api.IBaseService;
-import top.klw8.alita.service.base.beans.EntityByPage;
-import top.klw8.alita.service.base.beans.PagePrarmBean;
-import top.klw8.alita.service.base.dao.IMongoBaseDao;
-import top.klw8.alita.service.base.dao.prarm.ForPageMode.Mode;
+import top.klw8.alita.service.base.mongo.api.IMongoBaseService;
+import top.klw8.alita.service.base.mongo.beans.EntityByPage;
+import top.klw8.alita.service.base.mongo.beans.PagePrarmBean;
+import top.klw8.alita.service.base.mongo.common.MongoBaseEntity;
+import top.klw8.alita.service.base.mongo.dao.IMongoBaseDao;
+import top.klw8.alita.service.base.mongo.dao.prarm.ForPageMode.Mode;
 import top.klw8.alita.utils.ValidateUtil;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -30,7 +30,7 @@ import java.util.List;
  * @date 2018年10月9日 下午1:23:40
  */
 @Slf4j
-public class BaseServiceImpl<T extends BaseEntity> implements IBaseService<T> {
+public class BaseServiceImpl<T extends MongoBaseEntity> implements IMongoBaseService<T> {
 
     private IMongoBaseDao<T> dao;
 

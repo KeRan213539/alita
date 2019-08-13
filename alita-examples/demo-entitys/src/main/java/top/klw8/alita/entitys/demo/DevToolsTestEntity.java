@@ -13,10 +13,10 @@ import lombok.Setter;
 import lombok.ToString;
 import top.klw8.alita.base.mongodb.annotations.NotPersistence;
 import top.klw8.alita.base.mongodb.annotations.QueryLikeField;
-import top.klw8.alita.entitys.base.BaseEntity;
-import top.klw8.alita.entitys.base.IGeoSearchSupport;
-import top.klw8.alita.entitys.base.ITextIndexedCustomSupport;
+import top.klw8.alita.service.base.mongo.common.IGeoSearchSupport;
+import top.klw8.alita.service.base.mongo.common.ITextIndexedCustomSupport;
 import top.klw8.alita.entitys.demo.enums.DevToolsTestEnum;
+import top.klw8.alita.service.base.mongo.common.MongoBaseEntity;
 import top.klw8.alita.utils.AnalyzerUtil;
 
 /**
@@ -29,7 +29,7 @@ import top.klw8.alita.utils.AnalyzerUtil;
 @Getter
 @Setter
 @ToString
-public class DevToolsTestEntity extends BaseEntity implements ITextIndexedCustomSupport, IGeoSearchSupport {
+public class DevToolsTestEntity extends MongoBaseEntity implements ITextIndexedCustomSupport, IGeoSearchSupport {
 
     private static final long serialVersionUID = -7036680933571767016L;
 

@@ -6,9 +6,9 @@ import top.klw8.alita.validator.IResponseMsgGenerator;
 import top.klw8.alita.validator.ValidatorException;
 
 /**
+ * @author klw
  * @ClassName: AlitaResponseGenerator
  * @Description: response 生成器
- * @author klw
  * @date 2018年9月17日 下午5:20:43
  */
 public class AlitaResponseGenerator implements IResponseMsgGenerator {
@@ -24,7 +24,7 @@ public class AlitaResponseGenerator implements IResponseMsgGenerator {
      */
     @Override
     public Mono<Object> generatorResponse(String code, String message, ValidatorException ex) {
-	return Mono.just(JsonResult.sendParamError(message));
+        return Mono.just(JsonResult.sendParamError(message));
     }
 
 }

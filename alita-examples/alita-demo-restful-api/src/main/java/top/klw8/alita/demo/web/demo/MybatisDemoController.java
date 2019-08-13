@@ -14,7 +14,6 @@ import top.klw8.alita.service.api.mybatis.IPgTestService;
 import top.klw8.alita.starter.web.common.CallBackMessage;
 import top.klw8.alita.starter.web.common.JsonResult;
 
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 

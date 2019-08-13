@@ -78,7 +78,11 @@
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
         </dependency>
-        
-	</dependencies>
+        <dependency>
+            <groupId>top.klw8.alita</groupId>
+            <artifactId>alita-service-mongodb-api</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>

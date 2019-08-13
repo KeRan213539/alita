@@ -32,11 +32,6 @@
 
 	<dependencies>
 
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>bson</artifactId>
-        </dependency>
-
 		<dependency>
 			<groupId>top.klw8.alita</groupId>
 			<artifactId>alita-restful-api-starter</artifactId>

@@ -1,7 +1,7 @@
 package top.klw8.alita.service.test;
 
 import top.klw8.alita.entitys.demo.DevToolsTestEntity;
-import top.klw8.alita.service.base.api.IBaseService;
+import top.klw8.alita.service.base.mongo.api.IMongoBaseService;
 
 /**
  * @ClassName: IDevToolsTestService
@@ -9,6 +9,6 @@ import top.klw8.alita.service.base.api.IBaseService;
  * @author dev-tools
  * @date 2019年03月05日 11:44:29
  */
-public interface IDevToolsTestService extends IBaseService<DevToolsTestEntity> {
+public interface IDevToolsTestService extends IMongoBaseService<DevToolsTestEntity> {
 
 }

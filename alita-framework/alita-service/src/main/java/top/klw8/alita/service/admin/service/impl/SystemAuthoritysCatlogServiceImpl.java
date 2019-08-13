@@ -1,81 +1,75 @@
 package top.klw8.alita.service.admin.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 
 import org.apache.dubbo.config.annotation.Service;
-import org.bson.types.ObjectId;
 
 import lombok.extern.slf4j.Slf4j;
-import top.klw8.alita.base.mongodb.MongoDBConstant;
+import org.springframework.transaction.annotation.Transactional;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
-import top.klw8.alita.service.admin.dao.ISystemAuthoritysCatlogDao;
+import top.klw8.alita.service.admin.mapper.ISystemAuthoritysCatlogMapper;
 import top.klw8.alita.service.api.authority.ISystemAuthoritysCatlogService;
-import top.klw8.alita.starter.service.BaseServiceImpl;
+import top.klw8.alita.starter.service.MybatisBaseServiceImpl;
+import top.klw8.alita.starter.service.common.ServiceContext;
 
 /**
+ * @author klw
  * @ClassName: SystemAuthoritysCatlogServiceImpl
  * @Description: 权限的目录Service_实现
- * @author klw
  * @date 2018年11月28日 下午3:52:21
  */
 @Slf4j
-@Service(async=true)
-public class SystemAuthoritysCatlogServiceImpl extends BaseServiceImpl<SystemAuthoritysCatlog> implements ISystemAuthoritysCatlogService {
+@Service(async = true)
+public class SystemAuthoritysCatlogServiceImpl extends MybatisBaseServiceImpl<ISystemAuthoritysCatlogMapper, SystemAuthoritysCatlog> implements ISystemAuthoritysCatlogService {
 
-    private ISystemAuthoritysCatlogDao dao;
-    
-    public SystemAuthoritysCatlogServiceImpl(@Autowired ISystemAuthoritysCatlogDao dao) {
-	super(dao);
-	this.dao = dao;
+	@Autowired
+    private ISystemAuthoritysCatlogMapper dao;
+
+    public CompletableFuture<Integer> addAuthority2Catlog(String catlogId, SystemAuthoritys au) {
+		return CompletableFuture.supplyAsync(() -> {
+			if (null == catlogId || null == au  || null == au.getId()) {
+				return 0;
+			}
+			return dao.addAuthority2Catlog(catlogId, au.getId());
+		}, ServiceContext.executor);
     }
-    
-    public Integer addAuthority2Catlog(ObjectId catlogId, SystemAuthoritys au) {
-	if(null == catlogId || au == null || null == au.getId()) {
-	    return 0;
-	}
-	Update update = dao.createUpdateOperations();
-	update.addToSet("authorityList", au);
-	return asyncSendData(dao.updateByQuery(Query.query(Criteria.where(MongoDBConstant.ID_KEY).is(catlogId)), update));
+
+    public CompletableFuture<Integer> removeAuthorityFromCatlog(String catlogId, SystemAuthoritys au) {
+		return CompletableFuture.supplyAsync(() -> {
+			if (null == catlogId || null == au  || null == au.getId()) {
+				return 0;
+			}
+			return dao.removeAuthorityFromCatlog(catlogId, au.getId());
+		}, ServiceContext.executor);
     }
-    
-    public Integer removeAuthorityFromCatlog(ObjectId catlogId, SystemAuthoritys au) {
-	if(null == catlogId || au == null || null == au.getId()) {
-	    return 0;
-	}
-	Update update = dao.createUpdateOperations();
-	update.pull("authorityList", au);
-	return asyncSendData(dao.updateByQuery(Query.query(Criteria.where(MongoDBConstant.ID_KEY).is(catlogId)), update));
+
+	@Transactional(rollbackFor = Exception.class)
+    public CompletableFuture<Integer> replaceAuthority2Catlog(String catlogId, List<SystemAuthoritys> auList) {
+		return CompletableFuture.supplyAsync(() -> {
+			if (null == catlogId || null == auList) {
+				return 0;
+			}
+			dao.removeAuthoritysFromCatlog(catlogId);
+			List<Map<String, String>> dataList = new ArrayList<>();
+			for (SystemAuthoritys au : auList) {
+				Map<String, String> item = new HashMap<>(2);
+				item.put("catlogId", catlogId);
+				item.put("auId", au.getId());
+				dataList.add(item);
+			}
+			return dao.batchInsertAuthoritys4Catlog(dataList);
+		}, ServiceContext.executor);
     }
-    
-    public Integer replaceAuthority2Catlog(ObjectId catlogId, List<SystemAuthoritys> auList) {
-	if(null == catlogId || null == auList) {
-	    return 0;
-	}
-	Document collectionDoc = auList.get(0).getClass().getAnnotation(Document.class);
-	String auCollectionName = collectionDoc.collection();
-	List<org.bson.Document> auDocList = new ArrayList<>();
-	for(SystemAuthoritys au : auList) {
-	    org.bson.Document auRefDoc = new org.bson.Document();
-	    auRefDoc.append("$ref", auCollectionName);
-	    auRefDoc.append("$id", au.getId());
-	    auDocList.add(auRefDoc);
-	}
-	Update update = dao.createUpdateOperations();
-	update.set("authorityList", auDocList);
-	return asyncSendData(dao.updateByQuery(Query.query(Criteria.where(MongoDBConstant.ID_KEY).is(catlogId)), update));
+
+    public CompletableFuture<SystemAuthoritysCatlog> findByCatlogName(String catlogName) {
+    	return this.getOne(this.query().eq("catlog_name", catlogName));
     }
-    
-    public SystemAuthoritysCatlog findByCatlogName(String catlogName) {
-	Query query = dao.createQuery().addCriteria(Criteria.where("catlogName").is(catlogName));
-	return asyncSendData(dao.getMongoTemplate().findOne(query, SystemAuthoritysCatlog.class));
-    }
-    
+
 }

@@ -24,6 +24,11 @@
 			<artifactId>demo-service-api</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>top.klw8.alita</groupId>
+			<artifactId>alita-service-mongodb-api</artifactId>
+		</dependency>
+
 	    <dependency>
 			<groupId>top.klw8.alita</groupId>
 			<artifactId>alita-restful-api-resServer-starter</artifactId>

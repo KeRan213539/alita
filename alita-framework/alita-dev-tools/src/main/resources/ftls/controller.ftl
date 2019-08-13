@@ -3,14 +3,14 @@ package ${package};
 <#if isGenerateApi>
 import org.springframework.web.bind.annotation.PostMapping;
 
-import top.klw8.alita.base.mongodb.MongoDBConstant;
-import top.klw8.alita.service.base.dao.prarm.ForPageMode.FieldDataType;
+import MongoDBConstant;
+import ForPageMode.FieldDataType;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.web.base.WebapiCrudBaseController;
 import top.klw8.alita.starter.web.base.enums.SearchTypeEnum;
 import top.klw8.alita.starter.web.common.JsonResult;
 import top.klw8.alita.validator.UseValidator;
-import top.klw8.alita.service.base.api.IBaseService;
+import IBaseService;
 import io.swagger.annotations.ApiOperation;
 import reactor.core.publisher.Mono;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;

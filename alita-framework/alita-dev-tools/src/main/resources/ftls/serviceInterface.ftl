@@ -1,6 +1,6 @@
 package ${package};
 
-import top.klw8.alita.service.base.api.IBaseService;
+import IBaseService;
 <#list importList as importStr>
 import ${importStr};
 </#list>

@@ -1,16 +1,16 @@
 package top.klw8.alita.service.admin.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
 import org.apache.dubbo.config.annotation.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
-import top.klw8.alita.service.admin.dao.ISystemAuthoritysDao;
+import top.klw8.alita.service.admin.mapper.ISystemAuthoritysMapper;
 import top.klw8.alita.service.api.authority.ISystemAuthoritysService;
-import top.klw8.alita.starter.service.BaseServiceImpl;
+import top.klw8.alita.starter.service.MybatisBaseServiceImpl;
+
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @ClassName: SystemAuthoritysServiceImpl
@@ -20,18 +20,13 @@ import top.klw8.alita.starter.service.BaseServiceImpl;
  */
 @Slf4j
 @Service(async=true)
-public class SystemAuthoritysServiceImpl extends BaseServiceImpl<SystemAuthoritys> implements ISystemAuthoritysService {
+public class SystemAuthoritysServiceImpl extends MybatisBaseServiceImpl<ISystemAuthoritysMapper, SystemAuthoritys> implements ISystemAuthoritysService {
 
-    private ISystemAuthoritysDao dao;
-    
-    public SystemAuthoritysServiceImpl(@Autowired ISystemAuthoritysDao dao) {
-	super(dao);
-	this.dao = dao;
-    }
-    
-    public SystemAuthoritys findByAuAction(String action) {
-	Query query = dao.createQuery().addCriteria(Criteria.where("authorityAction").is(action));
-	return asyncSendData(dao.getMongoTemplate().findOne(query, SystemAuthoritys.class));
+    @Autowired
+    private ISystemAuthoritysMapper dao;
+
+    public CompletableFuture<SystemAuthoritys> findByAuAction(String action) {
+        return this.getOne(this.query().eq("authority_action", action));
     }
     
 }

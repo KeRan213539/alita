@@ -1,76 +1,71 @@
 package top.klw8.alita.service.admin.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dubbo.config.annotation.Service;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 
 import lombok.extern.slf4j.Slf4j;
-import top.klw8.alita.base.mongodb.MongoDBConstant;
+import org.springframework.transaction.annotation.Transactional;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
-import top.klw8.alita.service.admin.dao.IAlitaUserDao;
+import top.klw8.alita.service.admin.mapper.IAlitaUserMapper;
 import top.klw8.alita.service.api.user.IAlitaUserService;
-import top.klw8.alita.starter.service.BaseServiceImpl;
+import top.klw8.alita.starter.service.MybatisBaseServiceImpl;
+import top.klw8.alita.starter.service.common.ServiceContext;
 
 /**
+ * @author klw
  * @ClassName: AlitaUserServiceImpl
  * @Description: 用户服务
- * @author klw
  * @date 2018年11月9日 下午5:32:24
  */
 @Slf4j
-@Service(async=true)
-public class AlitaUserServiceImpl extends BaseServiceImpl<AlitaUserAccount> implements IAlitaUserService {
-    
-    private IAlitaUserDao dao;
-    
-    public AlitaUserServiceImpl(@Autowired IAlitaUserDao dao) {
-	super(dao);
-	this.dao = dao;
+@Service(async = true)
+public class AlitaUserServiceImpl extends MybatisBaseServiceImpl<IAlitaUserMapper, AlitaUserAccount> implements IAlitaUserService {
+
+	@Autowired
+    private IAlitaUserMapper dao;
+
+    public CompletableFuture<Integer> addRole2User(String userId, SystemRole role) {
+        return CompletableFuture.supplyAsync(() -> {
+            if (null == userId || null == role || null == role.getId()) {
+                return  0;
+            }
+            return dao.addRole2User(userId, role.getId());
+        }, ServiceContext.executor);
     }
-    
-    public Integer addRole2User(ObjectId userId, SystemRole role) {
-	if(null == userId || role == null || null == role.getId()) {
-	    return 0;
-	}
-	Update update = dao.createUpdateOperations();
-	update.addToSet("userRoles", role);
-	return asyncSendData(dao.updateByQuery(Query.query(Criteria.where(MongoDBConstant.ID_KEY).is(userId)), update));
+
+    public CompletableFuture<Integer> removeRoleFromUser(String userId, SystemRole role) {
+        return CompletableFuture.supplyAsync(() -> {
+            if (null == userId || null == role || null == role.getId()) {
+                return 0;
+            }
+            return dao.removeRoleFromUser(userId, role.getId());
+        }, ServiceContext.executor);
     }
-    
-    public Integer removeRoleFromUser(ObjectId userId, SystemRole role) {
-	if(null == userId || role == null || null == role.getId()) {
-	    return 0;
-	}
-	Update update = dao.createUpdateOperations();
-	update.pull("userRoles", role);
-	return asyncSendData(dao.updateByQuery(Query.query(Criteria.where(MongoDBConstant.ID_KEY).is(userId)), update));
-    }
-    
-    public Integer replaceRole2User(ObjectId userId, List<SystemRole> roleList) {
-	if(null == userId || CollectionUtils.isEmpty(roleList)) {
-	    return 0;
-	}
-	Document collectionDoc = roleList.get(0).getClass().getAnnotation(Document.class);
-	String collectionName = collectionDoc.collection();
-	List<org.bson.Document> docList = new ArrayList<>();
-	for(SystemRole role : roleList) {
-	    org.bson.Document auRefDoc = new org.bson.Document();
-	    auRefDoc.append("$ref", collectionName);
-	    auRefDoc.append("$id", role.getId());
-	    docList.add(auRefDoc);
-	}
-	Update update = dao.createUpdateOperations();
-	update.set("userRoles", docList);
-	return asyncSendData(dao.updateByQuery(Query.query(Criteria.where(MongoDBConstant.ID_KEY).is(userId)), update));
+
+    @Transactional(rollbackFor = Exception.class)
+    public CompletableFuture<Integer> replaceRole2User(String userId, List<SystemRole> roleList) {
+        return CompletableFuture.supplyAsync(() -> {
+            if (null == userId || CollectionUtils.isEmpty(roleList)) {
+                return 0;
+            }
+            dao.removeRolesFromUser(userId);
+            List<Map<String, String>> dataList = new ArrayList<>();
+            for (SystemRole role : roleList) {
+                Map<String, String> item = new HashMap<>(2);
+                item.put("userId", userId);
+                item.put("roleId", role.getId());
+                dataList.add(item);
+            }
+            return dao.batchInsertRoles4User(dataList);
+        }, ServiceContext.executor);
     }
 
 }

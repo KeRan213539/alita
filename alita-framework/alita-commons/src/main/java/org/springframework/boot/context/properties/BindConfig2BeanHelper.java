@@ -15,7 +15,7 @@ public class BindConfig2BeanHelper {
     private ConfigurationPropertiesBinder binder = null;
     
     public BindConfig2BeanHelper(ApplicationContext applicationContext) {
-	binder = new ConfigurationPropertiesBinder(applicationContext, "configurationPropertiesValidator");
+	    binder = new ConfigurationPropertiesBinder(applicationContext, "configurationPropertiesValidator");
     }
 
     public void bind(Bindable<?> target) {

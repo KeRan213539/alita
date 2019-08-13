@@ -1,12 +1,11 @@
 package top.klw8.alita.service.api.authority;
 
 import java.util.List;
-
-import org.bson.types.ObjectId;
+import java.util.concurrent.CompletableFuture;
 
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
-import top.klw8.alita.service.base.api.IBaseService;
+import top.klw8.alita.service.api.IMybatisBaseService;
 
 /**
  * @ClassName: ISystemAuthoritysCatlogService
@@ -14,7 +13,7 @@ import top.klw8.alita.service.base.api.IBaseService;
  * @author klw
  * @date 2018年11月28日 下午3:48:33
  */
-public interface ISystemAuthoritysCatlogService extends IBaseService<SystemAuthoritysCatlog> {
+public interface ISystemAuthoritysCatlogService extends IMybatisBaseService<SystemAuthoritysCatlog> {
     /**
      * @Title: addAuthority2Catlog
      * @author klw
@@ -23,7 +22,7 @@ public interface ISystemAuthoritysCatlogService extends IBaseService<SystemAutho
      * @param au
      * @return
      */
-    Integer addAuthority2Catlog(ObjectId catlogId, SystemAuthoritys au);
+    CompletableFuture<Integer> addAuthority2Catlog(String catlogId, SystemAuthoritys au);
     
     /**
      * @Title: removeAuthorityFromCatlog
@@ -33,7 +32,7 @@ public interface ISystemAuthoritysCatlogService extends IBaseService<SystemAutho
      * @param au
      * @return
      */
-    Integer removeAuthorityFromCatlog(ObjectId catlogId, SystemAuthoritys au);
+    CompletableFuture<Integer> removeAuthorityFromCatlog(String catlogId, SystemAuthoritys au);
     
     /**
      * @Title: replaceAuthority2Catlog
@@ -43,7 +42,7 @@ public interface ISystemAuthoritysCatlogService extends IBaseService<SystemAutho
      * @param auList
      * @return
      */
-    Integer replaceAuthority2Catlog(ObjectId catlogId, List<SystemAuthoritys> auList);
+    CompletableFuture<Integer> replaceAuthority2Catlog(String catlogId, List<SystemAuthoritys> auList);
     
     /**
      * @Title: findByCatlogName
@@ -52,5 +51,5 @@ public interface ISystemAuthoritysCatlogService extends IBaseService<SystemAutho
      * @param catlogName
      * @return
      */
-    SystemAuthoritysCatlog findByCatlogName(String catlogName);
+    CompletableFuture<SystemAuthoritysCatlog> findByCatlogName(String catlogName);
 }

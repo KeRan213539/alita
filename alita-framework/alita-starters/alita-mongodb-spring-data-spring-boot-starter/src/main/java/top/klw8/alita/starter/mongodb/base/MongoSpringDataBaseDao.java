@@ -35,16 +35,16 @@ import reactor.core.publisher.Mono;
 import top.klw8.alita.base.mongodb.MongoDBConstant;
 import top.klw8.alita.base.mongodb.annotations.NotPersistence;
 import top.klw8.alita.base.mongodb.annotations.QueryLikeField;
-import top.klw8.alita.entitys.base.BaseEntity;
-import top.klw8.alita.entitys.base.ITextIndexedCustomSupport;
-import top.klw8.alita.entitys.base.ITextIndexedSupport;
-import top.klw8.alita.service.base.beans.EntityByPage;
-import top.klw8.alita.service.base.beans.PageImpl;
-import top.klw8.alita.service.base.dao.IMongoBasePlusDao;
-import top.klw8.alita.service.base.dao.prarm.ForPageMode;
-import top.klw8.alita.service.base.dao.prarm.ForPageMode.ComparisonMode;
-import top.klw8.alita.service.base.dao.prarm.ForPageMode.Mode;
-import top.klw8.alita.service.common.DataSecurityCfg;
+import top.klw8.alita.service.base.mongo.beans.EntityByPage;
+import top.klw8.alita.service.base.mongo.beans.PageImpl;
+import top.klw8.alita.service.base.mongo.common.DataSecurityCfg;
+import top.klw8.alita.service.base.mongo.common.ITextIndexedCustomSupport;
+import top.klw8.alita.service.base.mongo.common.ITextIndexedSupport;
+import top.klw8.alita.service.base.mongo.common.MongoBaseEntity;
+import top.klw8.alita.service.base.mongo.dao.IMongoBasePlusDao;
+import top.klw8.alita.service.base.mongo.dao.prarm.ForPageMode;
+import top.klw8.alita.service.base.mongo.dao.prarm.ForPageMode.ComparisonMode;
+import top.klw8.alita.service.base.mongo.dao.prarm.ForPageMode.Mode;
 import top.klw8.alita.utils.AnalyzerUtil;
 
 /**
@@ -53,7 +53,7 @@ import top.klw8.alita.utils.AnalyzerUtil;
  * @Description: 基于spring-data-mongodb的BaseDao
  * @date 2018年12月21日 16:51:06
  */
-public class MongoSpringDataBaseDao<T extends BaseEntity> implements IMongoBasePlusDao<T> {
+public class MongoSpringDataBaseDao<T extends MongoBaseEntity> implements IMongoBasePlusDao<T> {
 
     private static Logger log = LoggerFactory.getLogger(MongoSpringDataBaseDao.class);
 
@@ -835,7 +835,7 @@ public class MongoSpringDataBaseDao<T extends BaseEntity> implements IMongoBaseP
     }
 
     /**
-     * @param List
+     * @param list
      * @Title: processNotPersistence4Save
      * @author klw
      * @Description: 新增保存的时候, 发现有 @NotPersistence 注解的字段设置为null
