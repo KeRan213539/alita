@@ -29,12 +29,26 @@
 			<groupId>top.klw8.alita</groupId>
 			<artifactId>alita-service-mongodb-starter</artifactId>
 		</dependency>
-        
+
         <dependency>
             <groupId>top.klw8.alita</groupId>
             <artifactId>alita-mongodb-spring-data-spring-boot-starter</artifactId>
         </dependency>
 
 	</dependencies>
+<!--	调试pringboot使用，在发布的时候请注释-->
+<!--	<build>-->
+<!--		<plugins>-->
+<!--			<plugin>-->
+<!--				<groupId>org.springframework.boot</groupId>-->
+<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--				<configuration>-->
+<!--					<jvmArguments>-->
+<!--						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005-->
+<!--					</jvmArguments>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
+<!--		</plugins>-->
+<!--	</build>-->
 
 </project>

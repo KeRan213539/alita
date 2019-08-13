@@ -4,9 +4,6 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.logging.LoggingSystem;
 
-import top.klw8.alita.BaseServiceApplication;
-
-
 
 /**
  * @ClassName: DemoServiceApplication
@@ -14,7 +11,6 @@ import top.klw8.alita.BaseServiceApplication;
  * @author klw
  * @date 2018年9月29日 上午11:43:34
  */
-
 public class DemoServiceApplication extends BaseServiceApplication {
 
     public static void main(String[] args) {
