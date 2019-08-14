@@ -1,4 +1,4 @@
-package top.klw8.alita.service.admin.mapper;
+package top.klw8.alita.service.authority.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Delete;

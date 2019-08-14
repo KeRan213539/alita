@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import top.klw8.alita.entitys.demo.PgTest;
 import top.klw8.alita.service.api.mybatis.IPgTestService;
-import top.klw8.alita.starter.web.common.CallBackMessage;
-import top.klw8.alita.starter.web.common.JsonResult;
+import top.klw8.alita.service.result.CallBackMessage;
+import top.klw8.alita.service.result.JsonResult;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;

@@ -1,11 +1,9 @@
-package top.klw8.alita.service.api.user;
+package top.klw8.alita.service.authority;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
+import com.baomidou.mybatisplus.extension.service.IService;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
-import top.klw8.alita.service.api.IMybatisBaseService;
 
 /**
  * @ClassName: IAlitaUserService
@@ -13,7 +11,7 @@ import top.klw8.alita.service.api.IMybatisBaseService;
  * @author klw
  * @date 2018年11月15日 下午4:15:57
  */
-public interface IAlitaUserService extends IMybatisBaseService<AlitaUserAccount> {
+public interface IAlitaUserService extends IService<AlitaUserAccount> {
 
     /**
      * @Title: addRole2User
@@ -23,7 +21,7 @@ public interface IAlitaUserService extends IMybatisBaseService<AlitaUserAccount>
      * @param role
      * @return
      */
-    CompletableFuture<Integer> addRole2User(String userId, SystemRole role);
+    int addRole2User(String userId, SystemRole role);
     
     /**
      * @Title: removeRoleFromUser
@@ -33,7 +31,7 @@ public interface IAlitaUserService extends IMybatisBaseService<AlitaUserAccount>
      * @param role
      * @return
      */
-    CompletableFuture<Integer> removeRoleFromUser(String userId, SystemRole role);
+    int removeRoleFromUser(String userId, SystemRole role);
     
     /**
      * @Title: replaceRole2User
@@ -43,6 +41,6 @@ public interface IAlitaUserService extends IMybatisBaseService<AlitaUserAccount>
      * @param roleList
      * @return
      */
-    CompletableFuture<Integer> replaceRole2User(String userId, List<SystemRole> roleList);
+    int replaceRole2User(String userId, List<SystemRole> roleList);
     
 }

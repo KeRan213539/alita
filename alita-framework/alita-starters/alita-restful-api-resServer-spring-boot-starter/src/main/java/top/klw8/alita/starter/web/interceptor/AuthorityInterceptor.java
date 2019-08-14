@@ -27,9 +27,9 @@ import reactor.core.publisher.Mono;
 import top.klw8.alita.starter.cfg.ResServerAuthPathCfgBean;
 import top.klw8.alita.starter.common.UserCacheHelper;
 import top.klw8.alita.starter.utils.TokenUtil;
-import top.klw8.alita.starter.web.common.JsonResult;
-import top.klw8.alita.starter.web.common.enums.ResultCodeEnum;
-import top.klw8.alita.starter.web.common.enums.ResultStatusEnum;
+import top.klw8.alita.service.result.JsonResult;
+import top.klw8.alita.service.result.code.ResultCodeEnum;
+import top.klw8.alita.service.result.code.ResultStatusEnum;
 
 /**
  * @ClassName: AuthorityInterceptor

@@ -1,4 +1,4 @@
-package top.klw8.alita.starter.web.common;
+package top.klw8.alita.service.result;
 
 public class CallBackMessage {
 

@@ -17,8 +17,8 @@ import top.klw8.alita.starter.web.base.vo.ComparativePagePrarmVo;
 import top.klw8.alita.starter.web.base.vo.IBaseCrudVo;
 import top.klw8.alita.starter.web.base.vo.ListPrarmVo;
 import top.klw8.alita.starter.web.base.vo.PagePrarmVo;
-import top.klw8.alita.starter.web.common.CallBackMessage;
-import top.klw8.alita.starter.web.common.JsonResult;
+import top.klw8.alita.service.result.CallBackMessage;
+import top.klw8.alita.service.result.JsonResult;
 
 import java.util.List;
 import java.util.concurrent.Future;

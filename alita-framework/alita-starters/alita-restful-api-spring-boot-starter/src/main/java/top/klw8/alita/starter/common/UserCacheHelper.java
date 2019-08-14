@@ -7,19 +7,20 @@ import static top.klw8.alita.starter.common.WebApiContext.USER_AUS_TIME_OUT_SECO
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.stereotype.Component;
 
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
-import top.klw8.alita.service.api.user.IAlitaUserService;
+import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.service.utils.EntityUtil;
 import top.klw8.alita.utils.redis.RedisTagEnum;
 import top.klw8.alita.utils.redis.RedisUtil;
@@ -30,11 +31,12 @@ import top.klw8.alita.utils.redis.RedisUtil;
  * @Description: 用户缓存帮助类
  * @date 2019年1月10日 下午4:46:26
  */
+@Slf4j
 @Component
 public class UserCacheHelper {
 
     @Reference(async = true)
-    private IAlitaUserService userService;
+    private IAlitaUserProvider userService;
 
     /**
      * @param user
@@ -81,13 +83,12 @@ public class UserCacheHelper {
             if (userService == null) {
                 return null;
             }
-            userService.getById(userId);
-            Future<AlitaUserAccount> userTask = RpcContext.getContext().getFuture();
+            CompletableFuture<AlitaUserAccount> userFuture = userService.findUserById(userId);
             AlitaUserAccount user = null;
             try {
-                user = userTask.get();
+                user = userFuture.get();
             } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
+                log.error("", e);
             }
             if (EntityUtil.isEntityEmpty(user)) {
                 return null;

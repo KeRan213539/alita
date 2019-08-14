@@ -1,11 +1,9 @@
-package top.klw8.alita.service.api.authority;
+package top.klw8.alita.service.authority;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
+import com.baomidou.mybatisplus.extension.service.IService;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemRole;
-import top.klw8.alita.service.api.IMybatisBaseService;
 
 /**
  * @ClassName: ISystemRoleService
@@ -13,7 +11,7 @@ import top.klw8.alita.service.api.IMybatisBaseService;
  * @author klw
  * @date 2018年11月28日 下午3:48:49
  */
-public interface ISystemRoleService extends IMybatisBaseService<SystemRole> {
+public interface ISystemRoleService extends IService<SystemRole> {
     
     /**
      * @Title: addAuthority2Role
@@ -23,7 +21,7 @@ public interface ISystemRoleService extends IMybatisBaseService<SystemRole> {
      * @param au
      * @return
      */
-    CompletableFuture<Integer> addAuthority2Role(String roleId, SystemAuthoritys au);
+    int addAuthority2Role(String roleId, SystemAuthoritys au);
     
     /**
      * @Title: removeAuthorityFromRole
@@ -33,7 +31,7 @@ public interface ISystemRoleService extends IMybatisBaseService<SystemRole> {
      * @param au
      * @return
      */
-    CompletableFuture<Integer> removeAuthorityFromRole(String roleId, SystemAuthoritys au);
+    int removeAuthorityFromRole(String roleId, SystemAuthoritys au);
     
     /**
      * @Title: updateAuthority2Role
@@ -43,6 +41,6 @@ public interface ISystemRoleService extends IMybatisBaseService<SystemRole> {
      * @param auList
      * @return
      */
-    CompletableFuture<Integer> replaceAuthority2Role(String roleId, List<SystemAuthoritys> auList);
+    int replaceAuthority2Role(String roleId, List<SystemAuthoritys> auList);
     
 }

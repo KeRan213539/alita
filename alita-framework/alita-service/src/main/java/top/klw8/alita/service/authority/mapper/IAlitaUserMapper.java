@@ -1,10 +1,9 @@
-package top.klw8.alita.service.admin.mapper;
+package top.klw8.alita.service.authority.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
-import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 
 import java.util.List;

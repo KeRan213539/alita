@@ -31,11 +31,6 @@
 			<groupId>top.klw8.alita</groupId>
 			<artifactId>alita-service-api</artifactId>
 		</dependency>
-		
-		<dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>bson</artifactId>
-        </dependency>
 
 		<dependency>
 			<groupId>org.apache.dubbo</groupId>

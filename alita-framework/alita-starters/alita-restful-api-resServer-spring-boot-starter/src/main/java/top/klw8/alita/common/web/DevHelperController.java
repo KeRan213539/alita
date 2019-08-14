@@ -43,7 +43,7 @@ import top.klw8.alita.service.utils.EntityUtil;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.common.UserCacheHelper;
 import top.klw8.alita.starter.web.base.WebapiBaseController;
-import top.klw8.alita.starter.web.common.JsonResult;
+import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.utils.UUIDUtil;
 
 /**

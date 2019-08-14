@@ -13,19 +13,19 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
+ * @author klw
  * @ClassName: BaseController
  * @Description: web api 用的 无操作BaseController
- * @author klw
  * @date 2018年10月26日 下午3:32:04
  */
 public class WebapiBaseController {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-	// 自动去除空格
-	binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+        // 自动去除空格
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.registerCustomEditor(Date.class, new MyCustomDateEditor());
         binder.registerCustomEditor(LocalDate.class, new CustomLocalDateEditor());
         binder.registerCustomEditor(LocalDateTime.class, new CustomLocalDateTimeEditor());
     }
-    
+
 }

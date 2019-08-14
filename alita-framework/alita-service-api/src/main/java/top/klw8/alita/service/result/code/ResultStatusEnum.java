@@ -1,4 +1,4 @@
-package top.klw8.alita.starter.web.common.enums;
+package top.klw8.alita.service.result.code;
 
 /**
  * @ClassName: ResultStatusEnum

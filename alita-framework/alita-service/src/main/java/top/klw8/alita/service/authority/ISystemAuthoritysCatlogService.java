@@ -1,11 +1,10 @@
-package top.klw8.alita.service.api.authority;
+package top.klw8.alita.service.authority;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
-import top.klw8.alita.service.api.IMybatisBaseService;
 
 /**
  * @ClassName: ISystemAuthoritysCatlogService
@@ -13,7 +12,7 @@ import top.klw8.alita.service.api.IMybatisBaseService;
  * @author klw
  * @date 2018年11月28日 下午3:48:33
  */
-public interface ISystemAuthoritysCatlogService extends IMybatisBaseService<SystemAuthoritysCatlog> {
+public interface ISystemAuthoritysCatlogService extends IService<SystemAuthoritysCatlog> {
     /**
      * @Title: addAuthority2Catlog
      * @author klw
@@ -22,7 +21,7 @@ public interface ISystemAuthoritysCatlogService extends IMybatisBaseService<Syst
      * @param au
      * @return
      */
-    CompletableFuture<Integer> addAuthority2Catlog(String catlogId, SystemAuthoritys au);
+    int addAuthority2Catlog(String catlogId, SystemAuthoritys au);
     
     /**
      * @Title: removeAuthorityFromCatlog
@@ -32,7 +31,7 @@ public interface ISystemAuthoritysCatlogService extends IMybatisBaseService<Syst
      * @param au
      * @return
      */
-    CompletableFuture<Integer> removeAuthorityFromCatlog(String catlogId, SystemAuthoritys au);
+    int removeAuthorityFromCatlog(String catlogId, SystemAuthoritys au);
     
     /**
      * @Title: replaceAuthority2Catlog
@@ -42,7 +41,7 @@ public interface ISystemAuthoritysCatlogService extends IMybatisBaseService<Syst
      * @param auList
      * @return
      */
-    CompletableFuture<Integer> replaceAuthority2Catlog(String catlogId, List<SystemAuthoritys> auList);
+    int replaceAuthority2Catlog(String catlogId, List<SystemAuthoritys> auList);
     
     /**
      * @Title: findByCatlogName
@@ -51,5 +50,5 @@ public interface ISystemAuthoritysCatlogService extends IMybatisBaseService<Syst
      * @param catlogName
      * @return
      */
-    CompletableFuture<SystemAuthoritysCatlog> findByCatlogName(String catlogName);
+    SystemAuthoritysCatlog findByCatlogName(String catlogName);
 }

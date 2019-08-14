@@ -5,9 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 
-import top.klw8.alita.starter.web.common.JsonResult;
-import top.klw8.alita.starter.web.common.enums.ResultCodeEnum;
-import top.klw8.alita.starter.web.common.enums.ResultStatusEnum;
+import top.klw8.alita.service.result.JsonResult;
+import top.klw8.alita.service.result.code.ResultCodeEnum;
+import top.klw8.alita.service.result.code.ResultStatusEnum;
 
 
 /**

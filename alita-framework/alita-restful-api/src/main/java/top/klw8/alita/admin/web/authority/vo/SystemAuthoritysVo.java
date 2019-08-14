@@ -44,5 +44,4 @@ public class SystemAuthoritysVo {
     
     @ApiModelProperty(value = "备注")
     private String remark;
-    
 }

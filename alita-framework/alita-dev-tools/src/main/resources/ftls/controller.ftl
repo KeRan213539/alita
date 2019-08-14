@@ -8,7 +8,7 @@ import ForPageMode.FieldDataType;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.web.base.WebapiCrudBaseController;
 import top.klw8.alita.starter.web.base.enums.SearchTypeEnum;
-import top.klw8.alita.starter.web.common.JsonResult;
+import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.validator.UseValidator;
 import IBaseService;
 import io.swagger.annotations.ApiOperation;

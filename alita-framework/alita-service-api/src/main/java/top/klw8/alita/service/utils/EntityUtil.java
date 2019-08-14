@@ -1,5 +1,6 @@
 package top.klw8.alita.service.utils;
 
+import org.apache.commons.lang3.StringUtils;
 import top.klw8.alita.entitys.base.BaseEntity;
 
 import java.lang.reflect.Field;
@@ -23,7 +24,7 @@ public class EntityUtil {
      * @return
      */
     public static boolean isEntityEmpty(BaseEntity baseBean) {
-	return baseBean == null ? true : null == baseBean.getId();
+	return baseBean == null ? true : StringUtils.isBlank(baseBean.getId());
     }
     
     /**

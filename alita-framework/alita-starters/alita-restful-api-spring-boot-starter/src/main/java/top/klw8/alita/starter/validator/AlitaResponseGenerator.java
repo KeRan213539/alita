@@ -1,7 +1,7 @@
 package top.klw8.alita.starter.validator;
 
 import reactor.core.publisher.Mono;
-import top.klw8.alita.starter.web.common.JsonResult;
+import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.validator.IResponseMsgGenerator;
 import top.klw8.alita.validator.ValidatorException;
 
