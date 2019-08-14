@@ -1,9 +1,10 @@
 package top.klw8.alita.service.authority;
 
-import java.util.List;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
+
+import java.util.List;
 
 /**
  * @ClassName: IAlitaUserService
@@ -42,5 +43,5 @@ public interface IAlitaUserService extends IService<AlitaUserAccount> {
      * @return
      */
     int replaceRole2User(String userId, List<SystemRole> roleList);
-    
+
 }

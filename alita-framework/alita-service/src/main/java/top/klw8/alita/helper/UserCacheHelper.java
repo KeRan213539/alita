@@ -1,4 +1,4 @@
-package top.klw8.alita.starter.common;
+package top.klw8.alita.helper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -8,7 +8,6 @@ import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
-import top.klw8.alita.helper.EnvHelper;
 import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.service.utils.EntityUtil;
 import top.klw8.alita.utils.redis.RedisTagEnum;
@@ -20,13 +19,14 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import static top.klw8.alita.starter.common.WebApiContext.*;
+import static top.klw8.alita.helper.ServiceApiContext.*;
 
 /**
- * @author klw
- * @ClassName: UserCacheHelper
- * @Description: 用户缓存帮助类
- * @date 2019年1月10日 下午4:46:26
+ * @author freedom
+ * @version 1.0
+ * @ClassName UserCacheHelper
+ * @Description 用户缓存帮助类
+ * @date 2019-08-14 16:51
  */
 @Slf4j
 @Component
@@ -44,7 +44,7 @@ public class UserCacheHelper {
     public void putUserInfo2Cache(AlitaUserAccount user) {
         //把权限放入缓存
         Map<String, String> authorityMap = new HashMap<>();
-        List<SystemRole> userRoles = user.getUserRoles();
+        List<SystemRole>    userRoles    = user.getUserRoles();
         if (!CollectionUtils.isEmpty(userRoles)) {
             for (SystemRole userRole : userRoles) {
                 List<SystemAuthoritys> ruthorityList = userRole.getAuthorityList();
@@ -81,7 +81,7 @@ public class UserCacheHelper {
                 return null;
             }
             CompletableFuture<AlitaUserAccount> userFuture = userService.findUserById(userId);
-            AlitaUserAccount user = null;
+            AlitaUserAccount                    user       = null;
             try {
                 user = userFuture.get();
             } catch (InterruptedException | ExecutionException e) {

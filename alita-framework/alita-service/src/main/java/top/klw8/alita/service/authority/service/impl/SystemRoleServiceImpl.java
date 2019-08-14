@@ -1,19 +1,19 @@
 package top.klw8.alita.service.authority.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import top.klw8.alita.entitys.authority.SystemAuthoritys;
+import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.service.authority.ISystemRoleService;
+import top.klw8.alita.service.authority.mapper.ISystemRoleMapper;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
-import top.klw8.alita.entitys.authority.SystemRole;
-import top.klw8.alita.service.authority.mapper.ISystemRoleMapper;
-import top.klw8.alita.service.authority.ISystemRoleService;
 
 /**
  * @author klw
@@ -28,6 +28,7 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, System
     @Autowired
     private ISystemRoleMapper dao;
 
+    @Override
     public int addAuthority2Role(String roleId, SystemAuthoritys au) {
         if (null == roleId || null == au || null == au.getId()) {
             return 0;
@@ -35,6 +36,7 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, System
         return dao.addAuthority2Role(au.getId(), roleId);
     }
 
+    @Override
     public int removeAuthorityFromRole(String roleId, SystemAuthoritys au) {
         if (null == roleId || null == au || null == au.getId()) {
             return 0;
@@ -42,6 +44,7 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, System
         return dao.removeAuthorityFromRole(au.getId(), roleId);
     }
 
+    @Override
     public int replaceAuthority2Role(String roleId, List<SystemAuthoritys> auList) {
         if (null == roleId || CollectionUtils.isEmpty(auList)) {
             return 0;

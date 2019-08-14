@@ -1,6 +1,33 @@
 package top.klw8.alita.common.web;
 
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.reactive.result.method.RequestMappingInfo;
+import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping;
+import reactor.core.publisher.Mono;
+import top.klw8.alita.base.springctx.SpringApplicationContextUtil;
+import top.klw8.alita.entitys.authority.SystemAuthoritys;
+import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
+import top.klw8.alita.entitys.user.AlitaUserAccount;
+import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
+import top.klw8.alita.service.result.JsonResult;
+import top.klw8.alita.starter.annotations.AuthorityRegister;
+import top.klw8.alita.starter.common.UserCacheHelper;
+import top.klw8.alita.starter.web.base.WebapiBaseController;
+import top.klw8.alita.utils.UUIDUtil;
+
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -9,42 +36,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.reactive.result.method.RequestMappingInfo;
-import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import reactor.core.publisher.Mono;
-import top.klw8.alita.base.springctx.SpringApplicationContextUtil;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
-import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
-import top.klw8.alita.entitys.authority.SystemRole;
-import top.klw8.alita.entitys.user.AlitaUserAccount;
-import top.klw8.alita.service.api.authority.ISystemAuthoritysCatlogService;
-import top.klw8.alita.service.api.authority.ISystemAuthoritysService;
-import top.klw8.alita.service.api.authority.ISystemRoleService;
-import top.klw8.alita.service.api.user.IAlitaUserService;
-import top.klw8.alita.service.utils.EntityUtil;
-import top.klw8.alita.starter.annotations.AuthorityRegister;
-import top.klw8.alita.starter.common.UserCacheHelper;
-import top.klw8.alita.starter.web.base.WebapiBaseController;
-import top.klw8.alita.service.result.JsonResult;
-import top.klw8.alita.utils.UUIDUtil;
 
 /**
  * @author klw
@@ -59,16 +50,7 @@ import top.klw8.alita.utils.UUIDUtil;
 public class DevHelperController {
 
     @Reference(async = true)
-    private IAlitaUserService userService;
-
-    @Reference(async = true)
-    private ISystemAuthoritysService auService;
-
-    @Reference(async = true)
-    private ISystemAuthoritysCatlogService catlogService;
-
-    @Reference(async = true)
-    private ISystemRoleService roleService;
+    private IAuthorityAdminProvider authorityAdminProvider;
 
     @Autowired
     private UserCacheHelper userCacheHelper;
@@ -235,18 +217,8 @@ public class DevHelperController {
 
     @ApiOperation(value = "刷新缓存中的管理员权限", notes = "刷新缓存中的管理员权限", httpMethod = "POST", produces = "application/json")
     @PostMapping("/refreshAdminAuthoritys")
-    public Mono<JsonResult> refreshAdminAuthoritys() throws Exception {
-        //查询管理员用户,把权限查出来
-        // TODO 下面这里需要把角色和权限都关联查询出来
-        CompletableFuture<AlitaUserAccount> superAdminTask = userService.getById("5c85fc8b645d423b3c071ab7");
-        return Mono.just(superAdminTask.get()).map(superAdmin -> {
-            if (EntityUtil.isEntityEmpty(superAdmin)) {
-                return JsonResult.sendFailedResult("管理员用户不存在", null);
-            }
-            userCacheHelper.putUserInfo2Cache(superAdmin);
-            return JsonResult.sendSuccessfulResult("刷新完成", null);
-        });
-
+    public Mono<JsonResult> refreshAdminAuthoritys() {
+        return Mono.fromFuture(authorityAdminProvider.refreshAdminAuthoritys("5c85fc8b645d423b3c071ab7"));
     }
 
 }

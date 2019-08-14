@@ -1,21 +1,20 @@
 package top.klw8.alita.service.authority.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
-import top.klw8.alita.service.authority.mapper.IAlitaUserMapper;
 import top.klw8.alita.service.authority.IAlitaUserService;
+import top.klw8.alita.service.authority.mapper.IAlitaUserMapper;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author klw
@@ -30,6 +29,7 @@ public class AlitaUserServiceImpl extends ServiceImpl<IAlitaUserMapper, AlitaUse
     @Autowired
     private IAlitaUserMapper dao;
 
+    @Override
     public int addRole2User(String userId, SystemRole role) {
         if (null == userId || null == role || null == role.getId()) {
             return 0;
@@ -37,6 +37,7 @@ public class AlitaUserServiceImpl extends ServiceImpl<IAlitaUserMapper, AlitaUse
         return dao.addRole2User(userId, role.getId());
     }
 
+    @Override
     public int removeRoleFromUser(String userId, SystemRole role) {
         if (null == userId || null == role || null == role.getId()) {
             return 0;
@@ -44,6 +45,7 @@ public class AlitaUserServiceImpl extends ServiceImpl<IAlitaUserMapper, AlitaUse
         return dao.removeRoleFromUser(userId, role.getId());
     }
 
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public int replaceRole2User(String userId, List<SystemRole> roleList) {
         if (null == userId || CollectionUtils.isEmpty(roleList)) {

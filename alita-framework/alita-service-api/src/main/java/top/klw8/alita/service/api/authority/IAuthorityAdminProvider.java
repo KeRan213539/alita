@@ -62,4 +62,14 @@ public interface IAuthorityAdminProvider {
      */
     CompletableFuture<JsonResult> addUserRole(String userId, String roleId);
 
+    /**
+     *
+     * @Author zhanglei
+     * @Description 刷新缓存中的管理员权限
+     * @Date 15:42 2019-08-14
+     * @param userId
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     **/
+    CompletableFuture<JsonResult> refreshAdminAuthoritys(String userId);
+
 }

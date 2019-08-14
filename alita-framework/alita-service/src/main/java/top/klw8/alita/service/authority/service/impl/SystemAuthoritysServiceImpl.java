@@ -19,6 +19,7 @@ import top.klw8.alita.service.authority.ISystemAuthoritysService;
 @Service
 public class SystemAuthoritysServiceImpl extends ServiceImpl<ISystemAuthoritysMapper, SystemAuthoritys> implements ISystemAuthoritysService {
 
+    @Override
     public SystemAuthoritys findByAuAction(String action) {
         return this.getOne(this.query().eq("authority_action", action));
     }

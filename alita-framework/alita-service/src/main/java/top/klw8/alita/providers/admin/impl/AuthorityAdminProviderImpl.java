@@ -8,6 +8,7 @@ import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
+import top.klw8.alita.helper.UserCacheHelper;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 import top.klw8.alita.service.authority.IAlitaUserService;
 import top.klw8.alita.service.authority.ISystemAuthoritysCatlogService;
@@ -42,6 +43,9 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
 
     @Autowired
     private IAlitaUserService userService;
+
+    @Autowired
+    private UserCacheHelper userCacheHelper;
 
     @Override
     public CompletableFuture<JsonResult> addAuthority(SystemAuthoritys auvo) {
@@ -127,6 +131,20 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             } else {
                 return JsonResult.sendFailedResult("添加失败", null);
             }
+        }, ServiceContext.executor);
+    }
+
+    @Override
+    public CompletableFuture<JsonResult> refreshAdminAuthoritys(String userId) {
+        //查询管理员用户,把权限查出来
+        // TODO 下面这里需要把角色和权限都关联查询出来
+        return CompletableFuture.supplyAsync(() -> {
+            AlitaUserAccount sysUser = userService.getById(userId);
+            if (EntityUtil.isEntityEmpty(sysUser)) {
+                return JsonResult.sendFailedResult("管理会员用户不存在", null);
+            }
+            userCacheHelper.putUserInfo2Cache(sysUser);
+            return JsonResult.sendSuccessfulResult("刷新完成", null);
         }, ServiceContext.executor);
     }
 }
