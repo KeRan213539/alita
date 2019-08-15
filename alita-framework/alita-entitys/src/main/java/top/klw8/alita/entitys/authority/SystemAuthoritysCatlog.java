@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 import top.klw8.alita.entitys.base.BaseEntity;
 
+import java.util.List;
+
 /**
  * @ClassName: SystemAuthoritysCatlog
  * @Description: 权限的目录
@@ -43,5 +45,12 @@ public class SystemAuthoritysCatlog extends BaseEntity {
      */
     @TableField("remark")
     private String remark;
+
+    /**
+     * @author klw
+     * @Fields authorityList : 目录下的权限(冗余数据)
+     */
+    @TableField(exist=false)
+    private List<SystemAuthoritys> authorityList;
     
 }
