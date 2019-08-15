@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import top.klw8.alita.entitys.authority.SystemAuthoritys;
+import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 
 import java.util.List;
@@ -75,12 +77,23 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
     /**
      *
      * @Author zhanglei
-     * @Description 查询用户的所有权限编号
+     * @Description 查询用户的所有角色
      * @Date 15:27 2019-08-15
      * @param: userId
      * @return java.util.List<java.lang.String>
      **/
-    @Select("SELECT role_id from sys_user_has_role WHERE user_id = #{userId}")
-    List<String> selectUserAllRoles(String userId);
+    @Select("select * from sys_role where id in (SELECT role_id from sys_user_has_role WHERE user_id = #{userId})")
+    List<SystemRole> selectUserAllRoles(String userId);
+
+    /**
+     *
+     * @Author zhanglei
+     * @Description 查询角色拥有的权限信息
+     * @Date 16:07 2019-08-15
+     * @param: roleId
+     * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
+     **/
+    @Select("select * from sys_authoritys where id in (select authoritys_id from sys_role_has_authoritys where role_id = #{roleId})")
+    List<SystemAuthoritys> selectRoleAuthoritys(String roleId);
 
 }

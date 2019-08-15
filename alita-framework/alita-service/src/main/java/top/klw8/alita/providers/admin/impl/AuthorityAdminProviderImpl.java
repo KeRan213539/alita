@@ -1,5 +1,7 @@
 package top.klw8.alita.providers.admin.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
@@ -44,9 +46,6 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
 
     @Autowired
     private IAlitaUserService userService;
-
-    @Autowired
-    private ISystemRoleService systemRoleService;
 
     @Autowired
     private UserCacheHelper userCacheHelper;
@@ -146,7 +145,14 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             // 根据用户ID查询到用户信息
             AlitaUserAccount sysUser = userService.getById(userId);
             // 根据用户ID查询用户角色
-            List<String> userRoles = userService.getUserAllRoles(userId);
+            List<SystemRole> userRoles = userService.getUserAllRoles(userId);
+            // 根据用户角色查询角色对应的权限并更新到SystemRole实体中
+            for (SystemRole role : userRoles) {
+                List<SystemAuthoritys> authoritys = userService.getRoleAllAuthoritys(role.getId());
+                role.setAuthorityList(authoritys);
+            }
+            // 更新用户角色权限到用户实体中
+            sysUser.setUserRoles(userRoles);
             // 根据查询到的
             if (EntityUtil.isEntityEmpty(sysUser)) {
                 return JsonResult.sendFailedResult("管理会员用户不存在", null);

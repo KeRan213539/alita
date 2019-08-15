@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.service.authority.IAlitaUserService;
@@ -63,8 +64,13 @@ public class AlitaUserServiceImpl extends ServiceImpl<IAlitaUserMapper, AlitaUse
     }
 
     @Override
-    public List<String> getUserAllRoles(String userId) {
+    public List<SystemRole> getUserAllRoles(String userId) {
         return this.getBaseMapper().selectUserAllRoles(userId);
+    }
+
+    @Override
+    public List<SystemAuthoritys> getRoleAllAuthoritys(String roleId) {
+        return this.getBaseMapper().selectRoleAuthoritys(roleId);
     }
 
 }
