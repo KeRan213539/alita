@@ -54,7 +54,7 @@ import lombok.extern.slf4j.Slf4j;
 import top.klw8.alita.authorization.cfg.beans.ClientItemBean;
 import top.klw8.alita.authorization.cfg.beans.OAuth2ClientBean;
 import top.klw8.alita.authorization.oauth2.provider.SMSCodeLoginTokenGranter;
-import top.klw8.alita.service.api.user.IAlitaUserService;
+import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.starter.common.UserCacheHelper;
 
 
@@ -77,7 +77,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     private UserDetailsService userDetailsService;
     
     @Reference(async=true)
-    private IAlitaUserService userService;
+    private IAlitaUserProvider userService;
     
     @Autowired
     private Environment env;

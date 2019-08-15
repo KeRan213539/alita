@@ -1,6 +1,6 @@
 package top.klw8.alita.admin.web.authority.vo;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import lombok.Data;
 import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
@@ -16,12 +16,12 @@ public class AddRoleAuRequest {
 
     @Required(validatFailMessage = "角色ID不能为空")
     @NotEmpty(validatFailMessage = "角色ID不能为空")
-    @ApiModelProperty(value = "角色ID", required=true)
+    @ApiParam(value = "角色ID", required=true)
     private String roleId;
     
     @Required(validatFailMessage = "权限ID不能为空")
     @NotEmpty(validatFailMessage = "权限ID不能为空")
-    @ApiModelProperty(value = "权限ID", required=true)
+    @ApiParam(value = "权限ID", required=true)
     private String auId;
     
 }

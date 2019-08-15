@@ -6,25 +6,24 @@ import org.springframework.security.oauth2.common.exceptions.InvalidTokenExcepti
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 
 import top.klw8.alita.service.result.JsonResult;
-import top.klw8.alita.service.result.code.ResultCodeEnum;
-import top.klw8.alita.service.result.code.ResultStatusEnum;
+import top.klw8.alita.service.result.code.CommonResultCodeEnum;
 
 
 /**
+ * @author klw
  * @ClassName: OAuth2ResponseExceptionTranslator
  * @Description: token返回消息转换器
- * @author klw
  * @date 2018年12月7日 下午2:34:34
  */
 public class OAuth2ResponseExceptionTranslator implements WebResponseExceptionTranslator<JsonResult> {
 
     @Override
     public ResponseEntity<JsonResult> translate(Exception e) {
-	Throwable throwable = e.getCause();
-	if (throwable instanceof InvalidTokenException) {
-	    return new ResponseEntity<JsonResult>(JsonResult.sendResult(ResultStatusEnum.FAILED, ResultCodeEnum._250, "token 失效", null), HttpStatus.UNAUTHORIZED);
-	}
-	return new ResponseEntity<JsonResult>(JsonResult.sendResult(ResultStatusEnum.FAILED, ResultCodeEnum._500, e.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
+        Throwable throwable = e.getCause();
+        if (throwable instanceof InvalidTokenException) {
+            return new ResponseEntity<>(JsonResult.sendFailedResult(CommonResultCodeEnum.TOKEN_ERR), HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(JsonResult.sendFailedResult(CommonResultCodeEnum.ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    
+
 }

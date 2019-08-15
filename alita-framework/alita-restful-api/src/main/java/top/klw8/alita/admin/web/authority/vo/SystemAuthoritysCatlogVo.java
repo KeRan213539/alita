@@ -1,6 +1,6 @@
 package top.klw8.alita.admin.web.authority.vo;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import top.klw8.alita.validator.annotations.NotEmpty;
@@ -18,14 +18,14 @@ public class SystemAuthoritysCatlogVo {
     
     @Required(validatFailMessage = "目录名称不能为空")
     @NotEmpty(validatFailMessage = "目录名称不能为空")
-    @ApiModelProperty(value = "目录名称", required=true)
+    @ApiParam(value = "目录名称", required=true)
     private String catlogName;
     
     @Required(validatFailMessage = "显示顺序不能为空")
-    @ApiModelProperty(value = "显示顺序", required=true)
+    @ApiParam(value = "显示顺序", required=true)
     private Integer showIndex;
     
-    @ApiModelProperty(value = "备注")
+    @ApiParam(value = "备注")
     private String remark;
 
 }

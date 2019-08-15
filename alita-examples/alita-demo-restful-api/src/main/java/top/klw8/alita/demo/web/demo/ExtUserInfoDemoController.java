@@ -32,7 +32,6 @@ import top.klw8.alita.service.base.mongo.dao.prarm.ForPageMode.FieldDataType;
 import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.web.base.enums.SearchTypeEnum;
-import top.klw8.alita.service.result.CallBackMessage;
 import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.validator.UseValidator;
 

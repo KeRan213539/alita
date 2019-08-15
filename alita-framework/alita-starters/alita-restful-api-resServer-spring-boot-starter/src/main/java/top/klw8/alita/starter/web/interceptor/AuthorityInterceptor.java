@@ -24,66 +24,65 @@ import org.springframework.web.server.WebFilterChain;
 import com.alibaba.fastjson.JSON;
 
 import reactor.core.publisher.Mono;
+import top.klw8.alita.service.result.code.CommonResultCodeEnum;
 import top.klw8.alita.starter.cfg.ResServerAuthPathCfgBean;
 import top.klw8.alita.starter.common.UserCacheHelper;
 import top.klw8.alita.starter.utils.TokenUtil;
 import top.klw8.alita.service.result.JsonResult;
-import top.klw8.alita.service.result.code.ResultCodeEnum;
-import top.klw8.alita.service.result.code.ResultStatusEnum;
 
 /**
+ * @author klw
  * @ClassName: AuthorityInterceptor
  * @Description: 权限拦截器
- * @author klw
  * @date 2018年12月6日 下午2:48:28
  */
 @Component
 public class AuthorityInterceptor implements WebFilter {
-    
+
     @Autowired
     private UserCacheHelper userCacheHelper;
-    
+
     @Resource
     private ResServerAuthPathCfgBean cfgBean;
-    
-    private AntPathMatcher pathMatcher = new AntPathMatcher();  
-    
+
+    private AntPathMatcher pathMatcher = new AntPathMatcher();
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-	
-	ServerHttpRequest request = exchange.getRequest();
+
+        ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
         String reqPath = request.getURI().getPath();
-        
+
         // 判断请求的路径是否需要验证权限
-        for(String authPath : cfgBean.getAuthPath()) {
-            if(pathMatcher.match(authPath, reqPath)) {
-        	
-        	List<String> tokenList = request.getHeaders().get("Authorization");
-        	if(tokenList == null || tokenList.isEmpty()) {
-        	    return sendJsonStr(response, JSON.toJSONString(JsonResult.sendResult(ResultStatusEnum.FAILED, ResultCodeEnum._250, "需要token", null, false)));
-        	}
-        	String jwtToken = tokenList.get(0);
-        	String userId = TokenUtil.getUserId(jwtToken);
-        	if(userId == null) {
-        	    return sendJsonStr(response, JSON.toJSONString(JsonResult.sendResult(ResultStatusEnum.FAILED, ResultCodeEnum._250, "token不正确", null, false)));
-        	}
-        	Map<String, String> authorityMap = userCacheHelper.getUserAuthority(userId);
-        	if(authorityMap == null) {
-        	    return sendJsonStr(response, JSON.toJSONString(JsonResult.sendResult(ResultStatusEnum.FAILED, ResultCodeEnum._250, "登录超时", null, false)));
-        	}
-        	if (StringUtils.isEmpty(authorityMap.get(reqPath))) {
-        	    // 没有权限
-        	    return sendJsonStr(response, JSON.toJSONString(JsonResult.sendResult(ResultStatusEnum.FAILED, ResultCodeEnum._403, "没有权限", null, false)));
-        	}
-        	break;
+        for (String authPath : cfgBean.getAuthPath()) {
+            if (pathMatcher.match(authPath, reqPath)) {
+
+                List<String> tokenList = request.getHeaders().get("Authorization");
+                if (tokenList == null || tokenList.isEmpty()) {
+                    return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.NO_TOKEN)));
+                }
+                String jwtToken = tokenList.get(0);
+                String userId = TokenUtil.getUserId(jwtToken);
+                if (userId == null) {
+                    return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.TOKEN_ERR)));
+                }
+                Map<String, String> authorityMap = userCacheHelper.getUserAuthority(userId);
+                if (authorityMap == null) {
+                    return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.LOGIN_TIMEOUT)));
+                }
+                if (StringUtils.isEmpty(authorityMap.get(reqPath))) {
+                    // 没有权限
+                    return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.NO_PRIVILEGES)));
+                }
+                break;
             }
         }
         //继续执行下一个拦截器
         return chain.filter(exchange);
-	
+
     }
-        
+
 //    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 //	Long userId = TokenUtil.getUserId();
 //	
@@ -121,16 +120,16 @@ public class AuthorityInterceptor implements WebFilter {
 //	
 //	return true;
 //    }
-    
-    private Mono<Void> sendJsonStr(ServerHttpResponse response, String str){
-	response.setStatusCode(HttpStatus.BAD_REQUEST);
-	response.getHeaders().setContentType(MediaType.APPLICATION_JSON_UTF8);
-	response.getHeaders().set("Cache-Control", "no-cache");
-	DataBufferFactory dataBufferFactory = response.bufferFactory();
-	DataBuffer buffer = dataBufferFactory.wrap(str.getBytes(
-		Charset.defaultCharset()));
-	return response.writeWith(Mono.just(buffer))
-		.doOnError( error -> DataBufferUtils.release(buffer));
+
+    private Mono<Void> sendJsonStr(ServerHttpResponse response, String str) {
+        response.setStatusCode(HttpStatus.BAD_REQUEST);
+        response.getHeaders().setContentType(MediaType.APPLICATION_JSON_UTF8);
+        response.getHeaders().set("Cache-Control", "no-cache");
+        DataBufferFactory dataBufferFactory = response.bufferFactory();
+        DataBuffer buffer = dataBufferFactory.wrap(str.getBytes(
+                Charset.defaultCharset()));
+        return response.writeWith(Mono.just(buffer))
+                .doOnError(error -> DataBufferUtils.release(buffer));
     }
-    
+
 }

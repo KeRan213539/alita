@@ -22,7 +22,7 @@ public interface IAuthorityAdminProvider {
      * @param: au
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> addAuthority(SystemAuthoritys au);
+    CompletableFuture<JsonResult> addAuthority(String catlogId, SystemAuthoritys au);
 
     /**
      * @author klw(213539@qq.com)
@@ -65,7 +65,7 @@ public interface IAuthorityAdminProvider {
     /**
      *
      * @Author zhanglei
-     * @Description 刷新缓存中的管理员权限
+     * @Description 刷新缓存中的权限
      * @Date 15:42 2019-08-14
      * @param userId
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>

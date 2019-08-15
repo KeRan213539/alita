@@ -1,7 +1,7 @@
 package top.klw8.alita.starter.web.base.vo;
 
 
-import top.klw8.alita.entitys.base.BaseEntity;
+import top.klw8.alita.service.base.mongo.common.MongoBaseEntity;
 
 /**
  * @ClassName: IBaseCrudVo
@@ -9,7 +9,7 @@ import top.klw8.alita.entitys.base.BaseEntity;
  * @author klw
  * @date 2019年1月25日 下午1:34:52
  */
-public interface IBaseCrudVo<E extends BaseEntity> extends java.io.Serializable {
+public interface IBaseCrudVo<E extends MongoBaseEntity> extends java.io.Serializable {
 
     public E buildEntity();
     

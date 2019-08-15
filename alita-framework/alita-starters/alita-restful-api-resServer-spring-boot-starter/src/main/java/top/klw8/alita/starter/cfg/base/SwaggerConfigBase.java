@@ -44,8 +44,8 @@ public class SwaggerConfigBase {
 
     protected ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("后台管理API").description("&nbsp;")
-                // .license("Apache 2.0")
-                // .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
+                 .license("Apache 2.0")
+                 .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
                 .termsOfServiceUrl("").version(VERSION)
                 .contact(new Contact("klw", "", "213539@qq.com")).build();
     }

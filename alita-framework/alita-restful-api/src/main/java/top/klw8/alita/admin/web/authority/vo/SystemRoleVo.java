@@ -1,7 +1,7 @@
 package top.klw8.alita.admin.web.authority.vo;
 
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import top.klw8.alita.validator.annotations.NotEmpty;
@@ -19,10 +19,10 @@ public class SystemRoleVo {
 
     @Required(validatFailMessage = "角色名称不能为空")
     @NotEmpty(validatFailMessage = "角色名称不能为空")
-    @ApiModelProperty(value = "角色名称", required=true)
+    @ApiParam(value = "角色名称", required=true)
     private String roleName;
     
-    @ApiModelProperty(value = "备注")
+    @ApiParam(value = "备注")
     private String remark;
     
 }

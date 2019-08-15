@@ -18,39 +18,37 @@ import com.alibaba.fastjson.JSON;
 
 import reactor.core.publisher.Mono;
 import top.klw8.alita.service.result.JsonResult;
-import top.klw8.alita.service.result.code.ResultCodeEnum;
-import top.klw8.alita.service.result.code.ResultStatusEnum;
+import top.klw8.alita.service.result.code.CommonResultCodeEnum;
 
 
 /**
+ * @author klw
  * @ClassName: SecurityAuthenticationEntryPoint
  * @Description: 缺少 token 的异常返回消息转换器
- * @author klw
  * @date 2018年12月7日 下午2:46:55
  */
 public class SecurityAuthenticationEntryPoint implements ServerAuthenticationEntryPoint, ServerAccessDeniedHandler {
 
     @Override
     public Mono<Void> commence(ServerWebExchange exchange,
-	    AuthenticationException authException) {
-	return sendJsonStr(exchange.getResponse(), JSON.toJSONString(JsonResult.sendResult(ResultStatusEnum.FAILED, ResultCodeEnum._250, "缺少token", null, false)));
+                               AuthenticationException authException) {
+        return sendJsonStr(exchange.getResponse(), JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.NO_TOKEN)));
     }
 
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, AccessDeniedException denied) {
-	return sendJsonStr(exchange.getResponse(), JSON.toJSONString(JsonResult.sendResult(ResultStatusEnum.FAILED, ResultCodeEnum._403, "访问被拒绝", null, false)));
-	
+        return sendJsonStr(exchange.getResponse(), JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.NO_PRIVILEGES)));
     }
-    
-    private Mono<Void> sendJsonStr(ServerHttpResponse response, String str){
-	response.setStatusCode(HttpStatus.BAD_REQUEST);
-	response.getHeaders().setContentType(MediaType.APPLICATION_JSON_UTF8);
-	response.getHeaders().set("Cache-Control", "no-cache");
-	DataBufferFactory dataBufferFactory = response.bufferFactory();
-	DataBuffer buffer = dataBufferFactory.wrap(str.getBytes(
-		Charset.defaultCharset()));
-	return response.writeWith(Mono.just(buffer))
-		.doOnError( error -> DataBufferUtils.release(buffer));
+
+    private Mono<Void> sendJsonStr(ServerHttpResponse response, String str) {
+        response.setStatusCode(HttpStatus.BAD_REQUEST);
+        response.getHeaders().setContentType(MediaType.APPLICATION_JSON_UTF8);
+        response.getHeaders().set("Cache-Control", "no-cache");
+        DataBufferFactory dataBufferFactory = response.bufferFactory();
+        DataBuffer buffer = dataBufferFactory.wrap(str.getBytes(
+                Charset.defaultCharset()));
+        return response.writeWith(Mono.just(buffer))
+                .doOnError(error -> DataBufferUtils.release(buffer));
     }
-    
+
 }

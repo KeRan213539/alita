@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import top.klw8.alita.entitys.base.BaseEntity;
+import top.klw8.alita.service.base.mongo.common.MongoBaseEntity;
 import top.klw8.alita.validator.annotations.GeoLatitude;
 import top.klw8.alita.validator.annotations.GeoLongitude;
 
@@ -19,7 +19,7 @@ import top.klw8.alita.validator.annotations.GeoLongitude;
 @ApiModel(value = "ListPrarmVo", description = "列表查询参数")
 @Getter
 @Setter
-public abstract class ListPrarmVo<E extends BaseEntity> implements Serializable, Cloneable, IBaseCrudVo<E> {
+public abstract class ListPrarmVo<E extends MongoBaseEntity> implements Serializable, Cloneable, IBaseCrudVo<E> {
     
     private static final long serialVersionUID = -1257470207732914007L;
 

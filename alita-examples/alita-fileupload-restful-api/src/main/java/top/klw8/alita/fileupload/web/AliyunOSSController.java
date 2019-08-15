@@ -29,10 +29,7 @@ import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.fileupload.helpers.FileUploadTypeEnum;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.web.base.WebapiBaseController;
-import top.klw8.alita.service.result.CallBackMessage;
 import top.klw8.alita.service.result.JsonResult;
-import top.klw8.alita.service.result.code.ResultCodeEnum;
-import top.klw8.alita.service.result.code.ResultStatusEnum;
 import top.klw8.alita.utils.DateTimeUtil;
 
 /**

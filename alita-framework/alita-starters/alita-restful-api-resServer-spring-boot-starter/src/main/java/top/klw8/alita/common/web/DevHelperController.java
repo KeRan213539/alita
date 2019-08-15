@@ -7,9 +7,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.reactive.result.method.RequestMappingInfo;
@@ -18,24 +16,18 @@ import reactor.core.publisher.Mono;
 import top.klw8.alita.base.springctx.SpringApplicationContextUtil;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
-import top.klw8.alita.entitys.authority.SystemRole;
-import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
-import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
+import top.klw8.alita.service.api.authority.IDevHelperProvider;
 import top.klw8.alita.service.result.JsonResult;
+import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
-import top.klw8.alita.starter.common.UserCacheHelper;
-import top.klw8.alita.starter.web.base.WebapiBaseController;
 import top.klw8.alita.utils.UUIDUtil;
 
 import java.lang.reflect.Method;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 
 /**
  * @author klw
@@ -52,8 +44,8 @@ public class DevHelperController {
     @Reference(async = true)
     private IAuthorityAdminProvider authorityAdminProvider;
 
-    @Autowired
-    private UserCacheHelper userCacheHelper;
+    @Reference(async = true)
+    private IDevHelperProvider devHelperProvider;
 
     @ApiOperation(value = "自动扫描并注册所有权限", notes = "自动扫描并注册所有权限", httpMethod = "POST", produces = "application/json")
     @ApiImplicitParams({
@@ -61,49 +53,33 @@ public class DevHelperController {
                     paramType = "query", example = "true", defaultValue = "true", required = true)
     })
     @PostMapping("/registeAllAuthority")
-    public JsonResult registeAllAuthority(boolean isAdd2SuperAdmin) throws Exception {
-
-        // 被略过的控制器方法
-        List<String> ignoredAuList = new ArrayList<>();
-
+    public Mono<JsonResult> registeAllAuthority(boolean isAdd2SuperAdmin) {
         RequestMappingHandlerMapping reqMapping = SpringApplicationContextUtil.getBean(RequestMappingHandlerMapping.class);
         Map<RequestMappingInfo, HandlerMethod> methodMap = reqMapping.getHandlerMethods();
+        Map<String, SystemAuthoritysCatlog> tempMap = new HashMap<>();
         for (Entry<RequestMappingInfo, HandlerMethod> methodEntry : methodMap.entrySet()) {
             HandlerMethod v = methodEntry.getValue();
             Method method = v.getMethod();
-            String authorityActionPrefix = null;
-            String authorityAction = null;
-            String moduleName = "";
+            String authorityActionPrefix;
+            String authorityAction;
             SystemAuthoritysCatlog catlog = null;
+            String moduleName = "";
 
             // 获取方法所在的控制器类,拿到类注解 RequestMapping, 并从 RequestMapping 中获取url前缀
             Class<?> controllerClass = v.getBeanType();
-            Class<?> superClass = controllerClass.getSuperclass();
-//            if (superClass.getName().equals(WebapiCrudBaseController.class.getName())) {
-//                // 如果是 WebapiCRUDBaseController 的子类,找 AuthorityCatlogRegister
-//                if (controllerClass.isAnnotationPresent(AuthorityCatlogRegister.class)) {
-//                    AuthorityCatlogRegister catlogRegister = controllerClass.getAnnotation(AuthorityCatlogRegister.class);
-//                    catlogService.findByCatlogName(catlogRegister.name());
-//                    Future<SystemAuthoritysCatlog> catlogTask = RpcContext.getContext().getFuture();
-//                    catlog = catlogTask.get();
-//                    if (catlog == null) {
-//                        catlog = new SystemAuthoritysCatlog();
-//                        catlog.setCatlogName(catlogRegister.name());
-//                        catlog.setShowIndex(catlogRegister.showIndex());
-//                        catlog.setRemark(catlogRegister.remark());
-//                        catlogService.save(catlog);
-//                        Future<SystemAuthoritysCatlog> catlogSaveTask = RpcContext.getContext().getFuture();
-//                        catlogSaveTask.get();
-//                    }
-//                    moduleName = "【" + catlog.getCatlogName() + "】";
-//                }
-//            } else if (!superClass.getName().equals(WebapiBaseController.class.getName())) {
-//                // 既不是 WebapiCRUDBaseController 的子类也不是 WebapiBaseController 的子类,说明不是业务相关(权限相关)的,直接忽略
-//                continue;
-//            }
-            if (!superClass.getName().equals(WebapiBaseController.class.getName())) {
-                // 既不是 WebapiCRUDBaseController 的子类也不是 WebapiBaseController 的子类,说明不是业务相关(权限相关)的,直接忽略
-                continue;
+            // 找 AuthorityCatlogRegister
+            if (controllerClass.isAnnotationPresent(AuthorityCatlogRegister.class)) {
+                AuthorityCatlogRegister catlogRegister = controllerClass.getAnnotation(AuthorityCatlogRegister.class);
+                catlog = tempMap.get(catlogRegister.name());
+                if(catlog == null){
+                    catlog = new SystemAuthoritysCatlog();
+                    catlog.setCatlogName(catlogRegister.name());
+                    catlog.setShowIndex(catlogRegister.showIndex());
+                    catlog.setRemark(catlogRegister.remark());
+                    catlog.setAuthorityList(new ArrayList<>(16));
+                    tempMap.put(catlogRegister.name(), catlog);
+                }
+                moduleName = "【" + catlog.getCatlogName() + "】";
             }
             if (controllerClass.isAnnotationPresent(RequestMapping.class)) {
                 RequestMapping mapping = controllerClass.getAnnotation(RequestMapping.class);
@@ -129,90 +105,35 @@ public class DevHelperController {
                 authorityAction = authorityActionPrefix + mapping.value()[0];
             } else {
                 // 不可能走到这里, RequestMappingHandlerMapping.getHandlerMethods()拿到的都是有mapping注解的方法
-                return JsonResult.sendFailedResult(method.getDeclaringClass().getName() + "." + method.getName() + "() 没有 mapping 注解", null);
+                return Mono.just(JsonResult.sendFailedResult(method.getDeclaringClass().getName() + "." + method.getName() + "() 没有 mapping 注解"));
             }
             if (method.isAnnotationPresent(AuthorityRegister.class)) {
                 AuthorityRegister register = method.getAnnotation(AuthorityRegister.class);
-                CompletableFuture<SystemAuthoritys> auTask = auService.findByAuAction(authorityAction);
-                SystemAuthoritys au = auTask.get();
-                if (au != null) {
-                    // 权限已存在,略过
-                    continue;
-                }
                 // 先检查 catlog 是否存在
                 if (catlog == null) {
                     // 如果没有 AuthorityCatlogRegister 注解,那么这里 catlog 就是 null
                     if (StringUtils.isEmpty(register.catlogName()) || register.catlogShowIndex() < 0) {
                         // 如果权限注册注解里面没有这几个属性, 直接略过这个权限
-                        ignoredAuList.add(method.getDeclaringClass().getName() + "." + method.getName() + "()");
                         continue;
                     }
-                    CompletableFuture<SystemAuthoritysCatlog> catlogTask = catlogService.findByCatlogName(register.catlogName());
-                    catlog = catlogTask.get();
-                    if (catlog == null) {
-                        catlog = new SystemAuthoritysCatlog();
-                        catlog.setCatlogName(register.catlogName());
-                        catlog.setShowIndex(register.catlogShowIndex());
-                        catlog.setRemark(register.catlogRemark());
-                        CompletableFuture<Boolean> auSaveTask = catlogService.save(catlog);
-                        auSaveTask.get();
-                    }
+                    catlog = new SystemAuthoritysCatlog();
+                    catlog.setCatlogName(register.catlogName());
+                    catlog.setShowIndex(register.catlogShowIndex());
+                    catlog.setRemark(register.catlogRemark());
+                    catlog.setAuthorityList(new ArrayList<>(16));
+                    tempMap.put(register.catlogName(), catlog);
                 }
-                au = new SystemAuthoritys();
+                SystemAuthoritys au = new SystemAuthoritys();
                 au.setId(UUIDUtil.getRandomUUIDString());
                 au.setAuthorityName(moduleName + register.authorityName());
                 au.setAuthorityType(register.authorityType());
                 au.setAuthorityAction(authorityAction);
                 au.setShowIndex(register.authorityShowIndex());
                 au.setRemark(register.authorityRemark());
-                au.setCatlog(catlog);
-                Future<Boolean> auSaveTask = auService.save(au);
-                auSaveTask.get();
-
-                // 添加到超级管理员角色和用户中
-                if (isAdd2SuperAdmin) {
-                    CompletableFuture<SystemRole> future =  roleService.getById("5c85fc8b645d423b3c071ab6");
-                    SystemRole superAdminRole = future.get();
-                    if (superAdminRole == null) {
-                        superAdminRole = new SystemRole();
-                        superAdminRole.setId("5c85fc8b645d423b3c071ab6");
-                        superAdminRole.setRoleName("超级管理员");
-                        superAdminRole.setRemark("超级管理员");
-                        CompletableFuture<Boolean> roleSaveTask = roleService.save(superAdminRole);
-                        roleSaveTask.get();
-                    }
-
-                    CompletableFuture<AlitaUserAccount> superAdminTask = userService.getById("5c85fc8b645d423b3c071ab7");
-                    AlitaUserAccount superAdmin = superAdminTask.get();
-                    if (superAdmin == null) {
-                        BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
-                        superAdmin = new AlitaUserAccount("admin", pwdEncoder.encode("123456"));
-                        superAdmin.setId("5c85fc8b645d423b3c071ab7");
-                        superAdmin.setCreateDate(LocalDateTime.now());
-                        CompletableFuture<Boolean> userSaveTask = userService.save(superAdmin);
-                        userSaveTask.get();
-                    }
-                    // 这里有可能用户存在并有这个角色,下面这个操作不会重复添加
-                    CompletableFuture<Integer> addRole2UserTask = userService.addRole2User(superAdmin.getId(), superAdminRole);
-                    addRole2UserTask.get();
-
-                    CompletableFuture<SystemAuthoritys> auTask2 = auService.findByAuAction(authorityAction);
-                    au = auTask2.get();
-                    if (au == null) {
-                        // 权限不存在,略过
-                        continue;
-                    }
-                    CompletableFuture<Integer> addAuthority2RoleTask = roleService.addAuthority2Role(superAdminRole.getId(), au);
-                    addAuthority2RoleTask.get();
-                }
+                catlog.getAuthorityList().add(au);
             }
         }
-
-        if (ignoredAuList.isEmpty()) {
-            return JsonResult.sendSuccessfulResult("注册完成", null);
-        } else {
-            return JsonResult.sendSuccessfulResult("注册完成,但有一些控制器方法被忽略,见返回数据", ignoredAuList);
-        }
+        return Mono.fromFuture(devHelperProvider.batchAddAuthoritysAndCatlogs(new ArrayList<>(tempMap.values()), isAdd2SuperAdmin));
     }
 
     @ApiOperation(value = "刷新缓存中的管理员权限", notes = "刷新缓存中的管理员权限", httpMethod = "POST", produces = "application/json")

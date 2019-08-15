@@ -21,4 +21,22 @@ public interface IAlitaUserProvider {
      */
     CompletableFuture<AlitaUserAccount> findUserById(String userId);
 
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 根据用户名(帐号)查找用户
+     * @Date 2019/8/14 16:31
+     * @param: userName
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.entitys.user.AlitaUserAccount>
+     */
+    CompletableFuture<AlitaUserAccount> findUserByName(String userName);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 根据用户手机号查找用户
+     * @Date 2019/8/14 16:31
+     * @param: userPhoneNum
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.entitys.user.AlitaUserAccount>
+     */
+    CompletableFuture<AlitaUserAccount> findUserByPhoneNum(String userPhoneNum);
+
 }

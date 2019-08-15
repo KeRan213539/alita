@@ -1,6 +1,6 @@
 package top.klw8.alita.admin.web.authority.vo;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.Setter;
 import top.klw8.alita.validator.annotations.MobilePhoneNumber;
@@ -20,13 +20,13 @@ public class AlitaUserAccountVo {
 
     private static final long serialVersionUID = 7921978011249125659L;
 
-    @ApiModelProperty(value = "用户手机号", required = true)
+    @ApiParam(value = "用户手机号", required = true)
     @Required(validatFailMessage = "用户手机号不能为空")
     @NotEmpty(validatFailMessage = "用户手机号不能为空")
     @MobilePhoneNumber
     private String userPhoneNum;
 
-    @ApiModelProperty(value = "用户密码", required = true)
+    @ApiParam(value = "用户密码", required = true)
     @Required(validatFailMessage = "用户密码不能为空")
     @NotEmpty(validatFailMessage = "用户密码不能为空")
     @Password

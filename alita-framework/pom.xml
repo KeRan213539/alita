@@ -14,6 +14,7 @@
         <module>alita-commons</module>
         <module>alita-entitys</module>
         <module>alita-service-api</module>
+        <module>alita-service-mongodb-api</module>
         <module>alita-starters</module>
         <module>alita-service</module>
         <module>alita-restful-api</module>

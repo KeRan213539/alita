@@ -7,18 +7,6 @@ package top.klw8.alita.starter.common;
  * @date 2018年12月6日 下午2:05:53
  */
 public class WebApiContext {
-    
-    /**
-     * @author klw
-     * @Fields WEB_PORT_HTTP : http 端口
-     */
-    public static int WEB_PORT_HTTP = 80;
-    
-    /**
-     * @author klw
-     * @Fields WEB_PORT_HTTPS : https 端口
-     */
-    public static int WEB_PORT_HTTPS = 443;
 
     /**
      * @author klw

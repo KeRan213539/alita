@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import top.klw8.alita.entitys.base.BaseEntity;
+import top.klw8.alita.service.base.mongo.common.MongoBaseEntity;
 import top.klw8.alita.service.base.mongo.dao.prarm.ForPageMode.ComparisonMode;
 import top.klw8.alita.validator.annotations.GeoLatitude;
 import top.klw8.alita.validator.annotations.GeoLongitude;
@@ -23,7 +23,7 @@ import top.klw8.alita.validator.annotations.Required;
 @ApiModel(value = "ComparativePagePrarmVo", description = "比较分页查询参数")
 @Getter
 @Setter
-public abstract class ComparativePagePrarmVo<E extends BaseEntity> implements Serializable, Cloneable, IBaseCrudVo<E> {
+public abstract class ComparativePagePrarmVo<E extends MongoBaseEntity> implements Serializable, Cloneable, IBaseCrudVo<E> {
 
     private static final long serialVersionUID = 4339253900339119981L;
     

@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import top.klw8.alita.authorization.common.AlitaUserDetailsService;
-import top.klw8.alita.service.api.user.IAlitaUserService;
+import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 
 /**
  * @ClassName: SecurityConfiguration
@@ -26,7 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     
     @Reference(async=true)
-    private IAlitaUserService userService;
+    private IAlitaUserProvider userService;
     
     @Bean
     @Override

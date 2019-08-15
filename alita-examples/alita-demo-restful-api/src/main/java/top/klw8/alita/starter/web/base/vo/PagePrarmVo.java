@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import top.klw8.alita.entitys.base.BaseEntity;
+import top.klw8.alita.service.base.mongo.common.MongoBaseEntity;
 import top.klw8.alita.validator.annotations.GeoLatitude;
 import top.klw8.alita.validator.annotations.GeoLongitude;
 import top.klw8.alita.validator.annotations.IntegerRange;
@@ -20,7 +20,7 @@ import top.klw8.alita.validator.annotations.IntegerRange;
 @ApiModel(value = "PagePrarmVo", description = "skip分页参数")
 @Getter
 @Setter
-public abstract class PagePrarmVo<E extends BaseEntity> implements Serializable, Cloneable, IBaseCrudVo<E> {
+public abstract class PagePrarmVo<E extends MongoBaseEntity> implements Serializable, Cloneable, IBaseCrudVo<E> {
 
     private static final long serialVersionUID = -2029324365320879551L;
 

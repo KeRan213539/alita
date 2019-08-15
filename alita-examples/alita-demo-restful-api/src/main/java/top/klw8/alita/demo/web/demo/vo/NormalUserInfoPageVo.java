@@ -1,5 +1,6 @@
 package top.klw8.alita.demo.web.demo.vo;
 
+import top.klw8.alita.entitys.demo.ExtUserInfoDemo;
 import top.klw8.alita.starter.web.base.vo.PagePrarmVo;
 
 /**

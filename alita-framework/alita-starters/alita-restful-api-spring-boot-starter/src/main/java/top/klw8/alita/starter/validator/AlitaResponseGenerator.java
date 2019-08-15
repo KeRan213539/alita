@@ -2,6 +2,7 @@ package top.klw8.alita.starter.validator;
 
 import reactor.core.publisher.Mono;
 import top.klw8.alita.service.result.JsonResult;
+import top.klw8.alita.service.result.code.CommonResultCodeEnum;
 import top.klw8.alita.validator.IResponseMsgGenerator;
 import top.klw8.alita.validator.ValidatorException;
 
@@ -24,7 +25,7 @@ public class AlitaResponseGenerator implements IResponseMsgGenerator {
      */
     @Override
     public Mono<Object> generatorResponse(String code, String message, ValidatorException ex) {
-        return Mono.just(JsonResult.sendParamError(message));
+        return Mono.just(JsonResult.sendFailedResult(CommonResultCodeEnum.BAD_PARAMETER, message));
     }
 
 }

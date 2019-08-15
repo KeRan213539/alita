@@ -1,58 +1,38 @@
 package top.klw8.alita.service.result.code;
 
+import lombok.Getter;
+import top.klw8.alita.service.result.IResultCode;
+
 /**
- * @ClassName: ResultCodeEnum
- * @Description: JsonResultCode 枚举
  * @author klw
- * @date 2018年12月7日 下午1:53:11
+ * @ClassName: ResultCodeEnum
+ * @Description: 返回给前端的Code定义--类别
+ * @date 2019/6/6 16:50
  */
-public enum ResultCodeEnum {
+@Getter
+public enum ResultCodeEnum implements IResultCode {
+
+    COMMON("", "通用"),  // 通用CODE为3位,所以分类code为空
+
+    AUTHORITY("100", "权限"),
+    ;
 
     /**
      * @author klw
-     * @Fields _200 : 处理成功
+     * @Description: 类别的code(3位)
      */
-    _200(200),
-    
+    private String code;
+
+
     /**
      * @author klw
-     * @Fields _250 : token失效
+     * @Description: 类别名称
      */
-    _250(250),
-    
-    /**
-     * @author klw
-     * @Fields _400 : 参数错误
-     */
-    _400(400),
-    
-    /**
-     * @author klw
-     * @Fields _401 : 未登录
-     */
-    _401(401),
-    
-    /**
-     * @author klw
-     * @Fields _403 : 禁止访问(没有权限)
-     */
-    _403(403),
-    
-    /**
-     * @author klw
-     * @Fields _500 : 服务器内部错误
-     */
-    _500(500)
-    
-    ;
-    private int value;
-    
-    private ResultCodeEnum(int value) {
-	this.value = value;
+    private String codeName;
+
+    ResultCodeEnum(String code, String codeName){
+        this.code = code;
+        this.codeName = codeName;
     }
-    
-    public int intValue() {
-	return value;
-    }
-    
+
 }

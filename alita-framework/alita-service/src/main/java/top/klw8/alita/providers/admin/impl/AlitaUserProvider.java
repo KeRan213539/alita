@@ -25,8 +25,16 @@ public class AlitaUserProvider implements IAlitaUserProvider {
 
     @Override
     public CompletableFuture<AlitaUserAccount> findUserById(String userId) {
-        return CompletableFuture.supplyAsync(() -> {
-            return userService.getById(userId);
-        }, ServiceContext.executor);
+        return CompletableFuture.supplyAsync(() -> userService.getById(userId), ServiceContext.executor);
+    }
+
+    @Override
+    public CompletableFuture<AlitaUserAccount> findUserByName(String userName) {
+        return CompletableFuture.supplyAsync(() -> userService.getOne(userService.query().eq("user_name", userName)), ServiceContext.executor);
+    }
+
+    @Override
+    public CompletableFuture<AlitaUserAccount> findUserByPhoneNum(String userPhoneNum) {
+        return CompletableFuture.supplyAsync(() -> userService.getOne(userService.query().eq("user_phone_num", userPhoneNum)), ServiceContext.executor);
     }
 }

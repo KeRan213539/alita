@@ -49,7 +49,7 @@ public class AuthorityAdminAddsController extends WebapiBaseController {
     public Mono<JsonResult> addAuthority(SystemAuthoritysVo auvo) {
         SystemAuthoritys target = new SystemAuthoritys();
         BeanUtils.copyProperties(auvo, target);
-        return Mono.fromFuture(auProvider.addAuthority(target));
+        return Mono.fromFuture(auProvider.addAuthority(auvo.getCatlogId(), target));
 
     }
 

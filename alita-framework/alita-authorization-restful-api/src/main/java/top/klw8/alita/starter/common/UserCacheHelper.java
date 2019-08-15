@@ -17,6 +17,7 @@ import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
+import top.klw8.alita.helper.EnvHelper;
 import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.service.utils.EntityUtil;
 import top.klw8.alita.utils.redis.RedisTagEnum;

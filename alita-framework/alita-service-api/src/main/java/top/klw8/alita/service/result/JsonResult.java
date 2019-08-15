@@ -1,172 +1,87 @@
 package top.klw8.alita.service.result;
 
-import java.util.Map;
-
-import com.alibaba.fastjson.JSON;
-import top.klw8.alita.service.result.code.ResultCodeEnum;
-import top.klw8.alita.service.result.code.ResultStatusEnum;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import top.klw8.alita.service.result.code.CommonResultCodeEnum;
 
 
 /**
  * @author klw
  * @ClassName: JsonResult
- * @Description: webapi 项目统一消息返回格式包装
+ * @Description: alita统一消息返回格式包装
  * @date 2018年12月7日 下午1:36:48
  */
-public class JsonResult {
-
-    public JsonResult() {
-
-    }
-
-    public JsonResult(String msg) {
-        this.msg = msg;
-    }
+@Getter
+@Setter
+@ToString
+public class JsonResult<T> {
 
     /**
-     * 请求码0失败，1成功
+     * @author klw(213539@qq.com)
+     * @Description: 响应状态码
      */
-    private int status = 0;
-    /**
-     * 消息码默认为 0无错误 2 token失效
-     */
-    private int code = 0;
+    private String code;
 
     /**
-     * 消息
+     * @author klw(213539@qq.com)
+     * @Description: 响应消息
      */
-    private String msg;
+    private String message;
 
     /**
-     * 返回的json数据
+     * @author klw(213539@qq.com)
+     * @Description: 响应数据
      */
-    private Object data;
+    private T data;
 
-    private boolean success = false;
-
-    public int getStatus() {
-        return status;
+    public JsonResult(ISubResultCode subResultCode){
+        this.code = subResultCode.getCode();
+        this.message = subResultCode.getCodeMsg();
     }
 
-    private void setStatus(ResultStatusEnum status) {
-        this.status = status.intValue();
-    }
-
-
-    public int getCode() {
-        return code;
-    }
-
-    private void setCode(ResultCodeEnum code) {
-        this.code = code.intValue();
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    private void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    private void setData(Object data) {
+    public JsonResult(ISubResultCode subResultCode, T data){
+        this.code = subResultCode.getCode();
+        this.message = subResultCode.getCodeMsg();
         this.data = data;
     }
 
-
-    public Map<String, Object> toMap() {
-        return JSON.parseObject(data.toString());
+    public JsonResult(ISubResultCode subResultCode, String message, T data){
+        this.code = subResultCode.getCode();
+        this.message = message;
+        this.data = data;
     }
 
-    /**
-     * 含返回数据的JsonResult
-     *
-     * @param successfulMessage
-     * @param data
-     * @return
-     */
-    public static JsonResult sendSuccessfulResult(String successfulMessage, Object data) {
-        JsonResult jsonResult = new JsonResult();
-        jsonResult.setStatus(ResultStatusEnum.SUCCESS);
-        jsonResult.setCode(ResultCodeEnum._200);
-        jsonResult.setMsg(successfulMessage);
-        jsonResult.setData(data);
-        jsonResult.setSuccess(true);
-        return jsonResult;
+    public static JsonResult sendSuccessfulResult() {
+        return new JsonResult(CommonResultCodeEnum.OK, null);
     }
 
-    public static JsonResult sendFailedResult(String failedMessage, Object data) {
-        JsonResult jsonResult = new JsonResult();
-        jsonResult.setStatus(ResultStatusEnum.FAILED);
-        jsonResult.setCode(ResultCodeEnum._500);
-        jsonResult.setMsg(failedMessage);
-        jsonResult.setData(data);
-        jsonResult.setSuccess(false);
-        return jsonResult;
+    public static <T> JsonResult sendSuccessfulResult(T data) {
+        return new JsonResult(CommonResultCodeEnum.OK, data);
     }
 
-    public static JsonResult sendTokenError() {
-        JsonResult json = new JsonResult();
-        json.setStatus(ResultStatusEnum.FAILED);
-        json.setCode(ResultCodeEnum._250);
-        json.setMsg(CallBackMessage.tokenError);
-        json.setSuccess(false);
-        return json;
+    public static <T>  JsonResult sendSuccessfulResult(String message) {
+        return new JsonResult(CommonResultCodeEnum.OK, message, null);
     }
 
-    public static JsonResult sendParamError() {
-        JsonResult json = new JsonResult();
-        json.setStatus(ResultStatusEnum.FAILED);
-        json.setCode(ResultCodeEnum._400);
-        json.setMsg(CallBackMessage.paramError);
-        json.setSuccess(false);
-        return json;
+    public static <T>  JsonResult sendSuccessfulResult(String message, T data) {
+        return new JsonResult(CommonResultCodeEnum.OK, message, data);
     }
 
-    public static JsonResult sendParamError(String msg) {
-        JsonResult json = new JsonResult();
-        json.setStatus(ResultStatusEnum.FAILED);
-        json.setCode(ResultCodeEnum._400);
-        json.setMsg(msg);
-        json.setSuccess(false);
-        return json;
+    public static <T> JsonResult sendFailedResult(ISubResultCode subResultCode, T data) {
+        return new JsonResult(subResultCode, data);
     }
 
-    public static JsonResult sendResult(ResultStatusEnum status, ResultCodeEnum code, String msg, Object data) {
-        JsonResult json = new JsonResult();
-        json.setStatus(status);
-        json.setCode(code);
-        json.setMsg(msg);
-        json.setData(data);
-        return json;
+    public static JsonResult sendFailedResult(ISubResultCode subResultCode) {
+        return new JsonResult(subResultCode);
     }
 
-    public static JsonResult sendResult(ResultStatusEnum status, ResultCodeEnum code, String msg, Object data,
-                                        boolean success) {
-        JsonResult json = new JsonResult();
-        json.setStatus(status);
-        json.setCode(code);
-        json.setMsg(msg);
-        json.setData(data);
-        json.setSuccess(success);
-        return json;
+    public static JsonResult sendFailedResult(ISubResultCode subResultCode, String errorMsg) {
+        return new JsonResult(subResultCode, errorMsg, null);
     }
 
-    public boolean isSuccess() {
-        return success;
+    public static JsonResult sendFailedResult(String errorMsg) {
+        return new JsonResult(CommonResultCodeEnum.ERROR, errorMsg, null);
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    @Override
-    public String toString() {
-        return "JsonResult [status=" + status + ", code=" + code + ", msg=" + msg + ", data=" + data
-                + "]";
-    }
 }
