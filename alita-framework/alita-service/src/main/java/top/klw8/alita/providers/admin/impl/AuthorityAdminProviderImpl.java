@@ -20,6 +20,7 @@ import top.klw8.alita.service.utils.EntityUtil;
 import top.klw8.alita.starter.service.common.ServiceContext;
 import top.klw8.alita.utils.UUIDUtil;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -43,6 +44,9 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
 
     @Autowired
     private IAlitaUserService userService;
+
+    @Autowired
+    private ISystemRoleService systemRoleService;
 
     @Autowired
     private UserCacheHelper userCacheHelper;
@@ -139,7 +143,11 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         //查询管理员用户,把权限查出来
         // TODO 下面这里需要把角色和权限都关联查询出来
         return CompletableFuture.supplyAsync(() -> {
+            // 根据用户ID查询到用户信息
             AlitaUserAccount sysUser = userService.getById(userId);
+            // 根据用户ID查询用户角色
+            List<String> userRoles = userService.getUserAllRoles(userId);
+            // 根据查询到的
             if (EntityUtil.isEntityEmpty(sysUser)) {
                 return JsonResult.sendFailedResult("管理会员用户不存在", null);
             }

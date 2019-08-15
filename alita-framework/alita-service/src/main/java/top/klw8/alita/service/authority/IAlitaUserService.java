@@ -44,4 +44,14 @@ public interface IAlitaUserService extends IService<AlitaUserAccount> {
      */
     int replaceRole2User(String userId, List<SystemRole> roleList);
 
+    /**
+     *
+     * @Author zhanglei
+     * @Description 查询用户拥有的全部角色ID
+     * @Date 15:28 2019-08-15
+     * @param: userId
+     * @return java.util.List<java.lang.String>
+     **/
+    List<String> getUserAllRoles(String userId);
+
 }
