@@ -31,13 +31,6 @@ public class SystemAuthoritys extends BaseEntity {
     private SystemAuthoritysCatlog catlog;
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 权限所属权限目录 的ID
-     */
-    @TableField("catlog_id")
-    private String catlogId;
-    
-    /**
      * @author klw
      * @Fields authorityName : 权限名称
      */
