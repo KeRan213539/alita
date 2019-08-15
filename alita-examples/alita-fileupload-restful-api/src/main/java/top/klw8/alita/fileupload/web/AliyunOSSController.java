@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import reactor.core.publisher.Mono;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
+import top.klw8.alita.fileupload.cfg.resultCode.ResultSubCodeEnum;
 import top.klw8.alita.fileupload.helpers.FileUploadTypeEnum;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.web.base.WebapiBaseController;
@@ -33,9 +34,9 @@ import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.utils.DateTimeUtil;
 
 /**
+ * @author klw
  * @ClassName: AliyunOSSController
  * @Description: 文件上传
- * @author klw
  * @date 2018年11月19日 下午12:02:25
  */
 @RestController
@@ -48,39 +49,37 @@ public class AliyunOSSController extends WebapiBaseController {
     @ApiOperation(value = "上传文件到阿里云OSS", notes = "上传单个文件到阿里云OSS", httpMethod = "POST", produces = "application/json")
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @AuthorityRegister(catlogName = "文件上传相关", catlogShowIndex = 98,
-    authorityName = "上传文件到阿里云OSS", authorityType = AuthorityTypeEnum.URL,
-    authorityShowIndex = 0)
+            authorityName = "上传文件到阿里云OSS", authorityType = AuthorityTypeEnum.URL,
+            authorityShowIndex = 0)
     public Mono<JsonResult> uploadToOSS(@RequestPart("file") FilePart filePart) throws Exception {
-	if (StringUtils.isBlank(filePart.filename())) {
-	    return Mono.just(JsonResult.sendResult(ResultStatusEnum.FAILED, ResultCodeEnum._400, "文件名不能为空", null, false));
-	}
+        if (StringUtils.isBlank(filePart.filename())) {
+            return Mono.just(JsonResult.sendFailedResult(ResultSubCodeEnum.FILE_NAME_EMPTY));
+        }
 
-	String fileName = filePart.filename();
-	String suffix = fileName.substring(fileName.lastIndexOf("."));
-	String ossFileName = UUID.randomUUID().toString() + suffix; // 使用uuid作为文件名
-	String ossObjKey = FileUploadTypeEnum.IMG_FILE_PATH.getTypePath() + "/"
-		+ DateTimeUtil.getTodayChar8() + "/" + ossFileName;
-	
-	return DataBufferUtils.join(filePart.content()).map(buffer -> {
-	    if (buffer.readableByteCount() <= 0) {
-		return JsonResult.sendResult(ResultStatusEnum.FAILED, ResultCodeEnum._400,
-			CallBackMessage.fileEmpty, null, false);
-	    }
-	    try {
-		InputStream is = buffer.asInputStream();
-		ossClient.putObject(FileUploadTypeEnum.OSS_BUCKET_NAME.getTypePath(), ossObjKey, is);
-		is.close();
-		is = null;
-		DataBufferUtils.release(buffer);
-	    } catch (Exception e) {
-		e.printStackTrace();
-		return JsonResult.sendFailedResult("文件上传失败！", null);
-	    }
-	    Map<String, String> resultMap = new HashMap<String, String>();
-	    resultMap.put("filePath", ossObjKey);
-	    resultMap.put("fileName", ossFileName);
-	    return JsonResult.sendResult(ResultStatusEnum.SUCCESS, ResultCodeEnum._200, CallBackMessage.saveSuccess, resultMap, true);
-	}).as(Mono::from);
+        String fileName = filePart.filename();
+        String suffix = fileName.substring(fileName.lastIndexOf("."));
+        String ossFileName = UUID.randomUUID().toString() + suffix; // 使用uuid作为文件名
+        String ossObjKey = FileUploadTypeEnum.IMG_FILE_PATH.getTypePath() + "/"
+                + DateTimeUtil.getTodayChar8() + "/" + ossFileName;
+
+        return DataBufferUtils.join(filePart.content()).map(buffer -> {
+            if (buffer.readableByteCount() <= 0) {
+                return JsonResult.sendFailedResult(ResultSubCodeEnum.FILE_DATA_EMPTY);
+            }
+            try {
+                InputStream is = buffer.asInputStream();
+                ossClient.putObject(FileUploadTypeEnum.OSS_BUCKET_NAME.getTypePath(), ossObjKey, is);
+                is.close();
+                is = null;
+                DataBufferUtils.release(buffer);
+            } catch (Exception e) {
+                return JsonResult.sendFailedResult(ResultSubCodeEnum.FILE_UPLOAD_FAIL);
+            }
+            Map<String, String> resultMap = new HashMap<String, String>();
+            resultMap.put("filePath", ossObjKey);
+            resultMap.put("fileName", ossFileName);
+            return JsonResult.sendSuccessfulResult(resultMap);
+        }).as(Mono::from);
     }
 
     /**
@@ -91,27 +90,26 @@ public class AliyunOSSController extends WebapiBaseController {
      */
     @ApiOperation(value = "删除阿里云OSS中的文件", notes = "删除阿里云OSS中的文件", httpMethod = "POST", produces = "application/json")
     @ApiImplicitParams({
-	@ApiImplicitParam(paramType = "query", dataType = "String", name = "filePath", value = "OSS中的文件路径(上传时返回的)", required = true) 
+            @ApiImplicitParam(paramType = "query", dataType = "String", name = "filePath", value = "OSS中的文件路径(上传时返回的)", required = true)
     })
     @PostMapping(value = "/delete")
     @AuthorityRegister(catlogName = "文件上传相关", catlogShowIndex = 98,
-    authorityName = "删除阿里云OSS中的文件", authorityType = AuthorityTypeEnum.URL,
-    authorityShowIndex = 0)
+            authorityName = "删除阿里云OSS中的文件", authorityType = AuthorityTypeEnum.URL,
+            authorityShowIndex = 0)
     public Mono<JsonResult> deleteFromOSS(@RequestParam String filePath) {
-	if (StringUtils.isBlank(filePath)) {
-	    return Mono.just(JsonResult.sendParamError());
-	}
+        if (StringUtils.isBlank(filePath)) {
+            return Mono.just(JsonResult.sendFailedResult(ResultSubCodeEnum.DELETE_OSS_FILE_FAIL));
+        }
 
-	try {
-	    ossClient.deleteObject(FileUploadTypeEnum.OSS_BUCKET_NAME.getTypePath(), filePath);
-	} catch (OSSException | ClientException e) {
-	    e.printStackTrace();
-	    return Mono.just(JsonResult.sendFailedResult("删除OSS文件失败", e.getMessage()));
-	}
-	return Mono.just(JsonResult.sendResult(ResultStatusEnum.SUCCESS, ResultCodeEnum._200, CallBackMessage.deleteSuccess, null, true));
+        try {
+            ossClient.deleteObject(FileUploadTypeEnum.OSS_BUCKET_NAME.getTypePath(), filePath);
+        } catch (OSSException | ClientException e) {
+            return Mono.just(JsonResult.sendFailedResult(ResultSubCodeEnum.DELETE_OSS_FILE_FAIL, e.getMessage()));
+        }
+        return Mono.just(JsonResult.sendSuccessfulResult());
 
     }
-    
+
     //文件下载例子
 //    @GetMapping("/download")
 //    public Mono<Void> downloadByWriteWith(ServerHttpResponse response) throws IOException {

@@ -26,10 +26,6 @@ import java.util.Map;
 @Service
 public class AlitaUserServiceImpl extends ServiceImpl<IAlitaUserMapper, AlitaUserAccount> implements IAlitaUserService {
 
-//    TODO 注释掉，因为该service使用基础Mapper已经传入到父service中，如果有其他的mapper，则需要进行注入。
-//    @Autowired
-//    private IAlitaUserMapper dao;
-
     @Override
     public int addRole2User(String userId, SystemRole role) {
         if (null == userId || null == role || null == role.getId()) {

@@ -1,7 +1,5 @@
 package top.klw8.alita.providers.admin.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
@@ -139,7 +137,6 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     @Override
     public CompletableFuture<JsonResult> refreshAdminAuthoritys(String userId) {
         //查询管理员用户,把权限查出来
-        // TODO 下面这里需要把角色和权限都关联查询出来
         return CompletableFuture.supplyAsync(() -> {
             // 根据用户ID查询到用户信息
             AlitaUserAccount sysUser = userService.getById(userId);
@@ -154,10 +151,10 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             sysUser.setUserRoles(userRoles);
             // 根据查询到的
             if (EntityUtil.isEntityEmpty(sysUser)) {
-                return JsonResult.sendFailedResult("管理会员用户不存在", null);
+                return JsonResult.sendFailedResult(AuthorityResultCodeEnum.USER_NOT_EXIST);
             }
             userCacheHelper.putUserInfo2Cache(sysUser);
-            return JsonResult.sendSuccessfulResult("刷新完成", null);
+            return JsonResult.sendSuccessfulResult();
         }, ServiceContext.executor);
     }
 }
