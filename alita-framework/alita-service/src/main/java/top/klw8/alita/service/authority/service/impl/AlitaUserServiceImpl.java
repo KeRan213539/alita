@@ -3,9 +3,9 @@ package top.klw8.alita.service.authority.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.service.authority.IAlitaUserService;
@@ -26,15 +26,16 @@ import java.util.Map;
 @Service
 public class AlitaUserServiceImpl extends ServiceImpl<IAlitaUserMapper, AlitaUserAccount> implements IAlitaUserService {
 
-    @Autowired
-    private IAlitaUserMapper dao;
+//    TODO 注释掉，因为该service使用基础Mapper已经传入到父service中，如果有其他的mapper，则需要进行注入。
+//    @Autowired
+//    private IAlitaUserMapper dao;
 
     @Override
     public int addRole2User(String userId, SystemRole role) {
         if (null == userId || null == role || null == role.getId()) {
             return 0;
         }
-        return dao.addRole2User(userId, role.getId());
+        return this.getBaseMapper().addRole2User(userId, role.getId());
     }
 
     @Override
@@ -42,7 +43,7 @@ public class AlitaUserServiceImpl extends ServiceImpl<IAlitaUserMapper, AlitaUse
         if (null == userId || null == role || null == role.getId()) {
             return 0;
         }
-        return dao.removeRoleFromUser(userId, role.getId());
+        return this.getBaseMapper().removeRoleFromUser(userId, role.getId());
     }
 
     @Override
@@ -51,7 +52,7 @@ public class AlitaUserServiceImpl extends ServiceImpl<IAlitaUserMapper, AlitaUse
         if (null == userId || CollectionUtils.isEmpty(roleList)) {
             return 0;
         }
-        dao.removeRolesFromUser(userId);
+        this.getBaseMapper().removeRolesFromUser(userId);
         List<Map<String, String>> dataList = new ArrayList<>();
         for (SystemRole role : roleList) {
             Map<String, String> item = new HashMap<>(2);
@@ -59,7 +60,17 @@ public class AlitaUserServiceImpl extends ServiceImpl<IAlitaUserMapper, AlitaUse
             item.put("roleId", role.getId());
             dataList.add(item);
         }
-        return dao.batchInsertRoles4User(dataList);
+        return this.getBaseMapper().batchInsertRoles4User(dataList);
+    }
+
+    @Override
+    public List<SystemRole> getUserAllRoles(String userId) {
+        return this.getBaseMapper().selectUserAllRoles(userId);
+    }
+
+    @Override
+    public List<SystemAuthoritys> getRoleAllAuthoritys(String roleId) {
+        return this.getBaseMapper().selectRoleAuthoritys(roleId);
     }
 
 }

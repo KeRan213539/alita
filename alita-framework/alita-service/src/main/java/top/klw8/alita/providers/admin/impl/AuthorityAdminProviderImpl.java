@@ -1,5 +1,7 @@
 package top.klw8.alita.providers.admin.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
@@ -20,6 +22,7 @@ import top.klw8.alita.service.utils.EntityUtil;
 import top.klw8.alita.starter.service.common.ServiceContext;
 import top.klw8.alita.utils.UUIDUtil;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -138,7 +141,18 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         //查询管理员用户,把权限查出来
         // TODO 下面这里需要把角色和权限都关联查询出来
         return CompletableFuture.supplyAsync(() -> {
+            // 根据用户ID查询到用户信息
             AlitaUserAccount sysUser = userService.getById(userId);
+            // 根据用户ID查询用户角色
+            List<SystemRole> userRoles = userService.getUserAllRoles(userId);
+            // 根据用户角色查询角色对应的权限并更新到SystemRole实体中
+            for (SystemRole role : userRoles) {
+                List<SystemAuthoritys> authoritys = userService.getRoleAllAuthoritys(role.getId());
+                role.setAuthorityList(authoritys);
+            }
+            // 更新用户角色权限到用户实体中
+            sysUser.setUserRoles(userRoles);
+            // 根据查询到的
             if (EntityUtil.isEntityEmpty(sysUser)) {
                 return JsonResult.sendFailedResult("管理会员用户不存在", null);
             }
