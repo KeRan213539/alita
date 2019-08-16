@@ -5,9 +5,19 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternUtils;
+import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
+import org.springframework.core.type.classreading.MetadataReader;
+import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.reactive.result.method.RequestMappingInfo;
@@ -18,15 +28,19 @@ import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 import top.klw8.alita.service.api.authority.IDevHelperProvider;
+import top.klw8.alita.service.result.IResultCode;
+import top.klw8.alita.service.result.ISubResultCode;
 import top.klw8.alita.service.result.JsonResult;
+import top.klw8.alita.service.result.SubResultCode;
+import top.klw8.alita.service.result.code.ResultCodeEnum;
 import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.utils.UUIDUtil;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 /**
@@ -38,6 +52,7 @@ import java.util.Map.Entry;
 @Api(tags = {"alita-restful-API--开发辅助工具"})
 @RestController
 @RequestMapping("/devHelper")
+@Slf4j
 @Profile("dev")
 public class DevHelperController {
 
@@ -46,6 +61,12 @@ public class DevHelperController {
 
     @Reference(async = true)
     private IDevHelperProvider devHelperProvider;
+
+    @Autowired
+    private ResourceLoader resourceLoader;
+
+    @Value("${alita.devHelper.resultCodeClassPackage:}")
+    private String resultCodeClassPackage;
 
     @ApiOperation(value = "自动扫描并注册所有权限", notes = "自动扫描并注册所有权限", httpMethod = "POST", produces = "application/json")
     @ApiImplicitParams({
@@ -140,6 +161,68 @@ public class DevHelperController {
     @PostMapping("/refreshAdminAuthoritys")
     public Mono<JsonResult> refreshAdminAuthoritys() {
         return Mono.fromFuture(authorityAdminProvider.refreshAdminAuthoritys("5c85fc8b645d423b3c071ab7"));
+    }
+
+    @GetMapping("/statusCodeInfo")
+    @ResponseBody
+    public Mono<String> statusCodeInfo() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        ResourcePatternResolver resolver = ResourcePatternUtils.getResourcePatternResolver(resourceLoader);
+        MetadataReaderFactory metaReader = new CachingMetadataReaderFactory(resourceLoader);
+        List<Resource> resourceList = new ArrayList<>(16);
+        StringBuilder sbAll = new StringBuilder();
+        try {
+            Resource[] resources = resolver.getResources("classpath*:top/klw8/alita/service/result/code/*.class");
+            Collections.addAll(resourceList,resources);
+            if(StringUtils.isNotBlank(resultCodeClassPackage)){
+                String[] resultCodeClassPackages = resultCodeClassPackage.split(",");
+                for(String pack : resultCodeClassPackages){
+                    Collections.addAll(resourceList,resolver.getResources("classpath*:" + pack.replace(".","/") + "/*.class"));
+                }
+            }
+            StringBuilder sb = new StringBuilder();
+            StringBuilder sbFirst = new StringBuilder();
+            for (Resource resource : resourceList) {
+                MetadataReader reader = metaReader.getMetadataReader(resource);
+                if(reader.getAnnotationMetadata().hasAnnotation(SubResultCode.class.getName())){
+                    Class<?> onwClass = null;
+                    try {
+                        onwClass = Class.forName(reader.getClassMetadata().getClassName());
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    Method method = onwClass.getMethod("values");
+                    ISubResultCode inter[] = (ISubResultCode[]) method.invoke(null);
+                    boolean ifThisEnumFistRead = true;
+                    for (ISubResultCode stateEnum : inter) {
+
+                        IResultCode classify = stateEnum.getClassify();
+                        if (classify.equals(ResultCodeEnum.COMMON)) {
+                            if (ifThisEnumFistRead) {
+                                ifThisEnumFistRead = false;
+                                sbFirst.append("<tr><td colspan=\"2\" style=\"background-color: aliceblue;text-align: center;\">").append(classify.getCodeName()).append("</td></tr>");
+                            }
+                            sbFirst.append("<tr><td>").append(stateEnum.getCode()).append("</td><td>").append(stateEnum.getCodeMsg()).append("</td></tr>");
+                        } else {
+                            if (ifThisEnumFistRead) {
+                                ifThisEnumFistRead = false;
+                                sb.append("<tr><td colspan=\"2\" style=\"background-color: aliceblue;text-align: center;\">").append(classify.getCodeName()).append("</td></tr>");
+                            }
+                            sb.append("<tr><td>").append(stateEnum.getCode()).append("</td><td>").append(stateEnum.getCodeMsg()).append("</td></tr>");
+                        }
+                    }
+                }
+            }
+            sbAll.append("<table><thead><tr><th style=\"font-size:20px;\"><strong>状态码</strong></th><th style=\"font-size:20px;\"><strong>说明</strong></th></tr></thead>");
+            sbAll.append("<tbody>");
+            sbAll.append(sbFirst.toString());
+            sbAll.append(sb.toString());
+            sbAll.append("</tbody>");
+            sbAll.append("</table>");
+        } catch (IOException e) {
+            log.error("", e);
+        }
+        return Mono.just(sbAll.toString());
+
     }
 
 }

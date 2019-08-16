@@ -1,5 +1,6 @@
 package top.klw8.alita;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.logging.LoggingSystem;
@@ -13,6 +14,7 @@ import top.klw8.alita.BaseServiceApplication;
  * @author klw
  * @date 2018-11-09 11:19:10
  */
+@MapperScan("top.klw8.alita.service.authority.mapper")
 public class AdminServiceApplication extends BaseServiceApplication {
 
     public static void main(String[] args) {

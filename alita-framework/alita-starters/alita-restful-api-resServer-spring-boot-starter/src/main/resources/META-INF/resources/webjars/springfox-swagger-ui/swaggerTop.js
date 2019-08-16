@@ -2,13 +2,13 @@ $(document).ready(function() {
 	var checkInfo_descriptionDivTimer;
 	var isImportantInfo = true;
 	var isChangeLogShowed = false;
-	var isStateCodeShowed = false;
+	var isStateCodeShowed = true;
 	var buildMakedown = function() {
-		if($(".info_description").html()){
+		if($(".description").html()){
 			window.clearInterval(checkInfo_descriptionDivTimer);
-			$(".info_description").append("<div id='importantInfoTitle'>重要说明[-]</div><div id='importantInfoContent'>暂无内容</div>" +
-					"<div id='changeLogTitle'>改动记录[+]</div><div id='changeLogContent'>暂无内容</div>");
-			$("#changeLogTitle,#importantInfoTitle").css({"cursor":"pointer", "font-size": "30px", "font-weight": "bold"});
+			$(".description").append("<div id='importantInfoTitle'>重要说明[-]</div><div id='importantInfoContent'>暂无内容</div>" +
+				"<div id='changeLogTitle'>改动记录[+]</div><div id='changeLogContent'>暂无内容</div><div id='stateCodeTitle'>返回码说明[-]</div><div id='stateCodeContent'>暂无内容</div>");
+			$("#changeLogTitle,#stateCodeTitle,#importantInfoTitle").css({"cursor":"pointer", "font-size": "30px", "font-weight": "bold"});
 			$("#changeLogContent").hide();
 			$("#importantInfoTitle").click(function (){
 				if(isImportantInfo){
@@ -30,6 +30,17 @@ $(document).ready(function() {
 				}
 				$("#changeLogContent").toggle(isChangeLogShowed);
 			});
+			$("#stateCodeTitle").click(function (){
+				if(isStateCodeShowed){
+					$("#stateCodeTitle").text("返回码说明[+]");
+					isStateCodeShowed = false;
+				} else {
+					$("#stateCodeTitle").text("返回码说明[-]");
+					isStateCodeShowed = true;
+				}
+				$("#stateCodeContent").toggle(isStateCodeShowed);
+			});
+
 			$.get("/static/importantInfo.md?t=" + new Date(), function(data){
 				if(!data){
 					return;
@@ -41,12 +52,12 @@ $(document).ready(function() {
 					excludeTrailingPunctuationFromURLs: true,  // 自动转url时排除最后的标点符号, 要先打开 simplifiedAutoLink
 					strikethrough: true,     //打开删除线支持  ~~被删除线的~~
 					tables: true,   // 打开表格支持,例:
-													//  | h1    |    h2   |      h3 |
-													//  |:------|:-------:|--------:|
-													//  | 100   | [a][1]  | ![b][2] |
-													//  | *foo* | **bar** | ~~baz~~ |
+					//  | h1    |    h2   |      h3 |
+					//  |:------|:-------:|--------:|
+					//  | 100   | [a][1]  | ![b][2] |
+					//  | *foo* | **bar** | ~~baz~~ |
 					openLinksInNewWindow: true   //在浏览器窗口中打开连接
-					
+
 				});
 				var html = converter.makeHtml(data);
 				$("#importantInfoContent").html(html);
@@ -62,15 +73,22 @@ $(document).ready(function() {
 					excludeTrailingPunctuationFromURLs: true,  // 自动转url时排除最后的标点符号, 要先打开 simplifiedAutoLink
 					strikethrough: true,     //打开删除线支持  ~~被删除线的~~
 					tables: true,   // 打开表格支持,例:
-													//  | h1    |    h2   |      h3 |
-													//  |:------|:-------:|--------:|
-													//  | 100   | [a][1]  | ![b][2] |
-													//  | *foo* | **bar** | ~~baz~~ |
+					//  | h1    |    h2   |      h3 |
+					//  |:------|:-------:|--------:|
+					//  | 100   | [a][1]  | ![b][2] |
+					//  | *foo* | **bar** | ~~baz~~ |
 					openLinksInNewWindow: true   //在浏览器窗口中打开连接
-					
+
 				});
 				var html = converter.makeHtml(data);
 				$("#changeLogContent").html(html);
+			});
+
+			$.get("devHelper/statusCodeInfo?t=" + new Date(), function(data){
+				if(!data){
+					return;
+				}
+				$("#stateCodeContent").html(data);
 			});
 			
 		}
