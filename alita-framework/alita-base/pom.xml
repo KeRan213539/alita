@@ -66,7 +66,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.3.RELEASE</version>
+		<version>2.1.7.RELEASE</version>
 		<relativePath />
 	</parent>
 
@@ -174,7 +174,7 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.springframework.cloud</groupId>
+				<groupId>com.alibaba.cloud</groupId>
 				<artifactId>spring-cloud-alibaba-dependencies</artifactId>
 				<version>${spring-cloud-alibaba-dependencies.version}</version>
 				<type>pom</type>
@@ -542,10 +542,11 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+		<!--
 		<repository>
 			<id>nexus</id>
 			<name>aliyun maven Repository</name>
-			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+			<url>http://maven.aliyun.com/nexus/content/repositories/central/</url>
 			<releases>
                 <enabled>true</enabled>
             </releases>
@@ -553,6 +554,7 @@
                 <enabled>false</enabled>
             </snapshots>
 		</repository>
+		-->
 	</repositories>
 
 	<profiles>
