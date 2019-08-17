@@ -31,7 +31,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skipJunitTest>true</skipJunitTest>
 
-		<spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
+		<spring-cloud.version>Greenwich.SR2</spring-cloud.version>
 		<rocketmq-client.version>4.4.0</rocketmq-client.version>
 		<junit5-platform.version>1.3.1</junit5-platform.version>
 		<disruptor.version>3.4.2</disruptor.version>
@@ -49,10 +49,11 @@
 		<spring-security.version>5.1.5.RELEASE</spring-security.version>
 		<spring-security-jwt.version>1.0.10.RELEASE</spring-security-jwt.version>
 		<spring-security-oauth2.version>2.3.5.RELEASE</spring-security-oauth2.version>
-		<spring-cloud-alibaba-dependencies.version>0.9.0.RELEASE</spring-cloud-alibaba-dependencies.version>
+		<spring-cloud-alibaba-dependencies.version>2.1.0.RELEASE</spring-cloud-alibaba-dependencies.version>
 		<dubbo-registry-nacos.version>2.7.3</dubbo-registry-nacos.version>
 		<dubbo.version>2.7.3</dubbo.version>
 		<dubbo-spring-boot-starter.version>2.7.1</dubbo-spring-boot-starter.version>
+		<sentinel-apache-dubbo-adapter.version>1.6.3</sentinel-apache-dubbo-adapter.version>
 		<alibaba-spring-context-support.version>1.0.2</alibaba-spring-context-support.version>
 		<IK_Analyzer.version>2012FF_hf1_1</IK_Analyzer.version>
 
@@ -60,7 +61,6 @@
 		<alita-validator.version>0.2</alita-validator.version>
 		<mybatis-plus.version>3.1.2</mybatis-plus.version>
 		<postgresql.version>42.2.6</postgresql.version>
-		<sentinel-apache-dubbo-adapter.version>1.6.3</sentinel-apache-dubbo-adapter.version>
 	</properties>
 
 	<parent>

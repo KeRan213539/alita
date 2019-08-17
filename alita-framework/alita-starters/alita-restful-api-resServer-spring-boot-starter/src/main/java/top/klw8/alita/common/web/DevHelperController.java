@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -23,7 +24,6 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.reactive.result.method.RequestMappingInfo;
 import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping;
 import reactor.core.publisher.Mono;
-import top.klw8.alita.base.springctx.SpringApplicationContextUtil;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
@@ -65,6 +65,9 @@ public class DevHelperController {
     @Autowired
     private ResourceLoader resourceLoader;
 
+    @Autowired
+    private ApplicationContext applicationContext;
+
     @Value("${alita.devHelper.resultCodeClassPackage:}")
     private String resultCodeClassPackage;
 
@@ -75,7 +78,7 @@ public class DevHelperController {
     })
     @PostMapping("/registeAllAuthority")
     public Mono<JsonResult> registeAllAuthority(boolean isAdd2SuperAdmin) {
-        RequestMappingHandlerMapping reqMapping = SpringApplicationContextUtil.getBean(RequestMappingHandlerMapping.class);
+        RequestMappingHandlerMapping reqMapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
         Map<RequestMappingInfo, HandlerMethod> methodMap = reqMapping.getHandlerMethods();
         Map<String, SystemAuthoritysCatlog> tempMap = new HashMap<>();
         for (Entry<RequestMappingInfo, HandlerMethod> methodEntry : methodMap.entrySet()) {
@@ -86,49 +89,50 @@ public class DevHelperController {
             SystemAuthoritysCatlog catlog = null;
             String moduleName = "";
 
-            // 获取方法所在的控制器类,拿到类注解 RequestMapping, 并从 RequestMapping 中获取url前缀
-            Class<?> controllerClass = v.getBeanType();
-            // 找 AuthorityCatlogRegister
-            if (controllerClass.isAnnotationPresent(AuthorityCatlogRegister.class)) {
-                AuthorityCatlogRegister catlogRegister = controllerClass.getAnnotation(AuthorityCatlogRegister.class);
-                catlog = tempMap.get(catlogRegister.name());
-                if(catlog == null){
-                    catlog = new SystemAuthoritysCatlog();
-                    catlog.setCatlogName(catlogRegister.name());
-                    catlog.setShowIndex(catlogRegister.showIndex());
-                    catlog.setRemark(catlogRegister.remark());
-                    catlog.setAuthorityList(new ArrayList<>(16));
-                    tempMap.put(catlogRegister.name(), catlog);
-                }
-                moduleName = "【" + catlog.getCatlogName() + "】";
-            }
-            if (controllerClass.isAnnotationPresent(RequestMapping.class)) {
-                RequestMapping mapping = controllerClass.getAnnotation(RequestMapping.class);
-                authorityActionPrefix = mapping.value()[0];
-            } else {
-                authorityActionPrefix = "";
-            }
-
-            if (method.isAnnotationPresent(RequestMapping.class)) {
-                RequestMapping mapping = method.getAnnotation(RequestMapping.class);
-                authorityAction = authorityActionPrefix + mapping.value()[0];
-            } else if (method.isAnnotationPresent(PostMapping.class)) {
-                PostMapping mapping = method.getAnnotation(PostMapping.class);
-                authorityAction = authorityActionPrefix + mapping.value()[0];
-            } else if (method.isAnnotationPresent(GetMapping.class)) {
-                GetMapping mapping = method.getAnnotation(GetMapping.class);
-                authorityAction = authorityActionPrefix + mapping.value()[0];
-            } else if (method.isAnnotationPresent(PutMapping.class)) {
-                PutMapping mapping = method.getAnnotation(PutMapping.class);
-                authorityAction = authorityActionPrefix + mapping.value()[0];
-            } else if (method.isAnnotationPresent(DeleteMapping.class)) {
-                DeleteMapping mapping = method.getAnnotation(DeleteMapping.class);
-                authorityAction = authorityActionPrefix + mapping.value()[0];
-            } else {
-                // 不可能走到这里, RequestMappingHandlerMapping.getHandlerMethods()拿到的都是有mapping注解的方法
-                return Mono.just(JsonResult.sendFailedResult(method.getDeclaringClass().getName() + "." + method.getName() + "() 没有 mapping 注解"));
-            }
             if (method.isAnnotationPresent(AuthorityRegister.class)) {
+                // 获取方法所在的控制器类,拿到类注解 RequestMapping, 并从 RequestMapping 中获取url前缀
+                Class<?> controllerClass = v.getBeanType();
+                // 找 AuthorityCatlogRegister
+                if (controllerClass.isAnnotationPresent(AuthorityCatlogRegister.class)) {
+                    AuthorityCatlogRegister catlogRegister = controllerClass.getAnnotation(AuthorityCatlogRegister.class);
+                    catlog = tempMap.get(catlogRegister.name());
+                    if (catlog == null) {
+                        catlog = new SystemAuthoritysCatlog();
+                        catlog.setCatlogName(catlogRegister.name());
+                        catlog.setShowIndex(catlogRegister.showIndex());
+                        catlog.setRemark(catlogRegister.remark());
+                        catlog.setAuthorityList(new ArrayList<>(16));
+                        tempMap.put(catlogRegister.name(), catlog);
+                    }
+                    moduleName = "【" + catlog.getCatlogName() + "】";
+                }
+                if (controllerClass.isAnnotationPresent(RequestMapping.class)) {
+                    RequestMapping mapping = controllerClass.getAnnotation(RequestMapping.class);
+                    authorityActionPrefix = mapping.value()[0];
+                } else {
+                    authorityActionPrefix = "";
+                }
+
+                if (method.isAnnotationPresent(RequestMapping.class)) {
+                    RequestMapping mapping = method.getAnnotation(RequestMapping.class);
+                    authorityAction = authorityActionPrefix + mapping.value()[0];
+                } else if (method.isAnnotationPresent(PostMapping.class)) {
+                    PostMapping mapping = method.getAnnotation(PostMapping.class);
+                    authorityAction = authorityActionPrefix + mapping.value()[0];
+                } else if (method.isAnnotationPresent(GetMapping.class)) {
+                    GetMapping mapping = method.getAnnotation(GetMapping.class);
+                    authorityAction = authorityActionPrefix + mapping.value()[0];
+                } else if (method.isAnnotationPresent(PutMapping.class)) {
+                    PutMapping mapping = method.getAnnotation(PutMapping.class);
+                    authorityAction = authorityActionPrefix + mapping.value()[0];
+                } else if (method.isAnnotationPresent(DeleteMapping.class)) {
+                    DeleteMapping mapping = method.getAnnotation(DeleteMapping.class);
+                    authorityAction = authorityActionPrefix + mapping.value()[0];
+                } else {
+                    // 不可能走到这里, RequestMappingHandlerMapping.getHandlerMethods()拿到的都是有mapping注解的方法
+                    return Mono.just(JsonResult.sendFailedResult(method.getDeclaringClass().getName() + "." + method.getName() + "() 没有 mapping 注解"));
+                }
+
                 AuthorityRegister register = method.getAnnotation(AuthorityRegister.class);
                 // 先检查 catlog 是否存在
                 if (catlog == null) {
@@ -172,18 +176,18 @@ public class DevHelperController {
         StringBuilder sbAll = new StringBuilder();
         try {
             Resource[] resources = resolver.getResources("classpath*:top/klw8/alita/service/result/code/*.class");
-            Collections.addAll(resourceList,resources);
-            if(StringUtils.isNotBlank(resultCodeClassPackage)){
+            Collections.addAll(resourceList, resources);
+            if (StringUtils.isNotBlank(resultCodeClassPackage)) {
                 String[] resultCodeClassPackages = resultCodeClassPackage.split(",");
-                for(String pack : resultCodeClassPackages){
-                    Collections.addAll(resourceList,resolver.getResources("classpath*:" + pack.replace(".","/") + "/*.class"));
+                for (String pack : resultCodeClassPackages) {
+                    Collections.addAll(resourceList, resolver.getResources("classpath*:" + pack.replace(".", "/") + "/*.class"));
                 }
             }
             StringBuilder sb = new StringBuilder();
             StringBuilder sbFirst = new StringBuilder();
             for (Resource resource : resourceList) {
                 MetadataReader reader = metaReader.getMetadataReader(resource);
-                if(reader.getAnnotationMetadata().hasAnnotation(SubResultCode.class.getName())){
+                if (reader.getAnnotationMetadata().hasAnnotation(SubResultCode.class.getName())) {
                     Class<?> onwClass = null;
                     try {
                         onwClass = Class.forName(reader.getClassMetadata().getClassName());

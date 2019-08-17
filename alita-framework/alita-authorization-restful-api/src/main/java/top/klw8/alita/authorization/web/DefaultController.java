@@ -17,8 +17,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import top.klw8.alita.authorization.common.AlitaUserDetailsService;
 import top.klw8.alita.authorization.web.vo.SendSMSCodeRequest;
+import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.starter.web.base.WebapiBaseController;
-import top.klw8.alita.starter.web.common.JsonResult;
 import top.klw8.alita.utils.generator.SecurityCodeGenerator;
 import top.klw8.alita.utils.redis.RedisTagEnum;
 import top.klw8.alita.utils.redis.RedisUtil;
@@ -57,18 +57,18 @@ public class DefaultController extends WebapiBaseController {
 		    RedisTagEnum.REDIS_TAG_DEFAULT);
 	    if (sendTime != null
 		    && (System.currentTimeMillis() - sendTime.longValue()) < ONE_MINUTE) {
-		return JsonResult.sendFailedResult("距上次发送不足1分钟,请不要重复发送", null);
+		return JsonResult.sendFailedResult("距上次发送不足1分钟,请不要重复发送");
 	    }
 	    // TODO 发送验证码
 	    System.out.println("================" + userMobileNo + "====" + smsCode + "====请在" + SMS_CODE_TIMEOUT_MSG + "内使用");
-	    return JsonResult.sendSuccessfulResult("验证码发送成功", null);
+	    return JsonResult.sendSuccessfulResult("验证码发送成功");
 	}
 	
 	// 到这里说明是第一次发送,先检查用户是否存在
 	try {
 	    userService.loadUserByUsername(userMobileNo);
 	} catch (UsernameNotFoundException e) {
-	    return JsonResult.sendFailedResult("用户不存在", null);
+	    return JsonResult.sendFailedResult("用户不存在");
 	}
 	smsCode = SecurityCodeGenerator.numberCode6();
 	
@@ -78,7 +78,7 @@ public class DefaultController extends WebapiBaseController {
 	
 	// TODO 发送验证码
 	System.out.println("================" + userMobileNo + "====" + smsCode + "====请在" + SMS_CODE_TIMEOUT_MSG + "内使用");
-	return JsonResult.sendSuccessfulResult("验证码发送成功", null);
+	return JsonResult.sendSuccessfulResult("验证码发送成功");
     }
     
 }
