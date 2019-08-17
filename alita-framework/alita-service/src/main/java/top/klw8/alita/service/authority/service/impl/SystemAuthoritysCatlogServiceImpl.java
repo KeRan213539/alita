@@ -1,5 +1,7 @@
 package top.klw8.alita.service.authority.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.additional.query.impl.QueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +65,9 @@ public class SystemAuthoritysCatlogServiceImpl extends ServiceImpl<ISystemAuthor
 
     @Override
     public SystemAuthoritysCatlog findByCatlogName(String catlogName) {
-        return this.getOne(this.query().eq("catlog_name", catlogName));
+        QueryWrapper<SystemAuthoritysCatlog> query = new QueryWrapper();
+        query.eq("catlog_name", catlogName);
+        return this.getOne(query);
     }
 
 }

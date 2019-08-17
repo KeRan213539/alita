@@ -1,5 +1,6 @@
 package top.klw8.alita.service.authority.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,9 @@ public class SystemAuthoritysServiceImpl extends ServiceImpl<ISystemAuthoritysMa
 
     @Override
     public SystemAuthoritys findByAuAction(String action) {
-        return this.getOne(this.query().eq("authority_action", action));
+        QueryWrapper<SystemAuthoritys> query = new QueryWrapper();
+        query.eq("authority_action", action);
+        return this.getOne(query);
     }
     
 }

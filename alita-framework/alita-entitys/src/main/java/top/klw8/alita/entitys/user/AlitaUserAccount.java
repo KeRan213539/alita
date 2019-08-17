@@ -65,28 +65,28 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
      * @Fields accountNonExpired : 账户是否未过期(true 是未过期)
      */
     @TableField("account_non_expired")
-    private Boolean accountNonExpired;
+    private Boolean accountNonExpired1;
 
     /**
      * @author klw
      * @Fields accountNonLocked : 账户是否未锁定 (true 是未锁定)
      */
     @TableField("account_non_locked")
-    private Boolean accountNonLocked;
+    private Boolean accountNonLocked1;
 
     /**
      * @author klw
      * @Fields credentialsNonExpired : 用户密码是否未过期(true 是未过期), 密码过期了会登录失败(需要强制用户修改密码)
      */
     @TableField("credentials_non_expired")
-    private Boolean credentialsNonExpired;
+    private Boolean credentialsNonExpired1;
 
     /**
      * @author klw
      * @Fields enabled : 账户是否启用(true 是启用)
      */
     @TableField("enabled")
-    private Boolean enabled;
+    private Boolean enabled1;
 
     /**
      * @author klw
@@ -101,10 +101,10 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
     public AlitaUserAccount(String userPhoneNum, String userPwd) {
         this.userPhoneNum = userPhoneNum;
         this.userPwd = userPwd;
-        this.accountNonExpired = Boolean.TRUE;
-        this.accountNonLocked = Boolean.TRUE;
-        this.credentialsNonExpired = Boolean.TRUE;
-        this.enabled = Boolean.TRUE;
+        this.accountNonExpired1 = Boolean.TRUE;
+        this.accountNonLocked1 = Boolean.TRUE;
+        this.credentialsNonExpired1 = Boolean.TRUE;
+        this.enabled1 = Boolean.TRUE;
     }
 
     @Override
@@ -136,22 +136,22 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return accountNonExpired;
+        return accountNonExpired1;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return accountNonLocked;
+        return accountNonLocked1;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return credentialsNonExpired;
+        return credentialsNonExpired1;
     }
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return enabled1;
     }
 
 }

@@ -15,7 +15,7 @@ import top.klw8.alita.service.result.code.CommonResultCodeEnum;
 @Getter
 @Setter
 @ToString
-public class JsonResult<T> {
+public class JsonResult<T> implements java.io.Serializable {
 
     /**
      * @author klw(213539@qq.com)
@@ -34,6 +34,8 @@ public class JsonResult<T> {
      * @Description: 响应数据
      */
     private T data;
+
+    public JsonResult(){}
 
     public JsonResult(ISubResultCode subResultCode){
         this.code = subResultCode.getCode();
