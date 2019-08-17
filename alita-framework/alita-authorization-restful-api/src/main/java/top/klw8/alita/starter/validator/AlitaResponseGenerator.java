@@ -1,6 +1,6 @@
 package top.klw8.alita.starter.validator;
 
-import top.klw8.alita.starter.web.common.JsonResult;
+import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.validator.IResponseMsgGenerator;
 import top.klw8.alita.validator.ValidatorException;
 
@@ -23,7 +23,7 @@ public class AlitaResponseGenerator implements IResponseMsgGenerator {
      */
     @Override
     public Object generatorResponse(String code, String message, ValidatorException ex) {
-        return JsonResult.sendParamError(message);
+        return JsonResult.sendFailedResult(message);
     }
 
 }
