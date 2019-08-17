@@ -1,5 +1,6 @@
 package top.klw8.alita.providers.admin.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +31,16 @@ public class AlitaUserProvider implements IAlitaUserProvider {
 
     @Override
     public CompletableFuture<AlitaUserAccount> findUserByName(String userName) {
-        return CompletableFuture.supplyAsync(() -> userService.getOne(userService.query().eq("user_name", userName)), ServiceContext.executor);
+        QueryWrapper<AlitaUserAccount> query = new QueryWrapper();
+        query.eq("user_name", userName);
+        return CompletableFuture.supplyAsync(() -> userService.getOne(query), ServiceContext.executor);
     }
 
     @Override
     public CompletableFuture<AlitaUserAccount> findUserByPhoneNum(String userPhoneNum) {
-        return CompletableFuture.supplyAsync(() -> userService.getOne(userService.query().eq("user_phone_num", userPhoneNum)), ServiceContext.executor);
+        QueryWrapper<AlitaUserAccount> query = new QueryWrapper();
+        query.eq("user_phone_num", userPhoneNum);
+        return CompletableFuture.supplyAsync(() -> userService.getOne(query), ServiceContext.executor);
     }
+
 }

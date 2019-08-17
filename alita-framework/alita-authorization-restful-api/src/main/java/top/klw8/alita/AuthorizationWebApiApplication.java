@@ -3,6 +3,7 @@ package top.klw8.alita;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.logging.LoggingSystem;
+import top.klw8.alita.base.springctx.EnableSpringApplicationContextUtil;
 
 
 /**
@@ -13,6 +14,7 @@ import org.springframework.boot.logging.LoggingSystem;
  */
 
 @SpringBootApplication
+@EnableSpringApplicationContextUtil
 public class AuthorizationWebApiApplication {
 
     public static void main(String[] args) {

@@ -10,8 +10,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 
 import top.klw8.alita.entitys.user.AlitaUserAccount;
-import top.klw8.alita.service.api.authority.IAlitaUserProvider;
-import top.klw8.alita.starter.common.UserCacheHelper;
+import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 
 /**
  * @author klw
@@ -21,13 +20,10 @@ import top.klw8.alita.starter.common.UserCacheHelper;
  */
 public class CustomTokenEnhancer implements TokenEnhancer {
 
-    private IAlitaUserProvider userService;
+    private IAuthorityAdminProvider authorityAdminProvider;
 
-    private UserCacheHelper userCacheHelper;
-
-    public CustomTokenEnhancer(IAlitaUserProvider userService, UserCacheHelper userCacheHelper) {
-        this.userService = userService;
-        this.userCacheHelper = userCacheHelper;
+    public CustomTokenEnhancer(IAuthorityAdminProvider authorityAdminProvider) {
+        this.authorityAdminProvider = authorityAdminProvider;
     }
 
     @Override
@@ -43,17 +39,10 @@ public class CustomTokenEnhancer implements TokenEnhancer {
         AlitaUserAccount user = null;
         if (principal instanceof AlitaUserAccount) {
             user = (AlitaUserAccount) principal;
-            additionalInfo.put("userId", user.getId().toString());
+            additionalInfo.put("userId", user.getId());
         }
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
-
-        //重新查询user,把相关信息放入缓存
-		CompletableFuture<AlitaUserAccount> accountFuture = userService.findUserById(user.getId());
-        try {
-            userCacheHelper.putUserInfo2Cache(accountFuture.get());
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
+        authorityAdminProvider.refreshAdminAuthoritys(user.getId());
 
         return accessToken;
     }

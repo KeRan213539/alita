@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import org.springframework.security.core.GrantedAuthority;
@@ -50,7 +51,7 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
      * @author klw
      * @Fields userPwd : 用户密码
      */
-    @TableField("user_pwd")
+    @TableField(value = "user_pwd", fill = FieldFill.INSERT_UPDATE)
     private String userPwd;
 
     /**

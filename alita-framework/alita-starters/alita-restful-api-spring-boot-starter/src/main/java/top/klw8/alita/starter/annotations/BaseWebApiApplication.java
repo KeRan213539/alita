@@ -1,6 +1,7 @@
 package top.klw8.alita.starter.annotations;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import top.klw8.alita.base.springctx.EnableSpringApplicationContextUtil;
 
 /**
  * @ClassName: BaseWebApiApplication
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2019年2月20日 下午6:11:29
  */
 @SpringBootApplication
+@EnableSpringApplicationContextUtil
 public class BaseWebApiApplication {
 
 }

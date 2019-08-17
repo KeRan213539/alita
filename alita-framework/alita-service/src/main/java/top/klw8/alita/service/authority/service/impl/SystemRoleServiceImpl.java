@@ -30,10 +30,14 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, System
 
     @Override
     public int addAuthority2Role(String roleId, SystemAuthoritys au) {
-        if (null == roleId || null == au || null == au.getId()) {
+        try {
+            if (null == roleId || null == au || null == au.getId()) {
+                return 0;
+            }
+            return dao.addAuthority2Role(au.getId(), roleId);
+        }catch (Exception e){
             return 0;
         }
-        return dao.addAuthority2Role(au.getId(), roleId);
     }
 
     @Override

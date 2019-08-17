@@ -68,24 +68,25 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                                 au.setId(UUIDUtil.getRandomUUIDString());
                                 auService.save(au);
                                 catlogService.addAuthority2Catlog(catlog.getId(), au);
+                                auFinded = au;
                             }
                             if (isAdd2SuperAdmin) {
                                 // 添加到超级管理员角色和用户中
-                                AlitaUserAccount superAdmin = userService.getById("5c85fc8b645d423b3c071ab7");
+                                AlitaUserAccount superAdmin = userService.getById("d84c6b4ed9134d468e5a43d467036c46");
                                 boolean isNeedAddRole2User = false;
                                 if (EntityUtil.isEntityEmpty(superAdmin)) {
                                     isNeedAddRole2User = true;
                                     BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
                                     superAdmin = new AlitaUserAccount("admin", pwdEncoder.encode("123456"));
-                                    superAdmin.setId("5c85fc8b645d423b3c071ab7");
+                                    superAdmin.setId("d84c6b4ed9134d468e5a43d467036c46");
                                     superAdmin.setCreateDate(LocalDateTime.now());
                                     userService.save(superAdmin);
                                 }
-                                SystemRole superAdminRole = roleService.getById("5c85fc8b645d423b3c071ab6");
+                                SystemRole superAdminRole = roleService.getById("d84c6b4ed9134d468e5a43d467036c47");
                                 if (EntityUtil.isEntityEmpty(superAdminRole)) {
                                     isNeedAddRole2User = true;
                                     superAdminRole = new SystemRole();
-                                    superAdminRole.setId("5c85fc8b645d423b3c071ab6");
+                                    superAdminRole.setId("d84c6b4ed9134d468e5a43d467036c47");
                                     superAdminRole.setRoleName("超级管理员");
                                     superAdminRole.setRemark("超级管理员");
                                     roleService.save(superAdminRole);
@@ -93,7 +94,7 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                                 if (isNeedAddRole2User) {
                                     userService.addRole2User(superAdmin.getId(), superAdminRole);
                                 }
-                                roleService.addAuthority2Role(superAdminRole.getId(), au);
+                                roleService.addAuthority2Role(superAdminRole.getId(), auFinded);
                             }
                         }
                     }
@@ -103,4 +104,5 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
             return JsonResult.sendSuccessfulResult("注册失败,没有任何待注册数据", null);
         }, ServiceContext.executor);
     }
+
 }

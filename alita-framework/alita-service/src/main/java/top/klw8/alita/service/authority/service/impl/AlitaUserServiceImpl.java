@@ -10,7 +10,9 @@ import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.service.authority.IAlitaUserService;
 import top.klw8.alita.service.authority.mapper.IAlitaUserMapper;
+import top.klw8.alita.utils.UUIDUtil;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,10 +30,14 @@ public class AlitaUserServiceImpl extends ServiceImpl<IAlitaUserMapper, AlitaUse
 
     @Override
     public int addRole2User(String userId, SystemRole role) {
-        if (null == userId || null == role || null == role.getId()) {
+        try {
+            if (null == userId || null == role || null == role.getId()) {
+                return 0;
+            }
+            return this.getBaseMapper().addRole2User(userId, role.getId());
+        }catch (Exception e){
             return 0;
         }
-        return this.getBaseMapper().addRole2User(userId, role.getId());
     }
 
     @Override

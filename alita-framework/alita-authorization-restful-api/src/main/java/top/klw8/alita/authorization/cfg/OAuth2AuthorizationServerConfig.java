@@ -55,7 +55,7 @@ import top.klw8.alita.authorization.cfg.beans.ClientItemBean;
 import top.klw8.alita.authorization.cfg.beans.OAuth2ClientBean;
 import top.klw8.alita.authorization.oauth2.provider.SMSCodeLoginTokenGranter;
 import top.klw8.alita.service.api.authority.IAlitaUserProvider;
-import top.klw8.alita.starter.common.UserCacheHelper;
+import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 
 
 /**
@@ -75,16 +75,13 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     
     @Autowired
     private UserDetailsService userDetailsService;
-    
-    @Reference(async=true)
-    private IAlitaUserProvider userService;
-    
-    @Autowired
-    private Environment env;
-    
-    @Autowired
-    private UserCacheHelper userCacheHelper;
-    
+
+	@Autowired
+	private Environment env;
+
+	@Reference(async=true)
+	private IAuthorityAdminProvider authorityAdminProvider;
+
     @javax.annotation.Resource
     private OAuth2ClientBean clientCfg;
     
@@ -187,12 +184,12 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     @Bean
     public TokenEnhancer tokenEnhancer() {
 	TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-	tokenEnhancerChain.setTokenEnhancers(Arrays.asList(new CustomTokenEnhancer(userService, userCacheHelper), accessTokenConverter()));
+	tokenEnhancerChain.setTokenEnhancers(Arrays.asList(new CustomTokenEnhancer(authorityAdminProvider), accessTokenConverter()));
         return tokenEnhancerChain;
     }
     
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+    public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
         //允许表单认证
         oauthServer.allowFormAuthenticationForClients();
 //        .sslOnly()   //TODO 强制使用 https方式.后面开启

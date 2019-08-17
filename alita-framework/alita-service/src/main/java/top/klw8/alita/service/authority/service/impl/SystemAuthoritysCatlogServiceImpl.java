@@ -32,10 +32,14 @@ public class SystemAuthoritysCatlogServiceImpl extends ServiceImpl<ISystemAuthor
 
     @Override
     public int addAuthority2Catlog(String catlogId, SystemAuthoritys au) {
-        if (null == catlogId || null == au || null == au.getId()) {
+        try {
+            if (null == catlogId || null == au || null == au.getId()) {
+                return 0;
+            }
+            return dao.addAuthority2Catlog(catlogId, au.getId());
+        }catch (Exception e){
             return 0;
         }
-        return dao.addAuthority2Catlog(catlogId, au.getId());
     }
 
     @Override

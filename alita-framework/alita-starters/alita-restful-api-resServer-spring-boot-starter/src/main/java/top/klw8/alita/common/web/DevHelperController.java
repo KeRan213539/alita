@@ -35,7 +35,6 @@ import top.klw8.alita.service.result.SubResultCode;
 import top.klw8.alita.service.result.code.ResultCodeEnum;
 import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
-import top.klw8.alita.utils.UUIDUtil;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -135,6 +134,7 @@ public class DevHelperController {
 
                 AuthorityRegister register = method.getAnnotation(AuthorityRegister.class);
                 // 先检查 catlog 是否存在
+                catlog = tempMap.get(register.catlogName());
                 if (catlog == null) {
                     // 如果没有 AuthorityCatlogRegister 注解,那么这里 catlog 就是 null
                     if (StringUtils.isEmpty(register.catlogName()) || register.catlogShowIndex() < 0) {
@@ -149,7 +149,6 @@ public class DevHelperController {
                     tempMap.put(register.catlogName(), catlog);
                 }
                 SystemAuthoritys au = new SystemAuthoritys();
-                au.setId(UUIDUtil.getRandomUUIDString());
                 au.setAuthorityName(moduleName + register.authorityName());
                 au.setAuthorityType(register.authorityType());
                 au.setAuthorityAction(authorityAction);
@@ -164,7 +163,7 @@ public class DevHelperController {
     @ApiOperation(value = "刷新缓存中的管理员权限", notes = "刷新缓存中的管理员权限", httpMethod = "POST", produces = "application/json")
     @PostMapping("/refreshAdminAuthoritys")
     public Mono<JsonResult> refreshAdminAuthoritys() {
-        return Mono.fromFuture(authorityAdminProvider.refreshAdminAuthoritys("5c85fc8b645d423b3c071ab7"));
+        return Mono.fromFuture(authorityAdminProvider.refreshAdminAuthoritys("d84c6b4ed9134d468e5a43d467036c46"));
     }
 
     @GetMapping("/statusCodeInfo")

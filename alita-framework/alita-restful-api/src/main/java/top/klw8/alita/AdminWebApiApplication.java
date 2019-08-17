@@ -7,8 +7,8 @@ import top.klw8.alita.starter.annotations.BaseWebApiApplication;
 
 
 /**
- * @ClassName: OrderWebapiApplication
- * @Description: order 接口服务启动器
+ * @ClassName: AdminWebApiApplication
+ * @Description: admin 接口服务启动器
  * @author klw
  * @date 2018年9月29日 下午4:12:17
  */
