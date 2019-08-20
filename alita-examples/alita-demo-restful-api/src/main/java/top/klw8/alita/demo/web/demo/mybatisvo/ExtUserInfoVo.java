@@ -15,6 +15,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class ExtUserInfoVo {
 
+    @ApiParam(value = "编号")
+    private String id;
+
     @ApiParam(value = "用户编号")
     private String userId;
 
@@ -23,5 +26,8 @@ public class ExtUserInfoVo {
 
     @ApiParam(value = "用户等级")
     private Integer userLevel;
+
+    @ApiParam(value = "用户昵称")
+    private String userNick;
 
 }

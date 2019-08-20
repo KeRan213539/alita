@@ -7,6 +7,7 @@ import top.klw8.alita.entitys.demo.mybatis.ExtUserInfo;
 import top.klw8.alita.service.demo.providers.user.IExtUserProvider;
 import top.klw8.alita.service.mybatisdemo.services.user.IExtUserService;
 import top.klw8.alita.service.result.JsonResult;
+import top.klw8.alita.service.result.code.CommonResultCodeEnum;
 import top.klw8.alita.service.utils.EntityUtil;
 
 import java.util.List;
@@ -25,6 +26,39 @@ public class ExtUserProvider implements IExtUserProvider {
 
     @Autowired
     private IExtUserService extUserService;
+
+    @Override
+    public CompletableFuture<JsonResult> addUserExtInfo(ExtUserInfo extUserInfo) {
+        return CompletableFuture.supplyAsync(() -> {
+            if (extUserService.addUserExtInfo(extUserInfo)) {
+                return JsonResult.sendSuccessfulResult();
+            } else {
+                return JsonResult.sendFailedResult(CommonResultCodeEnum.ERROR, "添加失败");
+            }
+        });
+    }
+
+    @Override
+    public CompletableFuture<JsonResult> deleteUserExtInfo(String userId) {
+        return CompletableFuture.supplyAsync(() -> {
+            if (extUserService.deleteUserExtInfo(userId)) {
+                return JsonResult.sendSuccessfulResult();
+            } else {
+                return JsonResult.sendFailedResult(CommonResultCodeEnum.ERROR, "删除失败");
+            }
+        });
+    }
+
+    @Override
+    public CompletableFuture<JsonResult> updateUserExtInfo(ExtUserInfo extUserInfo) {
+        return CompletableFuture.supplyAsync(() -> {
+            if (extUserService.updateUserExtInfo(extUserInfo)) {
+                return JsonResult.sendSuccessfulResult();
+            } else {
+                return JsonResult.sendFailedResult(CommonResultCodeEnum.ERROR, "更新失败");
+            }
+        });
+    }
 
     @Override
     public CompletableFuture<JsonResult> findExtByUserId(String userId) {

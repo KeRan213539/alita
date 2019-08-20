@@ -1,5 +1,6 @@
 package top.klw8.alita.service.demo.providers.user;
 
+import top.klw8.alita.entitys.demo.mybatis.ExtUserInfo;
 import top.klw8.alita.service.result.JsonResult;
 
 import java.util.concurrent.CompletableFuture;
@@ -14,7 +15,33 @@ import java.util.concurrent.CompletableFuture;
 public interface IExtUserProvider {
 
     /**
-     *
+     * @Author zhanglei
+     * @Description 添加新的用户扩展信息
+     * @Date 16:27 2019-08-20
+     * @param: extUserInfo
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     **/
+    CompletableFuture<JsonResult> addUserExtInfo(ExtUserInfo extUserInfo);
+
+    /**
+     * @Author zhanglei
+     * @Description 根据编号删除用户的扩展信息
+     * @Date 16:31 2019-08-20
+     * @param: userId
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     **/
+    CompletableFuture<JsonResult> deleteUserExtInfo(String userId);
+
+    /**
+     * @Author zhanglei
+     * @Description 更新用户的扩展信息
+     * @Date 16:32 2019-08-20
+     * @param: extUserInfo
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     **/
+    CompletableFuture<JsonResult> updateUserExtInfo(ExtUserInfo extUserInfo);
+
+    /**
      * @Author zhanglei
      * @Description 用于获取用户的扩展信息
      * @Date 14:42 2019-08-19
@@ -24,7 +51,6 @@ public interface IExtUserProvider {
     CompletableFuture<JsonResult> findExtByUserId(String userId);
 
     /**
-     *
      * @Author zhanglei
      * @Description 根据emial获取用户扩展信息
      * @Date 14:46 2019-08-19
@@ -34,7 +60,6 @@ public interface IExtUserProvider {
     CompletableFuture<JsonResult> findExtByEmail(String userEmail);
 
     /**
-     *
      * @Author zhanglei
      * @Description 根据等级获取用户扩展信息
      * @Date 14:47 2019-08-19

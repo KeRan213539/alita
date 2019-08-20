@@ -1,14 +1,10 @@
 package top.klw8.alita.demo.cfg;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
+import io.swagger.annotations.Api;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-
-import io.swagger.annotations.Api;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
@@ -16,6 +12,9 @@ import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebFlux;
 import top.klw8.alita.starter.cfg.base.SwaggerConfigBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName: SwaggerConfig
@@ -61,7 +60,7 @@ public class SwaggerConfig extends SwaggerConfigBase  {
 	
 	
         return new Docket(DocumentationType.SWAGGER_2)
-        	.groupName("【测试/Demo】")
+        	.groupName("【测试/MongoDemo】")
                 .select()
                 .paths(PathSelectors.ant("/*demo/**"))
 //                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
@@ -78,14 +77,14 @@ public class SwaggerConfig extends SwaggerConfigBase  {
         List<SecurityContext> securityContexts = new ArrayList<>();
         securityContexts.add(SecurityContext.builder()
                 .securityReferences(securityReference())
-                .forPaths(PathSelectors.ant("/*demo2/**"))
+                .forPaths(PathSelectors.ant("/*mybatisdemo/**"))
                 .build());
 
 
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("【测试/Demo2】")
+                .groupName("【测试/MybatisDemo】")
                 .select()
-                .paths(PathSelectors.ant("/*demo2/**"))
+                .paths(PathSelectors.ant("/*mybatisdemo/**"))
 //                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
                 .build()
 //                .globalOperationParameters(pars)

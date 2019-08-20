@@ -1,5 +1,5 @@
 mongodb:
-  mapPackages[0]: top.klw8.alita.entitys.*
+  mapPackages[0]: top.klw8.alita.entitys.demo.mongo.*
 dubbo:
   provider:
     timeout: 2000
@@ -7,7 +7,7 @@ dubbo:
     port: 20881
     name: dubbo
   scan:
-    basePackages: top.klw8.alita.service.demo.service.impl
+    basePackages: top.klw8.alita.service.mybatisdemo.providers
   application:
     name: demo-service
 #alita:

@@ -1,5 +1,6 @@
 package top.klw8.alita;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.logging.LoggingSystem;
@@ -11,6 +12,7 @@ import org.springframework.boot.logging.LoggingSystem;
  * @author klw
  * @date 2018年9月29日 上午11:43:34
  */
+@MapperScan("top.klw8.alita.service.mybatisdemo.services.user.mapper")
 public class DemoServiceApplication extends BaseServiceApplication {
 
     public static void main(String[] args) {
