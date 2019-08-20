@@ -15,7 +15,8 @@
         <module>demo-service</module>
         <module>demo-service-mybatis</module>
         <module>alita-demo-restful-api</module>
-		 <module>alita-demo-authorization-server</module>
+        <module>alita-demo-authorization-server</module>
+        <module>alita-demo-gateway-server</module>
         <module>alita-fileupload-restful-api</module>
         <module>alita-job-executor-demo</module>
     </modules>
