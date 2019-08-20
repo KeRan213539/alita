@@ -1,9 +1,7 @@
 package top.klw8.alita.service.demo.dao.impl.demo;
 
 import org.springframework.stereotype.Repository;
-
-import top.klw8.alita.entitys.demo.ExtUserInfoDemo;
-import top.klw8.alita.service.api.demo.IExtUserInfoDemoDao;
+import top.klw8.alita.entitys.demo.mongo.ExtUserInfoDemo;
 import top.klw8.alita.starter.mongodb.base.MongoSpringDataBaseDao;
 
 /**
@@ -13,6 +11,7 @@ import top.klw8.alita.starter.mongodb.base.MongoSpringDataBaseDao;
  * @date 2019年1月30日 上午11:29:04
  */
 @Repository
-public class ExtUserInfoDemoDao extends MongoSpringDataBaseDao<ExtUserInfoDemo> implements IExtUserInfoDemoDao {
+public class ExtUserInfoDemoDao extends MongoSpringDataBaseDao<ExtUserInfoDemo> {
+//    public class ExtUserInfoDemoDao extends MongoSpringDataBaseDao<ExtUserInfoDemo> implements IExtUserInfoDemoDao {
 
 }

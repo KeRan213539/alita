@@ -1,8 +1,7 @@
 package top.klw8.alita.service.api.mybatis;
 
 
-import org.bson.types.ObjectId;
-import top.klw8.alita.entitys.demo.ExtUserInfoDemo;
+import top.klw8.alita.entitys.demo.mongo.ExtUserInfoDemo;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.service.base.mongo.api.IMongoBaseService;
 

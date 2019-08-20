@@ -1,22 +1,19 @@
 package top.klw8.alita.service.demo.service.impl.test;
 
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
 import org.bson.types.ObjectId;
-
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import reactor.core.publisher.Mono;
-import top.klw8.alita.entitys.demo.ExtUserInfoDemo;
+import top.klw8.alita.entitys.demo.mongo.ExtUserInfoDemo;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.service.api.demo.IExtUserInfoDemoDao;
 import top.klw8.alita.service.api.mybatis.IExtUserInfoDemoService;
-import top.klw8.alita.service.api.user.IAlitaUserService;
 import top.klw8.alita.starter.service.BaseServiceImpl;
+
+import java.util.List;
 
 /**
  * @author klw
@@ -30,8 +27,8 @@ public class ExtUserInfoDemoServiceImpl extends BaseServiceImpl<ExtUserInfoDemo>
 
     private IExtUserInfoDemoDao dao;
 
-    @Autowired
-    private IAlitaUserService accountService;
+//    @Autowired
+//    private IAlitaUserService accountService;
 
     public ExtUserInfoDemoServiceImpl(@Autowired IExtUserInfoDemoDao dao) {
         super(dao);
@@ -58,7 +55,7 @@ public class ExtUserInfoDemoServiceImpl extends BaseServiceImpl<ExtUserInfoDemo>
         user.setId(new ObjectId());
         BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
         account.setUserPwd(pwdEncoder.encode(account.getUserPwd()));
-        accountService.save(account);
+//        accountService.save(account);
         user.setAccountInfo(account);
         return asyncSendData(dao.save(user));
     }

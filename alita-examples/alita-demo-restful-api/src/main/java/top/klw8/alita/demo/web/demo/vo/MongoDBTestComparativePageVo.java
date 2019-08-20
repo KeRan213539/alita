@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import top.klw8.alita.entitys.demo.MongoDBTest;
+import top.klw8.alita.entitys.demo.mongo.MongoDBTest;
 import top.klw8.alita.starter.web.base.vo.ComparativePagePrarmVo;
 
 /**

@@ -12,7 +12,7 @@ import java.util.concurrent.Future;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.stereotype.Component;
-import top.klw8.alita.entitys.demo.MongoDBTest;
+import top.klw8.alita.entitys.demo.mongo.MongoDBTest;
 import top.klw8.alita.service.api.demo.ISpringCloudProviderDemoService;
 
 

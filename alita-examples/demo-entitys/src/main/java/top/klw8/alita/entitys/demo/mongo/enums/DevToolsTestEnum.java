@@ -1,4 +1,4 @@
-package top.klw8.alita.entitys.demo.enums;
+package top.klw8.alita.entitys.demo.mongo.enums;
 
 /**
  * @ClassName: DevToolsTestEnum

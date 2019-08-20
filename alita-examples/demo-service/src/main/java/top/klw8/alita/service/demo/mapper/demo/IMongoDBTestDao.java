@@ -1,6 +1,6 @@
 package top.klw8.alita.service.demo.mapper.demo;
 
-import top.klw8.alita.entitys.demo.MongoDBTest;
+import top.klw8.alita.entitys.demo.mongo.MongoDBTest;
 import top.klw8.alita.service.base.mongo.dao.IMongoBasePlusDao;
 
 

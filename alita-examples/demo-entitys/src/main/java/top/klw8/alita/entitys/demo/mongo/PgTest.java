@@ -1,4 +1,4 @@
-package top.klw8.alita.entitys.demo;
+package top.klw8.alita.entitys.demo.mongo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

@@ -15,8 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import top.klw8.alita.DemoServiceApplication;
-import top.klw8.alita.entitys.demo.GeoPoint;
-import top.klw8.alita.entitys.demo.MongoDBTest;
+import top.klw8.alita.entitys.demo.mongo.GeoPoint;
+import top.klw8.alita.entitys.demo.mongo.MongoDBTest;
 import top.klw8.alita.service.demo.mapper.demo.IMongoDBTestDao;
 
 

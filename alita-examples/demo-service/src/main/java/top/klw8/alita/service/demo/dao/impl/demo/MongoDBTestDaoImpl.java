@@ -2,7 +2,7 @@ package top.klw8.alita.service.demo.dao.impl.demo;
 
 import org.springframework.stereotype.Repository;
 
-import top.klw8.alita.entitys.demo.MongoDBTest;
+import top.klw8.alita.entitys.demo.mongo.MongoDBTest;
 import top.klw8.alita.service.demo.mapper.demo.IMongoDBTestDao;
 import top.klw8.alita.starter.mongodb.base.MongoSpringDataBaseDao;
 

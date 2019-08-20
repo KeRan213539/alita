@@ -1,4 +1,4 @@
-package top.klw8.alita;
+package top.klw8.alita.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.logging.LoggingSystem;
@@ -12,7 +12,6 @@ import top.klw8.alita.starter.annotations.BaseWebApiApplication;
  * @Description: demo restful接口服务启动器
  * @date 2018年9月29日 下午4:12:17
  */
-
 public class DemoWebApiApplication extends BaseWebApiApplication {
 
     public static void main(String[] args) {

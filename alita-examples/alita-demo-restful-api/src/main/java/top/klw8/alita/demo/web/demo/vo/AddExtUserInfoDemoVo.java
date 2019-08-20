@@ -1,17 +1,16 @@
 package top.klw8.alita.demo.web.demo.vo;
 
-import java.time.LocalDate;
-
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.BeanUtils;
-
 import lombok.Getter;
 import lombok.Setter;
-import top.klw8.alita.entitys.demo.ExtUserInfoDemo;
+import org.springframework.beans.BeanUtils;
+import top.klw8.alita.entitys.demo.mongo.ExtUserInfoDemo;
 import top.klw8.alita.starter.web.base.vo.IBaseCrudVo;
 import top.klw8.alita.validator.annotations.MobilePhoneNumber;
 import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
+
+import java.time.LocalDate;
 
 /**
  * @author klw

@@ -1,7 +1,7 @@
 package top.klw8.alita.service.demo.mapper.demo;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import top.klw8.alita.entitys.demo.PgTest;
+import top.klw8.alita.entitys.demo.mongo.PgTest;
 
 /**
  * @author klw(213539 @ qq.com)

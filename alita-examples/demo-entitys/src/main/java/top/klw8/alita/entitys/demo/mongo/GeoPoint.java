@@ -1,4 +1,4 @@
-package top.klw8.alita.entitys.demo;
+package top.klw8.alita.entitys.demo.mongo;
 
 import org.springframework.lang.Nullable;
 import top.klw8.alita.utils.ValidateUtil;

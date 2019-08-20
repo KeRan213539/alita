@@ -3,7 +3,7 @@ package top.klw8.alita.service.demo.service.impl.demo;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
-import top.klw8.alita.entitys.demo.PgTest;
+import top.klw8.alita.entitys.demo.mongo.PgTest;
 import top.klw8.alita.service.api.mybatis.IPgTestService;
 import top.klw8.alita.service.demo.mapper.demo.PgTestMapper;
 

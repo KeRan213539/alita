@@ -1,4 +1,4 @@
-package top.klw8.alita.entitys.demo;
+package top.klw8.alita.entitys.demo.mongo;
 
 import lombok.Getter;
 import lombok.Setter;

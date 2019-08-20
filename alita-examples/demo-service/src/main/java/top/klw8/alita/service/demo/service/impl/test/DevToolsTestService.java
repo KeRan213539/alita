@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.dubbo.config.annotation.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import top.klw8.alita.entitys.demo.DevToolsTestEntity;
+import top.klw8.alita.entitys.demo.mongo.DevToolsTestEntity;
 import top.klw8.alita.service.demo.dao.test.IDevToolsTestDao;
 import top.klw8.alita.service.test.IDevToolsTestService;
 import top.klw8.alita.starter.service.BaseServiceImpl;

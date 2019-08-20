@@ -1,6 +1,6 @@
 package top.klw8.alita.service.test;
 
-import top.klw8.alita.entitys.demo.DevToolsTestEntity;
+import top.klw8.alita.entitys.demo.mongo.DevToolsTestEntity;
 import top.klw8.alita.service.base.mongo.api.IMongoBaseService;
 
 /**

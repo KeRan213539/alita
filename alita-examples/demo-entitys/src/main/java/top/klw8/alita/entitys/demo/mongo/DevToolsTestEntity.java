@@ -1,4 +1,4 @@
-package top.klw8.alita.entitys.demo;
+package top.klw8.alita.entitys.demo.mongo;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,25 +15,23 @@ import top.klw8.alita.base.mongodb.annotations.NotPersistence;
 import top.klw8.alita.base.mongodb.annotations.QueryLikeField;
 import top.klw8.alita.service.base.mongo.common.IGeoSearchSupport;
 import top.klw8.alita.service.base.mongo.common.ITextIndexedCustomSupport;
+import top.klw8.alita.entitys.demo.mongo.enums.DevToolsTestEnum;
 import top.klw8.alita.service.base.mongo.common.MongoBaseEntity;
 import top.klw8.alita.utils.AnalyzerUtil;
 
-
 /**
- * @ClassName: MongoDBTest
- * @Description: MongoDBTest
+ * @ClassName: DevToolsTestEntity
+ * @Description: 代码生成器测试用
  * @author klw
- * @date 2017年10月27日 下午4:11:52
+ * @date 2019年3月1日 上午10:47:07
  */
-@Document(collection = "demo")  // spring data mongodb 的注解
+@Document(collection = "devToolsTest")  // spring data mongodb 的注解
 @Getter
 @Setter
 @ToString
-//@EqualsAndHashCode(callSuper = false)
-//@ApiModel(value = "MongoDBTest", description = "demo用户")
-public class MongoDBTest extends MongoBaseEntity implements ITextIndexedCustomSupport, IGeoSearchSupport {
+public class DevToolsTestEntity extends MongoBaseEntity implements ITextIndexedCustomSupport, IGeoSearchSupport {
 
-    private static final long serialVersionUID = 3002834053850347862L;
+    private static final long serialVersionUID = -7036680933571767016L;
 
     /**
      * @author klw
@@ -58,6 +56,12 @@ public class MongoDBTest extends MongoBaseEntity implements ITextIndexedCustomSu
     @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
     private GeoPoint location;
     
+    /**
+     * @author klw
+     * @Fields devToolsTestEnum : 测试枚举
+     */
+    private DevToolsTestEnum devToolsTestEnum;
+    
     private LocalDateTime createDataTime;
     
     /**
@@ -77,5 +81,5 @@ public class MongoDBTest extends MongoBaseEntity implements ITextIndexedCustomSu
     public void buildTextIndexedField() {
 	this.textIndexedField = AnalyzerUtil.strAnalyzerReturnsWithSpaceNoSmart(name);
     }
-
+    
 }

@@ -2,7 +2,7 @@ package top.klw8.alita.service.api.demo;
 
 import java.util.List;
 
-import top.klw8.alita.entitys.demo.MongoDBTest;
+import top.klw8.alita.entitys.demo.mongo.MongoDBTest;
 import top.klw8.alita.service.base.mongo.api.IMongoBaseService;
 
 

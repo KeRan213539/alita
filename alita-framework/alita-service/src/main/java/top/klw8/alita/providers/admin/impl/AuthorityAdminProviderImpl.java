@@ -141,8 +141,8 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             // 根据用户ID查询到用户信息
             AlitaUserAccount sysUser = userService.getById(userId);
             // 判断是否查询到用户
-            if (null == sysUser) {
-                return JsonResult.sendFailedResult("用户不存在");
+            if (EntityUtil.isEntityEmpty(sysUser)) {
+                return JsonResult.sendFailedResult(AuthorityResultCodeEnum.USER_NOT_EXIST);
             } else {
                 // 根据用户ID查询用户角色
                 List<SystemRole> userRoles = userService.getUserAllRoles(userId);
@@ -156,9 +156,6 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
                     sysUser.setUserRoles(userRoles);
                 }
                 // 根据查询到的
-                if (EntityUtil.isEntityEmpty(sysUser)) {
-                    return JsonResult.sendFailedResult(AuthorityResultCodeEnum.USER_NOT_EXIST);
-                }
                 userCacheHelper.putUserInfo2Cache(sysUser);
                 return JsonResult.sendSuccessfulResult();
             }
