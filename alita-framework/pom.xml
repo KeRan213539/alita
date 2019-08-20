@@ -18,7 +18,6 @@
         <module>alita-starters</module>
         <module>alita-service</module>
         <module>alita-restful-api</module>
-        <module>alita-gateway-server</module>
         <module>alita-system-log-recorder</module>
     </modules>
 
