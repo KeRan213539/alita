@@ -140,21 +140,28 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         return CompletableFuture.supplyAsync(() -> {
             // 根据用户ID查询到用户信息
             AlitaUserAccount sysUser = userService.getById(userId);
-            // 根据用户ID查询用户角色
-            List<SystemRole> userRoles = userService.getUserAllRoles(userId);
-            // 根据用户角色查询角色对应的权限并更新到SystemRole实体中
-            for (SystemRole role : userRoles) {
-                List<SystemAuthoritys> authoritys = userService.getRoleAllAuthoritys(role.getId());
-                role.setAuthorityList(authoritys);
+            // 判断是否查询到用户
+            if (null == sysUser) {
+                return JsonResult.sendFailedResult("用户不存在");
+            } else {
+                // 根据用户ID查询用户角色
+                List<SystemRole> userRoles = userService.getUserAllRoles(userId);
+                // 根据用户角色查询角色对应的权限并更新到SystemRole实体中
+                for (SystemRole role : userRoles) {
+                    List<SystemAuthoritys> authoritys = userService.getRoleAllAuthoritys(role.getId());
+                    role.setAuthorityList(authoritys);
+                }
+                // 更新用户角色权限到用户实体中
+                if (null != userRoles && !userRoles.isEmpty()) {
+                    sysUser.setUserRoles(userRoles);
+                }
+                // 根据查询到的
+                if (EntityUtil.isEntityEmpty(sysUser)) {
+                    return JsonResult.sendFailedResult(AuthorityResultCodeEnum.USER_NOT_EXIST);
+                }
+                userCacheHelper.putUserInfo2Cache(sysUser);
+                return JsonResult.sendSuccessfulResult();
             }
-            // 更新用户角色权限到用户实体中
-            sysUser.setUserRoles(userRoles);
-            // 根据查询到的
-            if (EntityUtil.isEntityEmpty(sysUser)) {
-                return JsonResult.sendFailedResult(AuthorityResultCodeEnum.USER_NOT_EXIST);
-            }
-            userCacheHelper.putUserInfo2Cache(sysUser);
-            return JsonResult.sendSuccessfulResult();
         }, ServiceContext.executor);
     }
 }
