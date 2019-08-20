@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  
+#top.klw8.alita.starter.authorization.cfg.OAuth2AuthorizationServerConfig,\
+#top.klw8.alita.starter.authorization.cfg.SecurityConfiguration,\
+#top.klw8.alita.starter.authorization.cfg.JacksonCfg,\
+#top.klw8.alita.starter.authorization.cfg.WebApiConfig
