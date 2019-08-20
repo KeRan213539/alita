@@ -46,9 +46,9 @@
 		<xxl-job.version>2.0.1</xxl-job.version>
 		<rocketmq-spring-boot-starter.version>2.0.1</rocketmq-spring-boot-starter.version>
 		<commons-text.version>1.6</commons-text.version>
-		<spring-security.version>5.1.5.RELEASE</spring-security.version>
+		<spring-security.version>5.1.6.RELEASE</spring-security.version>
 		<spring-security-jwt.version>1.0.10.RELEASE</spring-security-jwt.version>
-		<spring-security-oauth2.version>2.3.5.RELEASE</spring-security-oauth2.version>
+		<spring-security-oauth2.version>2.3.6.RELEASE</spring-security-oauth2.version>
 		<spring-cloud-alibaba-dependencies.version>2.1.0.RELEASE</spring-cloud-alibaba-dependencies.version>
 		<dubbo-registry-nacos.version>2.7.3</dubbo-registry-nacos.version>
 		<dubbo.version>2.7.3</dubbo.version>
@@ -132,6 +132,12 @@
 
 			<dependency>
 				<groupId>top.klw8.alita</groupId>
+				<artifactId>alita-authorization-server-spring-boot-starter</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>top.klw8.alita</groupId>
 				<artifactId>alita-rocketmq-consumers-starter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -206,19 +212,19 @@
 	            <artifactId>spring-security-core</artifactId>
 	            <version>${spring-security.version}</version>
 	        </dependency>
-	        
+
 	        <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-config</artifactId>
                 <version>${spring-security.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
                 <version>${spring-security.version}</version>
             </dependency>
-	        
+
 			<dependency>
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-jwt</artifactId>
@@ -230,13 +236,13 @@
 				<artifactId>spring-security-oauth2</artifactId>
 				<version>${spring-security-oauth2.version}</version>
 			</dependency>
-			
+
 			<dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-oauth2-resource-server</artifactId>
                 <version>${spring-security.version}</version>
             </dependency>
-            
+
 			<dependency>
 			    <groupId>org.springframework.security</groupId>
 			    <artifactId>spring-security-oauth2-jose</artifactId>
