@@ -18,7 +18,53 @@
         <module>alita-starters</module>
         <module>alita-service</module>
         <module>alita-restful-api</module>
-        <module>alita-system-log-recorder</module>
     </modules>
+
+    <url>https://alita.klw8.top/</url>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>ranke</name>
+            <email>213539@qq.com</email>
+        </developer>
+    </developers>
+    <scm>
+        <connection>https://github.com/KeRan213539/alita.git</connection>
+        <developerConnection>https://github.com/KeRan213539/alita.git</developerConnection>
+        <url>https://github.com/KeRan213539/alita.git</url>
+    </scm>
+
+
+    <repositories>
+        <repository>
+            <id>jcenter-snapshots</id>
+            <name>jcenter</name>
+            <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <!--
+        <repository>
+            <id>nexus</id>
+            <name>aliyun maven Repository</name>
+            <url>http://maven.aliyun.com/nexus/content/repositories/central/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        -->
+    </repositories>
 
 </project>

@@ -19,6 +19,7 @@
         <module>alita-demo-gateway-server</module>
         <module>alita-fileupload-restful-api</module>
         <module>alita-job-executor-demo</module>
+        <module>alita-demo-system-log-recorder</module>
     </modules>
 
 </project>

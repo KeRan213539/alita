@@ -30,7 +30,7 @@ $(document).ready(function() {
 				}
 				$("#changeLogContent").toggle(isChangeLogShowed);
 			});
-			
+
 			$.get("/static/importantInfo.md?t=" + new Date(), function(data){
 				if(!data){
 					return;

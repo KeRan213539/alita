@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>alita-system-log-recorder</artifactId>
+	<artifactId>alita-demo-system-log-recorder</artifactId>
 	<packaging>jar</packaging>
-	<name>系统日志纪录组件</name>
+	<name>系统日志纪录组件-demo</name>
 	<description>系统日志纪录组件--从rocketMQ中消费日志消息并纪录到ElasticSearch中</description>
 
 	<parent>
