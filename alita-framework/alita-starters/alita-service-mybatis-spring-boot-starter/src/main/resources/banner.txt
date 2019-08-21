@@ -1,0 +1,24 @@
+
+
+               AAA               lllllll   iiii           tttt
+              A:::A              l:::::l  i::::i       ttt:::t
+             A:::::A             l:::::l   iiii        t:::::t
+            A:::::::A            l:::::l               t:::::t
+           A:::::::::A            l::::l iiiiiii ttttttt:::::ttttttt      aaaaaaaaaaaaa
+          A:::::A:::::A           l::::l i:::::i t:::::::::::::::::t      a::::::::::::a
+         A:::::A A:::::A          l::::l  i::::i t:::::::::::::::::t      aaaaaaaaa:::::a
+        A:::::A   A:::::A         l::::l  i::::i tttttt:::::::tttttt               a::::a
+       A:::::A     A:::::A        l::::l  i::::i       t:::::t              aaaaaaa:::::a
+      A:::::AAAAAAAAA:::::A       l::::l  i::::i       t:::::t            aa::::::::::::a
+     A:::::::::::::::::::::A      l::::l  i::::i       t:::::t           a::::aaaa::::::a
+    A:::::AAAAAAAAAAAAA:::::A     l::::l  i::::i       t:::::t    tttttta::::a    a:::::a
+   A:::::A             A:::::A   l::::::li::::::i      t::::::tttt:::::ta::::a    a:::::a
+  A:::::A               A:::::A  l::::::li::::::i      tt::::::::::::::ta:::::aaaa::::::a
+ A:::::A                 A:::::A l::::::li::::::i        tt:::::::::::tt a::::::::::aa:::a
+AAAAAAA                   AAAAAAAlllllllliiiiiiii          ttttttttttt    aaaaaaaaaa  aaaa
+
+
+
+
+
+
