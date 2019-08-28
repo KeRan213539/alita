@@ -77,14 +77,14 @@ public class SwaggerConfig extends SwaggerConfigBase  {
         List<SecurityContext> securityContexts = new ArrayList<>();
         securityContexts.add(SecurityContext.builder()
                 .securityReferences(securityReference())
-                .forPaths(PathSelectors.ant("/*mybatisdemo/**"))
+                .forPaths(PathSelectors.ant("/*demo/**"))
                 .build());
 
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("【测试/MybatisDemo】")
                 .select()
-                .paths(PathSelectors.ant("/*mybatisdemo/**"))
+                .paths(PathSelectors.ant("/*demo/**"))
 //                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
                 .build()
 //                .globalOperationParameters(pars)

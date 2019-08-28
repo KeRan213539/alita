@@ -1,5 +1,7 @@
 server:
   port: 8781
+  servlet:
+    context-path: /restful-api-demo
 spring:
   rocketmq:
     producer:
@@ -11,6 +13,6 @@ alita:
   oauth2:
     resServer:
       authPath:
-        - /demo/**
+        - /demo1/**
   devHelper:
     resultCodeClassPackage: top.klw8.alita.service.result.code,top.klw8.alita.service.result.code  #resultCode 所在包路径,多个路径用逗号隔开

@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
@@ -26,7 +27,7 @@ import java.util.concurrent.ExecutionException;
  */
 @Api(tags = {"alita-restful-API--demoAPI"})
 @RestController
-@RequestMapping("/mybatisdemo")
+@RequestMapping("${spring.application.name}/demo")
 @Slf4j
 public class MybatisDemoController {
 
@@ -35,7 +36,7 @@ public class MybatisDemoController {
 
     @ApiOperation(value = "添加新的用户扩展信息", notes = "添加新的用户扩展信息", httpMethod = "POST", produces = "application/json")
     @PostMapping("/addext")
-    public Mono<JsonResult> addUserExt(ExtUserInfoVo vo) {
+    public Mono<JsonResult> addUserExt(@RequestBody ExtUserInfoVo vo) {
         if (null == vo) {
             return Mono.just(JsonResult.sendFailedResult(CommonResultCodeEnum.BAD_PARAMETER));
         } else {
@@ -47,7 +48,7 @@ public class MybatisDemoController {
 
     @ApiOperation(value = "删除用户扩展信息", notes = "删除用户扩展信息", httpMethod = "POST", produces = "application/json")
     @PostMapping("/delext")
-    public Mono<JsonResult> deleteUserExt(ExtUserInfoVo vo) {
+    public Mono<JsonResult> deleteUserExt(@RequestBody ExtUserInfoVo vo) {
         if (null == vo && StringUtil.isNullOrEmpty(vo.getUserId())) {
             return Mono.just(JsonResult.sendFailedResult(CommonResultCodeEnum.BAD_PARAMETER));
         } else {
@@ -57,7 +58,7 @@ public class MybatisDemoController {
 
     @ApiOperation(value = "更新用户扩展信息", notes = "更新用户扩展信息", httpMethod = "POST", produces = "application/json")
     @PostMapping("/updateext")
-    public Mono<JsonResult> updateUserExt(ExtUserInfoVo vo) {
+    public Mono<JsonResult> updateUserExt(@RequestBody ExtUserInfoVo vo) {
         if (null == vo && StringUtil.isNullOrEmpty(vo.getUserId())) {
             return Mono.just(JsonResult.sendFailedResult(CommonResultCodeEnum.BAD_PARAMETER));
         } else {
@@ -69,7 +70,7 @@ public class MybatisDemoController {
 
     @ApiOperation(value = "查找用户扩展信息", notes = "查找用户扩展信息", httpMethod = "POST", produces = "application/json")
     @PostMapping("/findextbyuser")
-    public Mono<JsonResult> findUserExtByUser(ExtUserInfoVo vo) throws ExecutionException, InterruptedException {
+    public Mono<JsonResult> findUserExtByUser(@RequestBody ExtUserInfoVo vo) throws ExecutionException, InterruptedException {
         // 首先判断一下是否传入了需要的参数
         if (StringUtil.isNullOrEmpty(vo.getUserId())) {
             return Mono.just(JsonResult.sendFailedResult("调用失败"));
@@ -80,9 +81,9 @@ public class MybatisDemoController {
 
     @ApiOperation(value = "查找某个等级的所有用户扩展信息", notes = "查找某个等级的所有用户扩展信息", httpMethod = "POST", produces = "application/json")
     @PostMapping("/findextsbylevel")
-    public Mono<JsonResult> findExtsByLevel(ExtUserInfoVo vo) {
+    public Mono<JsonResult> findExtsByLevel(@RequestBody ExtUserInfoVo vo) {
         // 首先判断一下是否传入了需要的参数
-        if (vo.getUserLevel().intValue() <= 0) {
+        if (null == vo.getUserLevel() || vo.getUserLevel().intValue() <= 0) {
             return Mono.just(JsonResult.sendFailedResult("调用失败"));
         } else {
             return Mono.fromFuture(extUserProvider.findExtsByLevel(vo.getUserLevel()));

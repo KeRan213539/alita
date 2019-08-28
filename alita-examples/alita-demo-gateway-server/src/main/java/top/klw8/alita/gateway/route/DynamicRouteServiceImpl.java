@@ -1,6 +1,16 @@
 package top.klw8.alita.gateway.route;
 
+import com.alibaba.cloud.nacos.discovery.NacosDiscoveryClient;
+import com.alibaba.cloud.nacos.endpoint.NacosDiscoveryEndpoint;
+import com.alibaba.cloud.nacos.registry.NacosAutoServiceRegistration;
+import com.alibaba.cloud.nacos.registry.NacosServiceRegistry;
+import com.netflix.loadbalancer.ServerList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerInterceptor;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerRequestFactory;
+import org.springframework.cloud.gateway.config.LoadBalancerProperties;
 import org.springframework.cloud.gateway.event.RefreshRoutesEvent;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionWriter;
@@ -8,8 +18,6 @@ import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
 import reactor.core.publisher.Mono;
 
 /**
@@ -27,10 +35,10 @@ import reactor.core.publisher.Mono;
  * 3.等spring cloud gateway官方还提供支持动态的方式,或者有了清空所有配制,或者更好的方式
  */
 public class DynamicRouteServiceImpl implements ApplicationEventPublisherAware {
-    
-    @Autowired
+
+	@Autowired
     private RouteDefinitionWriter routeDefinitionWriter;
-    
+
     private ApplicationEventPublisher publisher;
 
     /**

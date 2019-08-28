@@ -7,6 +7,7 @@ spring:
     nacos: 
       discovery:
         serverAddr: 127.0.0.1:8848
+        namespace: 91cafa49-614b-4a6e-b8d3-180d7008b6c5
 #alita:
 #  gatewayServer:
 #    routesCfgInNacos:
