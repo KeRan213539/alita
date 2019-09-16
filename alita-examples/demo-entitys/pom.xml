@@ -18,6 +18,7 @@
         <dependency>
             <groupId>top.klw8.alita</groupId>
             <artifactId>alita-entitys</artifactId>
+
         </dependency>
 
 

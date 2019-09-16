@@ -10,6 +10,7 @@
 
     <modules>
         <module>alita-demo-base</module>
+        <module>alita-demo-springboot-base</module>
         <module>demo-entitys</module>
         <module>demo-service-api</module>
         <module>demo-service</module>
