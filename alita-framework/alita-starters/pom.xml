@@ -15,9 +15,10 @@
         <module>alita-service-mybatis-spring-boot-starter</module>
         <module>alita-restful-api-spring-boot-starter</module>
         <module>alita-restful-api-resServer-spring-boot-starter</module>
-		 <module>alita-authorization-server-spring-boot-starter</module>
+        <module>alita-authorization-server-spring-boot-starter</module>
         <module>alita-rocketmq-consumer-starter</module>
         <module>alita-job-executor-starter</module>
+        <module>alita-basic-services-spring-boot-starter</module>
     </modules>
 
 </project>

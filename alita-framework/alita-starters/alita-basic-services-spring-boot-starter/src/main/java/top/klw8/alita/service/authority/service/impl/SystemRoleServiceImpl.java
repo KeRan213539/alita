@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.service.authority.ISystemRoleService;
@@ -22,7 +21,6 @@ import java.util.Map;
  * @date 2018年11月28日 下午3:53:01
  */
 @Slf4j
-@Service
 public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, SystemRole> implements ISystemRoleService {
 
     @Autowired

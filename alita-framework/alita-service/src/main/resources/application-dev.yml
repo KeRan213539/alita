@@ -1,3 +1,0 @@
-profile: dev
-mongodb:
-  createIndexes: true

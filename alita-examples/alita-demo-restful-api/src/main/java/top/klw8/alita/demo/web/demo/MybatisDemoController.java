@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import top.klw8.alita.demo.web.demo.mybatisvo.ExtUserInfoVo;
+import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.entitys.demo.mybatis.ExtUserInfo;
 import top.klw8.alita.service.demo.providers.user.IExtUserProvider;
 import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.service.result.code.CommonResultCodeEnum;
+import top.klw8.alita.starter.annotations.AuthorityRegister;
 
 import java.util.concurrent.ExecutionException;
 
@@ -36,6 +38,9 @@ public class MybatisDemoController {
 
     @ApiOperation(value = "添加新的用户扩展信息", notes = "添加新的用户扩展信息", httpMethod = "POST", produces = "application/json")
     @PostMapping("/addext")
+    @AuthorityRegister(catlogName = "demo-用户管理", catlogShowIndex = 98,
+            authorityName = "添加新的用户扩展信息", authorityType = AuthorityTypeEnum.URL,
+            authorityShowIndex = 0)
     public Mono<JsonResult> addUserExt(@RequestBody ExtUserInfoVo vo) {
         if (null == vo) {
             return Mono.just(JsonResult.sendFailedResult(CommonResultCodeEnum.BAD_PARAMETER));

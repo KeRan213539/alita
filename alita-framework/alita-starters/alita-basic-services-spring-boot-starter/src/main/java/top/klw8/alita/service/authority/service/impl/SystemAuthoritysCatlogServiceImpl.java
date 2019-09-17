@@ -1,11 +1,9 @@
 package top.klw8.alita.service.authority.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.additional.query.impl.QueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
@@ -24,7 +22,6 @@ import java.util.Map;
  * @date 2018年11月28日 下午3:52:21
  */
 @Slf4j
-@Service
 public class SystemAuthoritysCatlogServiceImpl extends ServiceImpl<ISystemAuthoritysCatlogMapper, SystemAuthoritysCatlog> implements ISystemAuthoritysCatlogService {
 
     @Autowired

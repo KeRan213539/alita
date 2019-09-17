@@ -3,16 +3,12 @@ package top.klw8.alita.service.authority.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.service.authority.IAlitaUserService;
 import top.klw8.alita.service.authority.mapper.IAlitaUserMapper;
-import top.klw8.alita.utils.UUIDUtil;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +21,6 @@ import java.util.Map;
  * @date 2018年11月9日 下午5:32:24
  */
 @Slf4j
-@Service
 public class AlitaUserServiceImpl extends ServiceImpl<IAlitaUserMapper, AlitaUserAccount> implements IAlitaUserService {
 
     @Override

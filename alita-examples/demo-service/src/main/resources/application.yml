@@ -6,8 +6,6 @@ dubbo:
   protocol:
     port: 20881
     name: dubbo
-  scan:
-    basePackages: top.klw8.alita.service.mybatisdemo.providers
   application:
     name: demo-service
 #alita:
