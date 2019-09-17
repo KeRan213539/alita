@@ -142,3 +142,4 @@ rebel-remote.xml
 #zkui
 zkui-master/zkui.*.db
 zkui-master/zkui*.log
+/alita-examples/
