@@ -3,9 +3,7 @@ package top.klw8.alita.providers.admin.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
@@ -31,9 +29,7 @@ import java.util.concurrent.CompletableFuture;
  * @Description: 开发辅助工具
  * @date 2019/8/15 8:44
  */
-@Profile("dev")
 @Slf4j
-@Service(async = true)
 public class DevHelperProviderImpl implements IDevHelperProvider {
 
     @Autowired

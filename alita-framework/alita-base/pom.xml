@@ -32,9 +32,7 @@
 		<spring-security-jwt.version>1.0.10.RELEASE</spring-security-jwt.version>
 		<spring-security-oauth2.version>2.3.6.RELEASE</spring-security-oauth2.version>
 		<spring-cloud-alibaba-dependencies.version>2.1.0.RELEASE</spring-cloud-alibaba-dependencies.version>
-		<dubbo-registry-nacos.version>2.7.3</dubbo-registry-nacos.version>
 		<dubbo.version>2.7.3</dubbo.version>
-		<dubbo-spring-boot-starter.version>2.7.1</dubbo-spring-boot-starter.version>
 		<sentinel-apache-dubbo-adapter.version>1.6.3</sentinel-apache-dubbo-adapter.version>
 		<alibaba-spring-context-support.version>1.0.2</alibaba-spring-context-support.version>
 		<IK_Analyzer.version>2012FF_hf1_1</IK_Analyzer.version>
@@ -159,7 +157,7 @@
 			<dependency>
 				<groupId>org.apache.dubbo</groupId>
 				<artifactId>dubbo-registry-nacos</artifactId>
-				<version>${dubbo-registry-nacos.version}</version>
+				<version>${dubbo.version}</version>
 			</dependency>
 
 			<dependency>
@@ -179,7 +177,7 @@
 			<dependency>
 				<groupId>org.apache.dubbo</groupId>
 				<artifactId>dubbo-spring-boot-starter</artifactId>
-				<version>${dubbo-spring-boot-starter.version}</version>
+				<version>${dubbo.version}</version>
 				<exclusions>
 					<exclusion>
 						<groupId>org.springframework.boot</groupId>

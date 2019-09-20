@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
-			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<!-- 阿里云oss -->
@@ -60,7 +60,7 @@
 		<dependency>
 			<groupId>org.elasticsearch.client</groupId>
 			<artifactId>elasticsearch-rest-high-level-client</artifactId>
-			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 

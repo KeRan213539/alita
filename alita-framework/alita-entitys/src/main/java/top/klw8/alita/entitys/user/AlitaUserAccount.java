@@ -97,6 +97,10 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
     private List<SystemRole> userRoles;
 
     public AlitaUserAccount() {
+        this.accountNonExpired1 = Boolean.TRUE;
+        this.accountNonLocked1 = Boolean.TRUE;
+        this.credentialsNonExpired1 = Boolean.TRUE;
+        this.enabled1 = Boolean.TRUE;
     }
 
     public AlitaUserAccount(String userPhoneNum, String userPwd) {

@@ -2,7 +2,6 @@ package top.klw8.alita.providers.admin.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.service.api.authority.IAlitaUserProvider;
@@ -18,7 +17,6 @@ import java.util.concurrent.CompletableFuture;
  * @date 2019/8/14 14:16
  */
 @Slf4j
-@Service(async = true)
 public class AlitaUserProvider implements IAlitaUserProvider {
 
     @Autowired
