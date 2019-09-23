@@ -17,6 +17,10 @@ import top.klw8.alita.providers.admin.impl.DevHelperProviderImpl;
 import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 import top.klw8.alita.service.api.authority.IDevHelperProvider;
+import top.klw8.alita.service.authority.IAlitaUserService;
+import top.klw8.alita.service.authority.ISystemAuthoritysCatlogService;
+import top.klw8.alita.service.authority.ISystemAuthoritysService;
+import top.klw8.alita.service.authority.ISystemRoleService;
 import top.klw8.alita.service.authority.service.impl.AlitaUserServiceImpl;
 import top.klw8.alita.service.authority.service.impl.SystemAuthoritysCatlogServiceImpl;
 import top.klw8.alita.service.authority.service.impl.SystemAuthoritysServiceImpl;
@@ -30,7 +34,10 @@ import top.klw8.alita.service.authority.service.impl.SystemRoleServiceImpl;
  */
 @Configuration
 @MapperScan("top.klw8.alita.service.authority.mapper")
-@Import({UserCacheHelper.class})
+@Import({UserCacheHelper.class
+        , AlitaUserServiceImpl.class, SystemAuthoritysCatlogServiceImpl.class
+        , SystemAuthoritysServiceImpl.class, SystemRoleServiceImpl.class
+        , DevHelperProviderImpl.class, AuthorityAdminProviderImpl.class, AlitaUserProvider.class})
 public class BasicServicesCfg {
 
     @Autowired
@@ -46,41 +53,58 @@ public class BasicServicesCfg {
     private Environment env;
 
     @Bean
-    public AlitaUserServiceImpl alitaUserServiceImpl(){
-        return new AlitaUserServiceImpl();
-    }
-
-    @Bean
-    public SystemAuthoritysCatlogServiceImpl systemAuthoritysCatlogServiceImpl() throws InstantiationException, IllegalAccessException {
+    public Object regDubboProviders(@Autowired IDevHelperProvider devHelperProvider,
+                                    @Autowired IAuthorityAdminProvider authorityAdminProvider,
+                                    @Autowired IAlitaUserProvider alitaUserProvider) throws InstantiationException, IllegalAccessException{
         String[] activeprofiles = env.getActiveProfiles();
         for (String activeprofile : activeprofiles) {
             if (activeprofile.equals("dev")) {
-                exportDubboService(IDevHelperProvider.class, DevHelperProviderImpl.class);
+                exportDubboService(IDevHelperProvider.class, devHelperProvider);
             }
         }
-        exportDubboService(IAuthorityAdminProvider.class, AuthorityAdminProviderImpl.class);
-        exportDubboService(IAlitaUserProvider.class, AlitaUserProvider.class);
+        exportDubboService(IAlitaUserProvider.class, alitaUserProvider);
+        exportDubboService(IAuthorityAdminProvider.class, authorityAdminProvider);
 
-        return new SystemAuthoritysCatlogServiceImpl();
+
+        return new Object();
     }
 
-    @Bean
-    public SystemAuthoritysServiceImpl systemAuthoritysServiceImpl(){
-        return new SystemAuthoritysServiceImpl();
-    }
+//    @Bean
+//    public IAlitaUserService alitaUserService(){
+//        return new AlitaUserServiceImpl();
+//    }
+//
+//    @Bean
+//    public ISystemAuthoritysCatlogService systemAuthoritysCatlogService() throws InstantiationException, IllegalAccessException {
+//        String[] activeprofiles = env.getActiveProfiles();
+//        for (String activeprofile : activeprofiles) {
+//            if (activeprofile.equals("dev")) {
+//                exportDubboService(IDevHelperProvider.class, DevHelperProviderImpl.class);
+//            }
+//        }
+//        exportDubboService(IAuthorityAdminProvider.class, AuthorityAdminProviderImpl.class);
+//        exportDubboService(IAlitaUserProvider.class, AlitaUserProvider.class);
+//
+//        return new SystemAuthoritysCatlogServiceImpl();
+//    }
+//
+//    @Bean
+//    public ISystemAuthoritysService systemAuthoritysService(){
+//        return new SystemAuthoritysServiceImpl();
+//    }
+//
+//    @Bean
+//    public ISystemRoleService systemRoleService(){
+//        return new SystemRoleServiceImpl();
+//    }
 
-    @Bean
-    public SystemRoleServiceImpl systemRoleServiceImpl(){
-        return new SystemRoleServiceImpl();
-    }
-
-    private <I, T> void exportDubboService(Class<I> serviceClass, Class<T> serviceImplClass) throws IllegalAccessException, InstantiationException {
+    private <I, T> void exportDubboService(Class<I> serviceClass, T serviceImplInstance) throws IllegalAccessException, InstantiationException {
         ServiceConfig<T> service = new ServiceConfig<>(); // 此实例很重，封装了与注册中心的连接，请自行缓存，否则可能造成内存和连接泄漏
         service.setApplication(application);
         service.setRegistry(registry); // 多个注册中心可以用setRegistries()
         service.setProtocol(protocol); // 多个协议可以用setProtocols()
         service.setInterface(serviceClass);
-        service.setRef(serviceImplClass.newInstance());
+        service.setRef(serviceImplInstance);
         service.setAsync(true);
 //        service.setVersion("1.0.0");
         service.export();// 暴露及注册服务

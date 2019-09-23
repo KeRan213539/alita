@@ -9,6 +9,7 @@
     <version>0.1.0-SNAPSHOT</version>
 
     <modules>
+		<module>alita-starter-base</module>
         <module>alita-mongodb-spring-data-spring-boot-starter</module>
         <module>alita-service-mongodb-spring-boot-starter</module>
         <module>alita-mybatis-spring-data-spring-boot-starter</module>

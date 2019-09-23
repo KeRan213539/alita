@@ -1,6 +1,7 @@
 package top.klw8.alita.providers.admin.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
@@ -29,6 +30,7 @@ import java.util.concurrent.CompletableFuture;
  * @date 2019/8/14 9:33
  */
 @Slf4j
+@Service(async = true)
 public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
 
     @Autowired

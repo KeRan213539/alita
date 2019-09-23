@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.service.authority.mapper.ISystemAuthoritysMapper;
 import top.klw8.alita.service.authority.ISystemAuthoritysService;
@@ -16,6 +17,7 @@ import top.klw8.alita.service.authority.ISystemAuthoritysService;
  * @date 2018年11月28日 下午3:51:25
  */
 @Slf4j
+@Service
 public class SystemAuthoritysServiceImpl extends ServiceImpl<ISystemAuthoritysMapper, SystemAuthoritys> implements ISystemAuthoritysService {
 
     @Override

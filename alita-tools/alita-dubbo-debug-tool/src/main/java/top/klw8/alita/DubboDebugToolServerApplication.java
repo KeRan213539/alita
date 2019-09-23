@@ -54,8 +54,8 @@ public class DubboDebugToolServerApplication {
 
         // 基本类型以及Date,List,Map等不需要转换，直接调用
 //        Object result = genericService.$invoke("findUserById", new String[] {"java.lang.String"}, new Object[] {"111"});
-        CompletableFuture future = genericService.$invokeAsync("addCatlog", new String[] {"top.klw8.alita.entitys.authority.SystemAuthoritysCatlog"}, new Object[] {catlog});
-//        CompletableFuture future = genericService.$invokeAsync("test", null, null);
+//        CompletableFuture future = genericService.$invokeAsync("addCatlog", new String[] {"top.klw8.alita.entitys.authority.SystemAuthoritysCatlog"}, new Object[] {catlog});
+        CompletableFuture future = genericService.$invokeAsync("test", null, null);
         future.whenComplete((r, ex) -> {
             if(null != ex){
                 ((Exception)ex).printStackTrace();

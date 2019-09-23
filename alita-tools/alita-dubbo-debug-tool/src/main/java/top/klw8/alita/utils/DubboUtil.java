@@ -60,6 +60,7 @@ public class DubboUtil {
         if (null == registryConfig) {
             registryConfig = new RegistryConfig();
             registryConfig.setAddress(address);
+            registryConfig.setRegister(false);
             registryConfigCache.put(address, registryConfig);
         }
         return registryConfig;
@@ -87,7 +88,7 @@ public class DubboUtil {
         return referenceConfig;
     }
 
-    public static <T> CompletableFuture<T> invoke(String address, String interfaceName,
+    public static CompletableFuture<Object> invoke(String address, String interfaceName,
                                                   String methodName, boolean async, String[] prarmTypes,
                                                   Object[] prarmValues) {
         CompletableFuture future = null;
