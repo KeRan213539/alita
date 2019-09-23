@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -67,6 +68,9 @@ public class DevHelperController {
     @Autowired
     private ApplicationContext applicationContext;
 
+    @Autowired
+    private Environment env;
+
     @Value("${alita.devHelper.resultCodeClassPackage:}")
     private String resultCodeClassPackage;
 
@@ -107,7 +111,7 @@ public class DevHelperController {
                 }
                 if (controllerClass.isAnnotationPresent(RequestMapping.class)) {
                     RequestMapping mapping = controllerClass.getAnnotation(RequestMapping.class);
-                    authorityActionPrefix = mapping.value()[0];
+                    authorityActionPrefix = env.resolvePlaceholders(mapping.value()[0]);
                 } else {
                     authorityActionPrefix = "";
                 }
@@ -131,6 +135,7 @@ public class DevHelperController {
                     // 不可能走到这里, RequestMappingHandlerMapping.getHandlerMethods()拿到的都是有mapping注解的方法
                     return Mono.just(JsonResult.sendFailedResult(method.getDeclaringClass().getName() + "." + method.getName() + "() 没有 mapping 注解"));
                 }
+                authorityAction = env.resolvePlaceholders(authorityAction);
 
                 AuthorityRegister register = method.getAnnotation(AuthorityRegister.class);
                 // 先检查 catlog 是否存在
