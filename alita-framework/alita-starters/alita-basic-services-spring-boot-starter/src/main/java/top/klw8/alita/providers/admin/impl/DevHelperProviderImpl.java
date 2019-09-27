@@ -33,7 +33,7 @@ import java.util.concurrent.CompletableFuture;
  */
 @Slf4j
 @Profile("dev")
-@Service(async = true)
+@Service(async = true, timeout=5000)
 public class DevHelperProviderImpl implements IDevHelperProvider {
 
     @Autowired
@@ -77,7 +77,7 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                                 if (EntityUtil.isEntityEmpty(superAdmin)) {
                                     isNeedAddRole2User = true;
                                     BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
-                                    superAdmin = new AlitaUserAccount("admin", pwdEncoder.encode("123456"));
+                                    superAdmin = new AlitaUserAccount("admin", "15808888888", pwdEncoder.encode("123456"));
                                     superAdmin.setId("d84c6b4ed9134d468e5a43d467036c46");
                                     superAdmin.setCreateDate(LocalDateTime.now());
                                     userService.save(superAdmin);

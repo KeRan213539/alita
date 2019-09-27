@@ -70,6 +70,6 @@ public interface IAuthorityAdminProvider {
      * @param userId
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      **/
-    CompletableFuture<JsonResult> refreshAdminAuthoritys(String userId);
+    CompletableFuture<JsonResult> refreshUserAuthoritys(String userId);
 
 }

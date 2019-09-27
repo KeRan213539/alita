@@ -135,7 +135,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> refreshAdminAuthoritys(String userId) {
+    public CompletableFuture<JsonResult> refreshUserAuthoritys(String userId) {
         //查询管理员用户,把权限查出来
         return CompletableFuture.supplyAsync(() -> {
             // 根据用户ID查询到用户信息

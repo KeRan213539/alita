@@ -40,7 +40,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
             additionalInfo.put("userId", user.getId());
         }
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
-        authorityAdminProvider.refreshAdminAuthoritys(user.getId());
+        authorityAdminProvider.refreshUserAuthoritys(user.getId());
 
         return accessToken;
     }

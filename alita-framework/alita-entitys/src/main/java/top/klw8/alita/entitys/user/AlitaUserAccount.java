@@ -103,7 +103,8 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
         this.enabled1 = Boolean.TRUE;
     }
 
-    public AlitaUserAccount(String userPhoneNum, String userPwd) {
+    public AlitaUserAccount(String userName, String userPhoneNum, String userPwd) {
+        this.userName = userName;
         this.userPhoneNum = userPhoneNum;
         this.userPwd = userPwd;
         this.accountNonExpired1 = Boolean.TRUE;

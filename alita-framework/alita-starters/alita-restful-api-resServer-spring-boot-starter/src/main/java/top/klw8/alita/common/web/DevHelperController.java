@@ -168,7 +168,7 @@ public class DevHelperController {
     @ApiOperation(value = "刷新缓存中的管理员权限", notes = "刷新缓存中的管理员权限", httpMethod = "POST", produces = "application/json")
     @PostMapping("/refreshAdminAuthoritys")
     public Mono<JsonResult> refreshAdminAuthoritys() {
-        return Mono.fromFuture(authorityAdminProvider.refreshAdminAuthoritys("d84c6b4ed9134d468e5a43d467036c46"));
+        return Mono.fromFuture(authorityAdminProvider.refreshUserAuthoritys("d84c6b4ed9134d468e5a43d467036c46"));
     }
 
     @GetMapping("/statusCodeInfo")

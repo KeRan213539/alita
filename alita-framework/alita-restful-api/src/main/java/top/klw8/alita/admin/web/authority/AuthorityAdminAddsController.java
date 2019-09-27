@@ -33,7 +33,7 @@ import top.klw8.alita.validator.UseValidator;
  */
 @Api(tags = {"alita-restful-API--权限管理--新增"})
 @RestController
-@RequestMapping("/admin/au")
+@RequestMapping("${spring.application.name}/admin/au")
 @Slf4j
 public class AuthorityAdminAddsController extends WebapiBaseController {
 
