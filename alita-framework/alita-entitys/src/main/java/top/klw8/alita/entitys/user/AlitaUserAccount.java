@@ -137,7 +137,7 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
     @Override
     @JsonIgnore
     public String getUsername() {
-        return this.userPhoneNum;
+        return this.userName;
     }
 
     @Override

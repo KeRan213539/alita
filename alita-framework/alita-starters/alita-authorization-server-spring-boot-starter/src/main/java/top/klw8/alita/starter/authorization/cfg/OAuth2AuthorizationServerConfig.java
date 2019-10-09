@@ -51,6 +51,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import lombok.extern.slf4j.Slf4j;
+import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 import top.klw8.alita.starter.authorization.cfg.beans.ClientItemBean;
 import top.klw8.alita.starter.authorization.cfg.beans.OAuth2ClientBean;
@@ -82,6 +83,9 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
     @Reference(async=true)
     private IAuthorityAdminProvider authorityAdminProvider;
+
+    @Reference(async=true)
+    private IAlitaUserProvider userService;
 
     @javax.annotation.Resource
     private OAuth2ClientBean clientCfg;
@@ -190,16 +194,17 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     @Bean
     public TokenEnhancer tokenEnhancer() {
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(new CustomTokenEnhancer(authorityAdminProvider), accessTokenConverter()));
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(new CustomTokenEnhancer(authorityAdminProvider, userService), accessTokenConverter()));
         return tokenEnhancerChain;
     }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
         //允许表单认证
-        oauthServer.allowFormAuthenticationForClients();
+        oauthServer.allowFormAuthenticationForClients()
+                .checkTokenAccess("permitAll()");  // 允许 check_token
 //        .sslOnly()   //TODO 强制使用 https方式.后面开启
-//        .checkTokenAccess("permitAll()");  // 允许 check_token, 因为用了JWT,客户端可以验证签名,生产中可以不用
+
     }
 
 
@@ -226,7 +231,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         String[] activeprofiles = env.getActiveProfiles();
         for(String activeprofile : activeprofiles) {
             if("dev".equals(activeprofile)) {
-                // dev 模式下token和刷新token永不过期
+                // dev 模式下token和刷新token永不过期, 默认为 access_token 12小时, refresh_token 30天
                 defaultTokenServices.setAccessTokenValiditySeconds(-1);
                 defaultTokenServices.setRefreshTokenValiditySeconds(-1);
                 break;

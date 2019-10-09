@@ -1,14 +1,17 @@
 package top.klw8.alita.starter.authorization.cfg;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
+import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author klw
@@ -20,8 +23,11 @@ public class CustomTokenEnhancer implements TokenEnhancer {
 
     private IAuthorityAdminProvider authorityAdminProvider;
 
-    public CustomTokenEnhancer(IAuthorityAdminProvider authorityAdminProvider) {
+    private IAlitaUserProvider userService;
+
+    public CustomTokenEnhancer(IAuthorityAdminProvider authorityAdminProvider, IAlitaUserProvider userService) {
         this.authorityAdminProvider = authorityAdminProvider;
+        this.userService = userService;
     }
 
     @Override
@@ -38,6 +44,13 @@ public class CustomTokenEnhancer implements TokenEnhancer {
         if (principal instanceof AlitaUserAccount) {
             user = (AlitaUserAccount) principal;
             additionalInfo.put("userId", user.getId());
+        } else if (principal instanceof String) {
+            try {
+                user = userService.findUserByName((String)principal).get();
+                additionalInfo.put("userId", user.getId());
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
         }
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         authorityAdminProvider.refreshUserAuthoritys(user.getId());
