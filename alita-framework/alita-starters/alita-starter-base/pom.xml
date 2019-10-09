@@ -63,6 +63,23 @@
 			</distributionManagement>
 		</profile>
 
+		<profile>
+			<id>deployTo75Nexus</id>
+			<properties>
+				<profile.active>release</profile.active>
+			</properties>
+			<distributionManagement>
+				<snapshotRepository>
+					<id>nexus-releases</id>
+					<url>http://192.168.101.75:8081/repository/maven-snapshots/</url>
+				</snapshotRepository>
+				<repository>
+					<id>nexus-releases</id>
+					<url>http://192.168.101.75:8081/repository/maven-releases/</url>
+				</repository>
+			</distributionManagement>
+		</profile>
+
 	</profiles>
 
 	<build>
