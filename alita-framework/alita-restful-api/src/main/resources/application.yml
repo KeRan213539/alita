@@ -7,4 +7,4 @@ alita:
   oauth2:
     resServer:
       authPath:
-        - /admin/**
+        - /${spring.application.name}/**

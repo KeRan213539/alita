@@ -37,6 +37,13 @@ public class SystemAuthoritys extends BaseEntity {
     @TableField("authority_name")
     private String authorityName;
 
+    /*
+     * @author klw(213539@qq.com)
+     * @Description: 权限所属目录的ID
+     */
+    @TableField("catlog_id")
+    private String catlogId;
+
     /**
      * @author klw
      * @Fields authorityUrl : 权限动作,根据类型来,如果是url那就放url,如果是菜单就放前端识别的视图标识(相对路径)

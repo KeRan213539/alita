@@ -22,7 +22,7 @@ public interface IAuthorityAdminProvider {
      * @param: au
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> addAuthority(String catlogId, SystemAuthoritys au);
+    CompletableFuture<JsonResult> addAuthority(SystemAuthoritys au);
 
     /**
      * @author klw(213539@qq.com)

@@ -1,6 +1,7 @@
 package top.klw8.alita.providers.admin.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,23 +50,18 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     private UserCacheHelper userCacheHelper;
 
     @Override
-    public CompletableFuture<JsonResult> addAuthority(String catlogId, SystemAuthoritys auvo) {
+    public CompletableFuture<JsonResult> addAuthority(SystemAuthoritys au) {
         return CompletableFuture.supplyAsync(() -> {
-            SystemAuthoritysCatlog catlog = catlogService.getById(catlogId);
+            SystemAuthoritysCatlog catlog = catlogService.getById(au.getCatlogId());
             if (catlog == null) {
-                return JsonResult.sendFailedResult(AuthorityResultCodeEnum.CATLOG_NOT_EXIST, "权限目录不存在【" + catlogId + "】");
+                return JsonResult.sendFailedResult(AuthorityResultCodeEnum.CATLOG_NOT_EXIST, "权限目录不存在【" + au.getCatlogId() + "】");
             }
-            SystemAuthoritys au = new SystemAuthoritys();
-            BeanUtils.copyProperties(auvo, au);
-            au.setId(UUIDUtil.getRandomUUIDString());
-            au.setCatlog(catlog);
+            if(StringUtils.isBlank(au.getId())) {
+                au.setId(UUIDUtil.getRandomUUIDString());
+            }
             boolean isSaved = auService.save(au);
             if (isSaved) {
-                int savedCount = catlogService.addAuthority2Catlog(catlog.getId(), au);
-                if (savedCount > 0) {
-                    return JsonResult.sendSuccessfulResult();
-                }
-                return JsonResult.sendFailedResult("保存失败");
+                return JsonResult.sendSuccessfulResult();
             }
             return JsonResult.sendFailedResult("保存失败");
         }, ServiceContext.executor);
@@ -155,7 +151,6 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
                 if (null != userRoles && !userRoles.isEmpty()) {
                     sysUser.setUserRoles(userRoles);
                 }
-                // 根据查询到的
                 userCacheHelper.putUserInfo2Cache(sysUser);
                 return JsonResult.sendSuccessfulResult();
             }

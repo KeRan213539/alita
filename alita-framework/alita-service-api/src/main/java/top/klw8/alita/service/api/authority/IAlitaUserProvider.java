@@ -1,6 +1,7 @@
 package top.klw8.alita.service.api.authority;
 
 import top.klw8.alita.entitys.user.AlitaUserAccount;
+import top.klw8.alita.service.result.JsonResult;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -38,5 +39,14 @@ public interface IAlitaUserProvider {
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.entitys.user.AlitaUserAccount>
      */
     CompletableFuture<AlitaUserAccount> findUserByPhoneNum(String userPhoneNum);
+
+    /*
+     * @author klw(213539@qq.com)
+     * @Description: 根据用户id获取用户的权限菜单
+     * @Date 2019/10/9 15:11
+     * @param: userId
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.entitys.user.AlitaUserAccount>
+     */
+    CompletableFuture<JsonResult> findUserAuthorityMenus(String userId);
 
 }

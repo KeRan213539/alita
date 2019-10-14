@@ -33,7 +33,7 @@ import top.klw8.alita.validator.UseValidator;
  */
 @Api(tags = {"alita-restful-API--权限管理--新增"})
 @RestController
-@RequestMapping("${spring.application.name}/admin/au")
+@RequestMapping("/${spring.application.name}/admin/au")
 @Slf4j
 public class AuthorityAdminAddsController extends WebapiBaseController {
 
@@ -49,7 +49,7 @@ public class AuthorityAdminAddsController extends WebapiBaseController {
     public Mono<JsonResult> addAuthority(SystemAuthoritysVo auvo) {
         SystemAuthoritys target = new SystemAuthoritys();
         BeanUtils.copyProperties(auvo, target);
-        return Mono.fromFuture(auProvider.addAuthority(auvo.getCatlogId(), target));
+        return Mono.fromFuture(auProvider.addAuthority(target));
 
     }
 

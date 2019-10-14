@@ -13,36 +13,7 @@ import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
  * @date 2018年11月28日 下午3:48:33
  */
 public interface ISystemAuthoritysCatlogService extends IService<SystemAuthoritysCatlog> {
-    /**
-     * @Title: addAuthority2Catlog
-     * @author klw
-     * @Description: 添加权限到目录中
-     * @param catlogId
-     * @param au
-     * @return
-     */
-    int addAuthority2Catlog(String catlogId, SystemAuthoritys au);
-    
-    /**
-     * @Title: removeAuthorityFromCatlog
-     * @author klw
-     * @Description: 从目录中删除指定权限
-     * @param catlogId
-     * @param au
-     * @return
-     */
-    int removeAuthorityFromCatlog(String catlogId, SystemAuthoritys au);
-    
-    /**
-     * @Title: replaceAuthority2Catlog
-     * @author klw
-     * @Description: 使用传入的权限List替换目录中的权限
-     * @param catlogId
-     * @param auList
-     * @return
-     */
-    int replaceAuthority2Catlog(String catlogId, List<SystemAuthoritys> auList);
-    
+
     /**
      * @Title: findByCatlogName
      * @author klw
@@ -51,4 +22,5 @@ public interface ISystemAuthoritysCatlogService extends IService<SystemAuthority
      * @return
      */
     SystemAuthoritysCatlog findByCatlogName(String catlogName);
+
 }

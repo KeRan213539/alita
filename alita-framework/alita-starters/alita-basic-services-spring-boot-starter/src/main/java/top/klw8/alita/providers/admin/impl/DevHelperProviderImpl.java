@@ -66,8 +66,8 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                             SystemAuthoritys auFinded = auService.findByAuAction(au.getAuthorityAction());
                             if (EntityUtil.isEntityEmpty(auFinded)) {
                                 au.setId(UUIDUtil.getRandomUUIDString());
+                                au.setCatlogId(catlog.getId());
                                 auService.save(au);
-                                catlogService.addAuthority2Catlog(catlog.getId(), au);
                                 auFinded = au;
                             }
                             if (isAdd2SuperAdmin) {

@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutionException;
  */
 @Api(tags = {"alita-restful-API--demoAPI"})
 @RestController
-@RequestMapping("${spring.application.name}/demo")
+@RequestMapping("/${spring.application.name}/demo")
 @Slf4j
 public class MybatisDemoController {
 

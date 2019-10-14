@@ -37,12 +37,12 @@ public class TokenUtil {
      * @author klw
      * @Description: 获取token中的userId
      */
-    public static Long getUserId(ServerHttpRequest request) {
+    public static String getUserId(ServerHttpRequest request) {
         Object userId = getTokenAdditionalData(request, "userId");
         if (userId instanceof Integer) {
-            return Long.valueOf((Integer) userId);
+            return String.valueOf(userId);
         }
-        return (Long) userId;
+        return (String) userId;
     }
 
     /**
