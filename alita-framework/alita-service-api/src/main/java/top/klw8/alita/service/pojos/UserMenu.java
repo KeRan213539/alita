@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.commons.collections4.list.SetUniqueList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class UserMenu implements java.io.Serializable {
     public UserMenu(String catlogName, Integer showIndex){
         this.catlogName = catlogName;
         this.showIndex = showIndex;
-        this.itemList = new ArrayList<>();
+        this.itemList = SetUniqueList.setUniqueList(new ArrayList<>());
     }
 
 }
