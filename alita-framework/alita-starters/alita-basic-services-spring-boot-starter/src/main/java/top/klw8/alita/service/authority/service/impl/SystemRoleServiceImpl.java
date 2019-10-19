@@ -49,16 +49,16 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, System
     }
 
     @Override
-    public int replaceAuthority2Role(String roleId, List<SystemAuthoritys> auList) {
-        if (null == roleId || CollectionUtils.isEmpty(auList)) {
+    public int replaceAuthority2Role(String roleId, List<String> auIds) {
+        if (null == roleId || CollectionUtils.isEmpty(auIds)) {
             return 0;
         }
         dao.removeAuthoritysFromRole(roleId);
         List<Map<String, String>> dataList = new ArrayList<>();
-        for (SystemAuthoritys au : auList) {
+        for (String auId : auIds) {
             Map<String, String> item = new HashMap<>(2);
             item.put("roleId", roleId);
-            item.put("auId", au.getId());
+            item.put("auId", auId);
             dataList.add(item);
         }
         return dao.batchInsertAuthoritysFromRole(dataList);

@@ -78,12 +78,38 @@ public class JsonResult<T> implements java.io.Serializable {
         return new JsonResult(subResultCode);
     }
 
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 发送自定义code的和消息的Result
+     * @Date 2019/10/15 17:28
+     * @param: subResultCode
+     * @param: errorMsg
+     * @return top.klw8.alita.service.result.JsonResult
+     */
     public static JsonResult sendFailedResult(ISubResultCode subResultCode, String errorMsg) {
         return new JsonResult(subResultCode, errorMsg, null);
     }
 
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 发送code为500的Result
+     * @Date 2019/10/15 17:28
+     * @param: errorMsg
+     * @return top.klw8.alita.service.result.JsonResult
+     */
     public static JsonResult sendFailedResult(String errorMsg) {
         return new JsonResult(CommonResultCodeEnum.ERROR, errorMsg, null);
+    }
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 发送参数错误Result
+     * @Date 2019/10/15 17:11
+     * @param: errorMsg
+     * @return top.klw8.alita.service.result.JsonResult
+     */
+    public static JsonResult sendBadParameterResult(String errorMsg) {
+        return new JsonResult(CommonResultCodeEnum.BAD_PARAMETER, errorMsg, null);
     }
 
 }

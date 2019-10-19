@@ -47,16 +47,16 @@ public class AlitaUserServiceImpl extends ServiceImpl<IAlitaUserMapper, AlitaUse
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int replaceRole2User(String userId, List<SystemRole> roleList) {
-        if (null == userId || CollectionUtils.isEmpty(roleList)) {
+    public int replaceRole2User(String userId, List<String> roleIdList) {
+        if (null == userId || CollectionUtils.isEmpty(roleIdList)) {
             return 0;
         }
         this.getBaseMapper().removeRolesFromUser(userId);
         List<Map<String, String>> dataList = new ArrayList<>();
-        for (SystemRole role : roleList) {
+        for (String roleId : roleIdList) {
             Map<String, String> item = new HashMap<>(2);
             item.put("userId", userId);
-            item.put("roleId", role.getId());
+            item.put("roleId", roleId);
             dataList.add(item);
         }
         return this.getBaseMapper().batchInsertRoles4User(dataList);

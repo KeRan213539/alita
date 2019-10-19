@@ -116,16 +116,16 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> rList = new ArrayList<>(1);
-        rList.add(new GrantedAuthority() {
-            private static final long serialVersionUID = 5844035690295299785L;
-            @Override
-            public String getAuthority() {
-                // 权限管理不使用 spirng security,而是自己实现,所以这里返回什么无所谓了
-                return "user";
-            }
-        });
-        return rList;
+//        List<GrantedAuthority> rList = new ArrayList<>(1);
+//        rList.add(new GrantedAuthority() {
+//            private static final long serialVersionUID = 5844035690295299785L;
+//            @Override
+//            public String getAuthority() {
+//                // 权限管理不使用 spirng security,而是自己实现,所以这里返回什么无所谓了
+//                return "user";
+//            }
+//        });
+        return new ArrayList<>(0);
     }
 
     @Override

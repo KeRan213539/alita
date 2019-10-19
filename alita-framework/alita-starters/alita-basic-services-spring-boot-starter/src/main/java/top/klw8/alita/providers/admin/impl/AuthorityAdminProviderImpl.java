@@ -1,10 +1,13 @@
 package top.klw8.alita.providers.admin.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
 import top.klw8.alita.entitys.authority.SystemRole;
@@ -15,13 +18,16 @@ import top.klw8.alita.service.authority.IAlitaUserService;
 import top.klw8.alita.service.authority.ISystemAuthoritysCatlogService;
 import top.klw8.alita.service.authority.ISystemAuthoritysService;
 import top.klw8.alita.service.authority.ISystemRoleService;
+import top.klw8.alita.service.pojos.SystemAuthorityPojo;
+import top.klw8.alita.service.pojos.SystemAuthorityCatlogPojo;
 import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.service.result.code.AuthorityResultCodeEnum;
 import top.klw8.alita.service.utils.EntityUtil;
 import top.klw8.alita.starter.service.common.ServiceContext;
+import top.klw8.alita.starter.service.common.ServiceUtil;
 import top.klw8.alita.utils.UUIDUtil;
 
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -155,5 +161,76 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
                 return JsonResult.sendSuccessfulResult();
             }
         }, ServiceContext.executor);
+    }
+
+    @Override
+    public CompletableFuture<JsonResult> roleList(String roleName) {
+        QueryWrapper<SystemRole> query = new QueryWrapper();
+        if(StringUtils.isNotBlank(roleName)){
+            query.like("role_name", roleName);
+        }
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
+                roleService.list(query)));
+    }
+
+    @Override
+    public CompletableFuture<JsonResult> markRoleAuthoritys(String roleId) {
+        List<SystemAuthoritys> roleAuList = null;
+        if(StringUtils.isNotBlank(roleId)) {
+            SystemRole role = roleService.getById(roleId);
+            Assert.notNull(role, "该角色不存在!");
+            //该角色拥有的权限
+            roleAuList = userService.getRoleAllAuthoritys(role.getId());
+        }
+
+        // 所有权限
+        List<SystemAuthoritys> allAuList = auService.list();
+        Map<String, SystemAuthorityCatlogPojo> catlogMap = new HashMap<>(16);
+        for(SystemAuthoritys sysAu : allAuList){
+            SystemAuthorityCatlogPojo catlogPojo = catlogMap.get(sysAu.getCatlogId());
+            if (catlogPojo == null) {
+                SystemAuthoritysCatlog catlog = catlogService.getById(sysAu.getCatlogId());
+                catlogPojo = new SystemAuthorityCatlogPojo();
+                BeanUtils.copyProperties(catlog, catlogPojo);
+                catlogPojo.setAuthorityList(new ArrayList<>());
+                catlogMap.put(catlogPojo.getId(), catlogPojo);
+            }
+            SystemAuthorityPojo auPojo = new SystemAuthorityPojo();
+            BeanUtils.copyProperties(sysAu, auPojo);
+            // 查找当前角色是否有该权限
+            if(CollectionUtils.isNotEmpty(roleAuList)) {
+                Iterator<SystemAuthoritys> roleAuIt = roleAuList.iterator();
+                while (roleAuIt.hasNext()) {
+                    SystemAuthoritys roleAu = roleAuIt.next();
+                    if (roleAu.getId().equals(auPojo.getId())) {
+                        auPojo.setCurrUserHas(true);
+                        roleAuIt.remove();
+                    }
+                }
+            }
+            catlogPojo.getAuthorityList().add(auPojo);
+        }
+        List<SystemAuthorityCatlogPojo> catlogPojoList = new ArrayList<>(catlogMap.values());
+        Collections.sort(catlogPojoList);
+        catlogPojoList.stream().forEach(systemAuthorityCatlogPojo -> Collections.sort(systemAuthorityCatlogPojo.getAuthorityList()));
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(catlogPojoList));
+    }
+
+    @Override
+    public CompletableFuture<JsonResult> saveRoleAuthoritys(String roleId, List<String> auIds) {
+        if(roleService.getById(roleId) == null){
+            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("角色不存在"));
+        }
+        for(String auId : auIds){
+            if(auService.getById(auId) == null){
+                return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("权限不存在"));
+            }
+        }
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(roleService.replaceAuthority2Role(roleId, auIds)));
+    }
+
+    @Override
+    public CompletableFuture<JsonResult> saveUser(SystemRole role) {
+        return null;
     }
 }

@@ -1,4 +1,4 @@
-package top.klw8.alita.admin.cfg;
+package top.klw8.alita.web.cfg;
 
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package top.klw8.alita.admin.web.authority;
+package top.klw8.alita.web.user;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

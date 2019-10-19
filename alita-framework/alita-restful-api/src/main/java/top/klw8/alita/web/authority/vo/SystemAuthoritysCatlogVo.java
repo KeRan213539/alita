@@ -1,4 +1,4 @@
-package top.klw8.alita.admin.web.authority.vo;
+package top.klw8.alita.web.authority.vo;
 
 import io.swagger.annotations.ApiParam;
 import lombok.Data;

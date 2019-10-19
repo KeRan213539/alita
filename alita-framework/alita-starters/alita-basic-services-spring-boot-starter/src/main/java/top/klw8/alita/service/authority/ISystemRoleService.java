@@ -38,9 +38,9 @@ public interface ISystemRoleService extends IService<SystemRole> {
      * @author klw
      * @Description: 使用传入的权限List替换角色中的权限
      * @param roleId
-     * @param auList
+     * @param auIds
      * @return
      */
-    int replaceAuthority2Role(String roleId, List<SystemAuthoritys> auList);
+    int replaceAuthority2Role(String roleId, List<String> auIds);
     
 }

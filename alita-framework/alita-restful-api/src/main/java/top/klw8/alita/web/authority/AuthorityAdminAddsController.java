@@ -1,4 +1,4 @@
-package top.klw8.alita.admin.web.authority;
+package top.klw8.alita.web.authority;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import reactor.core.publisher.Mono;
-import top.klw8.alita.admin.web.authority.vo.AddRoleAuRequest;
-import top.klw8.alita.admin.web.authority.vo.AddUserRoleRequest;
-import top.klw8.alita.admin.web.authority.vo.SystemAuthoritysCatlogVo;
-import top.klw8.alita.admin.web.authority.vo.SystemAuthoritysVo;
-import top.klw8.alita.admin.web.authority.vo.SystemRoleVo;
+import top.klw8.alita.web.authority.vo.AddRoleAuRequest;
+import top.klw8.alita.web.authority.vo.AddUserRoleRequest;
+import top.klw8.alita.web.authority.vo.SystemAuthoritysCatlogVo;
+import top.klw8.alita.web.authority.vo.SystemAuthoritysVo;
+import top.klw8.alita.web.authority.vo.SystemRoleVo;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
 import top.klw8.alita.entitys.authority.SystemRole;

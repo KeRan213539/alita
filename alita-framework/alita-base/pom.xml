@@ -267,6 +267,12 @@
 				<groupId>io.springfox</groupId>
 				<artifactId>springfox-spring-webflux</artifactId>
 				<version>${springfox.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-logging</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			
 			<dependency>
@@ -691,6 +697,7 @@
         <testResources>
             <testResource>
                 <directory>${basedir}/src/test/resources</directory>
+				<filtering>true</filtering>
             </testResource>
         </testResources>
     </build>
