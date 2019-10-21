@@ -1,16 +1,17 @@
 package top.klw8.alita.demo.oauth2.provider;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.token.AbstractTokenGranter;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
+import top.klw8.alita.entitys.user.AlitaUserAccount;
+import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.starter.authorization.oauth2.userChecks.DefaultPostAuthenticationChecks;
 import top.klw8.alita.starter.authorization.oauth2.userChecks.DefaultPreAuthenticationChecks;
 import top.klw8.alita.utils.redis.RedisTagEnum;
@@ -18,6 +19,7 @@ import top.klw8.alita.utils.redis.RedisUtil;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import static top.klw8.alita.demo.cfg.SysContext.SMS_CODE_CACHE_PREFIX;
 
@@ -27,6 +29,7 @@ import static top.klw8.alita.demo.cfg.SysContext.SMS_CODE_CACHE_PREFIX;
  * @Description: 短信验证码登录的 TokenGranter
  * @date 2018年11月20日 下午4:36:16
  */
+@Slf4j
 public class SMSCodeLoginTokenGranter extends AbstractTokenGranter {
 
     private UserDetailsChecker preAuthenticationChecks = new DefaultPreAuthenticationChecks();
@@ -34,12 +37,12 @@ public class SMSCodeLoginTokenGranter extends AbstractTokenGranter {
 
     private static final String GRANT_TYPE = "sms_code";
 
-    private UserDetailsService userService;
+    private IAlitaUserProvider userProvider;
 
     public SMSCodeLoginTokenGranter(AuthorizationServerTokenServices tokenServices,
-                                    ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory, UserDetailsService userService) {
+                                    ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory, IAlitaUserProvider userProvider) {
         super(tokenServices, clientDetailsService, requestFactory, GRANT_TYPE);
-        this.userService = userService;
+        this.userProvider = userProvider;
     }
 
     @Override
@@ -54,7 +57,15 @@ public class SMSCodeLoginTokenGranter extends AbstractTokenGranter {
         }
 
         // 从库里查用户
-        UserDetails user = userService.loadUserByUsername(userMobileNo);
+        AlitaUserAccount user = null;
+        try {
+            user = userProvider.findUserByName(userMobileNo).get();
+            if(user == null){
+                user = userProvider.findUserByPhoneNum(userMobileNo).get();
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("查找用户出错", e);
+        }
         if (user == null) {
             throw new InvalidGrantException("用户不存在");
         }

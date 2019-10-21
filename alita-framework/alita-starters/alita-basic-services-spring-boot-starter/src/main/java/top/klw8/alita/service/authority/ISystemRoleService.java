@@ -42,5 +42,24 @@ public interface ISystemRoleService extends IService<SystemRole> {
      * @return
      */
     int replaceAuthority2Role(String roleId, List<String> auIds);
+
+    /**
+     *
+     * @Author zhanglei
+     * @Description 查询角色拥有的权限信息
+     * @Date 16:08 2019-08-15
+     * @param: roleId
+     * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
+     **/
+    List<SystemAuthoritys> getRoleAllAuthoritys(String roleId);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 清空指定角色中的权限
+     * @Date 2019/10/19 17:15
+     * @param: roleId
+     * @return int
+     */
+    int cleanAuthoritysFromRole(String roleId);
     
 }

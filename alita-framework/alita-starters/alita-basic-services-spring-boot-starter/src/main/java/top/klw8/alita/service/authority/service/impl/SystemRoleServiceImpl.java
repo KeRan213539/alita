@@ -63,4 +63,14 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, System
         }
         return dao.batchInsertAuthoritysFromRole(dataList);
     }
+
+    @Override
+    public List<SystemAuthoritys> getRoleAllAuthoritys(String roleId) {
+        return this.getBaseMapper().selectRoleAuthoritys(roleId);
+    }
+
+    @Override
+    public int cleanAuthoritysFromRole(String roleId) {
+        return  dao.removeAuthoritysFromRole(roleId);
+    }
 }

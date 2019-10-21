@@ -3,6 +3,8 @@ package top.klw8.alita.service.authority.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
+import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemRole;
 
 import java.util.List;
@@ -40,7 +42,7 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
 
     /**
      * @author klw(213539@qq.com)
-     * @Description: 删除指定角色下的所有权限
+     * @Description: 清空指定角色中的所有权限
      * @Date 2019/8/13 8:49
      * @param: roleId
      * @return int
@@ -63,4 +65,14 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
             "</script>")
     int batchInsertAuthoritysFromRole(List<Map<String, String>> list);
 
+    /**
+     *
+     * @Author zhanglei
+     * @Description 查询角色拥有的权限信息
+     * @Date 16:07 2019-08-15
+     * @param: roleId
+     * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
+     **/
+    @Select("select * from sys_authoritys where id in (select authoritys_id from sys_role_has_authoritys where role_id = #{roleId})")
+    List<SystemAuthoritys> selectRoleAuthoritys(String roleId);
 }

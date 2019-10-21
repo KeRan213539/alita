@@ -10,16 +10,13 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -30,18 +27,10 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.TokenGranter;
-import org.springframework.security.oauth2.provider.TokenRequest;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
-import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenGranter;
 import org.springframework.security.oauth2.provider.client.InMemoryClientDetailsService;
-import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
-import org.springframework.security.oauth2.provider.code.AuthorizationCodeTokenGranter;
 import org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices;
-import org.springframework.security.oauth2.provider.implicit.ImplicitTokenGranter;
-import org.springframework.security.oauth2.provider.password.ResourceOwnerPasswordTokenGranter;
-import org.springframework.security.oauth2.provider.refresh.RefreshTokenGranter;
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
-import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
@@ -85,7 +74,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     private IAuthorityAdminProvider authorityAdminProvider;
 
     @Reference(async=true)
-    private IAlitaUserProvider userService;
+    private IAlitaUserProvider userProvider;
 
     @javax.annotation.Resource
     private OAuth2ClientBean clientCfg;
@@ -123,78 +112,46 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         clientDetailsService = inMemClientDetailsService;
     }
 
-    private AuthorizationCodeServices authorizationCodeServices() {
-        return new InMemoryAuthorizationCodeServices();
-    }
-
-    private OAuth2RequestFactory requestFactory() {
-        if(clientDetailsService == null) {
-            buildClientDetailsService();
-        }
+    private OAuth2RequestFactory requestFactory(ClientDetailsService clientDetailsService) {
         return new DefaultOAuth2RequestFactory(clientDetailsService);
     }
 
-    private List<TokenGranter> getDefaultTokenGranters() {
-        if(clientDetailsService == null) {
-            buildClientDetailsService();
-        }
-        AuthorizationServerTokenServices tokenServices = tokenServices();
-        AuthorizationCodeServices authorizationCodeServices = authorizationCodeServices();
-        OAuth2RequestFactory requestFactory = requestFactory();
 
-        List<TokenGranter> tokenGranters = new ArrayList<>();
-        tokenGranters.add(new AuthorizationCodeTokenGranter(tokenServices,
-                authorizationCodeServices, clientDetailsService, requestFactory));
-        tokenGranters.add(new RefreshTokenGranter(tokenServices, clientDetailsService, requestFactory));
-        ImplicitTokenGranter implicit = new ImplicitTokenGranter(tokenServices, clientDetailsService,
-                requestFactory);
-        tokenGranters.add(implicit);
-        tokenGranters.add(
-                new ClientCredentialsTokenGranter(tokenServices, clientDetailsService, requestFactory));
-        if (authenticationManager != null) {
-            tokenGranters.add(new ResourceOwnerPasswordTokenGranter(authenticationManager,
-                    tokenServices, clientDetailsService, requestFactory));
-        }
+
+    private TokenGranter tokenGranter(final AuthorizationServerEndpointsConfigurer endpoints) {
+        List<TokenGranter> granters = new ArrayList<>(Arrays.asList(endpoints.getTokenGranter()));
         if(extTokenGranterBean != null){
-            List<TokenGranter> extTokenGranterList = extTokenGranterBean.extTokenGranterList(tokenServices, clientDetailsService, requestFactory, userDetailsService);
+            List<TokenGranter> extTokenGranterList = extTokenGranterBean.extTokenGranterList(
+                    endpoints.getTokenServices(), endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory(), userProvider);
             if(CollectionUtils.isNotEmpty(extTokenGranterList)) {
-                tokenGranters.addAll(extTokenGranterList);
+                granters.addAll(extTokenGranterList);
             }
         }
-//        tokenGranters.add(new SMSCodeLoginTokenGranter(tokenServices, clientDetailsService, requestFactory, userDetailsService));
-        return tokenGranters;
-    }
+        return new CompositeTokenGranter(granters);
 
-    private TokenGranter tokenGranter() {
-        TokenGranter tokenGranter = new TokenGranter() {
-            private CompositeTokenGranter delegate;
-
-            @Override
-            public OAuth2AccessToken grant(String grantType, TokenRequest tokenRequest) {
-                if (delegate == null) {
-                    delegate = new CompositeTokenGranter(getDefaultTokenGranters());
-                }
-                return delegate.grant(grantType, tokenRequest);
-            }
-        };
-        return tokenGranter;
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+        if(clientDetailsService == null) {
+            buildClientDetailsService();
+        }
         endpoints.tokenStore(tokenStore())
 //		.accessTokenConverter(accessTokenConverter())
-                .tokenGranter(tokenGranter())
+                .tokenGranter(tokenGranter(endpoints))
+                .tokenServices(tokenServices())
+                .requestFactory(requestFactory(clientDetailsService))
+                .authorizationCodeServices(new InMemoryAuthorizationCodeServices())
 //		.tokenEnhancer(tokenEnhancerChain)  // 设了 tokenGranter 后该配制失效,需要在 tokenServices() 中设置
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)  //refresh_token 需要,否则会 UserDetailsService is required
-                .allowedTokenEndpointRequestMethods(HttpMethod.POST);
+                .allowedTokenEndpointRequestMethods(HttpMethod.POST)
+                .setClientDetailsService(clientDetailsService);
     }
 
-    @Bean
     public TokenEnhancer tokenEnhancer() {
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(new CustomTokenEnhancer(authorityAdminProvider, userService), accessTokenConverter()));
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(new CustomTokenEnhancer(authorityAdminProvider, userProvider), accessTokenConverter()));
         return tokenEnhancerChain;
     }
 
@@ -208,12 +165,10 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     }
 
 
-    @Bean
     public TokenStore tokenStore() {
         return new JwtTokenStore(accessTokenConverter());
     }
 
-    @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("authorizationKey.jks"), "aLitAPAsSwOrd".toCharArray());
@@ -221,8 +176,6 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         return converter;
     }
 
-    @Bean
-    @Primary
     public DefaultTokenServices tokenServices() {
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setTokenStore(tokenStore());

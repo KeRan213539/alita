@@ -1,7 +1,6 @@
 package top.klw8.alita.service.authority;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 
@@ -56,13 +55,12 @@ public interface IAlitaUserService extends IService<AlitaUserAccount> {
     List<SystemRole> getUserAllRoles(String userId);
 
     /**
-     *
-     * @Author zhanglei
-     * @Description 查询角色拥有的权限信息
-     * @Date 16:08 2019-08-15
+     * @author klw(213539@qq.com)
+     * @Description: 根据传入的roleId查找拥有这个角色的用户
+     * @Date 2019/10/19 16:41
      * @param: roleId
-     * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
-     **/
-    List<SystemAuthoritys> getRoleAllAuthoritys(String roleId);
+     * @return java.util.List<top.klw8.alita.entitys.user.AlitaUserAccount>
+     */
+    List<AlitaUserAccount> getUserByRoleId(String roleId);
 
 }

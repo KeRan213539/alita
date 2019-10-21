@@ -1,10 +1,10 @@
 package top.klw8.alita.starter.authorization.cfg;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
+import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 
 import java.util.List;
 
@@ -17,6 +17,6 @@ import java.util.List;
 public interface IExtTokenGranters {
 
     List<TokenGranter> extTokenGranterList(AuthorizationServerTokenServices tokenServices,
-                                           ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory, UserDetailsService userService);
+                                           ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory, IAlitaUserProvider userProvider);
 
 }

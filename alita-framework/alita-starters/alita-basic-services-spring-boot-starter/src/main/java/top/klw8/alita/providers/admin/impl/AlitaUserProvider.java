@@ -77,7 +77,7 @@ public class AlitaUserProvider implements IAlitaUserProvider {
         List<SystemRole> userRoles = userService.getUserAllRoles(userId);
         // 根据用户角色查询角色对应的权限并更新到SystemRole实体中
         for (SystemRole role : userRoles) {
-            List<SystemAuthoritys> authoritys = userService.getRoleAllAuthoritys(role.getId());
+            List<SystemAuthoritys> authoritys = roleService.getRoleAllAuthoritys(role.getId());
             for(SystemAuthoritys au : authoritys){
                 if(AuthorityTypeEnum.MENU.equals(au.getAuthorityType())) {
                     UserMenu menu = menuMap.get(au.getCatlogId());

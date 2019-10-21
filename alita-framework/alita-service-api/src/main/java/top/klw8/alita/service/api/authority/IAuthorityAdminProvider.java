@@ -107,11 +107,24 @@ public interface IAuthorityAdminProvider {
 
     /**
      * @author klw(213539@qq.com)
-     * @Description: 保存角色(无ID则添加,有则修改)
+     * @Description: 保存角色(无ID则添加,有则修改).
+     * 如果传入的角色中包含权限,会同时保存这些权限.
+     * 如果 copyAuFromRoleId 有值,并且目标角色存在,会复制该角色的权限并保存到新角色中
+     * 如果 copyAuFromRoleId有值并且要保存的角色中也有权限,要保存的角色中的权限会被 copyAuFromRoleId 覆盖
      * @Date 2019/10/18 17:39
      * @param: role
+     * @param: copyAuFromRoleId 角色ID,如果有值,并且目标角色存在,会复制该角色的权限并保存到新角色中
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> saveUser(SystemRole role);
+    CompletableFuture<JsonResult> saveRole(SystemRole role, String copyAuFromRoleId);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 删除角色(只能删除没有关联用户的角色,删除时会删除角色中配制的权限)
+     * @Date 2019/10/19 14:46
+     * @param: roleId
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> delRole(String roleId);
 
 }

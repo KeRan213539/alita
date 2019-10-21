@@ -32,6 +32,9 @@ public class AlitaUserDetailsService implements UserDetailsService {
 		AlitaUserAccount user = null;
 		try {
 			user = userFuture.get();
+            if(user == null){
+                user = userService.findUserByPhoneNum(username).get();
+            }
 		} catch (InterruptedException | ExecutionException e) {
 			log.error("", e);
 		}

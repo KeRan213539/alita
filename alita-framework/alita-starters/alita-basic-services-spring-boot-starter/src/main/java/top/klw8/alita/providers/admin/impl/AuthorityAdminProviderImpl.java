@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
@@ -29,6 +30,7 @@ import top.klw8.alita.utils.UUIDUtil;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 /**
  * @author klw(213539 @ qq.com)
@@ -150,7 +152,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
                 List<SystemRole> userRoles = userService.getUserAllRoles(userId);
                 // 根据用户角色查询角色对应的权限并更新到SystemRole实体中
                 for (SystemRole role : userRoles) {
-                    List<SystemAuthoritys> authoritys = userService.getRoleAllAuthoritys(role.getId());
+                    List<SystemAuthoritys> authoritys = roleService.getRoleAllAuthoritys(role.getId());
                     role.setAuthorityList(authoritys);
                 }
                 // 更新用户角色权限到用户实体中
@@ -180,7 +182,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             SystemRole role = roleService.getById(roleId);
             Assert.notNull(role, "该角色不存在!");
             //该角色拥有的权限
-            roleAuList = userService.getRoleAllAuthoritys(role.getId());
+            roleAuList = roleService.getRoleAllAuthoritys(role.getId());
         }
 
         // 所有权限
@@ -230,7 +232,41 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> saveUser(SystemRole role) {
-        return null;
+    @Transactional(rollbackFor = Exception.class)
+    public CompletableFuture<JsonResult> saveRole(SystemRole role, String copyAuFromRoleId) {
+        Assert.notNull(role, "要保存的角色不能为 null !!!");
+        if(StringUtils.isNotBlank(role.getId())){
+            roleService.updateById(role);
+        } else {
+            if(CollectionUtils.isNotEmpty(role.getAuthorityList())){
+                role.setId(UUIDUtil.getRandomUUIDString());
+            }
+            roleService.save(role);
+        }
+        if(StringUtils.isNotBlank(copyAuFromRoleId)){
+            // 根据 copyAuFromRoleId 查找该角色的权限并设置到要保存的角色中
+            List<SystemAuthoritys> copyAuFromRoleAuList = roleService.getRoleAllAuthoritys(copyAuFromRoleId);
+            if(CollectionUtils.isEmpty(copyAuFromRoleAuList)){
+                return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("要复制的角色不存在或该角色中没有配制权限"));
+            }
+            role.setAuthorityList(copyAuFromRoleAuList);
+        }
+        if(CollectionUtils.isNotEmpty(role.getAuthorityList())){
+            // 保存角色中的权限
+            saveRoleAuthoritys(role.getId(), role.getAuthorityList().stream().map(SystemAuthoritys::getId).collect(Collectors.toList()));
+        }
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public CompletableFuture<JsonResult> delRole(String roleId) {
+        List<AlitaUserAccount> userList = userService.getUserByRoleId(roleId);
+        if(CollectionUtils.isNotEmpty(userList)){
+            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("有用户拥有该角色,不允许删除"));
+        }
+        roleService.cleanAuthoritysFromRole(roleId);
+        roleService.removeById(roleId);
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
     }
 }

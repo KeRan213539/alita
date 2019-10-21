@@ -1,11 +1,11 @@
 package top.klw8.alita.demo.cfg;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import top.klw8.alita.demo.oauth2.provider.SMSCodeLoginTokenGranter;
+import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.starter.authorization.cfg.IExtTokenGranters;
 
 import java.util.ArrayList;
@@ -19,9 +19,11 @@ import java.util.List;
  */
 public class ExtTokenGrantersImpl implements IExtTokenGranters {
     @Override
-    public List<TokenGranter> extTokenGranterList(AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory, UserDetailsService userService) {
+    public List<TokenGranter> extTokenGranterList(AuthorizationServerTokenServices tokenServices,
+                                                  ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory,
+                                                  IAlitaUserProvider userProvider) {
         List<TokenGranter> result = new ArrayList<>(1);
-        result.add(new SMSCodeLoginTokenGranter(tokenServices, clientDetailsService, requestFactory, userService));
+        result.add(new SMSCodeLoginTokenGranter(tokenServices, clientDetailsService, requestFactory, userProvider));
         return result;
     }
 }
