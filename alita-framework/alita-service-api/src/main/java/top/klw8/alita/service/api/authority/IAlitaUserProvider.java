@@ -1,5 +1,6 @@
 package top.klw8.alita.service.api.authority;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.service.result.JsonResult;
 
@@ -60,7 +61,7 @@ public interface IAlitaUserProvider {
      * @param: createDateEnd
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> userList(AlitaUserAccount user, LocalDateTime createDateBegin, LocalDateTime createDateEnd);
+    CompletableFuture<JsonResult> userList(AlitaUserAccount user, LocalDateTime createDateBegin, LocalDateTime createDateEnd, Page<AlitaUserAccount> page);
 
     /**
      * @author klw(213539@qq.com)

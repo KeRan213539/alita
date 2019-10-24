@@ -89,7 +89,7 @@ public class DevHelperController {
             Method method = v.getMethod();
             String authorityActionPrefix;
             String authorityAction;
-            SystemAuthoritysCatlog catlog = null;
+            SystemAuthoritysCatlog catlog;
             String moduleName = "";
 
             if (method.isAnnotationPresent(AuthorityRegister.class)) {
@@ -231,6 +231,13 @@ public class DevHelperController {
         }
         return Mono.just(sbAll.toString());
 
+    }
+
+    @ApiOperation(value = "添加所有权限到管理员角色和管理员账户,如果管理员角色或账户不存在则创建", notes = "添加所有权限" +
+            "到管理员角色和管理员账户,如果管理员角色或账户不存在则创建", httpMethod = "POST", produces = "application/json")
+    @PostMapping("/addAllAuthoritys2AdminRole")
+    public Mono<JsonResult> addAllAuthoritys2AdminRole() {
+        return Mono.fromFuture(devHelperProvider.addAllAuthoritys2AdminRole());
     }
 
 }

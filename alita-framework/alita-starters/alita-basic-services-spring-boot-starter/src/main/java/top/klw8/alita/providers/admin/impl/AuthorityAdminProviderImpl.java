@@ -1,6 +1,8 @@
 package top.klw8.alita.providers.admin.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -8,6 +10,7 @@ import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.Assert;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
@@ -30,7 +33,6 @@ import top.klw8.alita.utils.UUIDUtil;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 /**
  * @author klw(213539 @ qq.com)
@@ -129,7 +131,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             if (EntityUtil.isEntityEmpty(role)) {
                 return JsonResult.sendFailedResult(AuthorityResultCodeEnum.ROLE_NOT_EXIST);
             }
-            int saveResult = userService.addRole2User(user.getId(), role);
+            int saveResult = userService.addRole2User(user.getId(), role.getId());
             if (saveResult > 0) {
                 return JsonResult.sendSuccessfulResult();
             } else {
@@ -166,13 +168,16 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> roleList(String roleName) {
+    public CompletableFuture<JsonResult> roleList(String roleName, Page<SystemRole> page) {
         QueryWrapper<SystemRole> query = new QueryWrapper();
         if(StringUtils.isNotBlank(roleName)){
             query.like("role_name", roleName);
         }
+        List<OrderItem> orders = new ArrayList<>(1);
+        orders.add(OrderItem.desc("role_name"));
+        page.setOrders(orders);
         return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
-                roleService.list(query)));
+                roleService.page(page, query)));
     }
 
     @Override
@@ -243,17 +248,28 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             }
             roleService.save(role);
         }
+        boolean isCopy = false;
         if(StringUtils.isNotBlank(copyAuFromRoleId)){
             // 根据 copyAuFromRoleId 查找该角色的权限并设置到要保存的角色中
             List<SystemAuthoritys> copyAuFromRoleAuList = roleService.getRoleAllAuthoritys(copyAuFromRoleId);
             if(CollectionUtils.isEmpty(copyAuFromRoleAuList)){
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                 return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("要复制的角色不存在或该角色中没有配制权限"));
             }
             role.setAuthorityList(copyAuFromRoleAuList);
+            isCopy = true;
         }
         if(CollectionUtils.isNotEmpty(role.getAuthorityList())){
             // 保存角色中的权限
-            saveRoleAuthoritys(role.getId(), role.getAuthorityList().stream().map(SystemAuthoritys::getId).collect(Collectors.toList()));
+            List<String> auIdList = new ArrayList<>(role.getAuthorityList().size());
+            for(SystemAuthoritys au : role.getAuthorityList()){
+                if(!isCopy && auService.getById(au.getId()) == null){
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("权限不存在"));
+                }
+                auIdList.add(au.getId());
+            }
+            roleService.replaceAuthority2Role(role.getId(), auIdList);
         }
         return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
     }
@@ -267,6 +283,84 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         }
         roleService.cleanAuthoritysFromRole(roleId);
         roleService.removeById(roleId);
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
+    }
+
+    @Override
+    public CompletableFuture<JsonResult> catlogList(String catlogName, Page<SystemAuthoritysCatlog> page) {
+        QueryWrapper<SystemAuthoritysCatlog> query = new QueryWrapper();
+        if(StringUtils.isNotBlank(catlogName)){
+            query.like("catlog_name", catlogName);
+        }
+        List<OrderItem> orders = new ArrayList<>(1);
+        orders.add(OrderItem.desc("catlog_name"));
+        page.setOrders(orders);
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
+                catlogService.page(page, query)));
+    }
+
+    @Override
+    public CompletableFuture<JsonResult> catlogAll() {
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
+                catlogService.list()));
+    }
+
+    @Override
+    public CompletableFuture<JsonResult> saveCatlog(SystemAuthoritysCatlog catlog) {
+        Assert.notNull(catlog, "要保存的权限目录不能为 null !!!");
+        if(StringUtils.isNotBlank(catlog.getId())){
+            catlogService.updateById(catlog);
+        } else {
+            catlogService.save(catlog);
+        }
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
+    }
+
+    @Override
+    public CompletableFuture<JsonResult> delCatlog(String catlogId) {
+        Assert.hasText(catlogId, "权限目录ID不能为空!");
+        QueryWrapper<SystemAuthoritys> auQuery = new QueryWrapper();
+        auQuery.eq("catlog_id", catlogId);
+        int auCountByCatlogId = auService.count(auQuery);
+        if(auCountByCatlogId > 0){
+            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("该目录下有权限,不允许删除"));
+        }
+        catlogService.removeById(catlogId);
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
+    }
+
+    @Override
+    public CompletableFuture<JsonResult> authoritysList(String auName, Page<SystemAuthoritys> page) {
+        QueryWrapper<SystemAuthoritys> query = new QueryWrapper();
+        if(StringUtils.isNotBlank(auName)){
+            query.like("authority_name", auName);
+        }
+        List<OrderItem> orders = new ArrayList<>(1);
+        orders.add(OrderItem.asc("show_index"));
+        page.setOrders(orders);
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
+                auService.page(page, query)));
+    }
+
+    @Override
+    public CompletableFuture<JsonResult> saveAuthority(SystemAuthoritys au) {
+        Assert.notNull(au, "要保存的权限不能为 null !!!");
+        Assert.hasText(au.getCatlogId(), "所属权限目录ID不能为空!");
+        Assert.notNull(catlogService.getById(au.getCatlogId()), "所属权限目录不存在 !!!");
+        if(StringUtils.isNotBlank(au.getId())){
+            auService.updateById(au);
+        } else {
+            auService.save(au);
+        }
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public CompletableFuture<JsonResult> delAuthority(String auId) {
+        Assert.hasText(auId, "权限ID不能为空!");
+        auService.removeAuthorityFromRole(auId);
+        auService.removeById(auId);
         return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
     }
 }

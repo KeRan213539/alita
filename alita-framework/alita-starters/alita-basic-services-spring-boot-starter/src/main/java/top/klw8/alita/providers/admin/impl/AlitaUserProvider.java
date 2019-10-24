@@ -1,6 +1,8 @@
 package top.klw8.alita.providers.admin.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
@@ -53,7 +55,8 @@ public class AlitaUserProvider implements IAlitaUserProvider {
 
     @Override
     public CompletableFuture<AlitaUserAccount> findUserById(String userId) {
-        return CompletableFuture.supplyAsync(() -> userService.getById(userId), ServiceContext.executor);
+        AlitaUserAccount user = userService.getById(userId);
+        return CompletableFuture.supplyAsync(() -> user, ServiceContext.executor);
     }
 
     @Override
@@ -98,8 +101,11 @@ public class AlitaUserProvider implements IAlitaUserProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> userList(AlitaUserAccount user, LocalDateTime createDateBegin, LocalDateTime createDateEnd) {
+    public CompletableFuture<JsonResult> userList(AlitaUserAccount user, LocalDateTime createDateBegin,
+                                                  LocalDateTime createDateEnd, Page<AlitaUserAccount> page) {
         QueryWrapper<AlitaUserAccount> query = new QueryWrapper();
+        // 排除密码字段
+        query.select(AlitaUserAccount.class, i -> !i.getColumn().equals("user_pwd"));
         if(user != null){
             if(StringUtils.isNotBlank(user.getUsername())){
                 query.like("user_name", user.getUsername());
@@ -131,8 +137,11 @@ public class AlitaUserProvider implements IAlitaUserProvider {
                 query.eq("enabled", user.getEnabled1());
             }
         }
+        List<OrderItem> orders = new ArrayList<>(1);
+        orders.add(OrderItem.desc("create_date"));
+        page.setOrders(orders);
         return CompletableFuture.supplyAsync(() -> JsonResult.sendSuccessfulResult(
-                userService.list(query)), ServiceContext.executor);
+                userService.page(page, query)), ServiceContext.executor);
     }
 
     @Override

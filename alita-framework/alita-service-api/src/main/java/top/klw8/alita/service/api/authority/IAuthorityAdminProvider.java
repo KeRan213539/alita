@@ -1,5 +1,6 @@
 package top.klw8.alita.service.api.authority;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
 import top.klw8.alita.entitys.authority.SystemRole;
@@ -83,7 +84,7 @@ public interface IAuthorityAdminProvider {
      * @param: roleName
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> roleList(String roleName);
+    CompletableFuture<JsonResult> roleList(String roleName, Page<SystemRole> page);
 
     /**
      * @author klw(213539@qq.com)
@@ -126,5 +127,70 @@ public interface IAuthorityAdminProvider {
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
     CompletableFuture<JsonResult> delRole(String roleId);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 权限目录列表,分页,可根据权限名称查询
+     * @Date 2019/10/22 9:23
+     * @param: catlogName
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> catlogList(String catlogName, Page<SystemAuthoritysCatlog> page);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 获取全部权限目录,不分页
+     * @Date 2019/10/22 14:05
+     * @param: 
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> catlogAll();
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 新增/修改权限目录的保存
+     * @Date 2019/10/22 11:21
+     * @param: catlog
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> saveCatlog(SystemAuthoritysCatlog catlog);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 删除权限目录(没有权限关联到它才能删除)
+     * @Date 2019/10/22 11:23
+     * @param: catlogId
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> delCatlog(String catlogId);
+
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 权限列表,分页,可根据权限名称查询
+     * @Date 2019/10/22 14:08
+     * @param: auName
+     * @param: page
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> authoritysList(String auName, Page<SystemAuthoritys> page);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 新增/修改权限的保存
+     * @Date 2019/10/22 11:21
+     * @param: catlog
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> saveAuthority(SystemAuthoritys au);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 删除权限(同时删除角色的关联)
+     * @Date 2019/10/22 11:23
+     * @param: catlogId
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> delAuthority(String auId);
 
 }

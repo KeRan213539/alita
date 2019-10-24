@@ -26,5 +26,10 @@ public class SystemAuthoritysServiceImpl extends ServiceImpl<ISystemAuthoritysMa
         query.eq("authority_action", action);
         return this.getOne(query);
     }
-    
+
+    @Override
+    public int removeAuthorityFromRole(String auId) {
+        return this.baseMapper.removeAuthorityFromRole(auId);
+    }
+
 }

@@ -37,13 +37,32 @@ public class SwaggerConfig extends SwaggerConfigBase  {
 	List<SecurityContext> securityContexts = new ArrayList<>();
 	securityContexts.add(SecurityContext.builder()
                 .securityReferences(securityReference())
-                .forPaths(PathSelectors.ant("/admin/**"))
+                .forPaths(PathSelectors.ant("/**/admin/**"))
                 .build());
 	
         return new Docket(DocumentationType.SWAGGER_2)
-        	.groupName("【接口】")
+        	.groupName("【权限管理】")
                 .select()
-                .paths(PathSelectors.ant("/admin/**"))
+                .paths(PathSelectors.ant("/**/admin/**"))
+                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
+                .build()
+                .apiInfo(apiInfo())
+                .securitySchemes(securitySchemes())
+                .securityContexts(securityContexts);
+    }
+
+    @Bean
+    public Docket customImplementation2(){
+        List<SecurityContext> securityContexts = new ArrayList<>();
+        securityContexts.add(SecurityContext.builder()
+                .securityReferences(securityReference())
+                .forPaths(PathSelectors.ant("/**/user/**"))
+                .build());
+
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("【用户】")
+                .select()
+                .paths(PathSelectors.ant("/**/user/**"))
                 .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
                 .build()
                 .apiInfo(apiInfo())

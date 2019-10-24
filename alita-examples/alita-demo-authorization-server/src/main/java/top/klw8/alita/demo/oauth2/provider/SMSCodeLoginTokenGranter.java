@@ -50,26 +50,29 @@ public class SMSCodeLoginTokenGranter extends AbstractTokenGranter {
                                                            TokenRequest tokenRequest) {
 
         Map<String, String> parameters = new LinkedHashMap<String, String>(tokenRequest.getRequestParameters());
-        String userMobileNo = parameters.get("username");
+        String userLoginIdentifier = parameters.get("userLoginIdentifier");
         String smscode = parameters.get("smscode");
-        if (StringUtils.isBlank(userMobileNo) || StringUtils.isBlank(smscode)) {
+        if (StringUtils.isBlank(userLoginIdentifier) || StringUtils.isBlank(smscode)) {
             throw new InvalidGrantException("缺少必传参数");
         }
 
         // 从库里查用户
         AlitaUserAccount user = null;
         try {
-            user = userProvider.findUserByName(userMobileNo).get();
+            user = userProvider.findUserByName(userLoginIdentifier).get();
             if(user == null){
-                user = userProvider.findUserByPhoneNum(userMobileNo).get();
+                user = userProvider.findUserByPhoneNum(userLoginIdentifier).get();
             }
         } catch (InterruptedException | ExecutionException e) {
             log.error("查找用户出错", e);
         }
-        if (user == null) {
+        if(user == null){
             throw new InvalidGrantException("用户不存在");
         }
-
+        String userMobileNo = user.getUserPhoneNum();
+        if(StringUtils.isBlank(userMobileNo)){
+            throw new InvalidGrantException("用户没有绑定手机号");
+        }
         preAuthenticationChecks.check(user); // 验证用户状态
 
         // 验证验证码

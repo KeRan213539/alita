@@ -19,5 +19,14 @@ public interface ISystemAuthoritysService extends IService<SystemAuthoritys> {
      * @return
      */
     SystemAuthoritys findByAuAction(String action);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 移除指定权限与所有角色的关联
+     * @Date 2019/10/23 15:59
+     * @param: auId
+     * @return int
+     */
+    int removeAuthorityFromRole(String auId);
     
 }

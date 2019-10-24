@@ -19,10 +19,10 @@ public interface IAlitaUserService extends IService<AlitaUserAccount> {
      * @author klw
      * @Description: 添加角色到用户中
      * @param userId
-     * @param role
+     * @param roleId
      * @return
      */
-    int addRole2User(String userId, SystemRole role);
+    int addRole2User(String userId, String roleId);
     
     /**
      * @Title: removeRoleFromUser

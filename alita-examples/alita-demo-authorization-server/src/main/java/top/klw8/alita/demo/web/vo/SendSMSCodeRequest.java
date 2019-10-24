@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiParam;
 import lombok.Data;
 import top.klw8.alita.validator.annotations.MobilePhoneNumber;
 import top.klw8.alita.validator.annotations.NotEmpty;
-import top.klw8.alita.validator.annotations.Required;
 
 /**
  * @ClassName: SendSMSCodeRequest
@@ -15,10 +14,24 @@ import top.klw8.alita.validator.annotations.Required;
 @Data
 public class SendSMSCodeRequest {
 
-    @ApiParam(value = "用户手机号", required = true)
-    @Required(validatFailMessage="手机号为必传参数")
+    @ApiParam(value = "用户手机号(手机号,用户名二选一)")
     @NotEmpty(validatFailMessage="手机号不能为空")
     @MobilePhoneNumber(validatFailMessage="手机号格式不正确")
     private String userMobileNo;
+
+    @ApiParam(value = "用户名(手机号,用户名二选一)")
+    @NotEmpty(validatFailMessage="用户名不能为空")
+    private String userName;
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 获取用户标识,优先获取userName,如果userName为空,则获取userMobileNo
+     * @Date 2019/10/21 14:47
+     * @param:
+     * @return java.lang.String
+     */
+    public String getUserLoginIdentifier(){
+        return userName != null ? userName : userMobileNo;
+    }
     
 }

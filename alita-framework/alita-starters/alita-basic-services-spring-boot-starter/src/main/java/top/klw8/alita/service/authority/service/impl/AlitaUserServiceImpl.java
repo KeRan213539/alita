@@ -3,6 +3,7 @@ package top.klw8.alita.service.authority.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.klw8.alita.entitys.authority.SystemRole;
@@ -25,12 +26,12 @@ import java.util.Map;
 public class AlitaUserServiceImpl extends ServiceImpl<IAlitaUserMapper, AlitaUserAccount> implements IAlitaUserService {
 
     @Override
-    public int addRole2User(String userId, SystemRole role) {
+    public int addRole2User(String userId, String roleId) {
         try {
-            if (null == userId || null == role || null == role.getId()) {
+            if (StringUtils.isBlank(userId) || StringUtils.isBlank(roleId)) {
                 return 0;
             }
-            return this.getBaseMapper().addRole2User(userId, role.getId());
+            return this.getBaseMapper().addRole2User(userId, roleId);
         }catch (Exception e){
             return 0;
         }
