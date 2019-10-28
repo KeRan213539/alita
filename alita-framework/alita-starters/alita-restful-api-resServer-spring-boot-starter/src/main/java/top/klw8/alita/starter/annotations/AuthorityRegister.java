@@ -23,21 +23,13 @@ import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 public @interface AuthorityRegister {
 
     /**
-     * @Title: catlogId
-     * @author klw
-     * @Description: 菜单所属权限目录的ID,使用UUID(去除横杠),如果不存在自动创建
-     * @return
-     */
-//    String catlogId() default "";
-    
-    /**
      * @Title: catlogName
      * @author klw
      * @Description: 菜单所属权限目录的名称,如果不存在自动创建
      * @return
      */
     String catlogName() default "";
-    
+
     /**
      * @Title: catlogShowIndex
      * @author klw
@@ -45,7 +37,7 @@ public @interface AuthorityRegister {
      * @return
      */
     int catlogShowIndex() default -1;
-    
+
     /**
      * @Title: catlogRemark
      * @author klw
@@ -53,14 +45,6 @@ public @interface AuthorityRegister {
      * @return
      */
     String catlogRemark() default "";
-    
-    /**
-     * @Title: authorityId
-     * @author klw
-     * @Description: 权限ID,使用UUID(去除横杠),如果不存在才会插入数据
-     * @return
-     */
-//    String authorityId() default "";
     
     /**
      * @Title: authorityName

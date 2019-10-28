@@ -3,7 +3,6 @@ package top.klw8.alita.starter.common;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.stereotype.Component;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
@@ -29,11 +28,13 @@ import static top.klw8.alita.starter.common.WebApiContext.*;
  * @date 2019年1月10日 下午4:46:26
  */
 @Slf4j
-@Component
 public class UserCacheHelper {
 
-    @Reference(async = true)
     private IAlitaUserProvider userService;
+
+    public UserCacheHelper(IAlitaUserProvider userService){
+        this.userService = userService;
+    }
 
     /**
      * @param user

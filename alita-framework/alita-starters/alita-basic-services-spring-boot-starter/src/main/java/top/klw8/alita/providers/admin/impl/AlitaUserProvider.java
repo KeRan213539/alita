@@ -25,6 +25,7 @@ import top.klw8.alita.starter.service.common.ServiceContext;
 import top.klw8.alita.starter.service.common.ServiceUtil;
 import top.klw8.alita.utils.LocalDateTimeUtil;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -101,8 +102,8 @@ public class AlitaUserProvider implements IAlitaUserProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> userList(AlitaUserAccount user, LocalDateTime createDateBegin,
-                                                  LocalDateTime createDateEnd, Page<AlitaUserAccount> page) {
+    public CompletableFuture<JsonResult> userList(AlitaUserAccount user, LocalDate createDateBegin,
+                                                  LocalDate createDateEnd, Page<AlitaUserAccount> page) {
         QueryWrapper<AlitaUserAccount> query = new QueryWrapper();
         // 排除密码字段
         query.select(AlitaUserAccount.class, i -> !i.getColumn().equals("user_pwd"));
@@ -192,6 +193,12 @@ public class AlitaUserProvider implements IAlitaUserProvider {
             return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult("密码更新成功!"));
         }
         return ServiceUtil.buildFuture(JsonResult.sendFailedResult("密码更新失败!"));
+    }
+
+    @Override
+    public CompletableFuture<JsonResult> getUserAllRoles(String userId) {
+        Assert.hasText(userId, "用户ID不能为空!");
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(userService.getUserAllRoles(userId)));
     }
 
 }

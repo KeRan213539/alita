@@ -19,8 +19,11 @@ import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.validator.UseValidator;
+import top.klw8.alita.validator.annotations.NotEmpty;
+import top.klw8.alita.validator.annotations.Required;
 import top.klw8.alita.web.user.vo.PageRequest;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -40,7 +43,6 @@ public class SysUserAdminController {
 
     @ApiOperation(value = "用户列表(分页)", notes = "用户列表(分页)", httpMethod = "GET", produces = "application/json")
     @GetMapping("/userList")
-    @UseValidator
     @AuthorityRegister(catlogName = "用户管理", catlogShowIndex = 99,
             authorityName = "用户列表(分页)", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
@@ -48,15 +50,13 @@ public class SysUserAdminController {
             @ApiImplicitParam(name = "userName", value = "用户姓名(支持模糊查询)", paramType = "query"),
             @ApiImplicitParam(name = "locked", value = "账户是否锁定,不传查全部状态", paramType = "query",
                     dataType = "boolean", example = "true"),
-            @ApiImplicitParam(name = "createDateBegin", value = "注册时间_开始", paramType = "query",
-                    dataType = "boolean", example = "true"),
-            @ApiImplicitParam(name = "createDateEnd", value = "注册时间_结束", paramType = "query",
-                    dataType = "boolean", example = "true")
+            @ApiImplicitParam(name = "createDateBegin", value = "注册时间-开始", paramType = "query",
+                    dataType = "java.time.LocalDate", example = "2019-10-24"),
+            @ApiImplicitParam(name = "createDateEnd", value = "注册时间-结束", paramType = "query",
+                    dataType = "java.time.LocalDate", example = "2019-10-25")
     })
-    public Mono<JsonResult> userList(String userName, Boolean locked, LocalDateTime createDateBegin,
-                                     LocalDateTime createDateEnd, PageRequest page){
-        System.out.println(userName);
-        System.out.println(page);
+    public Mono<JsonResult> userList(String userName, Boolean locked, LocalDate createDateBegin,
+                                     LocalDate createDateEnd, PageRequest page){
         AlitaUserAccount user = new AlitaUserAccount();
         if(StringUtils.isNotBlank(userName)){
             user.setUserName(userName);
@@ -65,6 +65,19 @@ public class SysUserAdminController {
             user.setAccountNonLocked1(!locked);
         }
         return Mono.fromFuture(userProvider.userList(user, createDateBegin, createDateEnd, new Page(page.getPage(), page.getSize())));
+    }
+
+    @ApiOperation(value = "根据用户ID查询该用户的角色和权限", notes = "根据用户ID查询该用户的角色和权限", httpMethod = "GET", produces = "application/json")
+    @GetMapping("/userAllRoles")
+    @AuthorityRegister(catlogName = "用户管理", catlogShowIndex = 99,
+            authorityName = "根据用户ID查询该用户的角色和权限", authorityType = AuthorityTypeEnum.URL,
+            authorityShowIndex = 0)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "用户I", paramType = "query", required = true)
+    })
+    @UseValidator
+    public Mono<JsonResult> userAllRoles(@Required @NotEmpty String userId){
+        return Mono.fromFuture(userProvider.getUserAllRoles(userId));
     }
 
 }

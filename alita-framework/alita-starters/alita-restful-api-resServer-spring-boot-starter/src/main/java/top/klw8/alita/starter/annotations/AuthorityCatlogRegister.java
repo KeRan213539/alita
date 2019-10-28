@@ -19,14 +19,6 @@ import java.lang.annotation.Target;
 public @interface AuthorityCatlogRegister {
 
     /**
-     * @Title: id
-     * @author klw
-     * @Description: 菜单所属权限目录的ID,使用UUID(去除横杠),如果不存在自动创建
-     * @return
-     */
-//    String id();
-    
-    /**
      * @Title: name
      * @author klw
      * @Description: 菜单所属权限目录的名称,如果不存在自动创建

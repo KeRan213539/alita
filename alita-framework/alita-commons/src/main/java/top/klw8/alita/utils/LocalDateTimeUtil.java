@@ -518,6 +518,28 @@ public class LocalDateTimeUtil {
 
     /*
      * @author klw(213539@qq.com)
+     * @Description: 获取指定时间的那一天的开始时间(0时0秒0分)
+     * @Date 2019/10/15 16:35
+     * @param: dateTime
+     * @return java.time.LocalDateTime
+     */
+    public static LocalDateTime dayBegin(LocalDate date){
+        return LocalDateTime.of(date, LocalTime.MIN);
+    }
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 获取指定时间的那一天的结束时间(23时59秒59分)
+     * @Date 2019/10/15 16:39
+     * @param: dateTime
+     * @return java.time.LocalDateTime
+     */
+    public static LocalDateTime dayEnd(LocalDate date){
+        return LocalDateTime.of(date, LocalTime.MAX);
+    }
+
+    /*
+     * @author klw(213539@qq.com)
      * @Description: 获取今天的开始时间(0时0秒0分)
      * @Date 2019/10/15 16:35
      * @param: dateTime

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.service.result.JsonResult;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -61,7 +62,7 @@ public interface IAlitaUserProvider {
      * @param: createDateEnd
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> userList(AlitaUserAccount user, LocalDateTime createDateBegin, LocalDateTime createDateEnd, Page<AlitaUserAccount> page);
+    CompletableFuture<JsonResult> userList(AlitaUserAccount user, LocalDate createDateBegin, LocalDate createDateEnd, Page<AlitaUserAccount> page);
 
     /**
      * @author klw(213539@qq.com)
@@ -92,5 +93,14 @@ public interface IAlitaUserProvider {
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
     CompletableFuture<JsonResult> changeUserPassword(String userId, String oldPwd, String newPwd);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 根据用户ID查找该用户拥有的角色和对应权限
+     * @Date 2019/10/24 16:08
+     * @param: userId
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> getUserAllRoles(String userId);
 
 }

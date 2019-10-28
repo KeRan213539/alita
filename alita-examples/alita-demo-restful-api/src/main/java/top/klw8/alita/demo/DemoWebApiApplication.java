@@ -3,8 +3,7 @@ package top.klw8.alita.demo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.logging.LoggingSystem;
 
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import top.klw8.alita.starter.annotations.BaseWebApiApplication;
+import top.klw8.alita.starter.web.BaseWebApiApplication;
 
 
 /**
