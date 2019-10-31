@@ -1,4 +1,4 @@
-package top.klw8.alita.web.user.vo;
+package top.klw8.alita.starter.web.common.vo;
 
 import io.swagger.annotations.ApiParam;
 import lombok.Getter;

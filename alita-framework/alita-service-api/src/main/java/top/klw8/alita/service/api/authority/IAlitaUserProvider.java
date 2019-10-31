@@ -5,7 +5,6 @@ import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.service.result.JsonResult;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -92,7 +91,7 @@ public interface IAlitaUserProvider {
      * @param: newPwd
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> changeUserPassword(String userId, String oldPwd, String newPwd);
+    CompletableFuture<JsonResult> changeUserPasswordByUserId(String userId, String oldPwd, String newPwd);
 
     /**
      * @author klw(213539@qq.com)
@@ -102,5 +101,24 @@ public interface IAlitaUserProvider {
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
     CompletableFuture<JsonResult> getUserAllRoles(String userId);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 用户详情
+     * @Date 2019/10/31 11:21
+     * @param: userId
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> userInfo(String userId);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 改变用户状态(启用/禁用用户)
+     * @Date 2019/10/31 15:23
+     * @param: userId
+     * @param: enabled 是否启用: true 为启用, false为禁用
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> changeUserStatus(String userId, boolean enabled);
 
 }

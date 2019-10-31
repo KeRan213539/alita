@@ -7,15 +7,17 @@ import lombok.EqualsAndHashCode;
 import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
 
+import java.util.List;
+
 /**
- * @ClassName: SystemRoleVo
- * @Description: SystemRole的Vo
+ * @ClassName: SaveRoleRequest
+ * @Description: 保存角色的请求
  * @author klw
  * @date 2018年12月4日 下午5:18:42
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class SystemRoleVo {
+public class SaveRoleRequest {
 
     @Required(validatFailMessage = "角色名称不能为空")
     @NotEmpty(validatFailMessage = "角色名称不能为空")
@@ -24,5 +26,11 @@ public class SystemRoleVo {
     
     @ApiParam(value = "备注")
     private String remark;
+
+    @ApiParam(value = "要复制的角色ID,可以从该角色中复制权限到新的角色,如果此参数有值,则 auIdList 参数将被忽略")
+    private String copyAuFromRoleId;
+
+    @ApiParam(value = "该角色中的权限,如果要复制的角色ID有值,则此参数将被忽略")
+    private List<String> auIdList;
     
 }

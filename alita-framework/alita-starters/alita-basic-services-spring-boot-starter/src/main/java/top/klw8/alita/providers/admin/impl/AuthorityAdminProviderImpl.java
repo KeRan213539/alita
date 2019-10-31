@@ -277,6 +277,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public CompletableFuture<JsonResult> delRole(String roleId) {
+        Assert.hasText(roleId, "角色ID不能为空!");
         List<AlitaUserAccount> userList = userService.getUserByRoleId(roleId);
         if(CollectionUtils.isNotEmpty(userList)){
             return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("有用户拥有该角色,不允许删除"));
@@ -284,6 +285,12 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         roleService.cleanAuthoritysFromRole(roleId);
         roleService.removeById(roleId);
         return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
+    }
+
+    @Override
+    public CompletableFuture<JsonResult> roleInfo(String roleId){
+        Assert.hasText(roleId, "角色ID不能为空!");
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(roleService.getById(roleId)));
     }
 
     @Override
@@ -330,6 +337,12 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
+    public CompletableFuture<JsonResult> catlogInfo(String catlogId){
+        Assert.hasText(catlogId, "权限目录ID不能为空!");
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(catlogService.getById(catlogId)));
+    }
+
+    @Override
     public CompletableFuture<JsonResult> authoritysList(String auName, Page<SystemAuthoritys> page) {
         QueryWrapper<SystemAuthoritys> query = new QueryWrapper();
         if(StringUtils.isNotBlank(auName)){
@@ -363,4 +376,11 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         auService.removeById(auId);
         return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
     }
+
+    @Override
+    public CompletableFuture<JsonResult> auInfo(String auId){
+        Assert.hasText(auId, "权限ID不能为空!");
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(auService.getById(auId)));
+    }
+
 }

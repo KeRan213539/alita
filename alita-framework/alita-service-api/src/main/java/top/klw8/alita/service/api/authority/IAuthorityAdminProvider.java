@@ -66,8 +66,6 @@ public interface IAuthorityAdminProvider {
      **/
     CompletableFuture<JsonResult> refreshUserAuthoritys(String userId);
 
-
-    //===================================================================
     /**
      * @author klw(213539@qq.com)
      * @Description: 添加角色
@@ -108,7 +106,7 @@ public interface IAuthorityAdminProvider {
 
     /**
      * @author klw(213539@qq.com)
-     * @Description: 保存角色(无ID则添加,有则修改).
+     * @Description: 保存角色(无ID则添加,有则修改)
      * 如果传入的角色中包含权限,会同时保存这些权限.
      * 如果 copyAuFromRoleId 有值,并且目标角色存在,会复制该角色的权限并保存到新角色中
      * 如果 copyAuFromRoleId有值并且要保存的角色中也有权限,要保存的角色中的权限会被 copyAuFromRoleId 覆盖
@@ -127,6 +125,15 @@ public interface IAuthorityAdminProvider {
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
     CompletableFuture<JsonResult> delRole(String roleId);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 角色信息
+     * @Date 2019/10/31 11:47
+     * @param: roleId
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> roleInfo(String roleId);
 
     /**
      * @author klw(213539@qq.com)
@@ -164,6 +171,15 @@ public interface IAuthorityAdminProvider {
      */
     CompletableFuture<JsonResult> delCatlog(String catlogId);
 
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 权限目录详情
+     * @Date 2019/10/31 11:52
+     * @param: catlogId
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> catlogInfo(String catlogId);
+
 
     /**
      * @author klw(213539@qq.com)
@@ -192,5 +208,14 @@ public interface IAuthorityAdminProvider {
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
     CompletableFuture<JsonResult> delAuthority(String auId);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 权限详情
+     * @Date 2019/10/31 14:46
+     * @param: auId
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> auInfo(String auId);
 
 }

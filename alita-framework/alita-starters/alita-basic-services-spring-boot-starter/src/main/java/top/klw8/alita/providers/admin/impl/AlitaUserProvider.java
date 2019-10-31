@@ -177,7 +177,7 @@ public class AlitaUserProvider implements IAlitaUserProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> changeUserPassword(String userId, String oldPwd, String newPwd) {
+    public CompletableFuture<JsonResult> changeUserPasswordByUserId(String userId, String oldPwd, String newPwd) {
         Assert.hasText(userId, "userId 不能为空!");
         Assert.hasText(oldPwd, "oldPwd 不能为空!");
         Assert.hasText(newPwd, "newPwd 不能为空!");
@@ -199,6 +199,28 @@ public class AlitaUserProvider implements IAlitaUserProvider {
     public CompletableFuture<JsonResult> getUserAllRoles(String userId) {
         Assert.hasText(userId, "用户ID不能为空!");
         return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(userService.getUserAllRoles(userId)));
+    }
+
+    @Override
+    public CompletableFuture<JsonResult> userInfo(String userId) {
+        Assert.hasText(userId, "用户ID不能为空!");
+        QueryWrapper<AlitaUserAccount> query = new QueryWrapper();
+        // 排除密码字段
+        query.select(AlitaUserAccount.class, i -> !i.getColumn().equals("user_pwd"));
+        return CompletableFuture.supplyAsync(() -> JsonResult.sendSuccessfulResult(
+                userService.getOne(query)), ServiceContext.executor);
+    }
+
+    @Override
+    public CompletableFuture<JsonResult> changeUserStatus(String userId, boolean enabled) {
+        Assert.hasText(userId, "用户ID不能为空!");
+        AlitaUserAccount user = new AlitaUserAccount();
+        user.setId(userId);
+        user.setEnabled1(enabled);
+        if(userService.updateById(user)){
+            return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult("状态更新成功!"));
+        }
+        return ServiceUtil.buildFuture(JsonResult.sendFailedResult("状态更新失败!"));
     }
 
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
@@ -18,8 +19,17 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.util.Assert;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.CollectionUtils;
+import redis.clients.jedis.HostAndPort;
+import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.JedisPoolConfig;
 import top.klw8.alita.base.springctx.SpringApplicationContextUtil;
 import top.klw8.alita.utils.BindConfig2BeanUtil;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -40,11 +50,24 @@ public class RedisRegister implements ApplicationContextAware {
         }
         Assert.hasText(configBean.getDefaultHost(), "redis 服务器IP不能为空");
         Assert.notNull(configBean.getDefaultPort(), "redis 服务器端口不能为空");
-        RedisStandaloneConfiguration defaultRedisStandaloneConfiguration = new RedisStandaloneConfiguration(configBean.getDefaultHost(), configBean.getDefaultPort());
-        if (StringUtils.isNotBlank(configBean.getDefaultPass())) {
-            defaultRedisStandaloneConfiguration.setPassword(RedisPassword.of(configBean.getDefaultPass()));
+        JedisConnectionFactory defaultJedisConnectionFactory;
+        if (configBean.getDefaultIsCluster()){
+            List<String> tempList = new ArrayList<>(1);
+            tempList.add(configBean.getDefaultHost() + ":" + configBean.getDefaultPort());
+            RedisClusterConfiguration defaultRedisStandaloneConfiguration = new RedisClusterConfiguration(tempList);
+            if (StringUtils.isNotBlank(configBean.getDefaultPass())) {
+                defaultRedisStandaloneConfiguration.setPassword(RedisPassword.of(configBean.getDefaultPass()));
+            }
+            defaultJedisConnectionFactory = new JedisConnectionFactory(defaultRedisStandaloneConfiguration, JedisClientConfiguration.builder().usePooling().build());
+        } else {
+            RedisStandaloneConfiguration defaultRedisStandaloneConfiguration = new RedisStandaloneConfiguration(configBean.getDefaultHost(), configBean.getDefaultPort());
+            if (StringUtils.isNotBlank(configBean.getDefaultPass())) {
+                defaultRedisStandaloneConfiguration.setPassword(RedisPassword.of(configBean.getDefaultPass()));
+            }
+            defaultJedisConnectionFactory = new JedisConnectionFactory(defaultRedisStandaloneConfiguration, JedisClientConfiguration.builder().usePooling().build());
         }
-        JedisConnectionFactory defaultJedisConnectionFactory = new JedisConnectionFactory(defaultRedisStandaloneConfiguration, JedisClientConfiguration.builder().usePooling().build());
+
+        defaultJedisConnectionFactory.afterPropertiesSet();
 
         RedisSerializer<String> stringSerializer = new StringRedisSerializer();
         RedisSerializer<Object> jdkSerializationRedisSerializer = new JdkSerializationRedisSerializer();
@@ -61,9 +84,9 @@ public class RedisRegister implements ApplicationContextAware {
         defaultListableBeanFactory.registerSingleton("redisDefaultCacheTemplate", defaultRedisTemplate);
 
         here:
-        if (configBean.getExtendHosts() != null && configBean.getExtendHosts().size() > 0
-                && configBean.getExtendPorts() != null && configBean.getExtendPorts().size() > 0
-                && configBean.getExtendBeanIds() != null && configBean.getExtendBeanIds().size() > 0) {
+        if (!CollectionUtils.isEmpty(configBean.getExtendHosts()) &&
+                !CollectionUtils.isEmpty(configBean.getExtendPorts()) &&
+                !CollectionUtils.isEmpty(configBean.getExtendBeanIds())) {
             int checkSize = configBean.getExtendPorts().size();
             if (configBean.getExtendPorts().size() != checkSize || configBean.getExtendBeanIds().size() != checkSize) {
                 log.warn("【警告】redis.extend 中的配制不完整,extendHosts,extendPorts,extendPasss的数量要一致!extend 配制失败,只有 default!");
@@ -73,11 +96,24 @@ public class RedisRegister implements ApplicationContextAware {
                 String host = configBean.getExtendHosts().get(i);
                 Integer port = configBean.getExtendPorts().get(i);
                 String beanId = configBean.getExtendBeanIds().get(i);
-                RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(host, port);
-                if (configBean.getExtendPasss() != null && StringUtils.isNotBlank(configBean.getExtendPasss().get(i))) {
-                    redisStandaloneConfiguration.setPassword(RedisPassword.of(configBean.getExtendPasss().get(i)));
+
+                JedisConnectionFactory jedisConnectionFactory;
+                if (!CollectionUtils.isEmpty(configBean.getExtendIsCluster()) && null != configBean.getExtendIsCluster().get(i) && configBean.getExtendIsCluster().get(i).booleanValue()){
+                    List<String> tempList = new ArrayList<>(1);
+                    tempList.add(configBean.getDefaultHost() + ":" + configBean.getDefaultPort());
+                    RedisClusterConfiguration redisStandaloneConfiguration = new RedisClusterConfiguration(tempList);
+                    if (!CollectionUtils.isEmpty(configBean.getExtendPasss()) && StringUtils.isNotBlank(configBean.getExtendPasss().get(i))) {
+                        redisStandaloneConfiguration.setPassword(RedisPassword.of(configBean.getDefaultPass()));
+                    }
+                    jedisConnectionFactory = new JedisConnectionFactory(redisStandaloneConfiguration, JedisClientConfiguration.builder().usePooling().build());
+                } else {
+                    RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(host, port);
+                    if (!CollectionUtils.isEmpty(configBean.getExtendPasss()) && StringUtils.isNotBlank(configBean.getExtendPasss().get(i))) {
+                        redisStandaloneConfiguration.setPassword(RedisPassword.of(configBean.getDefaultPass()));
+                    }
+                    jedisConnectionFactory = new JedisConnectionFactory(redisStandaloneConfiguration, JedisClientConfiguration.builder().usePooling().build());
                 }
-                JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(redisStandaloneConfiguration);
+
                 RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
                 redisTemplate.setConnectionFactory(jedisConnectionFactory);
                 redisTemplate.afterPropertiesSet();

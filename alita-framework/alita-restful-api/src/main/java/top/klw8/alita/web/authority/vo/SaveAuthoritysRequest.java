@@ -1,21 +1,25 @@
 package top.klw8.alita.web.authority.vo;
 
 import io.swagger.annotations.ApiParam;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
 
 /**
- * @ClassName: SystemAuthoritysVo
- * @Description: SystemAuthoritys 的VO
+ * @ClassName: SaveAuthoritysRequest
+ * @Description: 权限保存的的请求
  * @author klw
  * @date 2018年11月28日 下午6:22:37
  */
-@Data
+@Getter
+@Setter
+@ToString
 @EqualsAndHashCode(callSuper = false)
-public class SystemAuthoritysVo {
+public class SaveAuthoritysRequest {
 
     @Required(validatFailMessage = "菜单所属权限目录的ID不能为空")
     @NotEmpty(validatFailMessage = "菜单所属权限目录的ID不能为空")
@@ -35,7 +39,7 @@ public class SystemAuthoritysVo {
     @Required(validatFailMessage = "权限类型不能为空")
     @ApiParam(value = "权限类型:<br />"
 	    	+ "作为菜单显示: MENU  <br />"
-	    	+ "是URL相对路径: URL", required=true)
+	    	+ "是URL相对路径: URL", required=true, allowableValues= "MENU,URL")
     private AuthorityTypeEnum authorityType;
     
     @Required(validatFailMessage = "显示顺序不能为空")

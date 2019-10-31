@@ -1,20 +1,21 @@
 package top.klw8.alita.web.authority.vo;
 
 import io.swagger.annotations.ApiParam;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
 
 /**
- * @ClassName: SystemAuthoritysCatlogVo
- * @Description: 权限的目录 VO
+ * @ClassName: SaveCatlogRequest
+ * @Description: 保存权限目录的请求
  * @author klw
  * @date 2018年12月5日 下午3:01:02
  */
-@Data
+@Getter
+@Setter
+@ToString
 @EqualsAndHashCode(callSuper = false)
-public class SystemAuthoritysCatlogVo {
+public class SaveCatlogRequest {
     
     @Required(validatFailMessage = "目录名称不能为空")
     @NotEmpty(validatFailMessage = "目录名称不能为空")

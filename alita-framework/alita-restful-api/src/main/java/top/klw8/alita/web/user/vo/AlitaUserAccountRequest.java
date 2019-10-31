@@ -1,12 +1,11 @@
 package top.klw8.alita.web.user.vo;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.Setter;
 import top.klw8.alita.validator.annotations.NotEmpty;
+import top.klw8.alita.validator.annotations.Password;
 import top.klw8.alita.validator.annotations.Required;
-
-import java.time.LocalDateTime;
 
 /**
  * @author klw(213539 @ qq.com)
@@ -18,42 +17,26 @@ import java.time.LocalDateTime;
 @Setter
 public class AlitaUserAccountRequest {
 
-    @ApiModelProperty("用户名/帐号")
-    @Required
-    @NotEmpty
+    @ApiParam(value = "用户名/帐号", required = true)
+    @Required("用户名/帐号不能为空")
+    @NotEmpty("用户名/帐号不能为空")
     private String userName;
 
-    @ApiModelProperty("用户手机号")
-    @Required
-    @NotEmpty
+    @ApiParam(value = "用户手机号", required = true)
+    @Required("用户手机号不能为空")
+    @NotEmpty("用户手机号不能为空")
     private String userPhoneNum;
 
-    @ApiModelProperty("密码")
-    @Required
-    @NotEmpty
+    @ApiParam(value = "密码", required = true)
+    @Required("密码不能为空")
+    @NotEmpty("密码不能为空")
+    @Password
     private String userPwd;
 
-    @ApiModelProperty("重复密码")
-    @Required
-    @NotEmpty
+    @ApiParam(value = "重复密码", required = true)
+    @Required("重复密码不能为空")
+    @NotEmpty("重复密码不能为空")
+    @Password
     private String userPwd2;
-
-    @ApiModelProperty("创建时间Begin")
-    private LocalDateTime createDateBegin;
-
-    @ApiModelProperty("创建时间End")
-    private LocalDateTime createDateEnd;
-
-    @ApiModelProperty("账户是否未过期(true 是未过期)")
-    private Boolean accountNonExpired;
-
-    @ApiModelProperty("账户是否未锁定 (true 是未锁定)")
-    private Boolean accountNonLocked;
-
-    @ApiModelProperty("用户密码是否未过期(true 是未过期), 密码过期了会登录失败(需要强制用户修改密码)")
-    private Boolean credentialsNonExpired;
-
-    @ApiModelProperty("账户是否启用(true 是启用)")
-    private Boolean enabled;
 
 }

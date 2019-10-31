@@ -98,6 +98,9 @@ public class DevHelperController {
                 // 找 AuthorityCatlogRegister
                 if (controllerClass.isAnnotationPresent(AuthorityCatlogRegister.class)) {
                     AuthorityCatlogRegister catlogRegister = controllerClass.getAnnotation(AuthorityCatlogRegister.class);
+                    if(StringUtils.isBlank(catlogRegister.name())){
+                        return Mono.just(JsonResult.sendFailedResult(controllerClass.getName() + "的 AuthorityCatlogRegister 中没有设置catlog名称,注册失败"));
+                    }
                     catlog = tempMap.get(catlogRegister.name());
                     if (catlog == null) {
                         catlog = new SystemAuthoritysCatlog();
@@ -142,9 +145,10 @@ public class DevHelperController {
                 catlog = tempMap.get(register.catlogName());
                 if (catlog == null) {
                     // 如果没有 AuthorityCatlogRegister 注解,那么这里 catlog 就是 null
-                    if (StringUtils.isEmpty(register.catlogName()) || register.catlogShowIndex() < 0) {
+                    if (StringUtils.isBlank(register.catlogName()) || register.catlogShowIndex() < 0) {
                         // 如果权限注册注解里面没有这几个属性, 直接略过这个权限
-                        continue;
+                        return Mono.just(JsonResult.sendFailedResult(controllerClass.getName() + "." + method.getName()
+                                + "的 AuthorityRegister 中没有设置catlog名称,注册失败"));
                     }
                     catlog = new SystemAuthoritysCatlog();
                     catlog.setCatlogName(register.catlogName());

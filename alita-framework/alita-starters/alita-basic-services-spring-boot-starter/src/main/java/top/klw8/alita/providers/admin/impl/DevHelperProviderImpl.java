@@ -67,16 +67,20 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                         continue;
                     }
                     SystemAuthoritysCatlog catlogFinded = catlogService.findByCatlogName(catlog.getCatlogName());
+                    String catlogId;
                     if (EntityUtil.isEntityEmpty(catlogFinded)) {
-                        catlog.setId(UUIDUtil.getRandomUUIDString());
+                        catlogId = UUIDUtil.getRandomUUIDString();
+                        catlog.setId(catlogId);
                         catlogService.save(catlog);
+                    } else {
+                        catlogId = catlogFinded.getId();
                     }
                     if (CollectionUtils.isNotEmpty(catlog.getAuthorityList())) {
                         for (SystemAuthoritys au : catlog.getAuthorityList()) {
                             SystemAuthoritys auFinded = auService.findByAuAction(au.getAuthorityAction());
                             if (EntityUtil.isEntityEmpty(auFinded)) {
                                 au.setId(UUIDUtil.getRandomUUIDString());
-                                au.setCatlogId(catlog.getId());
+                                au.setCatlogId(catlogId);
                                 auService.save(au);
                                 auFinded = au;
                             }
