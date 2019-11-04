@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
+import springfox.documentation.annotations.ApiIgnore;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.service.result.JsonResult;
@@ -43,7 +44,7 @@ public class SysUserController {
     @UseValidator
     @AuthorityRegister(authorityName = "获取当前登录用户的菜单", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
-    public Mono<JsonResult> userMenus(ServerHttpRequest request){
+    public Mono<JsonResult> userMenus(@ApiIgnore ServerHttpRequest request){
         String userId = TokenUtil.getUserId(request);
         if (userId == null) {
             return Mono.just(JsonResult.sendFailedResult(CommonResultCodeEnum.TOKEN_ERR));

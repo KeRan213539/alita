@@ -247,10 +247,9 @@ public class LocalDateTimeUtil {
     /**
      * 比对两个时间间隔
      *
-     * @param startDateTime 开始时间
-     * @param endDateTime   结束时间
+     * @param startDate 开始时间
+     * @param endDate   结束时间
      * @param distanceType  计算间隔类型:年y 天d 小时h 分钟m 秒s
-     * @param format        传进来的日期格式
      * @return
      */
     public static String getDistanceDT(LocalDateTime startDate, LocalDateTime endDate, String distanceType) {
@@ -330,6 +329,40 @@ public class LocalDateTimeUtil {
      */
     public static String formatTime(LocalDateTime time, String pattern) {
         return time.format(DateTimeFormatter.ofPattern(pattern));
+    }
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 获取指定时间的yyyy-MM-dd HH:mm:ss格式
+     * @Date 2019/11/1 17:12
+     * @param: time
+     * @return java.lang.String
+     */
+    public static String formatTime(LocalDateTime time) {
+        return time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+
+    /**
+     * @param date
+     * @param pattern
+     * @return
+     * @Title: formatTime
+     * @author klw
+     * @Description: 获取指定时间的指定格式
+     */
+    public static String formatDate(LocalDate date, String pattern) {
+        return date.format(DateTimeFormatter.ofPattern(pattern));
+    }
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 获取指定时间的yyyy-MM-dd格式
+     * @Date 2019/11/1 17:12
+     * @param: date
+     * @return java.lang.String
+     */
+    public static String formatDate(LocalDate date) {
+        return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
     /**

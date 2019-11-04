@@ -17,7 +17,6 @@
         <module>alita-service-api</module>
         <module>alita-service-mongodb-api</module>
         <module>alita-starters</module>
-        <module>alita-restful-api</module>
     </modules>
 
     <url>https://alita.klw8.top/</url>

@@ -6,7 +6,7 @@
 	<version>0.1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>alita-basic-services-spring-boot-starter</name>
-	<description>alita核心服务starter,包含用户,权限等</description>
+	<description>alita核心服务starter,包含用户,权限等,引入后即提供基础服务</description>
 
 	<parent>
 		<groupId>top.klw8.alita</groupId>

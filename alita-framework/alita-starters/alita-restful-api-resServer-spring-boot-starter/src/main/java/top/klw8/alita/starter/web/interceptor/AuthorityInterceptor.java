@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
@@ -36,7 +35,6 @@ import top.klw8.alita.service.result.JsonResult;
  * @Description: 权限拦截器
  * @date 2018年12月6日 下午2:48:28
  */
-@Component
 public class AuthorityInterceptor implements WebFilter {
 
     @Autowired

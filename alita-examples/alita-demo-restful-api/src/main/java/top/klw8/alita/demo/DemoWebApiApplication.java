@@ -2,8 +2,7 @@ package top.klw8.alita.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.logging.LoggingSystem;
-
-import top.klw8.alita.starter.web.BaseWebApiApplication;
+import top.klw8.alita.starter.annotations.BaseWebApiApplication;
 
 
 /**

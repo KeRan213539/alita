@@ -21,6 +21,7 @@ import top.klw8.alita.validator.annotations.Required;
 import top.klw8.alita.web.user.vo.AlitaUserAccountRequest;
 import top.klw8.alita.web.user.vo.ChangeUserPasswordByUserIdRequest;
 import top.klw8.alita.starter.web.common.vo.PageRequest;
+import top.klw8.alita.web.user.vo.ChangeUserStatusRequest;
 import top.klw8.alita.web.user.vo.SaveUserRolesRequest;
 
 import java.time.LocalDate;
@@ -36,7 +37,7 @@ import static top.klw8.alita.web.common.CatlogsConstant.CATLOG_INDEX_USER_ADMIN;
  */
 @Api(tags = {"alita-restful-API--用户管理"})
 @RestController
-@RequestMapping("/${spring.application.name}/admin/user")
+@RequestMapping("/${spring.application.name}/admin/userManage")
 @Slf4j
 @AuthorityCatlogRegister(name = CATLOG_NAME_USER_ADMIN, showIndex = CATLOG_INDEX_USER_ADMIN)
 public class SysUserAdminController extends WebapiBaseController {
@@ -50,21 +51,21 @@ public class SysUserAdminController extends WebapiBaseController {
             authorityShowIndex = 0)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userName", value = "用户姓名(支持模糊查询)", paramType = "query"),
-            @ApiImplicitParam(name = "locked", value = "账户是否锁定,不传查全部状态", paramType = "query",
+            @ApiImplicitParam(name = "enabled", value = "账户是否启用,不传查全部状态", paramType = "query",
                     dataType = "boolean", example = "true"),
             @ApiImplicitParam(name = "createDateBegin", value = "注册时间-开始", paramType = "query",
                     dataType = "java.time.LocalDate", example = "2019-10-24"),
             @ApiImplicitParam(name = "createDateEnd", value = "注册时间-结束", paramType = "query",
                     dataType = "java.time.LocalDate", example = "2019-10-25")
     })
-    public Mono<JsonResult> userList(String userName, Boolean locked, LocalDate createDateBegin,
-                                     LocalDate createDateEnd, PageRequest page){
+    public Mono<JsonResult> userList(String userName, Boolean enabled, @RequestParam(required = false) LocalDate createDateBegin,
+                                     @RequestParam(required = false) LocalDate createDateEnd, PageRequest page){
         AlitaUserAccount user = new AlitaUserAccount();
         if(StringUtils.isNotBlank(userName)){
             user.setUserName(userName);
         }
-        if(null != locked){
-            user.setAccountNonLocked1(!locked);
+        if(null != enabled){
+            user.setEnabled1(enabled);
         }
         return Mono.fromFuture(userProvider.userList(user, createDateBegin, createDateEnd, new Page(page.getPage(), page.getSize())));
     }
@@ -80,7 +81,6 @@ public class SysUserAdminController extends WebapiBaseController {
     public Mono<JsonResult> userAllRoles(
             @Required(validatFailMessage = "用户ID不能为空")
             @NotEmpty(validatFailMessage = "用户ID不能为空")
-            @ApiParam(value = "用户ID", required=true)
                     String userId
     ){
         return Mono.fromFuture(userProvider.getUserAllRoles(userId));
@@ -144,17 +144,8 @@ public class SysUserAdminController extends WebapiBaseController {
     @AuthorityRegister(authorityName = "禁用/启用用户", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @UseValidator
-    public Mono<JsonResult> changeUserStatus(
-            @Required(validatFailMessage = "用户ID不能为空")
-            @NotEmpty(validatFailMessage = "用户ID不能为空")
-            @ApiParam(value = "用户ID", required=true)
-                    String userId,
-            @Required(validatFailMessage = "是否启用不能为空")
-            @NotEmpty(validatFailMessage = "是否启用不能为空")
-            @ApiParam(value = "是否启用(true为启用,false为禁用)", required=true)
-                    Boolean enabled
-    ){
-        return Mono.fromFuture(userProvider.changeUserStatus(userId, enabled.booleanValue()));
+    public Mono<JsonResult> changeUserStatus(@RequestBody ChangeUserStatusRequest req){
+        return Mono.fromFuture(userProvider.changeUserStatus(req.getUserId(), req.getEnabled().booleanValue()));
     }
 
 }

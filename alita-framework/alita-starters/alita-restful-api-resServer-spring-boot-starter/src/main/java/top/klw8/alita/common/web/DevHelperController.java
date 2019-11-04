@@ -89,7 +89,7 @@ public class DevHelperController {
             Method method = v.getMethod();
             String authorityActionPrefix;
             String authorityAction;
-            SystemAuthoritysCatlog catlog;
+            SystemAuthoritysCatlog catlog = null;
             String moduleName = "";
 
             if (method.isAnnotationPresent(AuthorityRegister.class)) {
@@ -142,7 +142,6 @@ public class DevHelperController {
 
                 AuthorityRegister register = method.getAnnotation(AuthorityRegister.class);
                 // 先检查 catlog 是否存在
-                catlog = tempMap.get(register.catlogName());
                 if (catlog == null) {
                     // 如果没有 AuthorityCatlogRegister 注解,那么这里 catlog 就是 null
                     if (StringUtils.isBlank(register.catlogName()) || register.catlogShowIndex() < 0) {
@@ -150,19 +149,22 @@ public class DevHelperController {
                         return Mono.just(JsonResult.sendFailedResult(controllerClass.getName() + "." + method.getName()
                                 + "的 AuthorityRegister 中没有设置catlog名称,注册失败"));
                     }
-                    catlog = new SystemAuthoritysCatlog();
-                    catlog.setCatlogName(register.catlogName());
-                    catlog.setShowIndex(register.catlogShowIndex());
-                    catlog.setRemark(register.catlogRemark());
-                    catlog.setAuthorityList(new ArrayList<>(16));
-                    tempMap.put(register.catlogName(), catlog);
+                    catlog = tempMap.get(register.catlogName());
+                    if(catlog == null) {
+                        catlog = new SystemAuthoritysCatlog();
+                        catlog.setCatlogName(register.catlogName());
+                        catlog.setShowIndex(register.catlogShowIndex());
+                        catlog.setRemark(register.catlogRemark());
+                        catlog.setAuthorityList(new ArrayList<>(16));
+                        tempMap.put(register.catlogName(), catlog);
+                    }
                 }
                 SystemAuthoritys au = new SystemAuthoritys();
-                au.setAuthorityName(moduleName + register.authorityName());
+                au.setAuthorityName(register.authorityName());
                 au.setAuthorityType(register.authorityType());
                 au.setAuthorityAction(authorityAction);
                 au.setShowIndex(register.authorityShowIndex());
-                au.setRemark(register.authorityRemark());
+                au.setRemark(moduleName + (StringUtils.isBlank(register.authorityRemark()) ? register.authorityName() : register.authorityRemark()));
                 catlog.getAuthorityList().add(au);
             }
         }

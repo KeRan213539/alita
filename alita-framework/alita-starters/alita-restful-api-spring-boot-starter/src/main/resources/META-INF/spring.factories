@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-top.klw8.alita.starter.cfg.WebApiConfig
+top.klw8.alita.starter.cfg.WebApiConfig,\
+top.klw8.alita.starter.cfg.WebFluxConfiguration

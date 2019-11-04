@@ -13,6 +13,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -20,6 +21,7 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
 import lombok.extern.slf4j.Slf4j;
+import top.klw8.alita.starter.web.interceptor.AuthorityInterceptor;
 
 /**
  * @ClassName: OAuth2ResourceServerConfig
@@ -31,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @EnableConfigurationProperties(ResServerAuthPathCfgBean.class)
 @EnableWebFluxSecurity
+@Import({AuthorityInterceptor.class})
 public class OAuth2ResourceServerConfig {
     
     @javax.annotation.Resource

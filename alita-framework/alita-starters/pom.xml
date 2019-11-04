@@ -20,6 +20,7 @@
         <module>alita-rocketmq-consumer-starter</module>
         <module>alita-job-executor-starter</module>
         <module>alita-basic-services-spring-boot-starter</module>
+		<module>alita-basic-restful-api-spring-boot-starter</module>
     </modules>
 
 </project>

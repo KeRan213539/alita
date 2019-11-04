@@ -115,14 +115,21 @@ public class AlitaUserProvider implements IAlitaUserProvider {
                 query.like("user_phone_num", user.getUserPhoneNum());
             }
             if(createDateBegin != null && createDateEnd != null){
-                query.between("create_date", LocalDateTimeUtil.dayBegin(createDateBegin),
-                        LocalDateTimeUtil.dayEnd(createDateEnd));
+//                query.between("create_date", LocalDateTimeUtil.dayBegin(createDateBegin),
+//                        LocalDateTimeUtil.dayEnd(createDateEnd));
+                query.apply("UNIX_TIMESTAMP(create_date) BETWEEN UNIX_TIMESTAMP('"
+                        + LocalDateTimeUtil.formatTime(LocalDateTimeUtil.dayBegin(createDateBegin)) + "') AND " +
+                        "UNIX_TIMESTAMP('" + LocalDateTimeUtil.formatTime(LocalDateTimeUtil.dayEnd(createDateEnd)) + "')");
             } else {
                 if(createDateBegin != null){
-                    query.ge("create_date", LocalDateTimeUtil.dayBegin(createDateBegin));
+//                    query.ge("create_date", LocalDateTimeUtil.dayBegin(createDateBegin));
+                    query.apply("UNIX_TIMESTAMP(create_date) >= UNIX_TIMESTAMP('" +
+                            LocalDateTimeUtil.formatTime(LocalDateTimeUtil.dayBegin(createDateBegin)) + "')");
                 }
                 if(createDateEnd != null){
-                    query.le("create_date", LocalDateTimeUtil.dayBegin(createDateEnd));
+//                    query.le("create_date", LocalDateTimeUtil.dayEnd(createDateEnd));
+                    query.apply("UNIX_TIMESTAMP(create_date) <= UNIX_TIMESTAMP('" +
+                            LocalDateTimeUtil.formatTime(LocalDateTimeUtil.dayEnd(createDateEnd)) + "')");
                 }
             }
             if(user.getAccountNonExpired1() != null){
@@ -166,11 +173,7 @@ public class AlitaUserProvider implements IAlitaUserProvider {
         if(StringUtils.isNotBlank(user.getId())){
             return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("保存用户只支持新增,不支持修改!"));
         }
-        user.setCreateDate(LocalDateTime.now());
-        user.setAccountNonExpired1(Boolean.TRUE);
-        user.setAccountNonLocked1(Boolean.TRUE);
-        user.setCredentialsNonExpired1(Boolean.TRUE);
-        user.setEnabled1(Boolean.TRUE);
+        user.initNewAccount();
         user.setUserPwd(pwdEncoder.encode(user.getUserPwd()));
         userService.save(user);
         return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
@@ -207,6 +210,7 @@ public class AlitaUserProvider implements IAlitaUserProvider {
         QueryWrapper<AlitaUserAccount> query = new QueryWrapper();
         // 排除密码字段
         query.select(AlitaUserAccount.class, i -> !i.getColumn().equals("user_pwd"));
+        query.eq("id", userId);
         return CompletableFuture.supplyAsync(() -> JsonResult.sendSuccessfulResult(
                 userService.getOne(query)), ServiceContext.executor);
     }

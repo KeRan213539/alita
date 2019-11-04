@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Profile("dev")
-@Service(async = true, timeout=5000)
+@Service(async = true, timeout=10000)
 public class DevHelperProviderImpl implements IDevHelperProvider {
 
     private static final String ADMIN_USER_ID = "d84c6b4ed9134d468e5a43d467036c46";

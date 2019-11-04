@@ -8,6 +8,7 @@ import java.util.List;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -51,7 +52,7 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
      * @author klw
      * @Fields userPwd : 用户密码
      */
-    @TableField(value = "user_pwd", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "user_pwd")
     private String userPwd;
 
     /**
@@ -66,6 +67,7 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
      * @Fields accountNonExpired : 账户是否未过期(true 是未过期)
      */
     @TableField("account_non_expired")
+    @JsonIgnore
     private Boolean accountNonExpired1;
 
     /**
@@ -73,6 +75,7 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
      * @Fields accountNonLocked : 账户是否未锁定 (true 是未锁定)
      */
     @TableField("account_non_locked")
+    @JsonIgnore
     private Boolean accountNonLocked1;
 
     /**
@@ -80,6 +83,7 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
      * @Fields credentialsNonExpired : 用户密码是否未过期(true 是未过期), 密码过期了会登录失败(需要强制用户修改密码)
      */
     @TableField("credentials_non_expired")
+    @JsonIgnore
     private Boolean credentialsNonExpired1;
 
     /**
@@ -87,6 +91,7 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
      * @Fields enabled : 账户是否启用(true 是启用)
      */
     @TableField("enabled")
+    @JsonIgnore
     private Boolean enabled1;
 
     /**
@@ -97,10 +102,6 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
     private List<SystemRole> userRoles;
 
     public AlitaUserAccount() {
-        this.accountNonExpired1 = Boolean.TRUE;
-        this.accountNonLocked1 = Boolean.TRUE;
-        this.credentialsNonExpired1 = Boolean.TRUE;
-        this.enabled1 = Boolean.TRUE;
     }
 
     public AlitaUserAccount(String userName, String userPhoneNum, String userPwd) {
@@ -111,6 +112,15 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
         this.accountNonLocked1 = Boolean.TRUE;
         this.credentialsNonExpired1 = Boolean.TRUE;
         this.enabled1 = Boolean.TRUE;
+    }
+
+    public AlitaUserAccount initNewAccount(){
+        this.accountNonExpired1 = Boolean.TRUE;
+        this.accountNonLocked1 = Boolean.TRUE;
+        this.credentialsNonExpired1 = Boolean.TRUE;
+        this.enabled1 = Boolean.TRUE;
+        this.setCreateDate(LocalDateTime.now());
+        return this;
     }
 
     @Override
@@ -135,7 +145,7 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
     }
 
     @Override
-    @JsonIgnore
+    @JsonProperty("userName")
     public String getUsername() {
         return this.userName;
     }

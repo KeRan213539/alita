@@ -18,30 +18,27 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebFlux;
 import top.klw8.alita.starter.cfg.base.SwaggerConfigBase;
 
 /**
- * @ClassName: SwaggerConfig
- * @Description: "@Profile('dev')" 仅在dev模式(application.yml中的spring.profiles.active=dev时)下才会执行该配制
- * @author klw
- * @date 2018年9月14日 09:54:14
+ * @ClassName: BasicWebApisSwaggerConfig
+ * @Description: 基础服务web接口的swagger配制,使用基础服务的webapi的swagger直接继承该类
+ * @author klw(213539@qq.com)
+ * @date 2019/11/4 15:08
  */
-@Configuration
-@EnableSwagger2WebFlux
-@Profile("dev")
-public class SwaggerConfig extends SwaggerConfigBase  {
+public class BasicWebApisSwaggerConfig extends SwaggerConfigBase {
 
-    public SwaggerConfig() {
-	super();
+    public BasicWebApisSwaggerConfig() {
+        super();
     }
-    
+
     @Bean
-    public Docket customImplementation(){
-	List<SecurityContext> securityContexts = new ArrayList<>();
-	securityContexts.add(SecurityContext.builder()
+    public Docket customImplementationAu() {
+        List<SecurityContext> securityContexts = new ArrayList<>();
+        securityContexts.add(SecurityContext.builder()
                 .securityReferences(securityReference())
                 .forPaths(PathSelectors.ant("/**/admin/**"))
                 .build());
-	
+
         return new Docket(DocumentationType.SWAGGER_2)
-        	.groupName("【权限管理】")
+                .groupName("【权限管理】")
                 .select()
                 .paths(PathSelectors.ant("/**/admin/**"))
                 .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
@@ -52,7 +49,7 @@ public class SwaggerConfig extends SwaggerConfigBase  {
     }
 
     @Bean
-    public Docket customImplementation2(){
+    public Docket customImplementationUser() {
         List<SecurityContext> securityContexts = new ArrayList<>();
         securityContexts.add(SecurityContext.builder()
                 .securityReferences(securityReference())
@@ -69,6 +66,6 @@ public class SwaggerConfig extends SwaggerConfigBase  {
                 .securitySchemes(securitySchemes())
                 .securityContexts(securityContexts);
     }
-    
-    
+
+
 }

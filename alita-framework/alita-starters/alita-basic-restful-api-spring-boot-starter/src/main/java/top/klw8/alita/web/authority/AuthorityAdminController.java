@@ -58,14 +58,14 @@ public class AuthorityAdminController extends WebapiBaseController {
     }
 
     @ApiOperation(value = "获取全部权限,并根据传入的角色ID标识出该角色拥有的权限", notes = "获取全部权限,并根据传入的角色ID标识出该角色拥有的权限", httpMethod = "GET", produces = "application/json")
-    @GetMapping("/roleList")
+    @GetMapping("/markRoleAuthoritys")
     @AuthorityRegister(authorityName = "获取全部权限,并根据传入的角色ID标识出该角色拥有的权限", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query"),
     })
     @UseValidator
-    public Mono<JsonResult> markRoleAuthoritys(@Required @NotEmpty String roleId){
+    public Mono<JsonResult> markRoleAuthoritys(String roleId){
         return Mono.fromFuture(auProvider.markRoleAuthoritys(roleId));
     }
 
@@ -100,11 +100,13 @@ public class AuthorityAdminController extends WebapiBaseController {
     @PostMapping("/delRole")
     @AuthorityRegister(authorityName = "删除角色", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", required = true)
+    })
     @UseValidator
     public Mono<JsonResult> delRole(
             @Required(validatFailMessage = "角色ID不能为空")
             @NotEmpty(validatFailMessage = "角色ID不能为空")
-            @ApiParam(value = "角色ID", required=true)
             String roleId
     ){
         return Mono.fromFuture(auProvider.delRole(roleId));
@@ -161,11 +163,13 @@ public class AuthorityAdminController extends WebapiBaseController {
     @PostMapping("/delCatlog")
     @AuthorityRegister(authorityName = "删除权限目录", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "catlogId", value = "权限目录ID", paramType = "query", required = true)
+    })
     @UseValidator
     public Mono<JsonResult> delCatlog(
             @Required(validatFailMessage = "权限目录ID不能为空")
             @NotEmpty(validatFailMessage = "权限目录ID不能为空")
-            @ApiParam(value = "权限目录ID", required=true)
                     String catlogId
     ){
         return Mono.fromFuture(auProvider.delCatlog(catlogId));
@@ -189,7 +193,7 @@ public class AuthorityAdminController extends WebapiBaseController {
 
 
     @ApiOperation(value = "权限列表(分页)", notes = "权限列表(分页)", httpMethod = "GET", produces = "application/json")
-    @GetMapping("/catlogList")
+    @GetMapping("/authoritysList")
     @AuthorityRegister(authorityName = "权限列表(分页)", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @ApiImplicitParams({
@@ -214,11 +218,13 @@ public class AuthorityAdminController extends WebapiBaseController {
     @PostMapping("/delAuthority")
     @AuthorityRegister(authorityName = "删除权限", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "auId", value = "权限ID", paramType = "query", required = true)
+    })
     @UseValidator
     public Mono<JsonResult> delAuthority(
             @Required(validatFailMessage = "权限ID不能为空")
             @NotEmpty(validatFailMessage = "权限ID不能为空")
-            @ApiParam(value = "权限ID", required=true)
                     String auId
     ){
         return Mono.fromFuture(auProvider.delAuthority(auId));
