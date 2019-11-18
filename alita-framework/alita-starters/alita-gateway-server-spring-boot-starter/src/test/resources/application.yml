@@ -1,0 +1,27 @@
+server:
+  port: 80     
+spring:
+  application:
+    name: yd-gateway-server
+  cloud:
+    nacos:
+      discovery:
+        serverAddr: 127.0.0.1:8848
+        namespace: cb525a6a-d6c7-4082-bfd9-8ddbcc5aa823
+        autoUpdateRoute:
+          enable: true
+          runSecond: 10
+#alita:
+#  gatewayServer:
+#    routesCfgInNacos:
+#      nacosServerAddr: 127.0.0.1:8848
+#      dataid: alita-gateway-server-routes.json
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000
+ribbon:
+  socketTimeout: 5000

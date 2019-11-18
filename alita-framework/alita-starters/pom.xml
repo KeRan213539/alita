@@ -21,6 +21,7 @@
         <module>alita-job-executor-starter</module>
         <module>alita-basic-services-spring-boot-starter</module>
 		<module>alita-basic-restful-api-spring-boot-starter</module>
+		<module>alita-gateway-server-spring-boot-starter</module>
     </modules>
 
 </project>

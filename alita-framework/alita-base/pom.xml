@@ -43,6 +43,7 @@
 		<postgresql.version>42.2.6</postgresql.version>
 		<nacos-api.version>1.1.1</nacos-api.version>
 		<mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
+		<commonOkHttp.version>0.4.1</commonOkHttp.version>
 	</properties>
 
 	<parent>
@@ -150,6 +151,12 @@
 			<dependency>
 				<groupId>top.klw8.alita</groupId>
 				<artifactId>alita-basic-restful-api-spring-boot-starter</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>top.klw8.alita</groupId>
+				<artifactId>alita-gateway-server-spring-boot-starter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -436,6 +443,12 @@
 				<version>${mybatis-typehandlers-jsr310.version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>com.github.keran213539</groupId>
+				<artifactId>commonOkHttp-spring-boot-starter</artifactId>
+				<version>${commonOkHttp.version}</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
@@ -617,11 +630,11 @@
 			<distributionManagement>
 				<snapshotRepository>
 					<id>nexus-releases</id>
-					<url>http://192.168.101.75:8081/repository/maven-snapshots/</url>
+					<url>http://192.168.1.75:8081/repository/maven-snapshots/</url>
 				</snapshotRepository>
 				<repository>
 					<id>nexus-releases</id>
-					<url>http://192.168.101.75:8081/repository/maven-releases/</url>
+					<url>http://192.168.1.75:8081/repository/maven-releases/</url>
 				</repository>
 			</distributionManagement>
 		</profile>
