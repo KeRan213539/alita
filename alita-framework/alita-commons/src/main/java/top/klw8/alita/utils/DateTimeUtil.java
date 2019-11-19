@@ -20,16 +20,55 @@ import org.apache.commons.lang3.time.DateFormatUtils;
  */
 public class DateTimeUtil {
 
-    // 格式：2007年06月07日 12时12分12秒234毫秒
     private final static String[] FORMAT_CHINA = { "年", "月", "日", "时", "分", "秒", "毫秒" };
-    // 格式：2007年06月07日
-//    private final static String[] FORMAT_DATE_CHINA = { "年", "月", "日" };
-    // 格式：2007-06-07 12:12:12 234
     private final static String[] FORMAT_NORMAL = { "-", "-", "", ":", ":", "", "" };
-    // 格式：2007/06/07 12:12:12 234
     private final static String[] FORMAT_DATATIME = { "/", "/", "", ":", ":", "", "" };
-    // 格式：中文星期
     private final static String[] FORMAT_WEEK = { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
+	private static SimpleDateFormat dateFormat   = new SimpleDateFormat("yyyyMMddHHmmss");
+	private static SimpleDateFormat dateFormat_1 = new SimpleDateFormat("yyyyMM");
+	private static SimpleDateFormat dateFormat_2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private static SimpleDateFormat dateFormat_3 = new SimpleDateFormat("yyyy-MM-dd");
+	private static SimpleDateFormat dateFormat_4 = new SimpleDateFormat("yyyy年MM月");
+	private static SimpleDateFormat dateFormat_5 = new SimpleDateFormat("yyyy年MM月dd日");
+	private static SimpleDateFormat dateFormat_6 = new SimpleDateFormat("yyyyMMdd");
+	private static SimpleDateFormat dateFormat_7 = new SimpleDateFormat("yyyyMMddHHmmss");
+
+	/**
+	 * @author xp
+	 * @Description: 判断日期是否在指定日期范围之内
+	 * @Date 2019/11/19 10:21
+	 * @param: formatStr
+	 * @param: dateStr
+	 * @param: beginDateStr
+	 * @param: endDateStr
+	 * @return boolean
+	 */
+	public static boolean isDateWithinRange(String formatStr,String dateStr,String beginDateStr,String endDateStr)
+			throws ParseException {
+		SimpleDateFormat sdf =new SimpleDateFormat(formatStr);
+		Date beginDate=sdf.parse(beginDateStr);
+		Date endDate=sdf.parse(endDateStr);
+		Date targetDate=sdf.parse(dateStr);
+		return isDateWithinRange(targetDate,beginDate,endDate);
+	}
+	/**
+	 * @author xp
+	 * @Description: 判断日期是否在指定日期范围之内
+	 * @Date 2019/11/19 10:12
+	 * @param: date
+	 * @param: beginDate
+	 * @param: endDate
+	 * @return boolean
+	 */
+	public static boolean isDateWithinRange(Date date,Date beginDate,Date endDate){
+		if (date.after(beginDate) && date.before(endDate)) {
+			return true;
+		}else if(date.compareTo(beginDate)==0 || date.compareTo(endDate) == 0 ){
+			return true;
+		}else {
+			return false;
+		}
+	}
 
     /**
      * 获取上月信息
@@ -629,15 +668,6 @@ public class DateTimeUtil {
 	}
 	return strResult;
     }
-
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-    private static SimpleDateFormat dateFormat_1 = new SimpleDateFormat("yyyyMM");
-    private static SimpleDateFormat dateFormat_2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private static SimpleDateFormat dateFormat_3 = new SimpleDateFormat("yyyy-MM-dd");
-    private static SimpleDateFormat dateFormat_4 = new SimpleDateFormat("yyyy年MM月");
-    private static SimpleDateFormat dateFormat_5 = new SimpleDateFormat("yyyy年MM月dd日");
-    private static SimpleDateFormat dateFormat_6 = new SimpleDateFormat("yyyyMMdd");
-    private static SimpleDateFormat dateFormat_7 = new SimpleDateFormat("yyyyMMddHHmmss");
 
     /**
      * @Title: formatDateStrToOtherStr
