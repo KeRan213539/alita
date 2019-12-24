@@ -141,16 +141,13 @@ public class DevHelperController {
                 authorityAction = env.resolvePlaceholders(authorityAction);
 
                 AuthorityRegister register = method.getAnnotation(AuthorityRegister.class);
-                // 先检查 catlog 是否存在
-                if (catlog == null) {
-                    // 如果没有 AuthorityCatlogRegister 注解,那么这里 catlog 就是 null
-                    if (StringUtils.isBlank(register.catlogName()) || register.catlogShowIndex() < 0) {
-                        // 如果权限注册注解里面没有这几个属性, 直接略过这个权限
-                        return Mono.just(JsonResult.sendFailedResult(controllerClass.getName() + "." + method.getName()
-                                + "的 AuthorityRegister 中没有设置catlog名称,注册失败"));
-                    }
+
+                // 如果AuthorityRegister中有catlog信息,就用AuthorityRegister中的
+                if (StringUtils.isNotBlank(register.catlogName()) && register.catlogShowIndex() > 0) {
+                    // 先从缓存中拿
                     catlog = tempMap.get(register.catlogName());
                     if(catlog == null) {
+                        // 缓存中没有,新增
                         catlog = new SystemAuthoritysCatlog();
                         catlog.setCatlogName(register.catlogName());
                         catlog.setShowIndex(register.catlogShowIndex());
@@ -158,6 +155,13 @@ public class DevHelperController {
                         catlog.setAuthorityList(new ArrayList<>(16));
                         tempMap.put(register.catlogName(), catlog);
                     }
+                }
+                // AuthorityRegister 中没有catlog信息, 取 AuthorityCatlogRegister 的
+                if (catlog == null) {
+                    // 因为之前处理过 AuthorityCatlogRegister 和 AuthorityRegister,这里catlog不应该为null
+                    // 为null说明没有 AuthorityCatlogRegister 注解, AuthorityRegister 中也没有 catlog信息
+                    return Mono.just(JsonResult.sendFailedResult(controllerClass.getName() + "." + method.getName()
+                            + "  没有 AuthorityCatlogRegister 注解,并且 AuthorityRegister 中也没有 catlog 信息,注册失败"));
                 }
                 SystemAuthoritys au = new SystemAuthoritys();
                 au.setAuthorityName(register.authorityName());

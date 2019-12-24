@@ -89,7 +89,7 @@ public class RedisRegister implements ApplicationContextAware {
                 !CollectionUtils.isEmpty(configBean.getExtendBeanIds())) {
             int checkSize = configBean.getExtendPorts().size();
             if (configBean.getExtendPorts().size() != checkSize || configBean.getExtendBeanIds().size() != checkSize) {
-                log.warn("【警告】redis.extend 中的配制不完整,extendHosts,extendPorts,extendPasss的数量要一致!extend 配制失败,只有 default!");
+                log.warn("【警告】redis.extend 中的配制不完整,extendHosts,extendBeanIds,extendPasss的数量要一致!extend 配制失败,只有 default!");
                 break here;
             }
             for (int i = 0; i < configBean.getExtendPorts().size(); i++) {

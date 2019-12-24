@@ -15,11 +15,6 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>top.klw8.alita</groupId>
-			<artifactId>alita-validator</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>com.github.keran213539</groupId>
 			<artifactId>IK_Analyzer</artifactId>
 		</dependency>

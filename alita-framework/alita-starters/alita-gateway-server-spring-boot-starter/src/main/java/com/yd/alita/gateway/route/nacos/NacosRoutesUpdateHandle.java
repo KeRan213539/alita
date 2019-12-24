@@ -45,7 +45,7 @@ public class NacosRoutesUpdateHandle implements IRoutesUpdateHandle {
      */
     @Override
     public void routesUpdate() {
-        // 获取从nacos命名空间中获取到的所有服务名称，这其中还包含了自己的服务名
+        // 从nacos命名空间中获取到的所有服务名称，这其中还包含了自己的服务名
         List<String> serviceNames = discoveryClient.getServices();
         Map<String, RouteDefinition> toAddRouteMap = new HashMap<>();
         Map<String, String> serviceNamesMap = new HashMap<>();

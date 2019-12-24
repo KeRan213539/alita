@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.IOUtils;
@@ -65,30 +66,31 @@ public class OAuth2ResourceServerConfig {
     @SuppressWarnings("restriction")
     private RSAPublicKey jwtPublicKey() {
         Resource resource = new ClassPathResource("authorizationKeyPublic.txt");
-        String publicKey = null;
+        String publicKey;
         try {
             publicKey = IOUtils.toString(resource.getInputStream(), Charset.defaultCharset());
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
         
-        byte[] keyBytes = null;
-        try {
-	    keyBytes = (new sun.misc.BASE64Decoder()).decodeBuffer(publicKey);
-	} catch (IOException e1) {
-	    e1.printStackTrace();
-	}
+        byte[] keyBytes;
+		keyBytes = Base64.getDecoder().decode(publicKey);
+//        try {
+//			keyBytes = (new sun.misc.BASE64Decoder()).decodeBuffer(publicKey);
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
         
-	X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
-	RSAPublicKey publicKey2 = null;
-	try {
-	    KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-	    publicKey2 = (RSAPublicKey) keyFactory.generatePublic(keySpec);
-	} catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
-	    
-	}
+		X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
+		RSAPublicKey publicKey2 = null;
+		try {
+			KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+			publicKey2 = (RSAPublicKey) keyFactory.generatePublic(keySpec);
+		} catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
 
-	return publicKey2;
+		}
+
+		return publicKey2;
     }
     
 }
