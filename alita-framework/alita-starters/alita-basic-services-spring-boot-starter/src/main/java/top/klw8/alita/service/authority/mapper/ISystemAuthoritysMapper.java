@@ -40,7 +40,7 @@ public interface ISystemAuthoritysMapper extends BaseMapper<SystemAuthoritys> {
             "select a.*,c.catlog_name from sys_authoritys a left join sys_authoritys_catlog c on a.catlog_id=c.id " +
             " where a.authority_type =#{authorityType} " +
             " <if test=\"authorityName != null and authorityName != '' \">" +
-            "       and a.authority_name like #{authorityName} " +
+            "       and a.authority_name like CONCAT('%',#{authorityName,jdbcType=VARCHAR},'%') " +
             "</if>" +
             "</script>")
     IPage<SystemAuthoritys> selectSystemAuthoritysMenuList(Page page, String authorityName, String authorityType);
