@@ -15,6 +15,7 @@ import org.springframework.util.Assert;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
 import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.helper.UserCacheHelper;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
@@ -343,16 +344,17 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> authoritysList(String auName, Page<SystemAuthoritys> page) {
-        QueryWrapper<SystemAuthoritys> query = new QueryWrapper();
-        if(StringUtils.isNotBlank(auName)){
-            query.like("authority_name", auName);
-        }
-        List<OrderItem> orders = new ArrayList<>(1);
-        orders.add(OrderItem.asc("show_index"));
-        page.setOrders(orders);
+    public CompletableFuture<JsonResult> authoritysMenuList(String auName, Page<SystemAuthoritys> page) {
+//        QueryWrapper<SystemAuthoritys> query = new QueryWrapper();
+//        query.eq("authority_type", AuthorityTypeEnum.MENU.name());
+//        if(StringUtils.isNotBlank(auName)){
+//            query.like("authority_name", auName);
+//        }
+//        List<OrderItem> orders = new ArrayList<>(1);
+//        orders.add(OrderItem.asc("show_index"));
+//        page.setOrders(orders);
         return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
-                auService.page(page, query)));
+                auService.selectSystemAuthoritysMenuList(page,auName, AuthorityTypeEnum.MENU.name())));
     }
 
     @Override
