@@ -192,15 +192,15 @@ public class AuthorityAdminController extends WebapiBaseController {
     }
 
 
-    @ApiOperation(value = "权限列表(分页)", notes = "权限列表(分页)", httpMethod = "GET", produces = "application/json")
-    @GetMapping("/authoritysList")
-    @AuthorityRegister(authorityName = "权限列表(分页)", authorityType = AuthorityTypeEnum.URL,
+    @ApiOperation(value = "菜单权限列表(分页)", notes = "菜单权限列表(分页)", httpMethod = "GET", produces = "application/json")
+    @GetMapping("/authoritysMenuList")
+    @AuthorityRegister(authorityName = "菜单权限列表-(分页)", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "auName", value = "权限名称(支持模糊查询)", paramType = "query"),
     })
-    public Mono<JsonResult> authoritysList(String auName, PageRequest page){
-        return Mono.fromFuture(auProvider.authoritysList(auName, new Page(page.getPage(), page.getSize())));
+    public Mono<JsonResult> authoritysMenuList(String auName, PageRequest page){
+        return Mono.fromFuture(auProvider.authoritysMenuList(auName, new Page(page.getPage(), page.getSize())));
     }
 
     @ApiOperation(value = "保存权限", notes = "保存权限(无ID则添加,有则修改)", httpMethod = "POST", produces = "application/json")

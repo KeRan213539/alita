@@ -189,7 +189,7 @@ public interface IAuthorityAdminProvider {
      * @param: page
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> authoritysList(String auName, Page<SystemAuthoritys> page);
+    CompletableFuture<JsonResult> authoritysMenuList(String auName, Page<SystemAuthoritys> page);
 
     /**
      * @author klw(213539@qq.com)

@@ -1,6 +1,8 @@
 package top.klw8.alita.service.authority.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Service;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.service.authority.mapper.ISystemAuthoritysMapper;
 import top.klw8.alita.service.authority.ISystemAuthoritysService;
+
+import java.util.List;
 
 
 /**
@@ -18,7 +22,9 @@ import top.klw8.alita.service.authority.ISystemAuthoritysService;
  */
 @Slf4j
 @Service
-public class SystemAuthoritysServiceImpl extends ServiceImpl<ISystemAuthoritysMapper, SystemAuthoritys> implements ISystemAuthoritysService {
+public class SystemAuthoritysServiceImpl
+        extends ServiceImpl<ISystemAuthoritysMapper, SystemAuthoritys>
+        implements ISystemAuthoritysService {
 
     @Override
     public SystemAuthoritys findByAuAction(String action) {
@@ -31,5 +37,11 @@ public class SystemAuthoritysServiceImpl extends ServiceImpl<ISystemAuthoritysMa
     public int removeAuthorityFromRole(String auId) {
         return this.baseMapper.removeAuthorityFromRole(auId);
     }
+
+    @Override
+    public IPage<SystemAuthoritys> selectSystemAuthoritysMenuList(Page page, String authorityName, String authorityType) {
+        return this.baseMapper.selectSystemAuthoritysMenuList(page,authorityName, authorityType);
+    }
+
 
 }

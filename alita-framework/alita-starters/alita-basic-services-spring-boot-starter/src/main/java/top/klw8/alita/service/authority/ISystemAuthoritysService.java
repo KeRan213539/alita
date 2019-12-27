@@ -1,7 +1,11 @@
 package top.klw8.alita.service.authority;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
+
+import java.util.List;
 
 /**
  * @ClassName: ISystemAuthoritysService
@@ -28,5 +32,15 @@ public interface ISystemAuthoritysService extends IService<SystemAuthoritys> {
      * @return int
      */
     int removeAuthorityFromRole(String auId);
+
+    /**
+     * @author xp
+     * @Description: 查询菜单权限列表
+     * @Date 2019/12/26 15:55
+     * @param: authorityName
+     * @param: authorityType
+     * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
+     */
+    IPage<SystemAuthoritys> selectSystemAuthoritysMenuList(Page page, String authorityName, String authorityType);
     
 }
