@@ -9,6 +9,8 @@ import lombok.ToString;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.entitys.base.BaseEntity;
 
+import java.util.List;
+
 /**
  * @ClassName: SystemAuthoritys
  * @Description: 整个系统的所有功能权限(WEB_API),包括前台后台
@@ -43,6 +45,13 @@ public class SystemAuthoritys extends BaseEntity {
      */
     @TableField("catlog_id")
     private String catlogId;
+
+    /**
+     * @author xp
+     * @Description: 权限组名称，冗余字段
+     */
+    @TableField(value="catlog_name",exist=false)
+    private String catlogName;
 
     /**
      * @author klw

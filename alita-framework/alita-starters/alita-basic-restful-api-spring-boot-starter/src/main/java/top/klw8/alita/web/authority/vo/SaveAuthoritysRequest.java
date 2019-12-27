@@ -21,6 +21,13 @@ import top.klw8.alita.validator.annotations.Required;
 @EqualsAndHashCode(callSuper = false)
 public class SaveAuthoritysRequest {
 
+    /**
+     * @author xp
+     * @Description: id
+     */
+    @ApiParam(value = "ID", required=true)
+    private String id;
+
     @Required(validatFailMessage = "菜单所属权限目录的ID不能为空")
     @NotEmpty(validatFailMessage = "菜单所属权限目录的ID不能为空")
     @ApiParam(value = "菜单所属权限目录的ID", required=true)
