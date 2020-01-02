@@ -40,6 +40,12 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
+
+		<!-- rocketmq 远程 日志支持 -->
+		<dependency>
+			<groupId>org.apache.rocketmq</groupId>
+			<artifactId>rocketmq-logappender</artifactId>
+		</dependency>
         
 	</dependencies>
 

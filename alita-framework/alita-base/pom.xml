@@ -466,12 +466,6 @@
 
     <dependencies>
 
-        <!-- rocketmq 远程 日志支持,已经自带rocketmq的client,所以上面的注释了 -->
-        <dependency>
-            <groupId>org.apache.rocketmq</groupId>
-            <artifactId>rocketmq-logappender</artifactId>
-        </dependency>
-
         <!-- junit5 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
