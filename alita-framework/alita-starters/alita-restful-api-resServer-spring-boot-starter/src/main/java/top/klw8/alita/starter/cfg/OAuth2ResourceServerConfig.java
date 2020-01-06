@@ -11,6 +11,7 @@ import java.util.Base64;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +23,11 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
 import lombok.extern.slf4j.Slf4j;
+import top.klw8.alita.service.api.authority.IAlitaUserProvider;
+import top.klw8.alita.starter.common.UserCacheHelper;
 import top.klw8.alita.starter.web.interceptor.AuthorityInterceptor;
+import top.klw8.alita.starter.validator.AlitaResponseGenerator;
+import top.klw8.alita.validator.EnableValidator;
 
 /**
  * @ClassName: OAuth2ResourceServerConfig
@@ -34,11 +39,20 @@ import top.klw8.alita.starter.web.interceptor.AuthorityInterceptor;
 @Configuration
 @EnableConfigurationProperties(ResServerAuthPathCfgBean.class)
 @EnableWebFluxSecurity
+@EnableValidator(responseMsgGenerator = AlitaResponseGenerator.class)
 @Import({AuthorityInterceptor.class})
 public class OAuth2ResourceServerConfig {
     
     @javax.annotation.Resource
     private ResServerAuthPathCfgBean cfgBean;
+
+	@Reference(async = true)
+	private IAlitaUserProvider userService;
+
+	@Bean
+	public UserCacheHelper userCacheHelper(){
+		return new UserCacheHelper(userService);
+	}
 
     @Bean
     public SecurityWebFilterChain configure(ServerHttpSecurity http) throws Exception {
@@ -74,7 +88,7 @@ public class OAuth2ResourceServerConfig {
         }
         
         byte[] keyBytes;
-		keyBytes = Base64.getDecoder().decode(publicKey);
+		keyBytes = Base64.getDecoder().decode(publicKey.replace("\r\n", "").replace("\n", ""));
 //        try {
 //			keyBytes = (new sun.misc.BASE64Decoder()).decodeBuffer(publicKey);
 //		} catch (IOException e1) {

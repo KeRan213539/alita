@@ -44,6 +44,7 @@
         <nacos-api.version>1.1.1</nacos-api.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
         <commonOkHttp.version>0.4.1</commonOkHttp.version>
+        <fastjson.version>1.2.62</fastjson.version>
     </properties>
 
     <parent>
@@ -460,6 +461,13 @@
                 <artifactId>commonOkHttp-spring-boot-starter</artifactId>
                 <version>${commonOkHttp.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

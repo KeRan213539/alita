@@ -1,4 +1,4 @@
-package top.klw8.alita.starter.annotations;
+package top.klw8.alita.starter;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import top.klw8.alita.base.springctx.EnableSpringApplicationContextUtil;
