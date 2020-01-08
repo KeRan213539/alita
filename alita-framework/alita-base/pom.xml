@@ -38,7 +38,7 @@
         <IK_Analyzer.version>2012FF_hf1_1</IK_Analyzer.version>
 
         <druid.version>1.1.21</druid.version>
-        <alita-validator.version>0.3</alita-validator.version>
+        <alita-validator.version>0.4</alita-validator.version>
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
         <postgresql.version>42.2.6</postgresql.version>
         <nacos-api.version>1.1.1</nacos-api.version>

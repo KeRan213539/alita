@@ -12,4 +12,4 @@ dubbo:
 #    datacenterId: 2  # 相同服务使用相同ID, service项目从1开始,最大16
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver

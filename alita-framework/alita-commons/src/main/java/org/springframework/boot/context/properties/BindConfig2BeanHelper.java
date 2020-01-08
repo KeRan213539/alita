@@ -12,7 +12,7 @@ import org.springframework.context.ApplicationContext;
  */
 public class BindConfig2BeanHelper {
     
-    private ConfigurationPropertiesBinder binder = null;
+    private ConfigurationPropertiesBinder binder;
     
     public BindConfig2BeanHelper(ApplicationContext applicationContext) {
 	    binder = new ConfigurationPropertiesBinder(applicationContext, "configurationPropertiesValidator");
