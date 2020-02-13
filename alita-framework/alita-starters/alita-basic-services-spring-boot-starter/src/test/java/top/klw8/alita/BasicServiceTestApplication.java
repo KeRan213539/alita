@@ -4,8 +4,8 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.logging.LoggingSystem;
-import top.klw8.alita.utils.redis.RedisTagEnum;
-import top.klw8.alita.utils.redis.RedisUtil;
+//import top.klw8.alita.utils.redis.RedisTagEnum;
+//import top.klw8.alita.utils.redis.RedisUtil;
 
 /**
  * @author klw(213539 @ qq.com)
