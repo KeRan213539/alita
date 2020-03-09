@@ -5,10 +5,25 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 /**
- * @author: gengyu
- * @date: 2017-06-08 09:30:26
- * @version V1.0
- * create by handwriting
+ * @ClassName: BeanUtil
+ * @Description: bean 工具
+ * @author klw(213539@qq.com)
+ * @date 2020/2/25 20:09
+ *
+ * code is far away from bugs with the god animal protecting
+ *     I love animals. They taste delicious.
+ *              ┏┓   ┏┓
+ *             ┏┛┻━━━┛┻┓
+ *             ┃   ☃   ┃
+ *             ┃ ┳┛ ┗┳ ┃
+ *             ┃   ┻   ┃
+ *             ┗━┓   ┏━┛
+ *               ┃   ┗━━━━━━━┓
+ *               ┃  神兽保佑   ┣┓
+ *               ┃  永无BUG   ┏┛
+ *               ┗━┓┓┏━━━┓┓┏━┛
+ *                  ┃┫┫   ┃┫┫
+ *                  ┗┻┛   ┗┻┛
  */
 public class BeanUtil {
     public static final int REMOVER_NULL = 1;

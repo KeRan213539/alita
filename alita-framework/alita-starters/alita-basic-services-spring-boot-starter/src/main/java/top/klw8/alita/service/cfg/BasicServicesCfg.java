@@ -55,7 +55,7 @@ public class BasicServicesCfg {
     @Bean
     public Object regDubboProviders(@Autowired IDevHelperProvider devHelperProvider,
                                     @Autowired IAuthorityAdminProvider authorityAdminProvider,
-                                    @Autowired IAlitaUserProvider alitaUserProvider) throws InstantiationException, IllegalAccessException{
+                                    @Autowired IAlitaUserProvider alitaUserProvider) {
         String[] activeprofiles = env.getActiveProfiles();
         for (String activeprofile : activeprofiles) {
             if (activeprofile.equals("dev")) {
@@ -98,7 +98,7 @@ public class BasicServicesCfg {
 //        return new SystemRoleServiceImpl();
 //    }
 
-    private <I, T> void exportDubboService(Class<I> serviceClass, T serviceImplInstance) throws IllegalAccessException, InstantiationException {
+    private <I, T> void exportDubboService(Class<I> serviceClass, T serviceImplInstance) {
         ServiceConfig<T> service = new ServiceConfig<>(); // 此实例很重，封装了与注册中心的连接，请自行缓存，否则可能造成内存和连接泄漏
         service.setApplication(application);
         service.setRegistry(registry); // 多个注册中心可以用setRegistries()
