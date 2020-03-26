@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN" monitorInterval="600">
+<Configuration status="WARN" monitorInterval="600" shutdownHook="disable">
     <!-- 将一些常用值提取出来，然后在文件的其他部分通过${}的形式引用，这些值可以随便定义 -->
     <Properties>
         <!-- 定义日志文件根目录 -->

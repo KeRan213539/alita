@@ -19,7 +19,7 @@ public enum RedisTagEnum implements IRedisTag {
     
     private String tag;
     
-    private RedisTagEnum(String tag) {
+    RedisTagEnum(String tag) {
 	this.tag = tag;
     }
     

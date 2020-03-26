@@ -16,6 +16,19 @@
 
 	<dependencies>
 
+		<!-- begin - nacos修改配制后会触发 shutdown导致服务进程关闭的临时解决方案 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-boot-starter-logging</artifactId>
+					<groupId>org.springframework.boot</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- end - nacos修改配制后会触发 shutdown导致服务进程关闭的临时解决方案 -->
+
 		<dependency>
 			<groupId>top.klw8.alita</groupId>
 			<artifactId>alita-commons</artifactId>
