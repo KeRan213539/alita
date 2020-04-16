@@ -16,19 +16,6 @@
 
 	<dependencies>
 
-		<!-- begin - nacos修改配制后会触发 shutdown导致服务进程关闭的临时解决方案 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>spring-boot-starter-logging</artifactId>
-					<groupId>org.springframework.boot</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- end - nacos修改配制后会触发 shutdown导致服务进程关闭的临时解决方案 -->
-
 		<dependency>
 			<groupId>top.klw8.alita</groupId>
 			<artifactId>alita-commons</artifactId>
@@ -49,6 +36,11 @@
 			<artifactId>spring-boot-autoconfigure</artifactId>
 		</dependency>
 
+        <dependency>
+            <groupId>com.alibaba.boot</groupId>
+            <artifactId>nacos-config-spring-boot-starter</artifactId>
+        </dependency>
+
 		<dependency>
 			<groupId>org.apache.dubbo</groupId>
 			<artifactId>dubbo-registry-nacos</artifactId>
@@ -64,18 +56,6 @@
             <artifactId>dubbo-spring-boot-starter</artifactId>
         </dependency>
 
-
-		<dependency>
-			<groupId>com.alibaba.cloud</groupId>
-			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-logging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		
 		<dependency>
 			<groupId>io.projectreactor</groupId>
 	        <artifactId>reactor-core</artifactId>

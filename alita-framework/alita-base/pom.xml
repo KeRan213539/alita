@@ -41,7 +41,8 @@
         <alita-validator.version>0.6</alita-validator.version>
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
         <postgresql.version>42.2.6</postgresql.version>
-        <nacos-api.version>1.1.1</nacos-api.version>
+        <nacos.version>1.1.4</nacos.version>
+        <nacos-config-spring.version>0.2.7</nacos-config-spring.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
         <commonOkHttp.version>0.4.1</commonOkHttp.version>
         <fastjson.version>1.2.62</fastjson.version>
@@ -453,7 +454,19 @@
             <dependency>
                 <groupId>com.alibaba.nacos</groupId>
                 <artifactId>nacos-api</artifactId>
-                <version>${nacos-api.version}</version>
+                <version>${nacos.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.boot</groupId>
+                <artifactId>nacos-config-spring-boot-starter</artifactId>
+                <version>${nacos-config-spring.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
