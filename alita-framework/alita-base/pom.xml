@@ -46,6 +46,7 @@
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
         <commonOkHttp.version>0.4.1</commonOkHttp.version>
         <fastjson.version>1.2.62</fastjson.version>
+        <freemarker.version>2.3.30</freemarker.version>
     </properties>
 
     <parent>
@@ -163,6 +164,12 @@
             </dependency>
 
             <!-- end 基本base项目 -->
+
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>${freemarker.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.github.keran213539</groupId>
