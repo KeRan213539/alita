@@ -10,11 +10,10 @@ import org.springframework.stereotype.Service;
 import top.klw8.alita.utils.ElasticSearchRestClient;
 
 
-
 /**
+ * @author klw
  * @ClassName: SystemLogConsumer
  * @Description: 系统日志消费者
- * @author klw
  * @date 2018年9月11日 20:30:39
  */
 @Service
@@ -23,23 +22,24 @@ public class SystemLogConsumer implements RocketMQListener<MessageExt> {
 
     @Value("${spring.elasticsearch.host}")
     private String host;
-    
+
     @Value("${spring.elasticsearch.port}")
     private int port;
-    
+
     @Override
     public void onMessage(MessageExt message) {
 //	System.out.println(message.getTags());
-	try {
-	    boolean result = ElasticSearchRestClient.getInstance(host, port).addDataLogData("alita-new-log", message.getTags(), StringEscapeUtils.escapeJson(new String(message.getBody())));
-	    if (!result) {
-		// System.out.println(arg0);
-		throw new RuntimeException("日志纪录失败,将重新消费");
-	    }
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
-	
+		boolean result;
+        try {
+            result = ElasticSearchRestClient.getInstance(host, port).addDataLogData("alita-new-log", message.getTags(), StringEscapeUtils.escapeJson(new String(message.getBody())));
+        } catch (Exception e) {
+        	result = false;
+            e.printStackTrace();
+        }
+        if (!result) {
+            // System.out.println(arg0);
+            throw new RuntimeException("日志纪录失败,将重新消费");
+        }
     }
 
 }

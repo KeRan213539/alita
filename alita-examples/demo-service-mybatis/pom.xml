@@ -35,6 +35,12 @@
             <artifactId>alita-mybatis-spring-data-spring-boot-starter</artifactId>
         </dependency>
 
+		<dependency>
+			<groupId>top.klw8.alita</groupId>
+			<artifactId>alita-basic-services-spring-boot-starter</artifactId>
+		</dependency>
+
+
 	</dependencies>
 
 </project>

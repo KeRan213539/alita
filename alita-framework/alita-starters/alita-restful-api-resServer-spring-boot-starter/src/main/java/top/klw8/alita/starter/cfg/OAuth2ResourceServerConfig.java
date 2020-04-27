@@ -25,6 +25,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import lombok.extern.slf4j.Slf4j;
 import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.starter.common.UserCacheHelper;
+import top.klw8.alita.starter.datasecured.DataSecuredControllerMethodsLoader;
 import top.klw8.alita.starter.web.interceptor.AuthorityInterceptor;
 import top.klw8.alita.starter.validator.AlitaResponseGenerator;
 import top.klw8.alita.validator.EnableValidator;
@@ -40,7 +41,7 @@ import top.klw8.alita.validator.EnableValidator;
 @EnableConfigurationProperties(ResServerAuthPathCfgBean.class)
 @EnableWebFluxSecurity
 @EnableValidator(responseMsgGenerator = AlitaResponseGenerator.class)
-@Import({AuthorityInterceptor.class})
+@Import({AuthorityInterceptor.class, DataSecuredControllerMethodsLoader.class})
 public class OAuth2ResourceServerConfig {
     
     @javax.annotation.Resource

@@ -18,6 +18,7 @@ import top.klw8.alita.service.demo.providers.user.IExtUserProvider;
 import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.service.result.code.CommonResultCodeEnum;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
+import top.klw8.alita.starter.web.base.WebapiBaseController;
 
 import java.util.concurrent.ExecutionException;
 
@@ -29,9 +30,9 @@ import java.util.concurrent.ExecutionException;
  */
 @Api(tags = {"alita-restful-API--demoAPI"})
 @RestController
-@RequestMapping("/${spring.application.name}/demo")
+@RequestMapping("/${spring.application.name}/mybatis-demo")
 @Slf4j
-public class MybatisDemoController {
+public class MybatisDemoController extends WebapiBaseController {
 
     @Reference(async = true)
     private IExtUserProvider extUserProvider;

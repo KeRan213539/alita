@@ -13,6 +13,8 @@ alita:
   oauth2:
     resServer:
       authPath:
-        - /demo1/**
+        - /${spring.application.name}/mybatis-demo/**
+        - /${spring.application.name}/mongo-demo/**
+        - /${spring.application.name}/dataau/**
   devHelper:
     resultCodeClassPackage: top.klw8.alita.service.result.code,top.klw8.alita.service.result.code  #resultCode 所在包路径,多个路径用逗号隔开

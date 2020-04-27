@@ -1,4 +1,4 @@
-package top.klw8.alita.service.api.mybatis;
+package top.klw8.alita.service.demo.service.demo;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.klw8.alita.entitys.demo.mongo.PgTest;

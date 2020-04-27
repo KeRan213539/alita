@@ -1,13 +1,31 @@
+server:
+  port: 8780
 dubbo:
   provider:
-    timeout: 2000
+    timeout: 5000
+    retries: 0
   protocol:
     port: 20881
     name: dubbo
-  scan:
-    basePackages: top.klw8.alita.service.demo.service.impl
   application:
     name: demo-service
+spring:
+  application:
+    name: demo-service-mybatis
+  profiles:
+    active: @profile.active@
+  datasource:
+    driver-class-name: org.postgresql.Driver
+nacos:
+  config:
+    serverAddr: 127.0.0.1:8848
+    remoteFirst: true
+    dataId: ${spring.application.name}-${spring.profiles.active}.yml
+    group: ALITA_GROUP
+    type: yaml
+    autoRefresh: true
+    bootstrap:
+      enable: true
 #alita:
 #  pkGenerator:  # 雪花算法配制
 #    workerId: 1  # 相同服务不同节点累加此ID
