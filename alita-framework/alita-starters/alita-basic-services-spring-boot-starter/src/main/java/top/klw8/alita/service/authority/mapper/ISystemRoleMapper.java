@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
+import top.klw8.alita.entitys.authority.SystemDataSecured;
 import top.klw8.alita.entitys.authority.SystemRole;
 
 import java.util.List;
@@ -75,4 +76,18 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
      **/
     @Select("select * from sys_authoritys where id in (select authoritys_id from sys_role_has_authoritys where role_id = #{roleId})")
     List<SystemAuthoritys> selectRoleAuthoritys(String roleId);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 查询角色拥有的数据权限
+     * @Date 2020/4/30 15:30
+     * @param: roleId
+     * @return java.util.List<top.klw8.alita.entitys.authority.SystemDataSecured>
+     */
+    @Select("select ds.*, au.authority_action as authority_url " +
+            " from sys_data_secured ds" +
+            " left join sys_authoritys au" +
+            " on au.id = ds.authoritys_id" +
+            " where ds.id in (select data_secured_id from sys_role_has_data_secured where role_id = #{roleId})")
+    List<SystemDataSecured> selectRoleDataSecureds(String roleId);
 }

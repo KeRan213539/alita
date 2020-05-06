@@ -24,6 +24,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 
 import lombok.extern.slf4j.Slf4j;
 import top.klw8.alita.service.api.authority.IAlitaUserProvider;
+import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 import top.klw8.alita.starter.common.UserCacheHelper;
 import top.klw8.alita.starter.datasecured.DataSecuredControllerMethodsLoader;
 import top.klw8.alita.starter.web.interceptor.AuthorityInterceptor;
@@ -48,11 +49,11 @@ public class OAuth2ResourceServerConfig {
     private ResServerAuthPathCfgBean cfgBean;
 
 	@Reference(async = true)
-	private IAlitaUserProvider userService;
+	private IAuthorityAdminProvider adminProvider;
 
 	@Bean
 	public UserCacheHelper userCacheHelper(){
-		return new UserCacheHelper(userService);
+		return new UserCacheHelper(adminProvider);
 	}
 
     @Bean

@@ -1,6 +1,7 @@
 package top.klw8.alita.entitys.authority;
 
 import java.util.List;
+import java.util.Map;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -44,5 +45,12 @@ public class SystemRole extends BaseEntity {
      */
     @TableField(exist=false)
     private List<SystemAuthoritys> authorityList;
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 角色拥有的数据权限
+     */
+    @TableField(exist=false)
+    private List<SystemDataSecured> dataSecuredList;
     
 }

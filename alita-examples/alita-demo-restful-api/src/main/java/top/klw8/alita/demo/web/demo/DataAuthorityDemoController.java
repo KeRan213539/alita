@@ -7,6 +7,7 @@ import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import top.klw8.alita.demo.web.demo.parser.DemoResourceParser;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.datasecured.DataSecured;
@@ -44,7 +45,7 @@ public class DataAuthorityDemoController {
     @AuthorityRegister(catlogName = "数据权限demo--post测试", catlogShowIndex = 99,
             authorityName = "post测试", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
-    @DataSecured(resource = "postTest")
+    @DataSecured(parser = DemoResourceParser.class)
     public Mono<String> postTest(String str1, @RequestBody String json){
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>begin call 【post】");
         System.out.println("str1 ==== " + str1);

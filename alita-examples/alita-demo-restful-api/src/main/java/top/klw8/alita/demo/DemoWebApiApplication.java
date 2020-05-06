@@ -18,6 +18,4 @@ public class DemoWebApiApplication extends BaseWebApiApplication {
         SpringApplication.run(DemoWebApiApplication.class, args);
 //        RedisUtil.set("test_111222", "testtesttest", 300L, RedisTagEnum.REDIS_TAG_TEST);
     }
-
-
 }

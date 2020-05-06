@@ -86,7 +86,7 @@ public class TokenUtil {
         if (jwtToken.startsWith("Bearer ")) {
             jwtToken = jwtToken.substring("Bearer ".length());
         }
-        String tokenDataPart = null;
+        String tokenDataPart;
         try {
             tokenDataPart = jwtToken.split("\\.")[1];
         } catch (Exception e) {

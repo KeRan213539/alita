@@ -15,6 +15,12 @@ public class ResourceParserData implements IResourceParserData {
 
     /**
      * @author klw(213539@qq.com)
+     * @Description: 请求的url,可以根据此参数实现一个解析器多用
+     */
+    private String requestUrl;
+
+    /**
+     * @author klw(213539@qq.com)
      * @Description: url参数
      */
     private Map<String, List<String>> queryPrarms;
@@ -37,6 +43,10 @@ public class ResourceParserData implements IResourceParserData {
      */
     private String xmlString;
 
+    public ResourceParserData(String requestUrl){
+        this.requestUrl = requestUrl;
+    }
+
     public void putQueryPrarm(String prarmName, List<String> prarmValue){
         if(this.queryPrarms == null) {
             synchronized (this) {
@@ -48,6 +58,12 @@ public class ResourceParserData implements IResourceParserData {
         this.queryPrarms.put(prarmName, prarmValue);
     }
 
+    @Override
+    public String getRequestUrl() {
+        return this.requestUrl;
+    }
+
+    @Override
     public List<String> getQueryPrarm(String prarmName){
         if(this.queryPrarms == null){
             return null;
@@ -55,7 +71,7 @@ public class ResourceParserData implements IResourceParserData {
         return this.queryPrarms.get(prarmName);
     }
 
-    public void putFormData(String prarmName, List<String> prarmValue){
+    private void initFormDataMap(){
         if(this.formData == null) {
             synchronized (this) {
                 if(this.formData == null) {
@@ -63,9 +79,19 @@ public class ResourceParserData implements IResourceParserData {
                 }
             }
         }
+    }
+
+    public void putFormData(String prarmName, List<String> prarmValue){
+        this.initFormDataMap();
         this.formData.put(prarmName, prarmValue);
     }
 
+    public void putAllFormData(Map<String, List<String>> data){
+        this.initFormDataMap();
+        this.formData.putAll(data);
+    }
+
+    @Override
     public List<String> getFormData(String prarmName){
         if(this.formData == null){
             return null;
@@ -77,6 +103,7 @@ public class ResourceParserData implements IResourceParserData {
         this.jsonString = jsonString;
     }
 
+    @Override
     public String getJsonString(){
         return this.jsonString;
     }
@@ -85,6 +112,7 @@ public class ResourceParserData implements IResourceParserData {
         this.xmlString = xmlString;
     }
 
+    @Override
     public String getXmlString(){
         return this.xmlString;
     }

@@ -14,6 +14,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.Assert;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.SystemDataSecured;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
@@ -153,10 +154,15 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             } else {
                 // 根据用户ID查询用户角色
                 List<SystemRole> userRoles = userService.getUserAllRoles(userId);
-                // 根据用户角色查询角色对应的权限并更新到SystemRole实体中
+
                 for (SystemRole role : userRoles) {
+                    // 根据用户角色查询角色对应的权限并更新到SystemRole实体中
                     List<SystemAuthoritys> authoritys = roleService.getRoleAllAuthoritys(role.getId());
                     role.setAuthorityList(authoritys);
+
+                    // 根据用户角色查询角色对应的数据权限并更新到SystemRole实体中
+                    List<SystemDataSecured> dataSecureds = roleService.getRoleAllDataSecureds(role.getId());
+                    role.setDataSecuredList(dataSecureds);
                 }
                 // 更新用户角色权限到用户实体中
                 if (null != userRoles && !userRoles.isEmpty()) {

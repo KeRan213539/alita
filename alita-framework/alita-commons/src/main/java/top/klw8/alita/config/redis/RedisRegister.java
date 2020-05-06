@@ -44,7 +44,7 @@ public class RedisRegister implements ApplicationContextAware {
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         RedisConfigBean configBean = new RedisConfigBean();
-        BindConfig2BeanUtil.INSTANCE.bind(applicationContext, configBean);
+        BindConfig2BeanUtil.INSTANCE.bind(applicationContext, configBean, "redisConfigBean");
         if (!configBean.isEnabled()) {
             return;
         }

@@ -3,6 +3,7 @@ package top.klw8.alita.service.authority;
 import java.util.List;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
+import top.klw8.alita.entitys.authority.SystemDataSecured;
 import top.klw8.alita.entitys.authority.SystemRole;
 
 /**
@@ -52,6 +53,12 @@ public interface ISystemRoleService extends IService<SystemRole> {
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
      **/
     List<SystemAuthoritys> getRoleAllAuthoritys(String roleId);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 查询角色拥有的数据权限
+     */
+    List<SystemDataSecured> getRoleAllDataSecureds(String roleId);
 
     /**
      * @author klw(213539@qq.com)

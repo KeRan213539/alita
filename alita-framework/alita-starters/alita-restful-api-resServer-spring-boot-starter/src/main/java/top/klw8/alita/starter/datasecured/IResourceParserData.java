@@ -10,12 +10,34 @@ import java.util.List;
  */
 public interface IResourceParserData {
 
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 获取请求的url,可以根据此参数实现一个解析器多用
+     */
+    String getRequestUrl();
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 获取请求的url参数
+     */
     List<String> getQueryPrarm(String prarmName);
 
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 获取请求的表单参数
+     */
     List<String> getFormData(String prarmName);
 
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 获取body中的json字符串
+     */
     String getJsonString();
 
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 获取body中的xml字符串
+     */
     String getXmlString();
 
 }

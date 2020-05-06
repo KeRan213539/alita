@@ -6,6 +6,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
+import top.klw8.alita.entitys.authority.SystemDataSecured;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.service.authority.ISystemRoleService;
 import top.klw8.alita.service.authority.mapper.ISystemRoleMapper;
@@ -50,6 +51,7 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, System
 
     @Override
     public int replaceAuthority2Role(String roleId, List<String> auIds) {
+        // TODO 加事务,增加数据权限的
         if (null == roleId || CollectionUtils.isEmpty(auIds)) {
             return 0;
         }
@@ -70,7 +72,13 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, System
     }
 
     @Override
+    public List<SystemDataSecured> getRoleAllDataSecureds(String roleId) {
+        return this.getBaseMapper().selectRoleDataSecureds(roleId);
+    }
+
+    @Override
     public int cleanAuthoritysFromRole(String roleId) {
+        // TODO 加事务,增加数据权限的
         return  dao.removeAuthoritysFromRole(roleId);
     }
 }

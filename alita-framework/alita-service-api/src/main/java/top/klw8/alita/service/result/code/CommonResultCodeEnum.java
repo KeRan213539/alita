@@ -19,7 +19,7 @@ public enum CommonResultCodeEnum implements ISubResultCode {
 
     NO_TOKEN("401", "请求中没有token"),
 
-    TOKEN_ERR("403", "token不正确"),
+    TOKEN_ERR("403", "请求中没有token或者token不正确"),
 
     NO_PRIVILEGES("403", "没有权限"),
 
@@ -28,6 +28,8 @@ public enum CommonResultCodeEnum implements ISubResultCode {
     BAD_PARAMETER("5002", "参数错误"),
 
     LOGIN_TIMEOUT("5003", "登录超时"),
+
+    DATA_SECURED_NO_RES("5004", "数据权限注解没有配制资源和解析器"),
 
 
     ;
