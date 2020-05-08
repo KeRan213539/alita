@@ -15,6 +15,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author klw(213539 @ qq.com)
@@ -61,6 +62,7 @@ public class NacosRoutesUpdateHandle implements IRoutesUpdateHandle {
 
                 if(cachedRouteMap.get(serviceName) == null){
                     RouteDefinition routeDefinition = new RouteDefinition();
+                    routeDefinition.setId(UUID.randomUUID().toString());
                     routeDefinition.setUri(URI.create("lb://" + serviceName));
                     PredicateDefinition predicateDefinition = new PredicateDefinition();
                     predicateDefinition.setName("Path");

@@ -20,43 +20,8 @@ import java.util.concurrent.*;
  * @date 2019/11/16 16:37
  */
 @Configuration
-@Import({DynamicRouteService.class, NacosRoutesUpdateHandle.class})
+@Import({DynamicRouteService.class, NacosRoutesUpdateHandle.class, InitAutoUpdateRouteListener.class})
 public class AutoUpdateRouteConfig {
-
-    @Value("${spring.cloud.nacos.discovery.serverAddr}")
-    private String nacosServerAddr;
-
-    @Value("${spring.cloud.nacos.discovery.autoUpdateRoute.enable:true}")
-    private boolean isAutoUpdateRoute;
-
-    @Value("${spring.cloud.nacos.discovery.autoUpdateRoute.runSecond:30}")
-    private int taskRunSecond;
-
-    @Autowired
-    private IRoutesUpdateHandle routesUpdateHandle;
-
-    private ExecutorService executor;
-
-    @Bean
-    @ConditionalOnProperty(prefix = "spring.cloud.nacos.discovery", name = "serverAddr")
-    public void customRouteLocatorNacos() {
-        routesUpdateHandle.routesUpdate();
-        if(isAutoUpdateRoute){
-            if(taskRunSecond < 1){
-                taskRunSecond = 30;
-            }
-            initAutoUpdateRoute(new AutoUpdateRouteTask(routesUpdateHandle, taskRunSecond));
-        }
-    }
-
-    private void initAutoUpdateRoute(Runnable task){
-        executor = Executors.newSingleThreadExecutor(r -> {
-            Thread thread = new Thread(r, "autoUpdateRouteTasks");
-            thread.setDaemon(true);
-            return thread;
-        });
-        executor.execute(task);
-    }
 
 
 }
