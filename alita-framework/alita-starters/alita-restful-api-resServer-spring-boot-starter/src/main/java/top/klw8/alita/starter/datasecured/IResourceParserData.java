@@ -16,9 +16,18 @@ public interface IResourceParserData {
      */
     String getRequestUrl();
 
+    /***
+     * @author klw(213539@qq.com)
+     * @Description: 获取url地址参数(通过 @PathVariable 参数)
+     * @Date 2020/5/11 14:27
+     * @param: prarmName
+     * @return java.lang.String
+     */
+    String getPathPrarm(String prarmName);
+
     /**
      * @author klw(213539@qq.com)
-     * @Description: 获取请求的url参数
+     * @Description: 获取请求的url参数(?号之后的key=value)
      */
     List<String> getQueryPrarm(String prarmName);
 

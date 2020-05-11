@@ -2,6 +2,7 @@ package top.klw8.alita.starter.web.interceptor;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,10 +16,12 @@ import com.google.common.collect.Lists;
 import io.netty.buffer.UnpooledByteBufAllocator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.core.io.buffer.DataBufferUtils;
@@ -31,6 +34,9 @@ import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
@@ -43,6 +49,7 @@ import top.klw8.alita.starter.cfg.ResServerAuthPathCfgBean;
 import top.klw8.alita.starter.common.UserCacheHelper;
 import top.klw8.alita.starter.common.WebApiContext;
 import top.klw8.alita.starter.datasecured.*;
+import top.klw8.alita.starter.utils.AuthorityUtil;
 import top.klw8.alita.starter.utils.FormDataNoFileParserUtil;
 import top.klw8.alita.starter.utils.TokenUtil;
 import top.klw8.alita.starter.web.base.SynchronossFormFieldPart;
@@ -72,6 +79,12 @@ public class AuthorityInterceptor implements WebFilter {
     @Autowired
     private ApplicationContext applicationContext;
 
+    @Autowired
+    private RequestMappingHandlerMapping reqMapping;
+
+    @Autowired
+    private Environment env;
+
     @Resource
     private ResServerAuthPathCfgBean cfgBean;
 
@@ -83,6 +96,7 @@ public class AuthorityInterceptor implements WebFilter {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
         String reqPath = request.getURI().getPath();
+        String authorityAction = null;
 
         String userId = null;
         List<String> tokenList = request.getHeaders().get("Authorization");
@@ -101,7 +115,14 @@ public class AuthorityInterceptor implements WebFilter {
                 if (authorityMap == null) {
                     return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.LOGIN_TIMEOUT)));
                 }
-                if (StringUtils.isEmpty(authorityMap.get(reqPath))) {
+                // 通过反射获取class中定义的 mapping 用于匹配权限(库里存的是原始的mapping,如果使用了url参数,就无法匹配到权限,所以拿原始mapping来匹配)
+                HandlerMethod handlerMethod = reqMapping.getHandlerInternal(exchange).block();
+                if(handlerMethod == null){
+                    // 没找到 handlerMethod 直接过,spring 会返回404
+                    return chain.filter(exchange);
+                }
+                authorityAction = env.resolvePlaceholders(AuthorityUtil.getCompleteMappingUrl(handlerMethod));
+                if (StringUtils.isBlank(authorityAction) || StringUtils.isEmpty(authorityMap.get(authorityAction))) {
                     // 没有权限
                     return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.NO_PRIVILEGES)));
                 }
@@ -111,7 +132,7 @@ public class AuthorityInterceptor implements WebFilter {
 
 
         // 判断是否需要验证数据权限
-        DataSecured dataSecuredAnnotation = DataSecuredControllerMethodsCache.getMethod(request.getMethod(), reqPath);
+        DataSecured dataSecuredAnnotation = DataSecuredControllerMethodsCache.getMethod(request.getMethod(), authorityAction);
         if(dataSecuredAnnotation == null){
             //没有数据权限注解,继续执行下一个拦截器
             return chain.filter(exchange.mutate().request(request).build());
@@ -147,6 +168,12 @@ public class AuthorityInterceptor implements WebFilter {
         ResourceParserData rpdata = new ResourceParserData(reqPath);
         // 处理 query 参数(url里通过?xxx=xxx传入的参数)
         request.getQueryParams().forEach((k, v) -> rpdata.putQueryPrarm(k, v));
+
+        // 处理 url 路径参数
+        Map<String, String> pathPrarms = pathMatcher.extractUriTemplateVariables(authorityAction, reqPath);
+        if(MapUtils.isNotEmpty(pathPrarms)){
+            rpdata.putAllPathPrarms(pathPrarms);
+        }
 
         MediaType contentType = request.getHeaders().getContentType();
         Mono<ResourceParserData> result;

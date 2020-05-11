@@ -36,6 +36,7 @@ import top.klw8.alita.service.result.SubResultCode;
 import top.klw8.alita.service.result.code.ResultCodeEnum;
 import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
+import top.klw8.alita.starter.utils.AuthorityUtil;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -87,7 +88,6 @@ public class DevHelperController {
         for (Entry<RequestMappingInfo, HandlerMethod> methodEntry : methodMap.entrySet()) {
             HandlerMethod v = methodEntry.getValue();
             Method method = v.getMethod();
-            String authorityActionPrefix;
             String authorityAction;
             SystemAuthoritysCatlog catlog = null;
             String moduleName = "";
@@ -112,33 +112,7 @@ public class DevHelperController {
                     }
                     moduleName = "【" + catlog.getCatlogName() + "】";
                 }
-                if (controllerClass.isAnnotationPresent(RequestMapping.class)) {
-                    RequestMapping mapping = controllerClass.getAnnotation(RequestMapping.class);
-                    authorityActionPrefix = env.resolvePlaceholders(mapping.value()[0]);
-                } else {
-                    authorityActionPrefix = "";
-                }
-
-                if (method.isAnnotationPresent(RequestMapping.class)) {
-                    RequestMapping mapping = method.getAnnotation(RequestMapping.class);
-                    authorityAction = authorityActionPrefix + mapping.value()[0];
-                } else if (method.isAnnotationPresent(PostMapping.class)) {
-                    PostMapping mapping = method.getAnnotation(PostMapping.class);
-                    authorityAction = authorityActionPrefix + mapping.value()[0];
-                } else if (method.isAnnotationPresent(GetMapping.class)) {
-                    GetMapping mapping = method.getAnnotation(GetMapping.class);
-                    authorityAction = authorityActionPrefix + mapping.value()[0];
-                } else if (method.isAnnotationPresent(PutMapping.class)) {
-                    PutMapping mapping = method.getAnnotation(PutMapping.class);
-                    authorityAction = authorityActionPrefix + mapping.value()[0];
-                } else if (method.isAnnotationPresent(DeleteMapping.class)) {
-                    DeleteMapping mapping = method.getAnnotation(DeleteMapping.class);
-                    authorityAction = authorityActionPrefix + mapping.value()[0];
-                } else {
-                    // 不可能走到这里, RequestMappingHandlerMapping.getHandlerMethods()拿到的都是有mapping注解的方法
-                    return Mono.just(JsonResult.sendFailedResult(method.getDeclaringClass().getName() + "." + method.getName() + "() 没有 mapping 注解"));
-                }
-                authorityAction = env.resolvePlaceholders(authorityAction);
+                authorityAction = env.resolvePlaceholders(AuthorityUtil.getCompleteMappingUrl(v));
 
                 AuthorityRegister register = method.getAnnotation(AuthorityRegister.class);
 

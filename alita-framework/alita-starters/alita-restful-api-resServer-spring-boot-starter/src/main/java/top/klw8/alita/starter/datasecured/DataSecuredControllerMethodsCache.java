@@ -9,6 +9,7 @@ import org.springframework.web.reactive.result.method.RequestMappingInfo;
 import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping;
 import reactor.core.publisher.Mono;
 import top.klw8.alita.service.result.JsonResult;
+import top.klw8.alita.starter.utils.AuthorityUtil;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -51,26 +52,26 @@ public class DataSecuredControllerMethodsCache {
             }
             if (method.isAnnotationPresent(RequestMapping.class)) {
                 RequestMapping mapping = method.getAnnotation(RequestMapping.class);
-                actionPath = actionPathPrefix + mapping.value()[0];
+                actionPath = actionPathPrefix + AuthorityUtil.getStringArrayFirst(mapping.value());
             } else if (method.isAnnotationPresent(PostMapping.class)) {
                 PostMapping mapping = method.getAnnotation(PostMapping.class);
-                actionPath = actionPathPrefix + mapping.value()[0];
+                actionPath = actionPathPrefix + AuthorityUtil.getStringArrayFirst(mapping.value());
                 httpMethod = HttpMethod.POST.name();
             } else if (method.isAnnotationPresent(GetMapping.class)) {
                 GetMapping mapping = method.getAnnotation(GetMapping.class);
-                actionPath = actionPathPrefix + mapping.value()[0];
+                actionPath = actionPathPrefix + AuthorityUtil.getStringArrayFirst(mapping.value());
                 httpMethod = HttpMethod.GET.name();
             } else if (method.isAnnotationPresent(PutMapping.class)) {
                 PutMapping mapping = method.getAnnotation(PutMapping.class);
-                actionPath = actionPathPrefix + mapping.value()[0];
+                actionPath = actionPathPrefix + AuthorityUtil.getStringArrayFirst(mapping.value());
                 httpMethod = HttpMethod.PUT.name();
             } else if (method.isAnnotationPresent(DeleteMapping.class)) {
                 DeleteMapping mapping = method.getAnnotation(DeleteMapping.class);
-                actionPath = actionPathPrefix + mapping.value()[0];
+                actionPath = actionPathPrefix + AuthorityUtil.getStringArrayFirst(mapping.value());
                 httpMethod = HttpMethod.DELETE.name();
             } else if (method.isAnnotationPresent(PatchMapping.class)){
                 PatchMapping mapping = method.getAnnotation(PatchMapping.class);
-                actionPath = actionPathPrefix + mapping.value()[0];
+                actionPath = actionPathPrefix + AuthorityUtil.getStringArrayFirst(mapping.value());
                 httpMethod = HttpMethod.PATCH.name();
             }
             actionPath = env.resolvePlaceholders(actionPath);

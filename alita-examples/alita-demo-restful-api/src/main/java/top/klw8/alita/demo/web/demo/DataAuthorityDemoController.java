@@ -28,7 +28,7 @@ public class DataAuthorityDemoController {
 
     @ApiOperation(value = "get测试", notes = "get测试", httpMethod = "GET", produces = "application/json")
     @GetMapping("/getTest")
-    @AuthorityRegister(catlogName = "数据权限demo--get测试", catlogShowIndex = 99,
+    @AuthorityRegister(catlogName = "数据权限demo", catlogShowIndex = 99,
             authorityName = "get测试", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @DataSecured(resource = "getTest")
@@ -42,7 +42,7 @@ public class DataAuthorityDemoController {
 
     @ApiOperation(value = "post测试", notes = "post测试", httpMethod = "POST", produces = "application/json")
     @PostMapping("/postTest")
-    @AuthorityRegister(catlogName = "数据权限demo--post测试", catlogShowIndex = 99,
+    @AuthorityRegister(catlogName = "数据权限demo", catlogShowIndex = 99,
             authorityName = "post测试", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @DataSecured(parser = DemoResourceParser.class)
@@ -56,7 +56,7 @@ public class DataAuthorityDemoController {
 
     @ApiOperation(value = "图片上传测试", notes = "图片上传测试", httpMethod = "POST", produces = "application/json")
     @PostMapping("/fileTest")
-    @AuthorityRegister(catlogName = "数据权限demo--图片上传测试", catlogShowIndex = 99,
+    @AuthorityRegister(catlogName = "数据权限demo", catlogShowIndex = 99,
             authorityName = "图片上传测试", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @DataSecured(resource = "fileTest", fileUpload = true)
@@ -80,6 +80,60 @@ public class DataAuthorityDemoController {
             }
             return "OK";
         }).as(Mono::from);
+    }
+
+    @ApiOperation(value = "url参数测试", notes = "url参数测试", httpMethod = "GET", produces = "application/json")
+    @GetMapping("/urlPrarmTest/{urlPrarm}")
+    @AuthorityRegister(catlogName = "数据权限demo", catlogShowIndex = 99,
+            authorityName = "url参数测试", authorityType = AuthorityTypeEnum.URL,
+            authorityShowIndex = 0)
+    @DataSecured(parser = DemoResourceParser.class)
+    public Mono<String> urlPrarmTest(String str1, @PathVariable("urlPrarm")String urlPrarm){
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>begin call 【urlPrarmTest】");
+        System.out.println("urlPrarm ==== " + urlPrarm);
+        System.out.println("str1 ==== " + str1);
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<end call 【urlPrarmTest】");
+        return Mono.just("OK");
+    }
+
+    @ApiOperation(value = "url参数测试POST", notes = "url参数测试POST", httpMethod = "POST", produces = "application/json")
+    @PostMapping("/urlPrarmTestPost/{urlPrarm}")
+    @AuthorityRegister(catlogName = "数据权限demo", catlogShowIndex = 99,
+            authorityName = "url参数测试POST", authorityType = AuthorityTypeEnum.URL,
+            authorityShowIndex = 0)
+    @DataSecured(parser = DemoResourceParser.class)
+    public Mono<String> urlPrarmTestPost(String str1, @PathVariable("urlPrarm")String urlPrarm){
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>begin call 【urlPrarmTestPost】");
+        System.out.println("urlPrarm ==== " + urlPrarm);
+        System.out.println("str1 ==== " + str1);
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<end call 【urlPrarmTestPost】");
+        return Mono.just("OK");
+    }
+
+    @ApiOperation(value = "NO Mapping 测试--GET", notes = "NO Mapping 测试--GET", httpMethod = "GET", produces = "application/json")
+    @GetMapping
+    @AuthorityRegister(catlogName = "数据权限demo", catlogShowIndex = 99,
+            authorityName = "NO Mapping 测试--GET", authorityType = AuthorityTypeEnum.URL,
+            authorityShowIndex = 0)
+    @DataSecured(parser = DemoResourceParser.class)
+    public Mono<String> testGetNoMapping(String str1){
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>begin call 【testGetNoMapping】");
+        System.out.println("str1 ==== " + str1);
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<end call 【testGetNoMapping】");
+        return Mono.just("OK");
+    }
+
+    @ApiOperation(value = "NO Mapping 测试--POST", notes = "NO Mapping 测试--POST", httpMethod = "POST", produces = "application/json")
+    @PostMapping
+    @AuthorityRegister(catlogName = "数据权限demo", catlogShowIndex = 99,
+            authorityName = "NO Mapping 测试--POST", authorityType = AuthorityTypeEnum.URL,
+            authorityShowIndex = 0)
+    @DataSecured(parser = DemoResourceParser.class)
+    public Mono<String> testPostNoMapping(String str1){
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>begin call 【testPostNoMapping】");
+        System.out.println("str1 ==== " + str1);
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<end call 【testPostNoMapping】");
+        return Mono.just("OK");
     }
 
 }

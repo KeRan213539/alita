@@ -21,6 +21,12 @@ public class ResourceParserData implements IResourceParserData {
 
     /**
      * @author klw(213539@qq.com)
+     * @Description: url地址参数
+     */
+    private Map<String, String> pathPrarms;
+
+    /**
+     * @author klw(213539@qq.com)
      * @Description: url参数
      */
     private Map<String, List<String>> queryPrarms;
@@ -47,6 +53,11 @@ public class ResourceParserData implements IResourceParserData {
         this.requestUrl = requestUrl;
     }
 
+    @Override
+    public String getRequestUrl() {
+        return this.requestUrl;
+    }
+
     public void putQueryPrarm(String prarmName, List<String> prarmValue){
         if(this.queryPrarms == null) {
             synchronized (this) {
@@ -59,8 +70,31 @@ public class ResourceParserData implements IResourceParserData {
     }
 
     @Override
-    public String getRequestUrl() {
-        return this.requestUrl;
+    public String getPathPrarm(String prarmName){
+        if(this.pathPrarms == null){
+            return null;
+        }
+        return this.pathPrarms.get(prarmName);
+    }
+
+    public void putPathPrarm(String prarmName, String prarmValue){
+        this.initPathPrarmMap();
+        this.pathPrarms.put(prarmName, prarmValue);
+    }
+
+    public void putAllPathPrarms(Map<String, String> data){
+        this.initPathPrarmMap();
+        this.pathPrarms.putAll(data);
+    }
+
+    private void initPathPrarmMap(){
+        if(this.pathPrarms == null) {
+            synchronized (this) {
+                if(this.pathPrarms == null) {
+                    this.pathPrarms = new ConcurrentHashMap<>(16);
+                }
+            }
+        }
     }
 
     @Override
@@ -71,16 +105,6 @@ public class ResourceParserData implements IResourceParserData {
         return this.queryPrarms.get(prarmName);
     }
 
-    private void initFormDataMap(){
-        if(this.formData == null) {
-            synchronized (this) {
-                if(this.formData == null) {
-                    this.formData = new ConcurrentHashMap<>(16);
-                }
-            }
-        }
-    }
-
     public void putFormData(String prarmName, List<String> prarmValue){
         this.initFormDataMap();
         this.formData.put(prarmName, prarmValue);
@@ -89,6 +113,16 @@ public class ResourceParserData implements IResourceParserData {
     public void putAllFormData(Map<String, List<String>> data){
         this.initFormDataMap();
         this.formData.putAll(data);
+    }
+
+    private void initFormDataMap(){
+        if(this.formData == null) {
+            synchronized (this) {
+                if(this.formData == null) {
+                    this.formData = new ConcurrentHashMap<>(16);
+                }
+            }
+        }
     }
 
     @Override
