@@ -1,22 +1,13 @@
 package top.klw8.alita.starter.common;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
-import top.klw8.alita.entitys.authority.SystemRole;
-import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
-import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.helper.EnvHelper;
-import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
-import top.klw8.alita.service.utils.EntityUtil;
 import top.klw8.alita.utils.redis.RedisTagEnum;
 import top.klw8.alita.utils.redis.RedisUtil;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import static top.klw8.alita.starter.common.WebApiContext.*;

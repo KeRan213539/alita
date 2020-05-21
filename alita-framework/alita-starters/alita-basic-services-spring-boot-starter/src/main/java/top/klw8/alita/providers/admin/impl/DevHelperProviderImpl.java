@@ -9,14 +9,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.SystemDataSecured;
 import top.klw8.alita.entitys.authority.SystemRole;
-import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.service.api.authority.IDevHelperProvider;
-import top.klw8.alita.service.authority.IAlitaUserService;
-import top.klw8.alita.service.authority.ISystemAuthoritysCatlogService;
-import top.klw8.alita.service.authority.ISystemAuthoritysService;
-import top.klw8.alita.service.authority.ISystemRoleService;
+import top.klw8.alita.service.authority.*;
 import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.service.utils.EntityUtil;
 import top.klw8.alita.starter.service.common.ServiceContext;
@@ -58,9 +55,13 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
     @Autowired
     private IAlitaUserService userService;
 
+    @Autowired
+    private ISystemDataSecuredService dsService;
+
     @Override
-    public CompletableFuture<JsonResult> batchAddAuthoritysAndCatlogs(List<SystemAuthoritysCatlog> catlogList, boolean isAdd2SuperAdmin) {
+    public CompletableFuture<JsonResult> batchAddAuthoritysAndCatlogs(List<SystemAuthoritysCatlog> catlogList, List<SystemDataSecured> publicDataSecuredList, boolean isAdd2SuperAdmin) {
         return CompletableFuture.supplyAsync(() -> {
+            boolean processFlag = false;
             if (CollectionUtils.isNotEmpty(catlogList)) {
                 for (SystemAuthoritysCatlog catlog : catlogList) {
                     if (StringUtils.isBlank(catlog.getCatlogName())) {
@@ -68,7 +69,7 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                     }
                     SystemAuthoritysCatlog catlogFinded = catlogService.findByCatlogName(catlog.getCatlogName());
                     String catlogId;
-                    if (EntityUtil.isEntityEmpty(catlogFinded)) {
+                    if (EntityUtil.isEntityNoId(catlogFinded)) {
                         catlogId = UUIDUtil.getRandomUUIDString();
                         catlog.setId(catlogId);
                         catlogService.save(catlog);
@@ -78,7 +79,7 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                     if (CollectionUtils.isNotEmpty(catlog.getAuthorityList())) {
                         for (SystemAuthoritys au : catlog.getAuthorityList()) {
                             SystemAuthoritys auFinded = auService.findByAuAction(au.getAuthorityAction());
-                            if (EntityUtil.isEntityEmpty(auFinded)) {
+                            if (EntityUtil.isEntityNoId(auFinded)) {
                                 au.setId(UUIDUtil.getRandomUUIDString());
                                 au.setCatlogId(catlogId);
                                 auService.save(au);
@@ -89,9 +90,48 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                                 checkAdminUserRoleAndAddIfNotExist();
                                 roleService.addAuthority2Role(ADMIN_ROLE_ID, auFinded);
                             }
+
+                            // 处理数据权限
+                            List<SystemDataSecured> dataSecuredList = au.getDataSecuredList();
+                            if(CollectionUtils.isNotEmpty(dataSecuredList)){
+                                for(SystemDataSecured ds : dataSecuredList){
+                                    SystemDataSecured dsFinded = dsService.findByResourceAndAuId(ds.getResource(), auFinded.getId());
+                                    if (EntityUtil.isEntityNoId(dsFinded)) {
+                                        ds.setId(UUIDUtil.getRandomUUIDString());
+                                        ds.setAuthoritysId(auFinded.getId());
+                                        dsService.save(ds);
+                                        dsFinded = ds;
+                                    }
+                                    if (isAdd2SuperAdmin) {
+                                        // 添加到超级管理员角色和用户中
+                                        checkAdminUserRoleAndAddIfNotExist();
+                                        roleService.addDataSecured2Role(ADMIN_ROLE_ID, dsFinded);
+                                    }
+                                }
+                            }
+
                         }
                     }
                 }
+                processFlag = true;
+            }
+            if (CollectionUtils.isNotEmpty(publicDataSecuredList)) {
+                for(SystemDataSecured ds : publicDataSecuredList){
+                    SystemDataSecured dsFinded = dsService.findByResourceAndAuId(ds.getResource(), null);
+                    if (EntityUtil.isEntityNoId(dsFinded)) {
+                        ds.setId(UUIDUtil.getRandomUUIDString());
+                        dsService.save(ds);
+                        dsFinded = ds;
+                    }
+                    if (isAdd2SuperAdmin) {
+                        // 添加到超级管理员角色和用户中
+                        checkAdminUserRoleAndAddIfNotExist();
+                        roleService.addDataSecured2Role(ADMIN_ROLE_ID, dsFinded);
+                    }
+                }
+                processFlag = true;
+            }
+            if(processFlag){
                 return JsonResult.sendSuccessfulResult("注册完成");
             }
             return JsonResult.sendSuccessfulResult("注册失败,没有任何待注册数据", null);
@@ -111,11 +151,11 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
 
     private void checkAdminUserRoleAndAddIfNotExist(){
         boolean isNeedAddRole2User = false;
-        if (EntityUtil.isEntityEmpty(userService.getById(ADMIN_USER_ID))) {
+        if (EntityUtil.isEntityNoId(userService.getById(ADMIN_USER_ID))) {
             isNeedAddRole2User = true;
             userService.save(buildAdminUser());
         }
-        if (EntityUtil.isEntityEmpty(roleService.getById(ADMIN_ROLE_ID))) {
+        if (EntityUtil.isEntityNoId(roleService.getById(ADMIN_ROLE_ID))) {
             isNeedAddRole2User = true;
             roleService.save(buildAdminRole());
         }

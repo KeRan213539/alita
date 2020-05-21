@@ -44,4 +44,14 @@ public interface ISystemAuthoritysMapper extends BaseMapper<SystemAuthoritys> {
             "</if>" +
             "</script>")
     IPage<SystemAuthoritys> selectSystemAuthoritysMenuList(Page page, String authorityName, String authorityType);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 查询全部权限,包含目录信息
+     * @Date 2020/5/19 15:28
+     * @param:
+     * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
+     */
+    @Select("select a.*,c.catlog_name from sys_authoritys a left join sys_authoritys_catlog c on a.catlog_id=c.id")
+    List<SystemAuthoritys> selectAllSystemAuthoritysWithCatlog();
 }

@@ -3,10 +3,12 @@ package top.klw8.alita.entitys.authority;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
+import top.klw8.alita.entitys.authority.jsonfield.SystemAuthoritysAdditionalData;
 import top.klw8.alita.entitys.base.BaseEntity;
 
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.List;
  * @author klw
  * @date 2018年11月28日 上午11:52:04
  */
-@TableName("sys_authoritys")
+@TableName(value = "sys_authoritys")
 @Getter
 @Setter
 @ToString
@@ -80,5 +82,12 @@ public class SystemAuthoritys extends BaseEntity {
      */
     @TableField("remark")
     private String remark;
+
+    /**
+     * @author klw
+     * @Fields authorityList : 权限下的数据权限
+     */
+    @TableField(exist=false)
+    private List<SystemDataSecured> dataSecuredList;
     
 }

@@ -1,15 +1,10 @@
 package top.klw8.alita.starter.datasecured;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.reactive.result.method.RequestMappingInfo;
 import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping;
-import reactor.core.publisher.Mono;
-import top.klw8.alita.service.result.JsonResult;
-import top.klw8.alita.starter.utils.AuthorityUtil;
+import top.klw8.alita.utils.AuthorityUtil;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -26,9 +21,8 @@ public class DataSecuredControllerMethodsCache {
 
     private static ConcurrentMap<String, DataSecured> methods = new ConcurrentHashMap<>();
 
-    public static DataSecured getMethod(HttpMethod httpMethod, String path) {
-        String key = httpMethod.name() + "-->" + path;
-        return methods.get(key);
+    public static DataSecured getMethod(String httpMethodAndpath) {
+        return methods.get(httpMethodAndpath);
     }
 
     public static void initControllerMethod(RequestMappingHandlerMapping reqMapping, Environment env) {
@@ -40,42 +34,7 @@ public class DataSecuredControllerMethodsCache {
             if(!method.isAnnotationPresent(DataSecured.class)){
                 continue;
             }
-            String actionPathPrefix;
-            String actionPath = "";
-            String httpMethod = "";
-            Class<?> controllerClass = v.getBeanType();
-            if (controllerClass.isAnnotationPresent(RequestMapping.class)) {
-                RequestMapping mapping = controllerClass.getAnnotation(RequestMapping.class);
-                actionPathPrefix = env.resolvePlaceholders(mapping.value()[0]);
-            } else {
-                actionPathPrefix = "";
-            }
-            if (method.isAnnotationPresent(RequestMapping.class)) {
-                RequestMapping mapping = method.getAnnotation(RequestMapping.class);
-                actionPath = actionPathPrefix + AuthorityUtil.getStringArrayFirst(mapping.value());
-            } else if (method.isAnnotationPresent(PostMapping.class)) {
-                PostMapping mapping = method.getAnnotation(PostMapping.class);
-                actionPath = actionPathPrefix + AuthorityUtil.getStringArrayFirst(mapping.value());
-                httpMethod = HttpMethod.POST.name();
-            } else if (method.isAnnotationPresent(GetMapping.class)) {
-                GetMapping mapping = method.getAnnotation(GetMapping.class);
-                actionPath = actionPathPrefix + AuthorityUtil.getStringArrayFirst(mapping.value());
-                httpMethod = HttpMethod.GET.name();
-            } else if (method.isAnnotationPresent(PutMapping.class)) {
-                PutMapping mapping = method.getAnnotation(PutMapping.class);
-                actionPath = actionPathPrefix + AuthorityUtil.getStringArrayFirst(mapping.value());
-                httpMethod = HttpMethod.PUT.name();
-            } else if (method.isAnnotationPresent(DeleteMapping.class)) {
-                DeleteMapping mapping = method.getAnnotation(DeleteMapping.class);
-                actionPath = actionPathPrefix + AuthorityUtil.getStringArrayFirst(mapping.value());
-                httpMethod = HttpMethod.DELETE.name();
-            } else if (method.isAnnotationPresent(PatchMapping.class)){
-                PatchMapping mapping = method.getAnnotation(PatchMapping.class);
-                actionPath = actionPathPrefix + AuthorityUtil.getStringArrayFirst(mapping.value());
-                httpMethod = HttpMethod.PATCH.name();
-            }
-            actionPath = env.resolvePlaceholders(actionPath);
-            String key = httpMethod + "-->" + actionPath;
+            String key = env.resolvePlaceholders(AuthorityUtil.getCompleteMappingUrl(v));
             methods.put(key, method.getAnnotation(DataSecured.class));
         }
 

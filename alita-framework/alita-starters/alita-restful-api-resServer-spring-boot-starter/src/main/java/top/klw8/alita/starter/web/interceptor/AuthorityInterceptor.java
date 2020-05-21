@@ -2,7 +2,6 @@ package top.klw8.alita.starter.web.interceptor;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +33,6 @@ import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.server.ServerWebExchange;
@@ -49,10 +47,10 @@ import top.klw8.alita.starter.cfg.ResServerAuthPathCfgBean;
 import top.klw8.alita.starter.common.UserCacheHelper;
 import top.klw8.alita.starter.common.WebApiContext;
 import top.klw8.alita.starter.datasecured.*;
-import top.klw8.alita.starter.utils.AuthorityUtil;
 import top.klw8.alita.starter.utils.FormDataNoFileParserUtil;
 import top.klw8.alita.starter.utils.TokenUtil;
 import top.klw8.alita.starter.web.base.SynchronossFormFieldPart;
+import top.klw8.alita.utils.AuthorityUtil;
 
 /**
  * @author klw
@@ -131,8 +129,12 @@ public class AuthorityInterceptor implements WebFilter {
         }
 
 
+        // 处理未配制到 alita.oauth2.resServer.authPath 中的路径(仅限制数据权限,不做url权限的)
+        if(StringUtils.isBlank(authorityAction)){
+            authorityAction = AuthorityUtil.composeWithSeparator(request.getMethod(), reqPath);
+        }
         // 判断是否需要验证数据权限
-        DataSecured dataSecuredAnnotation = DataSecuredControllerMethodsCache.getMethod(request.getMethod(), authorityAction);
+        DataSecured dataSecuredAnnotation = DataSecuredControllerMethodsCache.getMethod(authorityAction);
         if(dataSecuredAnnotation == null){
             //没有数据权限注解,继续执行下一个拦截器
             return chain.filter(exchange.mutate().request(request).build());
@@ -149,14 +151,14 @@ public class AuthorityInterceptor implements WebFilter {
         }
 
         // 判断是否需要走解析器,不需要的话直接验证数据权限
-        if(dataSecuredAnnotation.parser() == DefaultResourceParser.class){
+        if(dataSecuredAnnotation.parser() == IResourceParser.class){
             // 解析器是默认的,说明没有配制解析器,拿资源标识
             String resTag = dataSecuredAnnotation.resource();
             if(StringUtils.isBlank(resTag)){
                 //没有配制解析器,也没有配制资源标识
                 return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.DATA_SECURED_NO_RES)));
             }
-            if(checkDataSecured(reqPath, resTag, dataSecuredMap)){
+            if(checkDataSecured(authorityAction, resTag, dataSecuredMap)){
                 // 有数据权限,继续下一个拦截器
                 return chain.filter(exchange);
             } else {
@@ -170,7 +172,7 @@ public class AuthorityInterceptor implements WebFilter {
         request.getQueryParams().forEach((k, v) -> rpdata.putQueryPrarm(k, v));
 
         // 处理 url 路径参数
-        Map<String, String> pathPrarms = pathMatcher.extractUriTemplateVariables(authorityAction, reqPath);
+        Map<String, String> pathPrarms = pathMatcher.extractUriTemplateVariables(AuthorityUtil.removeSeparator(authorityAction), reqPath);
         if(MapUtils.isNotEmpty(pathPrarms)){
             rpdata.putAllPathPrarms(pathPrarms);
         }
@@ -271,6 +273,7 @@ public class AuthorityInterceptor implements WebFilter {
             result = Mono.just(rpdata);
         }
 
+        String finalAuthorityAction = authorityAction;
         return result.map(rpd -> {
             // 调用资源解析器,并把解析器返回的资源给下一步
             IResourceParser resourceParser = applicationContext.getBean(dataSecuredAnnotation.parser());
@@ -282,7 +285,7 @@ public class AuthorityInterceptor implements WebFilter {
             return parserResult;
         }).flatMap(parserResult -> {
             // 验证数据权限,并做相应处理
-            if(parserResult.length > 0 && checkDataSecured(reqPath, parserResult, dataSecuredMap)){
+            if(parserResult.length > 0 && checkDataSecured(finalAuthorityAction, parserResult, dataSecuredMap)){
                 // 有数据权限,继续下一个拦截器
                 ServerHttpRequest newRequest = (ServerHttpRequest) monoDataMap.get(MONO_DATA_KEY_NEW_REQUEST);
                 if(newRequest == null){

@@ -64,7 +64,7 @@ public class ExtUserProvider implements IExtUserProvider {
     public CompletableFuture<JsonResult> findExtByUserId(String userId) {
         return CompletableFuture.supplyAsync(() -> {
             ExtUserInfo extUserInfo = extUserService.getExtByUserId(userId);
-            if (null != extUserInfo && !EntityUtil.isEntityEmpty(extUserInfo)) {
+            if (null != extUserInfo && !EntityUtil.isEntityNoId(extUserInfo)) {
                 return JsonResult.sendSuccessfulResult(extUserInfo);
             } else {
                 return JsonResult.sendFailedResult("未找到");
@@ -76,7 +76,7 @@ public class ExtUserProvider implements IExtUserProvider {
     public CompletableFuture<JsonResult> findExtByEmail(String userEmail) {
         return CompletableFuture.supplyAsync(() -> {
             ExtUserInfo extUserInfo = extUserService.getExtByEmail(userEmail);
-            if (null != extUserInfo && !EntityUtil.isEntityEmpty(extUserInfo)) {
+            if (null != extUserInfo && !EntityUtil.isEntityNoId(extUserInfo)) {
                 return JsonResult.sendSuccessfulResult(extUserInfo);
             } else {
                 return JsonResult.sendFailedResult("未找到");

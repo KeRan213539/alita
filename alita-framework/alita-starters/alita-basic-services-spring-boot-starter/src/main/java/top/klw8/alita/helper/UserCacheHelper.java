@@ -53,6 +53,7 @@ public class UserCacheHelper {
                         }
                     }
                 }
+                // 数据权限入缓存
                 List<SystemDataSecured> dataSecuredList = userRole.getDataSecuredList();
                 if (!CollectionUtils.isEmpty(dataSecuredList)) {
                     for (SystemDataSecured dataSecured : dataSecuredList) {

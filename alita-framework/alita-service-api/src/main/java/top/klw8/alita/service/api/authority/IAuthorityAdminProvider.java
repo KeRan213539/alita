@@ -3,6 +3,7 @@ package top.klw8.alita.service.api.authority;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.SystemDataSecured;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.service.result.JsonResult;
 
@@ -137,7 +138,7 @@ public interface IAuthorityAdminProvider {
 
     /**
      * @author klw(213539@qq.com)
-     * @Description: 权限目录列表,分页,可根据权限名称查询
+     * @Description: 权限目录列表,分页,可根据目录名称查询
      * @Date 2019/10/22 9:23
      * @param: catlogName
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
@@ -217,5 +218,61 @@ public interface IAuthorityAdminProvider {
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
     CompletableFuture<JsonResult> auInfo(String auId);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 根据权限路径获取该权限下的数据权限(包括全局数据权限)
+     * @Date 2020/5/18 15:22
+     * @param: auPath
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> dataSecuredsByAuthorityAction(String httpMethod, String auAction);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 获取全部权限,包含目录信息,并按目录分组
+     * @Date 2020/5/19 15:32
+     * @param:
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> allAuthoritysWithCatlog();
+
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 数据权限列表,分页,可根据资源名称查询
+     * @Date 2020/5/20 11:21
+     * @param: resource
+     * @param: page
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> dataSecuredList(String resource, Page<SystemDataSecured> page);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 新增/修改数据权限的保存
+     * @Date 2020/5/20 11:22
+     * @param: catlog
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> saveDataSecured(SystemDataSecured ds);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 删除数据权限(没有角色关联它才能删除)
+     * @Date 2020/5/20 11:23
+     * @param: dsId
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> delDataSecured(String dsId);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 数据权限详情
+     * @Date 2020/5/20 11:23
+     * @param: dsId
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> dataSecuredInfo(String dsId);
 
 }

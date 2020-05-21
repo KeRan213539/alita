@@ -21,9 +21,9 @@ public class EntityUtil {
      * @return
      * @Title: isEntityEmpty
      * @author klw
-     * @Description: 检查实体是否是空的
+     * @Description: 检查实体是否没有主键
      */
-    public static boolean isEntityEmpty(BaseEntity baseBean) {
+    public static boolean isEntityNoId(BaseEntity baseBean) {
         return baseBean == null ? true : StringUtils.isBlank(baseBean.getId());
     }
 
@@ -32,10 +32,10 @@ public class EntityUtil {
      * @return
      * @Title: isEntityNotEmpty
      * @author klw
-     * @Description: 检查实体是否不是空的
+     * @Description: 检查实体是否有主键
      */
-    public static boolean isEntityNotEmpty(BaseEntity baseBean) {
-        return !isEntityEmpty(baseBean);
+    public static boolean isEntityHasId(BaseEntity baseBean) {
+        return !isEntityNoId(baseBean);
     }
 
     /**

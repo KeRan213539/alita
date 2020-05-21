@@ -7,7 +7,7 @@ import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-import top.klw8.alita.demo.web.demo.parser.DemoResourceParser;
+import top.klw8.alita.demo.web.demo.datasecured.*;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.datasecured.DataSecured;
@@ -30,7 +30,7 @@ public class DataAuthorityDemoController {
     @GetMapping("/getTest")
     @AuthorityRegister(catlogName = "数据权限demo", catlogShowIndex = 99,
             authorityName = "get测试", authorityType = AuthorityTypeEnum.URL,
-            authorityShowIndex = 0)
+            authorityShowIndex = 0, dataSecuredSource = GetTestDsSource.class)
     @DataSecured(resource = "getTest")
     public Mono<String> getTest(String str1, String str2){
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>begin call 【get】");
@@ -44,7 +44,7 @@ public class DataAuthorityDemoController {
     @PostMapping("/postTest")
     @AuthorityRegister(catlogName = "数据权限demo", catlogShowIndex = 99,
             authorityName = "post测试", authorityType = AuthorityTypeEnum.URL,
-            authorityShowIndex = 0)
+            authorityShowIndex = 0, dataSecuredSource = PostTestDsSource.class)
     @DataSecured(parser = DemoResourceParser.class)
     public Mono<String> postTest(String str1, @RequestBody String json){
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>begin call 【post】");
@@ -58,7 +58,7 @@ public class DataAuthorityDemoController {
     @PostMapping("/fileTest")
     @AuthorityRegister(catlogName = "数据权限demo", catlogShowIndex = 99,
             authorityName = "图片上传测试", authorityType = AuthorityTypeEnum.URL,
-            authorityShowIndex = 0)
+            authorityShowIndex = 0, dataSecuredSource = FileTestDsSource.class)
     @DataSecured(resource = "fileTest", fileUpload = true)
     public Mono<String> fileTest(String str1, @RequestPart("str2") String str2, @RequestPart("file") FilePart filePart){
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>begin call 【file】");
@@ -100,7 +100,7 @@ public class DataAuthorityDemoController {
     @PostMapping("/urlPrarmTestPost/{urlPrarm}")
     @AuthorityRegister(catlogName = "数据权限demo", catlogShowIndex = 99,
             authorityName = "url参数测试POST", authorityType = AuthorityTypeEnum.URL,
-            authorityShowIndex = 0)
+            authorityShowIndex = 0, dataSecuredSource = DemoDataSecuredSource.class, dataSecuredSourceEnum = DemoDataSecuredSourceEnum.class)
     @DataSecured(parser = DemoResourceParser.class)
     public Mono<String> urlPrarmTestPost(String str1, @PathVariable("urlPrarm")String urlPrarm){
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>begin call 【urlPrarmTestPost】");
@@ -114,7 +114,7 @@ public class DataAuthorityDemoController {
     @GetMapping
     @AuthorityRegister(catlogName = "数据权限demo", catlogShowIndex = 99,
             authorityName = "NO Mapping 测试--GET", authorityType = AuthorityTypeEnum.URL,
-            authorityShowIndex = 0)
+            authorityShowIndex = 0, dataSecuredSource = DemoDataSecuredSource.class)
     @DataSecured(parser = DemoResourceParser.class)
     public Mono<String> testGetNoMapping(String str1){
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>begin call 【testGetNoMapping】");

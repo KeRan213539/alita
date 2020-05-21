@@ -7,6 +7,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
+import top.klw8.alita.starter.auscan.IDataSecuredSource;
+import top.klw8.alita.starter.auscan.IDataSecuredSourceItem;
 
 
 /**
@@ -77,5 +79,19 @@ public @interface AuthorityRegister {
      * @return
      */
     String authorityRemark() default "";
-    
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 静态数据权限来源, 实现该接口的来源结果在权限扫描时存入数据库.
+     * 与 {@link #dataSecuredSourceEnum()} 不冲突, 两者都处理
+     */
+    Class<? extends IDataSecuredSource> dataSecuredSource() default IDataSecuredSource.class;
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 枚举类型的静态数据来源, 实现该接口的枚举在权限扫描时存入数据库.
+     * 与 {@link #dataSecuredSource()} 不冲突, 两者都处理
+     */
+    Class<? extends IDataSecuredSourceItem> dataSecuredSourceEnum() default IDataSecuredSourceItem.class;
+
 }

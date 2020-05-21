@@ -1,4 +1,4 @@
-package top.klw8.alita.demo.web.demo.parser;
+package top.klw8.alita.demo.web.demo.datasecured;
 
 import org.springframework.stereotype.Component;
 import top.klw8.alita.starter.datasecured.IResourceParser;

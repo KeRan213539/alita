@@ -13,6 +13,13 @@ import top.klw8.alita.entitys.authority.SystemRole;
  * @date 2018年11月28日 下午3:48:49
  */
 public interface ISystemRoleService extends IService<SystemRole> {
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 数据权限ID的前缀,用于保存权限时区分权限和数据权限
+     */
+    String DS_ID_PREFIX = "@THIS_IS_DS@";
+
     
     /**
      * @Title: addAuthority2Role
@@ -45,6 +52,15 @@ public interface ISystemRoleService extends IService<SystemRole> {
     int replaceAuthority2Role(String roleId, List<String> auIds);
 
     /**
+     * @author klw(213539@qq.com)
+     * @Description: 清空指定角色中的权限
+     * @Date 2019/10/19 17:15
+     * @param: roleId
+     * @return int
+     */
+    int cleanAuthoritysFromRole(String roleId);
+
+    /**
      *
      * @Author zhanglei
      * @Description 查询角色拥有的权限信息
@@ -61,12 +77,58 @@ public interface ISystemRoleService extends IService<SystemRole> {
     List<SystemDataSecured> getRoleAllDataSecureds(String roleId);
 
     /**
+     * @author klw
+     * @Description: 添加数据权限到角色中
+     * @param roleId
+     * @param ds
+     * @return
+     */
+    int addDataSecured2Role(String roleId, SystemDataSecured ds);
+
+    /**
+     * @author klw
+     * @Description: 从角色中删除指定数据权限
+     * @param roleId
+     * @param ds
+     * @return
+     */
+    int removeDataSecuredFromRole(String roleId, SystemDataSecured ds);
+
+    /**
+     * @author klw
+     * @Description: 使用传入的数据权限List替换角色中的权限
+     * @param roleId
+     * @param dsIds
+     * @return
+     */
+    int replaceDataSecured2Role(String roleId, List<String> dsIds);
+
+    /**
      * @author klw(213539@qq.com)
-     * @Description: 清空指定角色中的权限
+     * @Description: 清空指定角色中的数据权限
      * @Date 2019/10/19 17:15
      * @param: roleId
      * @return int
      */
-    int cleanAuthoritysFromRole(String roleId);
-    
+    int cleanDataSecuredsFromRole(String roleId);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 检查指定【数据权限】是否被角色关联
+     * @Date 2020/5/20 14:54
+     * @param: roleId
+     * @param: dsId
+     * @return int
+     */
+    int countByDsId(String dsId);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 检查指定【权限】是否被角色关联
+     * @Date 2020/5/20 14:54
+     * @param: roleId
+     * @param: dsId
+     * @return int
+     */
+    int countByAuId(String auId);
 }

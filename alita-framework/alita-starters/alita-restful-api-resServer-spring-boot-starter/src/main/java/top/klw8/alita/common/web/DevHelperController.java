@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.reactive.result.method.RequestMappingInfo;
@@ -27,6 +29,7 @@ import org.springframework.web.reactive.result.method.annotation.RequestMappingH
 import reactor.core.publisher.Mono;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.SystemDataSecured;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 import top.klw8.alita.service.api.authority.IDevHelperProvider;
 import top.klw8.alita.service.result.IResultCode;
@@ -36,7 +39,10 @@ import top.klw8.alita.service.result.SubResultCode;
 import top.klw8.alita.service.result.code.ResultCodeEnum;
 import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
-import top.klw8.alita.starter.utils.AuthorityUtil;
+import top.klw8.alita.starter.annotations.PublicDataSecuredRegister;
+import top.klw8.alita.starter.auscan.IDataSecuredSourceItem;
+import top.klw8.alita.starter.auscan.IDataSecuredSource;
+import top.klw8.alita.utils.AuthorityUtil;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -82,6 +88,7 @@ public class DevHelperController {
     })
     @PostMapping("/registeAllAuthority")
     public Mono<JsonResult> registeAllAuthority(boolean isAdd2SuperAdmin) {
+
         RequestMappingHandlerMapping reqMapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
         Map<RequestMappingInfo, HandlerMethod> methodMap = reqMapping.getHandlerMethods();
         Map<String, SystemAuthoritysCatlog> tempMap = new HashMap<>();
@@ -143,10 +150,79 @@ public class DevHelperController {
                 au.setAuthorityAction(authorityAction);
                 au.setShowIndex(register.authorityShowIndex());
                 au.setRemark(moduleName + (StringUtils.isBlank(register.authorityRemark()) ? register.authorityName() : register.authorityRemark()));
+
+
+                List<SystemDataSecured> dataSecuredList = new LinkedList<>();
+                // 解析数据权限枚举源
+                if(register.dataSecuredSourceEnum() != IDataSecuredSourceItem.class){
+                    if(Enum.class.isAssignableFrom(register.dataSecuredSourceEnum())){
+                        Object[] enumConstants = register.dataSecuredSourceEnum().getEnumConstants();
+                        for (Object obj : enumConstants){
+                            IDataSecuredSourceItem enumItem = (IDataSecuredSourceItem)obj;
+                            SystemDataSecured sds = new SystemDataSecured();
+                            sds.setResource(enumItem.getResource());
+                            sds.setRemark(enumItem.getRemark());
+                            dataSecuredList.add(sds);
+                        }
+                    } else {
+                        log.warn("【{}】中配制的数据权限源【{}#dataSecuredSourceEnum()】仅支持枚举类型,将忽略...", authorityAction, AuthorityRegister.class.getName());
+                    }
+                }
+
+                // 解析数据权限源,有就入库,没有就继续
+                if(register.dataSecuredSource() != IDataSecuredSource.class){
+                    // 有数据权限源
+                    IDataSecuredSource staticSource = applicationContext.getBean(register.dataSecuredSource());
+                    Assert.notNull(staticSource, "【" + authorityAction + "】没有找到数据权限静态数据源,数据源需要放入spring容器中,请检查");
+                    List<IDataSecuredSourceItem> itemList = staticSource.getDataSecuredSourceList();
+                    if(CollectionUtils.isEmpty(itemList)){
+                        log.warn("【" + authorityAction + "】中配制的数据权限静态数据源返回结果为空,请检查!");
+                    } else {
+                        for(IDataSecuredSourceItem item : itemList){
+                            SystemDataSecured sds = new SystemDataSecured();
+                            sds.setResource(item.getResource());
+                            sds.setRemark(item.getRemark());
+                            dataSecuredList.add(sds);
+                        }
+                    }
+                }
+
+                if(!dataSecuredList.isEmpty()) {
+                    au.setDataSecuredList(dataSecuredList);
+                }
+
                 catlog.getAuthorityList().add(au);
             }
         }
-        return Mono.fromFuture(devHelperProvider.batchAddAuthoritysAndCatlogs(new ArrayList<>(tempMap.values()), isAdd2SuperAdmin));
+
+        // 处理全局数据权限
+        List<SystemDataSecured> publicDataSecuredList = new ArrayList<>(16);
+        Map<String, Object> publicDataSecureds = applicationContext.getBeansWithAnnotation(PublicDataSecuredRegister.class);
+        if(null != publicDataSecureds && !publicDataSecureds.isEmpty()){
+            publicDataSecureds.forEach((key, value) -> {
+                if(!IDataSecuredSource.class.isAssignableFrom(value.getClass())){
+                    log.error("【{}】使用了 @PublicDataSecuredRegister 注解,但没实现 IDataSecuredSource 接口",value.getClass().getName());
+                } else {
+                    Class<?> vClass = value.getClass();
+                    PublicDataSecuredRegister ann = vClass.getAnnotation(PublicDataSecuredRegister.class);
+                    IDataSecuredSource dsSource = (IDataSecuredSource)value;
+                    List<IDataSecuredSourceItem> dsSourceList = dsSource.getDataSecuredSourceList();
+                    if(CollectionUtils.isEmpty(dsSourceList)){
+                        log.warn("【{}】中返回的全局数据权限数据为空,将没有任何全局数据权限入库",value.getClass().getName());
+                    } else {
+                        // 静态数据源,入库
+                        for (IDataSecuredSourceItem item : dsSourceList) {
+                            SystemDataSecured sds = new SystemDataSecured();
+                            sds.setResource(item.getResource());
+                            sds.setRemark(item.getRemark());
+                            publicDataSecuredList.add(sds);
+                        }
+                    }
+                }
+            });
+        }
+
+        return Mono.fromFuture(devHelperProvider.batchAddAuthoritysAndCatlogs(new ArrayList<>(tempMap.values()), publicDataSecuredList, isAdd2SuperAdmin));
     }
 
     @ApiOperation(value = "刷新缓存中的管理员权限", notes = "刷新缓存中的管理员权限", httpMethod = "POST", produces = "application/json")

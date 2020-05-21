@@ -42,5 +42,14 @@ public interface ISystemAuthoritysService extends IService<SystemAuthoritys> {
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
      */
     IPage<SystemAuthoritys> selectSystemAuthoritysMenuList(Page page, String authorityName, String authorityType);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 查询全部权限,包含目录信息
+     * @Date 2020/5/19 15:30
+     * @param:
+     * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
+     */
+    List<SystemAuthoritys> selectAllSystemAuthoritysWithCatlog();
     
 }

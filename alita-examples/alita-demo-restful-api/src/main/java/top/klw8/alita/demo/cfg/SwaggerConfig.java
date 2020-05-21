@@ -91,4 +91,26 @@ public class SwaggerConfig extends SwaggerConfigBase  {
                 .securitySchemes(securitySchemes())
                 .securityContexts(securityContexts);
     }
+
+    @Bean
+    public Docket customImplementationDemo4(){
+
+        List<SecurityContext> securityContexts = new ArrayList<>();
+        securityContexts.add(SecurityContext.builder()
+                .securityReferences(securityReference())
+                .forPaths(PathSelectors.ant("/*/admin/**"))
+                .build());
+
+
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("【权限管理】")
+                .select()
+                .paths(PathSelectors.ant("/*/admin/**"))
+//                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
+                .build()
+//                .globalOperationParameters(pars)
+                .apiInfo(apiInfo())
+                .securitySchemes(securitySchemes())
+                .securityContexts(securityContexts);
+    }
 }

@@ -43,5 +43,10 @@ public class SystemAuthoritysServiceImpl
         return this.baseMapper.selectSystemAuthoritysMenuList(page,authorityName, authorityType);
     }
 
+    @Override
+    public List<SystemAuthoritys> selectAllSystemAuthoritysWithCatlog(){
+        return this.baseMapper.selectAllSystemAuthoritysWithCatlog();
+    }
+
 
 }

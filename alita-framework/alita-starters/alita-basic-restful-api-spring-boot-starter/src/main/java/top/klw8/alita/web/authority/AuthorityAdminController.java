@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.SystemDataSecured;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
@@ -19,12 +20,11 @@ import top.klw8.alita.starter.web.base.WebapiBaseController;
 import top.klw8.alita.validator.UseValidator;
 import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
-import top.klw8.alita.web.authority.vo.SaveAuthoritysRequest;
-import top.klw8.alita.web.authority.vo.SaveRoleRequest;
+import top.klw8.alita.web.authority.vo.*;
 import top.klw8.alita.starter.web.common.vo.PageRequest;
-import top.klw8.alita.web.authority.vo.SaveRoleAuthoritysRequest;
-import top.klw8.alita.web.authority.vo.SaveCatlogRequest;
+import top.klw8.alita.web.authority.vo.enums.HttpMethodPrarm;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static top.klw8.alita.web.common.CatlogsConstant.CATLOG_NAME_AU_ADMIN;
@@ -244,6 +244,90 @@ public class AuthorityAdminController extends WebapiBaseController {
                     String auId
     ){
         return Mono.fromFuture(auProvider.auInfo(auId));
+    }
+
+    @ApiOperation(value = "根据权限Action获取该权限下的数据权限和全局数据权限", notes = "根据权限Action获取该权限下的数据权限和全局数据权限", httpMethod = "GET", produces = "application/json")
+    @GetMapping("/dataSecuredsByAuAction")
+    @AuthorityRegister(authorityName = "根据权限Action获取该权限下的数据权限和全局数据权限", authorityType = AuthorityTypeEnum.URL,
+            authorityShowIndex = 0)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "httpMethod", value = "httpMethod", paramType = "query", required = true),
+            @ApiImplicitParam(name = "auAction", value = "权限Action", paramType = "query", required = true)
+    })
+    @UseValidator
+    public Mono<JsonResult> dataSecuredsByAuAction(
+            @Required(validatFailMessage = "httpMethod不能为空")
+            @NotEmpty(validatFailMessage = "httpMethod不能为空")
+                    HttpMethodPrarm httpMethod,
+
+            @Required(validatFailMessage = "权限Action不能为空")
+            @NotEmpty(validatFailMessage = "权限Action不能为空")
+                    String auAction
+    ){
+        return Mono.fromFuture(auProvider.dataSecuredsByAuthorityAction(httpMethod.name(), auAction));
+    }
+
+    @ApiOperation(value = "获取全部权限(按目录分组)", notes = "获取全部权限(按目录分组),用于新增/编辑数据权限时选择所属分组", httpMethod = "GET", produces = "application/json")
+    @GetMapping("/allAuList")
+    @AuthorityRegister(authorityName = "获取全部权限(按目录分组)", authorityType = AuthorityTypeEnum.URL,
+            authorityRemark = "获取全部权限(按目录分组),用于新增/编辑数据权限时选择所属分组",
+            authorityShowIndex = 0)
+    public Mono<JsonResult> allAuList(){
+        return Mono.fromFuture(auProvider.allAuthoritysWithCatlog());
+    }
+
+    @ApiOperation(value = "数据权限列表(分页)", notes = "数据权限列表(分页)", httpMethod = "GET", produces = "application/json")
+    @GetMapping("/dataSecuredList")
+    @AuthorityRegister(authorityName = "数据权限列表(分页)", authorityType = AuthorityTypeEnum.URL,
+            authorityShowIndex = 0)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "resource", value = "资源名称(支持模糊查询)", paramType = "query"),
+    })
+    public Mono<JsonResult> dataSecuredList(String resource, PageRequest page){
+        return Mono.fromFuture(auProvider.dataSecuredList(resource, new Page(page.getPage(), page.getSize())));
+    }
+
+    @ApiOperation(value = "保存数据权限", notes = "保存数据权限(无ID则添加,有则修改)", httpMethod = "POST", produces = "application/json")
+    @PostMapping("/saveDataSecured")
+    @AuthorityRegister(authorityName = "保存数据权限(无ID则添加,有则修改)", authorityType = AuthorityTypeEnum.URL,
+            authorityShowIndex = 0)
+    @UseValidator
+    public Mono<JsonResult> saveDataSecured(@RequestBody SaveDataSecuredRequest req){
+        SystemDataSecured dsToSave = new SystemDataSecured();
+        BeanUtils.copyProperties(req, dsToSave);
+        return Mono.fromFuture(auProvider.saveDataSecured(dsToSave));
+    }
+
+    @ApiOperation(value = "删除数据权限", notes = "删除数据权限(没有角色关联它才能删除)", httpMethod = "POST", produces = "application/json")
+    @PostMapping("/delDataSecured")
+    @AuthorityRegister(authorityName = "删除数据权限", authorityType = AuthorityTypeEnum.URL,
+            authorityShowIndex = 0)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "dsId", value = "数据权限ID", paramType = "query", required = true)
+    })
+    @UseValidator
+    public Mono<JsonResult> delDataSecured(
+            @Required(validatFailMessage = "数据权限ID不能为空")
+            @NotEmpty(validatFailMessage = "数据权限ID不能为空")
+                    String dsId
+    ){
+        return Mono.fromFuture(auProvider.delDataSecured(dsId));
+    }
+
+    @ApiOperation(value = "数据权限详情", notes = "数据权限详情", httpMethod = "GET", produces = "application/json")
+    @GetMapping("/dataSecuredInfo")
+    @AuthorityRegister(authorityName = "数据权限详情", authorityType = AuthorityTypeEnum.URL,
+            authorityShowIndex = 0)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "dsId", value = "数据权限ID", paramType = "query", required = true)
+    })
+    @UseValidator
+    public Mono<JsonResult> dataSecuredInfo(
+            @Required(validatFailMessage = "数据权限ID不能为空")
+            @NotEmpty(validatFailMessage = "数据权限ID不能为空")
+                    String dsId
+    ){
+        return Mono.fromFuture(auProvider.dataSecuredInfo(dsId));
     }
 
 }

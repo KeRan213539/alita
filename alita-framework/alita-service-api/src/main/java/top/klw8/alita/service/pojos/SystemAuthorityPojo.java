@@ -5,6 +5,8 @@ import lombok.Setter;
 import lombok.ToString;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 
+import java.util.List;
+
 /**
  * @author klw(213539 @ qq.com)
  * @ClassName: SystemAuthorityPojo
@@ -59,6 +61,12 @@ public class SystemAuthorityPojo implements java.io.Serializable, Comparable<Sys
      * @Fields remark : 备注
      */
     private String remark;
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 该权限中的数据权限
+     */
+    private List<SystemDataSecuredPojo> dsList;
 
     /**
      * @author klw(213539@qq.com)
