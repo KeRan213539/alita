@@ -78,8 +78,6 @@
 <!--            </dependency>-->
             <!-- [End] Solve the spring fox problem temporarily -->
 
-            <!-- begin 基本base项目 -->
-
             <!--dubbo doc-->
             <dependency>
                 <groupId>top.klw8.alita.dubbodoc</groupId>
@@ -92,6 +90,7 @@
                 <version>${dubbo.doc.version}</version>
             </dependency>
 
+            <!-- begin 基本base项目 -->
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-validator</artifactId>
@@ -101,6 +100,18 @@
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>top.klw8.alita</groupId>
+                <artifactId>alita-base-entitys</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>top.klw8.alita</groupId>
+                <artifactId>alita-base-service-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

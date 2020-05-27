@@ -11,9 +11,11 @@
 
     <modules>
         <module>alita-base</module>
+        <module>alita-base-entitys</module>
         <module>alita-springboot-base</module>
         <module>alita-commons</module>
         <module>alita-entitys</module>
+        <module>alita-base-service-api</module>
         <module>alita-service-api</module>
         <module>alita-service-mongodb-api</module>
         <module>alita-starters</module>

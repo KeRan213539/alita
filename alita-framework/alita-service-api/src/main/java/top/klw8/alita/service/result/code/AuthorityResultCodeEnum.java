@@ -2,7 +2,6 @@ package top.klw8.alita.service.result.code;
 
 import top.klw8.alita.service.result.IResultCode;
 import top.klw8.alita.service.result.ISubResultCode;
-import top.klw8.alita.service.result.SubResultCode;
 
 /**
  * @author klw(213539 @ qq.com)
@@ -10,7 +9,6 @@ import top.klw8.alita.service.result.SubResultCode;
  * @Description: 权限相关
  * @date 2019/8/15 16:52
  */
-@SubResultCode
 public enum AuthorityResultCodeEnum implements ISubResultCode {
 
     CATLOG_NOT_EXIST("001", "权限目录不存在"),

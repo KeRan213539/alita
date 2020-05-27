@@ -22,6 +22,11 @@
 
         <dependency>
             <groupId>top.klw8.alita</groupId>
+            <artifactId>alita-base-service-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>top.klw8.alita</groupId>
             <artifactId>alita-entitys</artifactId>
         </dependency>
 

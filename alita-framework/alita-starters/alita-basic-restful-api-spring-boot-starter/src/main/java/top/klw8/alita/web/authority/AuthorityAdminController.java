@@ -24,7 +24,6 @@ import top.klw8.alita.web.authority.vo.*;
 import top.klw8.alita.starter.web.common.vo.PageRequest;
 import top.klw8.alita.web.authority.vo.enums.HttpMethodPrarm;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static top.klw8.alita.web.common.CatlogsConstant.CATLOG_NAME_AU_ADMIN;

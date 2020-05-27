@@ -2,7 +2,6 @@ package top.klw8.alita.service.result.code;
 
 import top.klw8.alita.service.result.IResultCode;
 import top.klw8.alita.service.result.ISubResultCode;
-import top.klw8.alita.service.result.SubResultCode;
 
 /**
  * @author klw
@@ -10,7 +9,6 @@ import top.klw8.alita.service.result.SubResultCode;
  * @Description: 通用返回码
  * @date 2019/6/10 16:13
  */
-@SubResultCode
 public enum CommonResultCodeEnum implements ISubResultCode {
 
     OK("200", "请求处理成功"),
