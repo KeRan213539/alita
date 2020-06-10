@@ -64,7 +64,7 @@ public class AuthorityAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query"),
     })
     @UseValidator
-    public Mono<JsonResult> markRoleAuthoritys(String roleId){
+    public Mono<JsonResult> markRoleAuthoritys(@Required("角色ID不能为空") @NotEmpty("角色ID不能为空") String roleId){
         return Mono.fromFuture(auProvider.markRoleAuthoritys(roleId));
     }
 

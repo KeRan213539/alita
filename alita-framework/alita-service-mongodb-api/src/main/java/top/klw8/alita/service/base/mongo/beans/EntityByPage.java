@@ -125,7 +125,7 @@ public class EntityByPage<T extends MongoBaseEntity> implements Serializable, Cl
         List<Map<String,Object>> dataList = new ArrayList<Map<String,Object>>();
         for(Object o : list){
             try {
-                Map<String,Object> beanMap = BeanUtil.objectToMap(o, BeanUtil.RETAIN_NULL);
+                Map<String,Object> beanMap = BeanUtil.beanToMap(o);
                 dataList.add(beanMap);
             } catch (Exception e) {
                 e.printStackTrace();
