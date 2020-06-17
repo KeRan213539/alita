@@ -17,6 +17,11 @@
     <dependencies>
 
         <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>top.klw8.alita</groupId>
             <artifactId>alita-commons</artifactId>
         </dependency>
