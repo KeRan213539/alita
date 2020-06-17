@@ -19,7 +19,7 @@
 		<disruptor.version>3.4.2</disruptor.version>
 		<aviator.version>3.3.0</aviator.version>
 		<commons-io.version>2.6</commons-io.version>
-		<commons-beanutils.version>1.9.3</commons-beanutils.version>
+		<commons-beanutils.version>1.9.4</commons-beanutils.version>
 		<commons-collections.version>4.2</commons-collections.version>
 		<aliyun-sdk-oss.version>3.3.0</aliyun-sdk-oss.version>
 		<commons-fileupload.version>1.3.3</commons-fileupload.version>
