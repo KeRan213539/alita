@@ -32,16 +32,17 @@ public class SecurityAuthenticationEntryPoint implements ServerAuthenticationEnt
     @Override
     public Mono<Void> commence(ServerWebExchange exchange,
                                AuthenticationException authException) {
+        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
         return sendJsonStr(exchange.getResponse(), JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.NO_TOKEN)));
     }
 
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, AccessDeniedException denied) {
+        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
         return sendJsonStr(exchange.getResponse(), JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.NO_PRIVILEGES)));
     }
 
     private Mono<Void> sendJsonStr(ServerHttpResponse response, String str) {
-        response.setStatusCode(HttpStatus.BAD_REQUEST);
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON_UTF8);
         response.getHeaders().set("Cache-Control", "no-cache");
         DataBufferFactory dataBufferFactory = response.bufferFactory();

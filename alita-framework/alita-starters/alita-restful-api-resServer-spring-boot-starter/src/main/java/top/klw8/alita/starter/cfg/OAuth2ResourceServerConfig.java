@@ -32,9 +32,9 @@ import top.klw8.alita.starter.validator.AlitaResponseGenerator;
 import top.klw8.alita.validator.EnableValidator;
 
 /**
+ * @author klw
  * @ClassName: OAuth2ResourceServerConfig
  * @Description: spring-security OAuth2 配制,使用 jwt
- * @author klw
  * @date 2018年11月1日 下午3:52:48
  */
 @Slf4j
@@ -44,41 +44,41 @@ import top.klw8.alita.validator.EnableValidator;
 @EnableValidator(responseMsgGenerator = AlitaResponseGenerator.class)
 @Import({AuthorityInterceptor.class, DataSecuredControllerMethodsLoader.class})
 public class OAuth2ResourceServerConfig {
-    
+
     @javax.annotation.Resource
     private ResServerAuthPathCfgBean cfgBean;
 
-	@Reference(async = true)
-	private IAuthorityAdminProvider adminProvider;
+    @Reference(async = true)
+    private IAuthorityAdminProvider adminProvider;
 
-	@Bean
-	public UserCacheHelper userCacheHelper(){
-		return new UserCacheHelper(adminProvider);
-	}
+    @Bean
+    public UserCacheHelper userCacheHelper() {
+        return new UserCacheHelper(adminProvider);
+    }
 
     @Bean
     public SecurityWebFilterChain configure(ServerHttpSecurity http) throws Exception {
-	if(cfgBean == null || CollectionUtils.isEmpty(cfgBean.getAuthPath())) {
-	    log.error("---------------------------------------------------------------------");
-	    log.error("oauth2 资源服务需要认证的路径未配制,至少配制一个!");
-	    log.error("---------------------------------------------------------------------");
-	    System.exit(1); 
-	}
-	SecurityAuthenticationEntryPoint xx = new SecurityAuthenticationEntryPoint();
-	http.exceptionHandling()
-	.accessDeniedHandler(xx)
-	.authenticationEntryPoint(xx)
-	.and()
-	.csrf().disable();
-	//下面配制必须认证过后才可以访问的url
-	for(String path : cfgBean.getAuthPath()) {
-	    http.authorizeExchange().pathMatchers(path).authenticated();
-	}
-	http.authorizeExchange().anyExchange().permitAll();
-	http.oauth2ResourceServer().jwt().publicKey(jwtPublicKey());
-	return http.build();
+        if (cfgBean == null || CollectionUtils.isEmpty(cfgBean.getAuthPath())) {
+            log.error("---------------------------------------------------------------------");
+            log.error("oauth2 资源服务需要认证的路径未配制,至少配制一个!");
+            log.error("---------------------------------------------------------------------");
+            System.exit(1);
+        }
+        SecurityAuthenticationEntryPoint xx = new SecurityAuthenticationEntryPoint();
+        http.exceptionHandling()
+                .accessDeniedHandler(xx)
+                .authenticationEntryPoint(xx)
+                .and()
+                .csrf().disable();
+        //下面配制必须认证过后才可以访问的url
+        for (String path : cfgBean.getAuthPath()) {
+            http.authorizeExchange().pathMatchers(path).authenticated();
+        }
+        http.authorizeExchange().anyExchange().permitAll();
+        http.oauth2ResourceServer().jwt().publicKey(jwtPublicKey());
+        return http.build();
     }
-    
+
     @SuppressWarnings("restriction")
     private RSAPublicKey jwtPublicKey() {
         Resource resource = new ClassPathResource("authorizationKeyPublic.txt");
@@ -88,25 +88,25 @@ public class OAuth2ResourceServerConfig {
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
-        
+
         byte[] keyBytes;
-		keyBytes = Base64.getDecoder().decode(publicKey.replace("\r\n", "").replace("\n", ""));
+        keyBytes = Base64.getDecoder().decode(publicKey.replace("\r\n", "").replace("\n", ""));
 //        try {
 //			keyBytes = (new sun.misc.BASE64Decoder()).decodeBuffer(publicKey);
 //		} catch (IOException e1) {
 //			e1.printStackTrace();
 //		}
-        
-		X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
-		RSAPublicKey publicKey2 = null;
-		try {
-			KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-			publicKey2 = (RSAPublicKey) keyFactory.generatePublic(keySpec);
-		} catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
 
-		}
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
+        RSAPublicKey publicKey2 = null;
+        try {
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            publicKey2 = (RSAPublicKey) keyFactory.generatePublic(keySpec);
+        } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
 
-		return publicKey2;
+        }
+
+        return publicKey2;
     }
-    
+
 }

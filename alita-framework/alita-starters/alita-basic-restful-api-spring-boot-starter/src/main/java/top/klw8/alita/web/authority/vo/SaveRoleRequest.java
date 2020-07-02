@@ -19,6 +19,10 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 public class SaveRoleRequest {
 
+    @NotEmpty(validatFailMessage = "角色ID不能为空")
+    @ApiParam(value = "角色ID")
+    private String roleId;
+
     @Required(validatFailMessage = "角色名称不能为空")
     @NotEmpty(validatFailMessage = "角色名称不能为空")
     @ApiParam(value = "角色名称", required=true)

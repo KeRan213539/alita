@@ -53,7 +53,7 @@ public class BasicServicesCfg {
     private Environment env;
 
     @Bean
-    public Object regDubboProviders(@Autowired IDevHelperProvider devHelperProvider,
+    public Object regDubboProviders(@Autowired(required = false) IDevHelperProvider devHelperProvider,
                                     @Autowired IAuthorityAdminProvider authorityAdminProvider,
                                     @Autowired IAlitaUserProvider alitaUserProvider) {
         String[] activeprofiles = env.getActiveProfiles();

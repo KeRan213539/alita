@@ -203,6 +203,12 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
+    public CompletableFuture<JsonResult> roleAll() {
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
+                roleService.list()));
+    }
+
+    @Override
     public CompletableFuture<JsonResult> markRoleAuthoritys(String roleId) {
         List<SystemAuthoritys> roleAuList = new LinkedList<>();
         List<SystemDataSecured> roleDsList = new LinkedList<>();

@@ -87,6 +87,12 @@ public interface IAuthorityAdminProvider {
 
     /**
      * @author klw(213539@qq.com)
+     * @Description: 获取全部角色,不分页
+     */
+    CompletableFuture<JsonResult> roleAll();
+
+    /**
+     * @author klw(213539@qq.com)
      * @Description: 获取全部权限,并根据传入的角色ID标识出该角色拥有的权限
      * @Date 2019/10/17 17:12
      * @param: roleId

@@ -3,6 +3,7 @@ package top.klw8.alita.web.authority;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +57,14 @@ public class AuthorityAdminController extends WebapiBaseController {
         return Mono.fromFuture(auProvider.roleList(roleName, new Page(page.getPage(), page.getSize())));
     }
 
+    @ApiOperation(value = "获取全部角色,不分页", notes = "获取全部角色,不分页", httpMethod = "GET", produces = "application/json")
+    @GetMapping("/roleAll")
+    @AuthorityRegister(authorityName = "获取全部角色,不分页", authorityType = AuthorityTypeEnum.URL,
+            authorityShowIndex = 0)
+    public Mono<JsonResult> roleAll(){
+        return Mono.fromFuture(auProvider.roleAll());
+    }
+
     @ApiOperation(value = "获取全部权限,并根据传入的角色ID标识出该角色拥有的权限", notes = "获取全部权限,并根据传入的角色ID标识出该角色拥有的权限", httpMethod = "GET", produces = "application/json")
     @GetMapping("/markRoleAuthoritys")
     @AuthorityRegister(authorityName = "获取全部权限,并根据传入的角色ID标识出该角色拥有的权限", authorityType = AuthorityTypeEnum.URL,
@@ -85,13 +94,16 @@ public class AuthorityAdminController extends WebapiBaseController {
     @UseValidator
     public Mono<JsonResult> saveRole(@RequestBody SaveRoleRequest req){
         SystemRole roleToSave = new SystemRole();
+        roleToSave.setId(req.getRoleId());
         roleToSave.setRoleName(req.getRoleName());
         roleToSave.setRemark(req.getRemark());
-        roleToSave.setAuthorityList(req.getAuIdList().stream().map(s -> {
-            SystemAuthoritys au = new SystemAuthoritys();
-            au.setId(s);
-            return au;
-        }).collect(Collectors.toList()));
+        if(CollectionUtils.isNotEmpty(req.getAuIdList())) {
+            roleToSave.setAuthorityList(req.getAuIdList().stream().map(s -> {
+                SystemAuthoritys au = new SystemAuthoritys();
+                au.setId(s);
+                return au;
+            }).collect(Collectors.toList()));
+        }
         return Mono.fromFuture(auProvider.saveRole(roleToSave, req.getCopyAuFromRoleId()));
     }
 
