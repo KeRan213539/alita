@@ -1,6 +1,7 @@
 package top.klw8.alita.providers.admin.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.Assert;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.SystemDataSecured;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
@@ -147,8 +149,13 @@ public class AlitaUserProvider implements IAlitaUserProvider {
         List<OrderItem> orders = new ArrayList<>(1);
         orders.add(OrderItem.desc("create_date"));
         page.setOrders(orders);
+        IPage pageResult = userService.page(page, query);
+        List<AlitaUserAccount> userAccountList = pageResult.getRecords();
+        for(AlitaUserAccount userAccount : userAccountList){
+            userAccount.setUserRoles(userService.getUserAllRoles(userAccount.getId()));
+        }
         return CompletableFuture.supplyAsync(() -> JsonResult.sendSuccessfulResult(
-                userService.page(page, query)), ServiceContext.executor);
+                pageResult), ServiceContext.executor);
     }
 
     @Override
@@ -200,7 +207,15 @@ public class AlitaUserProvider implements IAlitaUserProvider {
     @Override
     public CompletableFuture<JsonResult> getUserAllRoles(String userId) {
         Assert.hasText(userId, "用户ID不能为空!");
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(userService.getUserAllRoles(userId)));
+        List<SystemRole> userRoles = userService.getUserAllRoles(userId);
+        // 根据用户角色查询角色对应的权限并更新到SystemRole实体中
+        for (SystemRole role : userRoles) {
+            List<SystemAuthoritys> authoritys = roleService.getRoleAllAuthoritys(role.getId());
+            List<SystemDataSecured> dsList = roleService.getRoleAllDataSecureds(role.getId());
+            role.setAuthorityList(authoritys);
+            role.setDataSecuredList(dsList);
+        }
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(userRoles));
     }
 
     @Override

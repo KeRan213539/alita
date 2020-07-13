@@ -73,8 +73,12 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, System
             }
 
         }
-        this.baseMapper.batchInsertDataSecuredsFromRole(dsList);
-        this.baseMapper.batchInsertAuthoritysFromRole(auList);
+        if(CollectionUtils.isNotEmpty(dsList)) {
+            this.baseMapper.batchInsertDataSecuredsFromRole(dsList);
+        }
+        if(CollectionUtils.isNotEmpty(auList)) {
+            this.baseMapper.batchInsertAuthoritysFromRole(auList);
+        }
         return (auList.size() + dsList.size());
     }
 

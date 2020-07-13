@@ -349,23 +349,25 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         boolean isCopy = false;
         if(StringUtils.isNotBlank(copyAuFromRoleId)){
             // 根据 copyAuFromRoleId 查找该角色的权限并设置到要保存的角色中
-            List<SystemAuthoritys> copyAuFromRoleAuList = roleService.getRoleAllAuthoritys(copyAuFromRoleId);
-            if(CollectionUtils.isEmpty(copyAuFromRoleAuList)){
-                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("要复制的角色不存在或该角色中没有配制权限"));
-            }
-            role.setAuthorityList(copyAuFromRoleAuList);
+            role.setAuthorityList(roleService.getRoleAllAuthoritys(copyAuFromRoleId));
+            role.setDataSecuredList(roleService.getRoleAllDataSecureds(copyAuFromRoleId));
             isCopy = true;
         }
         if(CollectionUtils.isNotEmpty(role.getAuthorityList())){
             // 保存角色中的权限
-            List<String> auIdList = new ArrayList<>(role.getAuthorityList().size());
+            int dsSize = CollectionUtils.isEmpty(role.getDataSecuredList()) ? 0 : role.getDataSecuredList().size();
+            List<String> auIdList = new ArrayList<>(role.getAuthorityList().size() + dsSize);
             for(SystemAuthoritys au : role.getAuthorityList()){
                 if(!isCopy && auService.getById(au.getId()) == null){
                     TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                     return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("权限不存在"));
                 }
                 auIdList.add(au.getId());
+            }
+            if(dsSize > 0){
+                for(SystemDataSecured ds : role.getDataSecuredList()){
+                    auIdList.add(ISystemRoleService.DS_ID_PREFIX + ds.getId());
+                }
             }
             roleService.replaceAuthority2Role(role.getId(), auIdList);
         }
