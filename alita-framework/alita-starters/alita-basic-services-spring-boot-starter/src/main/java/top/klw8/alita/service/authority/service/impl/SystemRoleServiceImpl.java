@@ -93,6 +93,11 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, System
     }
 
     @Override
+    public List<SystemAuthoritys> selectSystemAuthoritysWithCatlogByRoleId(String roleId) {
+        return this.baseMapper.selectSystemAuthoritysWithCatlogByRoleId(roleId);
+    }
+
+    @Override
     public List<SystemDataSecured> getRoleAllDataSecureds(String roleId) {
         return this.baseMapper.selectRoleDataSecureds(roleId);
     }

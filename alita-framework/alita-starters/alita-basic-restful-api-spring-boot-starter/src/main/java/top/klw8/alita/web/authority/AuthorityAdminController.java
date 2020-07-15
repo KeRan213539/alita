@@ -203,15 +203,18 @@ public class AuthorityAdminController extends WebapiBaseController {
     }
 
 
-    @ApiOperation(value = "菜单权限列表(分页)", notes = "菜单权限列表(分页)", httpMethod = "GET", produces = "application/json")
-    @GetMapping("/authoritysMenuList")
-    @AuthorityRegister(authorityName = "菜单权限列表-(分页)", authorityType = AuthorityTypeEnum.URL,
+    @ApiOperation(value = "权限列表(分页)", notes = "权限列表(分页)", httpMethod = "GET", produces = "application/json")
+    @GetMapping("/authoritysList")
+    @AuthorityRegister(authorityName = "权限列表-(分页)", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "auName", value = "权限名称(支持模糊查询)", paramType = "query"),
+            @ApiImplicitParam(name = "auType", value = "权限类型", paramType = "query"),
+            @ApiImplicitParam(name = "authorityAction", value = "权限动作(支持模糊查询)", paramType = "query"),
+            @ApiImplicitParam(name = "catlogName", value = "权限目录名称(支持模糊查询)", paramType = "query"),
     })
-    public Mono<JsonResult> authoritysMenuList(String auName, PageRequest page){
-        return Mono.fromFuture(auProvider.authoritysMenuList(auName, new Page(page.getPage(), page.getSize())));
+    public Mono<JsonResult> authoritysMenuList(String auName, AuthorityTypeEnum auType, String authorityAction, String catlogName, PageRequest page){
+        return Mono.fromFuture(auProvider.authoritysList(auName, auType, new Page(page.getPage(), page.getSize()), authorityAction, catlogName));
     }
 
     @ApiOperation(value = "保存权限", notes = "保存权限(无ID则添加,有则修改)", httpMethod = "POST", produces = "application/json")
@@ -222,7 +225,7 @@ public class AuthorityAdminController extends WebapiBaseController {
     public Mono<JsonResult> saveAuthority(@RequestBody SaveAuthoritysRequest req){
         SystemAuthoritys auToSave = new SystemAuthoritys();
         BeanUtils.copyProperties(req, auToSave);
-        return Mono.fromFuture(auProvider.saveAuthority(auToSave));
+        return Mono.fromFuture(auProvider.saveAuthority(auToSave, req.getHttpMethod().name()));
     }
 
     @ApiOperation(value = "删除权限", notes = "删除权限(同时删除角色的关联)", httpMethod = "POST", produces = "application/json")
@@ -268,7 +271,6 @@ public class AuthorityAdminController extends WebapiBaseController {
     @UseValidator
     public Mono<JsonResult> dataSecuredsByAuAction(
             @Required(validatFailMessage = "httpMethod不能为空")
-            @NotEmpty(validatFailMessage = "httpMethod不能为空")
                     HttpMethodPrarm httpMethod,
 
             @Required(validatFailMessage = "权限Action不能为空")

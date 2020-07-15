@@ -41,7 +41,7 @@ public interface ISystemAuthoritysService extends IService<SystemAuthoritys> {
      * @param: authorityType
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
      */
-    IPage<SystemAuthoritys> selectSystemAuthoritysMenuList(Page page, String authorityName, String authorityType);
+    IPage<SystemAuthoritys> selectSystemAuthoritysList(Page page, String authorityName, String authorityType, String authorityAction, String catlogName);
 
     /**
      * @author klw(213539@qq.com)

@@ -72,6 +72,15 @@ public interface ISystemRoleService extends IService<SystemRole> {
 
     /**
      * @author klw(213539@qq.com)
+     * @Description: 查询指定角色权限,包含目录信息
+     * @Date 2020/7/15 8:41
+     * @param: roleId
+     * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
+     */
+    List<SystemAuthoritys> selectSystemAuthoritysWithCatlogByRoleId(String roleId);
+
+    /**
+     * @author klw(213539@qq.com)
      * @Description: 查询角色拥有的数据权限
      */
     List<SystemDataSecured> getRoleAllDataSecureds(String roleId);

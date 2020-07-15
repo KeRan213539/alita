@@ -161,4 +161,15 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
     int countByAuId(String auId);
 
 
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 查询指定角色权限,包含目录信息
+     * @Date 2020/5/19 15:28
+     * @param:
+     * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
+     */
+    @Select("select a.*,c.catlog_name from sys_authoritys a left join sys_authoritys_catlog c on a.catlog_id=c.id " +
+            "where a.id in (select authoritys_id from sys_role_has_authoritys where role_id=#{roleId})")
+    List<SystemAuthoritys> selectSystemAuthoritysWithCatlogByRoleId(String roleId);
+
 }

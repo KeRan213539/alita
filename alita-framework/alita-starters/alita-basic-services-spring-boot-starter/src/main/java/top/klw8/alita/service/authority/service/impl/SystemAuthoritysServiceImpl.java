@@ -39,8 +39,8 @@ public class SystemAuthoritysServiceImpl
     }
 
     @Override
-    public IPage<SystemAuthoritys> selectSystemAuthoritysMenuList(Page page, String authorityName, String authorityType) {
-        return this.baseMapper.selectSystemAuthoritysMenuList(page,authorityName, authorityType);
+    public IPage<SystemAuthoritys> selectSystemAuthoritysList(Page page, String authorityName, String authorityType, String authorityAction, String catlogName) {
+        return this.baseMapper.selectSystemAuthoritysList(page,authorityName, authorityType, authorityAction, catlogName);
     }
 
     @Override

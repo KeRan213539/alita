@@ -8,6 +8,7 @@ import lombok.ToString;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
+import top.klw8.alita.web.authority.vo.enums.HttpMethodPrarm;
 
 /**
  * @ClassName: SaveAuthoritysRequest
@@ -48,6 +49,9 @@ public class SaveAuthoritysRequest {
 	    	+ "作为菜单显示: MENU  <br />"
 	    	+ "是URL相对路径: URL", required=true, allowableValues= "MENU,URL")
     private AuthorityTypeEnum authorityType;
+
+    @Required(validatFailMessage = "httpMethod不能为空")
+    private HttpMethodPrarm httpMethod;
     
     @Required(validatFailMessage = "显示顺序不能为空")
     @ApiParam(value = "作为菜单时的显示顺序,非菜单传0", required=true)

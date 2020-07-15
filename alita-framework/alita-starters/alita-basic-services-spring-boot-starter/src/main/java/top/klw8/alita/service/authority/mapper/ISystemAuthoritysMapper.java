@@ -29,21 +29,32 @@ public interface ISystemAuthoritysMapper extends BaseMapper<SystemAuthoritys> {
     int removeAuthorityFromRole(String auId);
 
     /**
-     * @author xp
-     * @Description: 查询菜单权限列表
-     * @Date 2019/12/26 16:11
+     * @author klw(213539@qq.com)
+     * @Description: 查询权限列表
+     * @Date 2020/7/14 15:00
+     * @param: page
      * @param: authorityName
      * @param: authorityType
-     * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
+     * @return com.baomidou.mybatisplus.core.metadata.IPage<top.klw8.alita.entitys.authority.SystemAuthoritys>
      */
     @Select("<script> " +
             "select a.*,c.catlog_name from sys_authoritys a left join sys_authoritys_catlog c on a.catlog_id=c.id " +
-            " where a.authority_type =#{authorityType} " +
-            " <if test=\"authorityName != null and authorityName != '' \">" +
-            "       and a.authority_name like CONCAT('%',#{authorityName,jdbcType=VARCHAR},'%') " +
+            " where 1 = 1 " +
+            "<if test=\"authorityType != null and authorityType != '' \">" +
+            "    and a.authority_type =#{authorityType}" +
             "</if>" +
+            "<if test=\"authorityName != null and authorityName != '' \">" +
+            "    and a.authority_name like CONCAT('%',#{authorityName,jdbcType=VARCHAR},'%') " +
+            "</if>" +
+            "<if test=\"authorityAction != null and authorityAction != '' \">" +
+            "    and a.authority_action like CONCAT('%',#{authorityAction,jdbcType=VARCHAR},'%') " +
+            "</if>" +
+            "<if test=\"catlogName != null and catlogName != '' \">" +
+            "    and c.catlog_name like CONCAT('%',#{catlogName,jdbcType=VARCHAR},'%') " +
+            "</if>" +
+            "order by show_index asc" +
             "</script>")
-    IPage<SystemAuthoritys> selectSystemAuthoritysMenuList(Page page, String authorityName, String authorityType);
+    IPage<SystemAuthoritys> selectSystemAuthoritysList(Page page, String authorityName, String authorityType, String authorityAction, String catlogName);
 
     /**
      * @author klw(213539@qq.com)
@@ -54,4 +65,5 @@ public interface ISystemAuthoritysMapper extends BaseMapper<SystemAuthoritys> {
      */
     @Select("select a.*,c.catlog_name from sys_authoritys a left join sys_authoritys_catlog c on a.catlog_id=c.id")
     List<SystemAuthoritys> selectAllSystemAuthoritysWithCatlog();
+
 }

@@ -31,10 +31,12 @@ import top.klw8.alita.service.utils.EntityUtil;
 import top.klw8.alita.starter.service.common.ServiceContext;
 import top.klw8.alita.starter.service.common.ServiceUtil;
 import top.klw8.alita.utils.AuthorityUtil;
+import top.klw8.alita.utils.BeanUtil;
 import top.klw8.alita.utils.UUIDUtil;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 /**
  * @author klw(213539 @ qq.com)
@@ -390,7 +392,42 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     @Override
     public CompletableFuture<JsonResult> roleInfo(String roleId){
         Assert.hasText(roleId, "角色ID不能为空!");
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(roleService.getById(roleId)));
+        SystemRole role = roleService.getById(roleId);
+
+
+        List<SystemAuthoritys> roleAuList = roleService.selectSystemAuthoritysWithCatlogByRoleId(role.getId());
+        Map<String, Object> tempResult = new HashMap<>(BeanUtil.beanToMap(role));
+        tempResult.entrySet().removeIf(entry -> entry.getValue() == null);
+        Map<String, Map<String, Object>> catlogListMap = new HashMap<>(16);
+        Map<String, SystemAuthoritys> auListMap = new HashMap<>(16);
+        for(SystemAuthoritys auInRole : roleAuList) {
+            Map<String, Object> catlogMap = catlogListMap.get(auInRole.getCatlogId());
+            if (catlogMap == null) {
+                catlogMap = new HashMap<>(3);
+                catlogListMap.put(auInRole.getCatlogId(), catlogMap);
+                catlogMap.put("id", auInRole.getCatlogId());
+                catlogMap.put("catlogName", auInRole.getCatlogName());
+                catlogMap.put("auList", new ArrayList<SystemAuthoritys>(16));
+            }
+            ((List<SystemAuthoritys>) catlogMap.get("auList")).add(auInRole);
+            auListMap.put(auInRole.getId(), auInRole);
+        }
+        tempResult.put("catlogList", catlogListMap.values().stream().collect(Collectors.toList()));
+
+        List<SystemDataSecured> roleDsList = roleService.getRoleAllDataSecureds(role.getId());
+        for(SystemDataSecured dsInRole : roleDsList) {
+            SystemAuthoritys au = auListMap.get(dsInRole.getAuthoritysId());
+            if(au != null){
+                List<SystemDataSecured> dsInAuList = au.getDataSecuredList();
+                if(dsInAuList == null){
+                    dsInAuList = new ArrayList<>(16);
+                    au.setDataSecuredList(dsInAuList);
+                }
+                dsInAuList.add(dsInRole);
+            }
+        }
+
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(tempResult));
     }
 
     @Override
@@ -443,24 +480,18 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> authoritysMenuList(String auName, Page<SystemAuthoritys> page) {
-//        QueryWrapper<SystemAuthoritys> query = new QueryWrapper();
-//        query.eq("authority_type", AuthorityTypeEnum.MENU.name());
-//        if(StringUtils.isNotBlank(auName)){
-//            query.like("authority_name", auName);
-//        }
-//        List<OrderItem> orders = new ArrayList<>(1);
-//        orders.add(OrderItem.asc("show_index"));
-//        page.setOrders(orders);
+    public CompletableFuture<JsonResult> authoritysList(String auName, AuthorityTypeEnum auType, Page<SystemAuthoritys> page, String authorityAction, String catlogName) {
         return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
-                auService.selectSystemAuthoritysMenuList(page,auName, AuthorityTypeEnum.MENU.name())));
+                auService.selectSystemAuthoritysList(page,auName, auType == null ? null : auType.name(), authorityAction, catlogName)));
     }
 
     @Override
-    public CompletableFuture<JsonResult> saveAuthority(SystemAuthoritys au) {
+    public CompletableFuture<JsonResult> saveAuthority(SystemAuthoritys au, String httpMethod) {
         Assert.notNull(au, "要保存的权限不能为 null !!!");
         Assert.hasText(au.getCatlogId(), "所属权限目录ID不能为空!");
+        Assert.hasText(httpMethod, "httpMethod 不能为空");
         Assert.notNull(catlogService.getById(au.getCatlogId()), "所属权限目录不存在 !!!");
+        au.setAuthorityAction(AuthorityUtil.composeWithSeparator2(httpMethod, au.getAuthorityAction()));
         if(StringUtils.isNotBlank(au.getId())){
             auService.updateById(au);
         } else {

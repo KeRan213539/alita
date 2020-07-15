@@ -5,6 +5,7 @@ import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
 import top.klw8.alita.entitys.authority.SystemDataSecured;
 import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.service.result.JsonResult;
 
 import java.util.List;
@@ -196,7 +197,7 @@ public interface IAuthorityAdminProvider {
      * @param: page
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> authoritysMenuList(String auName, Page<SystemAuthoritys> page);
+    CompletableFuture<JsonResult> authoritysList(String auName, AuthorityTypeEnum auType, Page<SystemAuthoritys> page, String authorityAction, String catlogName);
 
     /**
      * @author klw(213539@qq.com)
@@ -205,7 +206,7 @@ public interface IAuthorityAdminProvider {
      * @param: catlog
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> saveAuthority(SystemAuthoritys au);
+    CompletableFuture<JsonResult> saveAuthority(SystemAuthoritys au, String httpMethod);
 
     /**
      * @author klw(213539@qq.com)
