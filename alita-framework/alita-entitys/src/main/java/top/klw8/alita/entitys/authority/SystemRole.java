@@ -24,6 +24,13 @@ import top.klw8.alita.entitys.base.BaseEntity;
 public class SystemRole extends BaseEntity {
 
     private static final long serialVersionUID = -2919173399468066019L;
+
+    /**
+     * @author klw
+     * @Fields authorityName : 所属应用的应用标识
+     */
+    @TableField("app_tag")
+    private String appAag;
     
     /**
      * @author klw

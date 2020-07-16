@@ -27,6 +27,13 @@ public class SystemAuthoritysCatlog extends BaseEntity {
 
     /**
      * @author klw
+     * @Fields authorityName : 所属应用的应用标识
+     */
+    @TableField("app_tag")
+    private String appAag;
+
+    /**
+     * @author klw
      * @Fields catlogName : 目录名称
      */
     @TableField("catlog_name")

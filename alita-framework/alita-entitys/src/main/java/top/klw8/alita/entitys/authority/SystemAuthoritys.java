@@ -29,6 +29,13 @@ public class SystemAuthoritys extends BaseEntity {
 
     /**
      * @author klw
+     * @Fields authorityName : 所属应用的应用标识
+     */
+    @TableField("app_tag")
+    private String appAag;
+
+    /**
+     * @author klw
      * @Fields catlog : 权限所属权限目录
      */
     @TableField(exist=false)

@@ -23,6 +23,13 @@ public class SystemDataSecured extends BaseEntity {
     private static final long serialVersionUID = 4226666111547632645L;
 
     /**
+     * @author klw
+     * @Fields authorityName : 所属应用的应用标识
+     */
+    @TableField("app_tag")
+    private String appAag;
+
+    /**
      * @author klw(213539@qq.com)
      * @Description: 所属权限ID
      */
