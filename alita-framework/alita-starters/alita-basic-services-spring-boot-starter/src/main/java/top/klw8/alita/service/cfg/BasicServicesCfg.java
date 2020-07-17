@@ -13,9 +13,11 @@ import org.springframework.core.env.Environment;
 import top.klw8.alita.helper.UserCacheHelper;
 import top.klw8.alita.providers.admin.impl.AlitaUserProvider;
 import top.klw8.alita.providers.admin.impl.AuthorityAdminProviderImpl;
+import top.klw8.alita.providers.admin.impl.AuthorityAppProviderImpl;
 import top.klw8.alita.providers.admin.impl.DevHelperProviderImpl;
 import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
+import top.klw8.alita.service.api.authority.IAuthorityAppProvider;
 import top.klw8.alita.service.api.authority.IDevHelperProvider;
 import top.klw8.alita.service.authority.IAlitaUserService;
 import top.klw8.alita.service.authority.ISystemAuthoritysCatlogService;
@@ -37,7 +39,7 @@ import top.klw8.alita.service.authority.service.impl.SystemRoleServiceImpl;
 @Import({UserCacheHelper.class
         , AlitaUserServiceImpl.class, SystemAuthoritysCatlogServiceImpl.class
         , SystemAuthoritysServiceImpl.class, SystemRoleServiceImpl.class
-        , DevHelperProviderImpl.class, AuthorityAdminProviderImpl.class, AlitaUserProvider.class})
+        , DevHelperProviderImpl.class, AuthorityAdminProviderImpl.class, AlitaUserProvider.class, AuthorityAppProviderImpl.class})
 public class BasicServicesCfg {
 
     @Autowired
@@ -55,7 +57,8 @@ public class BasicServicesCfg {
     @Bean
     public Object regDubboProviders(@Autowired(required = false) IDevHelperProvider devHelperProvider,
                                     @Autowired IAuthorityAdminProvider authorityAdminProvider,
-                                    @Autowired IAlitaUserProvider alitaUserProvider) {
+                                    @Autowired IAlitaUserProvider alitaUserProvider,
+                                    @Autowired IAuthorityAppProvider authorityAppProvider) {
         String[] activeprofiles = env.getActiveProfiles();
         for (String activeprofile : activeprofiles) {
             if (activeprofile.equals("dev")) {
@@ -64,6 +67,7 @@ public class BasicServicesCfg {
         }
         exportDubboService(IAlitaUserProvider.class, alitaUserProvider);
         exportDubboService(IAuthorityAdminProvider.class, authorityAdminProvider);
+        exportDubboService(IAuthorityAppProvider.class, authorityAppProvider);
 
 
         return new Object();
