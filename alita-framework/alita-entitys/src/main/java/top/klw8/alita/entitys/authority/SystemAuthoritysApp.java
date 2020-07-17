@@ -22,7 +22,7 @@ import java.io.Serializable;
 @ToString
 public class SystemAuthoritysApp implements Serializable, Cloneable{
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -3145989952679035685L;
 
     /**
      * @author klw(213539@qq.com)
