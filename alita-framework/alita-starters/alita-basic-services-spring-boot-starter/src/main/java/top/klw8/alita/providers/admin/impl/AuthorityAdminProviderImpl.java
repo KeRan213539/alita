@@ -192,26 +192,35 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> roleList(String roleName, Page<SystemRole> page) {
+    public CompletableFuture<JsonResult> roleList(String roleName, String appTag, Page<SystemRole> page) {
         QueryWrapper<SystemRole> query = new QueryWrapper();
         if(StringUtils.isNotBlank(roleName)){
             query.like("role_name", roleName);
         }
+        if(StringUtils.isNotBlank(appTag)){
+            query.eq("app_tag", appTag);
+        }
         List<OrderItem> orders = new ArrayList<>(1);
-        orders.add(OrderItem.desc("role_name"));
+        orders.add(OrderItem.asc("role_name"));
         page.setOrders(orders);
         return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
                 roleService.page(page, query)));
     }
 
     @Override
-    public CompletableFuture<JsonResult> roleAll() {
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
-                roleService.list()));
+    public CompletableFuture<JsonResult> roleAll(String appTag) {
+        QueryWrapper<SystemRole> query = new QueryWrapper();
+        if(StringUtils.isBlank(appTag)){
+            query.orderByAsc("app_tag", "role_name");
+        } else {
+            query.eq("app_tag", appTag);
+            query.orderByAsc("role_name");
+        }
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(roleService.list(query)));
     }
 
     @Override
-    public CompletableFuture<JsonResult> markRoleAuthoritys(String roleId) {
+    public CompletableFuture<JsonResult> markRoleAuthoritys(String roleId, String appTag) {
         List<SystemAuthoritys> roleAuList = new LinkedList<>();
         List<SystemDataSecured> roleDsList = new LinkedList<>();
         if (StringUtils.isNotBlank(roleId)) {
@@ -223,9 +232,19 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             roleDsList.addAll(roleService.getRoleAllDataSecureds(role.getId()));
         }
 
-        // 所有权限
+        // 构造查询条件
+        QueryWrapper<SystemAuthoritys> auSuery = new QueryWrapper();
+        QueryWrapper<SystemDataSecured> dsQuery = new QueryWrapper();
+        auSuery.orderByAsc("show_index");
+        dsQuery.orderByAsc("authoritys_id");
+        if(StringUtils.isNotBlank(appTag)){
+            auSuery.eq("app_tag", appTag);
+            dsQuery.eq("app_tag", appTag);
+        }
+
+        // 查询权限
         List<SystemAuthoritys> allAuList = auService.list();
-        // 库里的所有数据权限
+        // 查询数据权限
         List<SystemDataSecured> allDsList = dsService.list();
 
         // 根据权限分组的非全局数据权限Map<权限ID: List<SystemDataSecuredPojo>
@@ -431,22 +450,30 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> catlogList(String catlogName, Page<SystemAuthoritysCatlog> page) {
+    public CompletableFuture<JsonResult> catlogList(String catlogName, String appTag, Page<SystemAuthoritysCatlog> page) {
         QueryWrapper<SystemAuthoritysCatlog> query = new QueryWrapper();
         if(StringUtils.isNotBlank(catlogName)){
             query.like("catlog_name", catlogName);
         }
+        if(StringUtils.isNotBlank(appTag)){
+            query.eq("app_tag", appTag);
+        }
         List<OrderItem> orders = new ArrayList<>(1);
-        orders.add(OrderItem.desc("catlog_name"));
+        orders.add(OrderItem.asc("show_index"));
         page.setOrders(orders);
         return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
                 catlogService.page(page, query)));
     }
 
     @Override
-    public CompletableFuture<JsonResult> catlogAll() {
+    public CompletableFuture<JsonResult> catlogAll(String appTag) {
+        QueryWrapper<SystemAuthoritysCatlog> query = new QueryWrapper();
+        if(StringUtils.isNotBlank(appTag)){
+            query.eq("app_tag", appTag);
+        }
+        query.orderByAsc("show_index");
         return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
-                catlogService.list()));
+                catlogService.list(query)));
     }
 
     @Override
@@ -480,9 +507,12 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> authoritysList(String auName, AuthorityTypeEnum auType, Page<SystemAuthoritys> page, String authorityAction, String catlogName) {
+    public CompletableFuture<JsonResult> authoritysList(String auName, AuthorityTypeEnum auType,
+                                                        Page<SystemAuthoritys> page, String authorityAction,
+                                                        String catlogName, String appTag) {
         return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
-                auService.selectSystemAuthoritysList(page,auName, auType == null ? null : auType.name(), authorityAction, catlogName)));
+                auService.selectSystemAuthoritysList(page,auName, auType == null ? null : auType.name(),
+                        authorityAction, catlogName, appTag)));
     }
 
     @Override
@@ -538,8 +568,8 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(publicDsList));
     }
 
-    public CompletableFuture<JsonResult> allAuthoritysWithCatlog(){
-        List<SystemAuthoritys> allAuList = auService.selectAllSystemAuthoritysWithCatlog();
+    public CompletableFuture<JsonResult> allAuthoritysWithCatlog(String appTag){
+        List<SystemAuthoritys> allAuList = auService.selectAllSystemAuthoritysWithCatlog(appTag);
         Map<String, Map<String, Object>> tempResult = new HashMap<>(16);
         for(SystemAuthoritys au : allAuList){
             Map<String, Object> catlogMap = tempResult.get(au.getCatlogId());
@@ -570,10 +600,13 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> dataSecuredList(String resource, Page<SystemDataSecured> page) {
+    public CompletableFuture<JsonResult> dataSecuredList(String resource, String appTag, Page<SystemDataSecured> page) {
         QueryWrapper<SystemDataSecured> query = new QueryWrapper();
         if(StringUtils.isNotBlank(resource)){
             query.like("resource", resource);
+        }
+        if(StringUtils.isNotBlank(appTag)){
+            query.eq("app_tag", appTag);
         }
         List<OrderItem> orders = new ArrayList<>(1);
         orders.add(OrderItem.desc("resource"));

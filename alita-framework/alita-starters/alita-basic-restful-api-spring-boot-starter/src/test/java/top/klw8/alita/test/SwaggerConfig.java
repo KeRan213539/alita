@@ -1,4 +1,4 @@
-package top.klw8.alita;
+package top.klw8.alita.test;
 
 
 import org.springframework.context.annotation.Configuration;

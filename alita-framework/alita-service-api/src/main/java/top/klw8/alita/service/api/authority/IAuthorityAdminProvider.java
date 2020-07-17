@@ -80,27 +80,32 @@ public interface IAuthorityAdminProvider {
     /**
      * @author klw(213539@qq.com)
      * @Description: 角色列表
-     * @Date 2019/10/17 16:41
+     * @Date 2020/7/16 16:36
      * @param: roleName
+     * @param: appTag
+     * @param: page
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> roleList(String roleName, Page<SystemRole> page);
+    CompletableFuture<JsonResult> roleList(String roleName, String appTag, Page<SystemRole> page);
 
     /**
      * @author klw(213539@qq.com)
      * @Description: 获取全部角色,不分页
+     * @Date 2020/7/16 16:36
+     * @param: appTag
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> roleAll();
+    CompletableFuture<JsonResult> roleAll(String appTag);
 
     /**
      * @author klw(213539@qq.com)
      * @Description: 获取全部权限,并根据传入的角色ID标识出该角色拥有的权限
-     * @Date 2019/10/17 17:12
+     * @Date 2020/7/16 16:43
      * @param: roleId
-     * @param: userId
+     * @param: appTag
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> markRoleAuthoritys(String roleId);
+    CompletableFuture<JsonResult> markRoleAuthoritys(String roleId, String appTag);
 
     /**
      * @author klw(213539@qq.com)
@@ -146,11 +151,13 @@ public interface IAuthorityAdminProvider {
     /**
      * @author klw(213539@qq.com)
      * @Description: 权限目录列表,分页,可根据目录名称查询
-     * @Date 2019/10/22 9:23
+     * @Date 2020/7/16 16:54
      * @param: catlogName
+     * @param: appTag
+     * @param: page
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> catlogList(String catlogName, Page<SystemAuthoritysCatlog> page);
+    CompletableFuture<JsonResult> catlogList(String catlogName, String appTag, Page<SystemAuthoritysCatlog> page);
 
     /**
      * @author klw(213539@qq.com)
@@ -159,7 +166,7 @@ public interface IAuthorityAdminProvider {
      * @param: 
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> catlogAll();
+    CompletableFuture<JsonResult> catlogAll(String appTag);
 
     /**
      * @author klw(213539@qq.com)
@@ -197,7 +204,9 @@ public interface IAuthorityAdminProvider {
      * @param: page
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> authoritysList(String auName, AuthorityTypeEnum auType, Page<SystemAuthoritys> page, String authorityAction, String catlogName);
+    CompletableFuture<JsonResult> authoritysList(String auName, AuthorityTypeEnum auType,
+                                                 Page<SystemAuthoritys> page, String authorityAction,
+                                                 String catlogName, String appTag);
 
     /**
      * @author klw(213539@qq.com)
@@ -238,11 +247,11 @@ public interface IAuthorityAdminProvider {
     /**
      * @author klw(213539@qq.com)
      * @Description: 获取全部权限,包含目录信息,并按目录分组
-     * @Date 2020/5/19 15:32
-     * @param:
+     * @Date 2020/7/17 14:46
+     * @param: appTag
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> allAuthoritysWithCatlog();
+    CompletableFuture<JsonResult> allAuthoritysWithCatlog(String appTag);
 
 
     /**
@@ -253,7 +262,7 @@ public interface IAuthorityAdminProvider {
      * @param: page
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> dataSecuredList(String resource, Page<SystemDataSecured> page);
+    CompletableFuture<JsonResult> dataSecuredList(String resource, String appTag, Page<SystemDataSecured> page);
 
     /**
      * @author klw(213539@qq.com)

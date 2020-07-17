@@ -43,6 +43,9 @@ public interface ISystemAuthoritysMapper extends BaseMapper<SystemAuthoritys> {
             "<if test=\"authorityType != null and authorityType != '' \">" +
             "    and a.authority_type =#{authorityType}" +
             "</if>" +
+            "<if test=\"appTag != null and appTag != '' \">" +
+            "    and a.app_tag = #{appTag}" +
+            "</if>" +
             "<if test=\"authorityName != null and authorityName != '' \">" +
             "    and a.authority_name like CONCAT('%',#{authorityName,jdbcType=VARCHAR},'%') " +
             "</if>" +
@@ -54,16 +57,24 @@ public interface ISystemAuthoritysMapper extends BaseMapper<SystemAuthoritys> {
             "</if>" +
             "order by show_index asc" +
             "</script>")
-    IPage<SystemAuthoritys> selectSystemAuthoritysList(Page page, String authorityName, String authorityType, String authorityAction, String catlogName);
+    IPage<SystemAuthoritys> selectSystemAuthoritysList(Page page, String authorityName,
+                                                       String authorityType, String authorityAction,
+                                                       String catlogName, String appTag);
 
     /**
      * @author klw(213539@qq.com)
      * @Description: 查询全部权限,包含目录信息
-     * @Date 2020/5/19 15:28
-     * @param:
+     * @Date 2020/7/17 14:46
+     * @param: appTag
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
      */
-    @Select("select a.*,c.catlog_name from sys_authoritys a left join sys_authoritys_catlog c on a.catlog_id=c.id")
-    List<SystemAuthoritys> selectAllSystemAuthoritysWithCatlog();
+    @Select("<script> " +
+            "select a.*,c.catlog_name from sys_authoritys a left join sys_authoritys_catlog c on a.catlog_id=c.id where 1 = 1" +
+            "<if test=\"appTag != null and appTag != '' \">" +
+            "    and a.app_tag = #{appTag} " +
+            "</if>" +
+            "order by show_index asc" +
+            "</script>")
+    List<SystemAuthoritys> selectAllSystemAuthoritysWithCatlog(String appTag);
 
 }

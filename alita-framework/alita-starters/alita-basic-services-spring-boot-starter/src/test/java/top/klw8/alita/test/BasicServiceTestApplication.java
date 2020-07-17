@@ -1,9 +1,10 @@
-package top.klw8.alita;
+package top.klw8.alita.test;
 
-import org.mybatis.spring.annotation.MapperScan;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.logging.LoggingSystem;
+import top.klw8.alita.BaseServiceApplication;
 //import top.klw8.alita.utils.redis.RedisTagEnum;
 //import top.klw8.alita.utils.redis.RedisUtil;
 
@@ -13,7 +14,7 @@ import org.springframework.boot.logging.LoggingSystem;
  * @Description: basic service 测试
  * @date 2019/10/16 17:16
  */
-@MapperScan("top.klw8.alita.service.authority.mapper")
+@EnableDubbo
 public class BasicServiceTestApplication extends BaseServiceApplication {
 
     public static void main(String[] args) {

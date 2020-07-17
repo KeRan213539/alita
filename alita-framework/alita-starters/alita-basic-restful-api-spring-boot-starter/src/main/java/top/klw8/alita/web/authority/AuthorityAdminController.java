@@ -52,17 +52,21 @@ public class AuthorityAdminController extends WebapiBaseController {
             authorityShowIndex = 0)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "roleName", value = "角色名称(支持模糊查询)", paramType = "query"),
+            @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
-    public Mono<JsonResult> roleList(String roleName, PageRequest page){
-        return Mono.fromFuture(auProvider.roleList(roleName, new Page(page.getPage(), page.getSize())));
+    public Mono<JsonResult> roleList(String roleName, String appTag, PageRequest page){
+        return Mono.fromFuture(auProvider.roleList(roleName, appTag, new Page(page.getPage(), page.getSize())));
     }
 
     @ApiOperation(value = "获取全部角色,不分页", notes = "获取全部角色,不分页", httpMethod = "GET", produces = "application/json")
     @GetMapping("/roleAll")
     @AuthorityRegister(authorityName = "获取全部角色,不分页", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
-    public Mono<JsonResult> roleAll(){
-        return Mono.fromFuture(auProvider.roleAll());
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
+    })
+    public Mono<JsonResult> roleAll(String appTag){
+        return Mono.fromFuture(auProvider.roleAll(appTag));
     }
 
     @ApiOperation(value = "获取全部权限,并根据传入的角色ID标识出该角色拥有的权限", notes = "获取全部权限,并根据传入的角色ID标识出该角色拥有的权限", httpMethod = "GET", produces = "application/json")
@@ -70,11 +74,13 @@ public class AuthorityAdminController extends WebapiBaseController {
     @AuthorityRegister(authorityName = "获取全部权限,并根据传入的角色ID标识出该角色拥有的权限", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query"),
+            @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", required = true),
+            @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
     @UseValidator
-    public Mono<JsonResult> markRoleAuthoritys(@Required("角色ID不能为空") @NotEmpty("角色ID不能为空") String roleId){
-        return Mono.fromFuture(auProvider.markRoleAuthoritys(roleId));
+    public Mono<JsonResult> markRoleAuthoritys(@Required("角色ID不能为空") @NotEmpty("角色ID不能为空") String roleId,
+                                               String appTag){
+        return Mono.fromFuture(auProvider.markRoleAuthoritys(roleId, appTag));
     }
 
     @ApiOperation(value = "保存角色的权限(替换原有权限)", notes = "保存角色的权限(替换原有权限)", httpMethod = "POST", produces = "application/json")
@@ -145,18 +151,21 @@ public class AuthorityAdminController extends WebapiBaseController {
             authorityShowIndex = 0)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "catlogName", value = "权限目录名称(支持模糊查询)", paramType = "query"),
+            @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
-    public Mono<JsonResult> catlogList(String catlogName, PageRequest page){
-        return Mono.fromFuture(auProvider.catlogList(catlogName, new Page(page.getPage(), page.getSize())));
+    public Mono<JsonResult> catlogList(String catlogName, String appTag, PageRequest page){
+        return Mono.fromFuture(auProvider.catlogList(catlogName, appTag, new Page(page.getPage(), page.getSize())));
     }
 
     @ApiOperation(value = "获取全部权限目录,不分页", notes = "获取全部权限目录,不分页", httpMethod = "GET", produces = "application/json")
     @GetMapping("/catlogAll")
     @AuthorityRegister(authorityName = "获取全部权限目录,不分页", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
-    @UseValidator
-    public Mono<JsonResult> catlogAll(){
-        return Mono.fromFuture(auProvider.catlogAll());
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
+    })
+    public Mono<JsonResult> catlogAll(String appTag){
+        return Mono.fromFuture(auProvider.catlogAll(appTag));
     }
 
     @ApiOperation(value = "保存权限目录", notes = "保存权限目录(无ID则添加,有则修改)", httpMethod = "POST", produces = "application/json")
@@ -212,9 +221,14 @@ public class AuthorityAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "auType", value = "权限类型", paramType = "query"),
             @ApiImplicitParam(name = "authorityAction", value = "权限动作(支持模糊查询)", paramType = "query"),
             @ApiImplicitParam(name = "catlogName", value = "权限目录名称(支持模糊查询)", paramType = "query"),
+            @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
-    public Mono<JsonResult> authoritysMenuList(String auName, AuthorityTypeEnum auType, String authorityAction, String catlogName, PageRequest page){
-        return Mono.fromFuture(auProvider.authoritysList(auName, auType, new Page(page.getPage(), page.getSize()), authorityAction, catlogName));
+    public Mono<JsonResult> authoritysMenuList(String auName, AuthorityTypeEnum auType,
+                                               String authorityAction, String catlogName,
+                                               String appTag, PageRequest page){
+        return Mono.fromFuture(
+                auProvider.authoritysList(auName, auType,
+                        new Page(page.getPage(), page.getSize()), authorityAction, catlogName, appTag));
     }
 
     @ApiOperation(value = "保存权限", notes = "保存权限(无ID则添加,有则修改)", httpMethod = "POST", produces = "application/json")
@@ -285,8 +299,11 @@ public class AuthorityAdminController extends WebapiBaseController {
     @AuthorityRegister(authorityName = "获取全部权限(按目录分组)", authorityType = AuthorityTypeEnum.URL,
             authorityRemark = "获取全部权限(按目录分组),用于新增/编辑数据权限时选择所属分组",
             authorityShowIndex = 0)
-    public Mono<JsonResult> allAuList(){
-        return Mono.fromFuture(auProvider.allAuthoritysWithCatlog());
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
+    })
+    public Mono<JsonResult> allAuList(String appTag){
+        return Mono.fromFuture(auProvider.allAuthoritysWithCatlog(appTag));
     }
 
     @ApiOperation(value = "数据权限列表(分页)", notes = "数据权限列表(分页)", httpMethod = "GET", produces = "application/json")
@@ -295,9 +312,10 @@ public class AuthorityAdminController extends WebapiBaseController {
             authorityShowIndex = 0)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "resource", value = "资源名称(支持模糊查询)", paramType = "query"),
+            @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
-    public Mono<JsonResult> dataSecuredList(String resource, PageRequest page){
-        return Mono.fromFuture(auProvider.dataSecuredList(resource, new Page(page.getPage(), page.getSize())));
+    public Mono<JsonResult> dataSecuredList(String resource, String appTag, PageRequest page){
+        return Mono.fromFuture(auProvider.dataSecuredList(resource, appTag, new Page(page.getPage(), page.getSize())));
     }
 
     @ApiOperation(value = "保存数据权限", notes = "保存数据权限(无ID则添加,有则修改)", httpMethod = "POST", produces = "application/json")

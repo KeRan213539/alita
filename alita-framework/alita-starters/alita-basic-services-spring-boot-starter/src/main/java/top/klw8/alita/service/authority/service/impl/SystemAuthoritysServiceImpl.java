@@ -39,13 +39,16 @@ public class SystemAuthoritysServiceImpl
     }
 
     @Override
-    public IPage<SystemAuthoritys> selectSystemAuthoritysList(Page page, String authorityName, String authorityType, String authorityAction, String catlogName) {
-        return this.baseMapper.selectSystemAuthoritysList(page,authorityName, authorityType, authorityAction, catlogName);
+    public IPage<SystemAuthoritys> selectSystemAuthoritysList(Page page, String authorityName,
+                                                              String authorityType, String authorityAction,
+                                                              String catlogName, String appTag) {
+        return this.baseMapper.selectSystemAuthoritysList(page,authorityName, authorityType,
+                authorityAction, catlogName, appTag);
     }
 
     @Override
-    public List<SystemAuthoritys> selectAllSystemAuthoritysWithCatlog(){
-        return this.baseMapper.selectAllSystemAuthoritysWithCatlog();
+    public List<SystemAuthoritys> selectAllSystemAuthoritysWithCatlog(String appTag){
+        return this.baseMapper.selectAllSystemAuthoritysWithCatlog(appTag);
     }
 
 
