@@ -23,6 +23,11 @@ public class SaveRoleRequest {
     @ApiParam(value = "角色ID")
     private String roleId;
 
+    @Required(validatFailMessage = "所属应用标识不能为空")
+    @NotEmpty(validatFailMessage = "所属应用标识不能为空")
+    @ApiParam(value = "所属应用标识", required=true)
+    private String appTag;
+
     @Required(validatFailMessage = "角色名称不能为空")
     @NotEmpty(validatFailMessage = "角色名称不能为空")
     @ApiParam(value = "角色名称", required=true)

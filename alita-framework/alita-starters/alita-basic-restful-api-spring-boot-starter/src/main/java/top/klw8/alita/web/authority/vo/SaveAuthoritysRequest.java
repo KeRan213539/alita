@@ -50,7 +50,7 @@ public class SaveAuthoritysRequest {
 	    	+ "是URL相对路径: URL", required=true, allowableValues= "MENU,URL")
     private AuthorityTypeEnum authorityType;
 
-    @Required(validatFailMessage = "httpMethod不能为空")
+    @ApiParam(value = "httpMethod, 权限类型为URL时必传")
     private HttpMethodPrarm httpMethod;
     
     @Required(validatFailMessage = "显示顺序不能为空")

@@ -28,14 +28,14 @@ public class UserCacheHelper {
     }
 
     @SuppressWarnings("unchecked")
-    public Map<String, String> getUserAuthority(String userId) {
+    public Map<String, String> getUserAuthority(String userId, String appTag) {
         long cacheTimeout;
         if (EnvHelper.isDev()) {
             cacheTimeout = USER_AUS_TIME_OUT_SECOND_DEV;
         } else {
             cacheTimeout = USER_AUS_TIME_OUT_SECOND;
         }
-        Map<String, String> authorityMap = (Map<String, String>) RedisUtil.getAndUpdateExpire(CACHE_PREFIX_USER_AUS + userId, cacheTimeout, RedisTagEnum.REDIS_TAG_DEFAULT);
+        Map<String, String> authorityMap = (Map<String, String>) RedisUtil.getAndUpdateExpire(CACHE_PREFIX_USER_AUS + appTag + "_" + userId, cacheTimeout, RedisTagEnum.REDIS_TAG_DEFAULT);
         // 如果缓存中的权限是null,重新查一次
         if (authorityMap == null) {
             try {
@@ -43,19 +43,19 @@ public class UserCacheHelper {
             } catch (InterruptedException | ExecutionException e) {
                 log.error("", e);
             }
-            return (Map<String, String>) RedisUtil.getAndUpdateExpire(CACHE_PREFIX_USER_AUS + userId, cacheTimeout, RedisTagEnum.REDIS_TAG_DEFAULT);
+            return (Map<String, String>) RedisUtil.getAndUpdateExpire(CACHE_PREFIX_USER_AUS + appTag + "_"  + userId, cacheTimeout, RedisTagEnum.REDIS_TAG_DEFAULT);
         }
         return authorityMap;
     }
 
-    public  Map<String, List<String>> getUserDataSecured(String userId) {
+    public  Map<String, List<String>> getUserDataSecured(String userId, String appTag) {
         long cacheTimeout;
         if (EnvHelper.isDev()) {
             cacheTimeout = USER_AUS_TIME_OUT_SECOND_DEV;
         } else {
             cacheTimeout = USER_AUS_TIME_OUT_SECOND;
         }
-        Map<String, List<String>> dataSecuredsMap  = (Map<String, List<String>>) RedisUtil.getAndUpdateExpire(CACHE_PREFIX_USER_DATA_SECUREDS + userId, cacheTimeout, RedisTagEnum.REDIS_TAG_DEFAULT);
+        Map<String, List<String>> dataSecuredsMap  = (Map<String, List<String>>) RedisUtil.getAndUpdateExpire(CACHE_PREFIX_USER_DATA_SECUREDS + appTag + "_"  + userId, cacheTimeout, RedisTagEnum.REDIS_TAG_DEFAULT);
         // 如果缓存中的权限是null,重新查一次
         if (dataSecuredsMap == null) {
             try {
@@ -63,7 +63,7 @@ public class UserCacheHelper {
             } catch (InterruptedException | ExecutionException e) {
                 log.error("", e);
             }
-            return (Map<String, List<String>>) RedisUtil.getAndUpdateExpire(CACHE_PREFIX_USER_DATA_SECUREDS + userId, cacheTimeout, RedisTagEnum.REDIS_TAG_DEFAULT);
+            return (Map<String, List<String>>) RedisUtil.getAndUpdateExpire(CACHE_PREFIX_USER_DATA_SECUREDS + appTag + "_"  + userId, cacheTimeout, RedisTagEnum.REDIS_TAG_DEFAULT);
         }
         return dataSecuredsMap;
     }

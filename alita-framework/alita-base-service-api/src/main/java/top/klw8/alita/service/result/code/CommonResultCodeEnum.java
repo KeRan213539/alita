@@ -29,6 +29,8 @@ public enum CommonResultCodeEnum implements ISubResultCode {
 
     DATA_SECURED_NO_RES("5004", "数据权限注解没有配制资源和解析器"),
 
+    APP_TAG_NOT_EXIST("5005", "【alita.authority.app.tag】 未配制"),
+
 
     ;
 

@@ -8,3 +8,9 @@ alita:
     resServer:
       authPath:
         - /${spring.application.name}/**
+  authority:
+    app:
+      tag: TEST_APP
+      # 下面两个不是必须,但扫描权限入库时如果应用不存在需要使用name和remark(如果配制了的话)创建应用,该情况下如果name无值则会扫描失败
+      name: 测试应用
+      remark: 测试应用

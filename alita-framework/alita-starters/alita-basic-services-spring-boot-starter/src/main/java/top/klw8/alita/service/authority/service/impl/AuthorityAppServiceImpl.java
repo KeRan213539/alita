@@ -58,15 +58,15 @@ public class AuthorityAppServiceImpl extends ServiceImpl<IAuthorityAppMapper, Sy
 
         //查询是否有权限关联app
         List<SystemAuthoritys> authList = authorityService.list(new QueryWrapper<SystemAuthoritys>().lambda().
-                eq(StringUtils.isNotBlank(appTag), SystemAuthoritys::getAppAag, appTag));
+                eq(StringUtils.isNotBlank(appTag), SystemAuthoritys::getAppTag, appTag));
         //查询是否有权限目录关联app
         List<SystemAuthoritysCatlog> catLogList = catLogService.list(new QueryWrapper<SystemAuthoritysCatlog>().lambda().
-                eq(StringUtils.isNotBlank(appTag), SystemAuthoritysCatlog::getAppAag, appTag));
+                eq(StringUtils.isNotBlank(appTag), SystemAuthoritysCatlog::getAppTag, appTag));
         //查询是否有数据权限目录关联app
         List<SystemDataSecured> dataSecuredList = dataSecuredService.list(new QueryWrapper<SystemDataSecured>().lambda().
-                eq(StringUtils.isNotBlank(appTag), SystemDataSecured::getAppAag, appTag));
+                eq(StringUtils.isNotBlank(appTag), SystemDataSecured::getAppTag, appTag));
         List<SystemRole> roleList = roleService.list(new QueryWrapper<SystemRole>().lambda().
-                eq(StringUtils.isNotBlank(appTag), SystemRole::getAppAag, appTag));
+                eq(StringUtils.isNotBlank(appTag), SystemRole::getAppTag, appTag));
 
         if(!authList.isEmpty() || !catLogList.isEmpty() || !dataSecuredList.isEmpty() || !roleList.isEmpty()){
             return JsonResult.sendFailedResult(String.format("当前 app_tag 【%S】 存在权限、角色相关关联，不可删除", appTag));

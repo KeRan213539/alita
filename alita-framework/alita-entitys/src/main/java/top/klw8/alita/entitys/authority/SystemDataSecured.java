@@ -27,7 +27,7 @@ public class SystemDataSecured extends BaseEntity {
      * @Fields authorityName : 所属应用的应用标识
      */
     @TableField("app_tag")
-    private String appAag;
+    private String appTag;
 
     /**
      * @author klw(213539@qq.com)

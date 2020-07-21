@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.Assert;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
-import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
-import top.klw8.alita.entitys.authority.SystemDataSecured;
-import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.entitys.authority.*;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.helper.UserCacheHelper;
@@ -74,6 +71,9 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
 
     @Autowired
     private IAlitaUserService userService;
+
+    @Autowired
+    private IAuthorityAppService appService;
 
     @Autowired
     private UserCacheHelper userCacheHelper;
@@ -170,7 +170,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
                 return JsonResult.sendFailedResult(AuthorityResultCodeEnum.USER_NOT_EXIST);
             } else {
                 // 根据用户ID查询用户角色
-                List<SystemRole> userRoles = userService.getUserAllRoles(userId);
+                List<SystemRole> userRoles = userService.getUserAllRoles(userId, null);
 
                 for (SystemRole role : userRoles) {
                     // 根据用户角色查询角色对应的权限并更新到SystemRole实体中
@@ -359,6 +359,12 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     @Transactional(rollbackFor = Exception.class)
     public CompletableFuture<JsonResult> saveRole(SystemRole role, String copyAuFromRoleId) {
         Assert.notNull(role, "要保存的角色不能为 null !!!");
+
+        SystemAuthoritysApp app = appService.getById(role.getAppTag());
+        if(null == app){
+            return ServiceUtil.buildFuture(JsonResult.sendFailedResult("appTag 对应的应用不存在"));
+        }
+
         if(StringUtils.isNotBlank(role.getId())){
             roleService.updateById(role);
         } else {
@@ -479,6 +485,10 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     @Override
     public CompletableFuture<JsonResult> saveCatlog(SystemAuthoritysCatlog catlog) {
         Assert.notNull(catlog, "要保存的权限目录不能为 null !!!");
+        SystemAuthoritysApp app = appService.getById(catlog.getAppTag());
+        if(null == app){
+            return ServiceUtil.buildFuture(JsonResult.sendFailedResult("appTag 对应的应用不存在"));
+        }
         if(StringUtils.isNotBlank(catlog.getId())){
             catlogService.updateById(catlog);
         } else {
@@ -519,9 +529,18 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     public CompletableFuture<JsonResult> saveAuthority(SystemAuthoritys au, String httpMethod) {
         Assert.notNull(au, "要保存的权限不能为 null !!!");
         Assert.hasText(au.getCatlogId(), "所属权限目录ID不能为空!");
-        Assert.hasText(httpMethod, "httpMethod 不能为空");
-        Assert.notNull(catlogService.getById(au.getCatlogId()), "所属权限目录不存在 !!!");
-        au.setAuthorityAction(AuthorityUtil.composeWithSeparator2(httpMethod, au.getAuthorityAction()));
+
+        SystemAuthoritysCatlog catlog = catlogService.getById(au.getCatlogId());
+        if(null == catlog){
+            return ServiceUtil.buildFuture(JsonResult.sendFailedResult("所属权限目录不存在 !!!"));
+        }
+
+        au.setAppTag(catlog.getAppTag());
+
+        if(AuthorityTypeEnum.URL.equals(au.getAuthorityType())) {
+            Assert.hasText(httpMethod, "httpMethod 不能为空");
+            au.setAuthorityAction(AuthorityUtil.composeWithSeparator2(httpMethod, au.getAuthorityAction()));
+        }
         if(StringUtils.isNotBlank(au.getId())){
             auService.updateById(au);
         } else {
@@ -618,17 +637,25 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     @Override
     public CompletableFuture<JsonResult> saveDataSecured(SystemDataSecured ds){
         Assert.notNull(ds, "要保存的数据权限不能为空!!!");
+
         // 如果所属权限ID是全局的ID,设为null
         if(null != ds.getAuthoritysId() && ID_PUBLIC_DATA_SECURED_AUTHORITY.equals(ds.getAuthoritysId())){
             ds.setAuthoritysId(null);
+            // 全局数据权限,检查app是否存在
+            Assert.notNull(ds.getAppTag(), "全局数据权限需要 appTag !");
+            SystemAuthoritysApp app = appService.getById(ds.getAppTag());
+            if(null == app){
+                return ServiceUtil.buildFuture(JsonResult.sendFailedResult("appTag 对应的应用不存在"));
+            }
         }
         // 如果所属权限ID不为空,检查权限是否存在
         if(StringUtils.isNotBlank(ds.getAuthoritysId())){
-            QueryWrapper<SystemAuthoritys> auQuery = new QueryWrapper();
-            auQuery.eq("id", ds.getAuthoritysId());
-            if(0 >= auService.count(auQuery)){
+            SystemAuthoritys au = auService.getById(ds.getAuthoritysId());
+            if(null == au){
                 return ServiceUtil.buildFuture(JsonResult.sendFailedResult(AuthorityResultCodeEnum.AUTHORITY_NOT_EXIST, "权限不存在【" + ds.getAuthoritysId() + "】"));
             }
+            // 非全局数据权限, appTag 从权限中取
+            ds.setAppTag(au.getAppTag());
         }
 
         if(StringUtils.isNotBlank(ds.getId())){

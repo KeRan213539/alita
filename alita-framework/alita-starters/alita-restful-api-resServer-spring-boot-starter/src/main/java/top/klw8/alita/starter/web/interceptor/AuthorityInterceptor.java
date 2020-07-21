@@ -43,6 +43,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.service.result.code.CommonResultCodeEnum;
+import top.klw8.alita.starter.cfg.AuthorityAppInfoInConfig;
 import top.klw8.alita.starter.cfg.ResServerAuthPathCfgBean;
 import top.klw8.alita.starter.common.UserCacheHelper;
 import top.klw8.alita.starter.common.WebApiContext;
@@ -83,6 +84,9 @@ public class AuthorityInterceptor implements WebFilter {
     @Autowired
     private Environment env;
 
+    @Autowired
+    private AuthorityAppInfoInConfig currectApp;
+
     @Resource
     private ResServerAuthPathCfgBean cfgBean;
 
@@ -109,7 +113,7 @@ public class AuthorityInterceptor implements WebFilter {
                 if (userId == null) {
                     return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.TOKEN_ERR)));
                 }
-                Map<String, String> authorityMap = userCacheHelper.getUserAuthority(userId);
+                Map<String, String> authorityMap = userCacheHelper.getUserAuthority(userId, currectApp.getAppTag());
                 if (authorityMap == null) {
                     return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.LOGIN_TIMEOUT)));
                 }
@@ -145,7 +149,7 @@ public class AuthorityInterceptor implements WebFilter {
         }
 
         // 需要验证数据权限
-        Map<String, List<String>> dataSecuredMap = userCacheHelper.getUserDataSecured(userId);
+        Map<String, List<String>> dataSecuredMap = userCacheHelper.getUserDataSecured(userId, currectApp.getAppTag());
         if (dataSecuredMap == null) {
             return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.LOGIN_TIMEOUT)));
         }

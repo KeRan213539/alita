@@ -63,8 +63,8 @@ public class AlitaUserServiceImpl extends ServiceImpl<IAlitaUserMapper, AlitaUse
     }
 
     @Override
-    public List<SystemRole> getUserAllRoles(String userId) {
-        return this.getBaseMapper().selectUserAllRoles(userId);
+    public List<SystemRole> getUserAllRoles(String userId, String appTag) {
+        return this.getBaseMapper().selectUserAllRoles(userId, appTag);
     }
 
     @Override

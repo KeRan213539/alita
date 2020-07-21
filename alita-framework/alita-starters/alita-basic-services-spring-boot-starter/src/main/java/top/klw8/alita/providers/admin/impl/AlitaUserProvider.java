@@ -76,10 +76,10 @@ public class AlitaUserProvider implements IAlitaUserProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> findUserAuthorityMenus(String userId) {
+    public CompletableFuture<JsonResult> findUserAuthorityMenus(String userId, String appTag) {
         Map<String, UserMenu> menuMap = new HashMap<>(16);
         // 根据用户ID查询用户角色
-        List<SystemRole> userRoles = userService.getUserAllRoles(userId);
+        List<SystemRole> userRoles = userService.getUserAllRoles(userId, appTag);
         // 根据用户角色查询角色对应的权限并更新到SystemRole实体中
         for (SystemRole role : userRoles) {
             List<SystemAuthoritys> authoritys = roleService.getRoleAllAuthoritys(role.getId());
@@ -104,7 +104,7 @@ public class AlitaUserProvider implements IAlitaUserProvider {
 
     @Override
     public CompletableFuture<JsonResult> userList(AlitaUserAccount user, LocalDate createDateBegin,
-                                                  LocalDate createDateEnd, Page<AlitaUserAccount> page) {
+                                                  LocalDate createDateEnd, String appTag, Page<AlitaUserAccount> page) {
         QueryWrapper<AlitaUserAccount> query = new QueryWrapper();
         // 排除密码字段
         query.select(AlitaUserAccount.class, i -> !i.getColumn().equals("user_pwd"));
@@ -152,7 +152,7 @@ public class AlitaUserProvider implements IAlitaUserProvider {
         IPage pageResult = userService.page(page, query);
         List<AlitaUserAccount> userAccountList = pageResult.getRecords();
         for(AlitaUserAccount userAccount : userAccountList){
-            userAccount.setUserRoles(userService.getUserAllRoles(userAccount.getId()));
+            userAccount.setUserRoles(userService.getUserAllRoles(userAccount.getId(), appTag));
         }
         return CompletableFuture.supplyAsync(() -> JsonResult.sendSuccessfulResult(
                 pageResult), ServiceContext.executor);
@@ -205,9 +205,9 @@ public class AlitaUserProvider implements IAlitaUserProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> getUserAllRoles(String userId) {
+    public CompletableFuture<JsonResult> getUserAllRoles(String userId, String appTag) {
         Assert.hasText(userId, "用户ID不能为空!");
-        List<SystemRole> userRoles = userService.getUserAllRoles(userId);
+        List<SystemRole> userRoles = userService.getUserAllRoles(userId, appTag);
         // 根据用户角色查询角色对应的权限并更新到SystemRole实体中
         for (SystemRole role : userRoles) {
             List<SystemAuthoritys> authoritys = roleService.getRoleAllAuthoritys(role.getId());

@@ -32,7 +32,7 @@ public class SystemAuthoritys extends BaseEntity {
      * @Fields authorityName : 所属应用的应用标识
      */
     @TableField("app_tag")
-    private String appAag;
+    private String appTag;
 
     /**
      * @author klw

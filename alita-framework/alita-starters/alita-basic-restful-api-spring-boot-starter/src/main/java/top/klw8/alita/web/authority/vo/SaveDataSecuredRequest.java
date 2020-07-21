@@ -24,14 +24,19 @@ public class SaveDataSecuredRequest {
     @ApiParam(value = "id")
     private String id;
 
+
     /**
      * @author klw(213539@qq.com)
      * @Description: 所属权限ID
      */
     @Required(validatFailMessage = "所属权限ID不能为空")
     @NotEmpty(validatFailMessage = "所属权限ID不能为空")
-    @ApiParam(value = "所属权限ID", required=true)
+    @ApiParam(value = "所属权限ID(全局数据权限传: PUBLIC_DATA_SECURED_AUTHORITY)", required=true)
     private String authoritysId;
+
+    @NotEmpty(validatFailMessage = "所属应用标识不能为空")
+    @ApiParam(value = "所属应用标识(全局数据权限必传,普通数据权限不传)")
+    private String appTag;
 
     /**
      * @author klw(213539@qq.com)

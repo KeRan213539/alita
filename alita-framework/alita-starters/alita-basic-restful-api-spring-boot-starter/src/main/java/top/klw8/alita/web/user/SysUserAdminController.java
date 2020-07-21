@@ -56,10 +56,11 @@ public class SysUserAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "createDateBegin", value = "注册时间-开始", paramType = "query",
                     dataType = "java.time.LocalDate", example = "2019-10-24"),
             @ApiImplicitParam(name = "createDateEnd", value = "注册时间-结束", paramType = "query",
-                    dataType = "java.time.LocalDate", example = "2019-10-25")
+                    dataType = "java.time.LocalDate", example = "2019-10-25"),
+            @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
     public Mono<JsonResult> userList(String userName, Boolean enabled, @RequestParam(required = false) LocalDate createDateBegin,
-                                     @RequestParam(required = false) LocalDate createDateEnd, PageRequest page){
+                                     @RequestParam(required = false) LocalDate createDateEnd, String appTag, PageRequest page){
         AlitaUserAccount user = new AlitaUserAccount();
         if(StringUtils.isNotBlank(userName)){
             user.setUserName(userName);
@@ -67,7 +68,7 @@ public class SysUserAdminController extends WebapiBaseController {
         if(null != enabled){
             user.setEnabled1(enabled);
         }
-        return Mono.fromFuture(userProvider.userList(user, createDateBegin, createDateEnd, new Page(page.getPage(), page.getSize())));
+        return Mono.fromFuture(userProvider.userList(user, createDateBegin, createDateEnd, appTag, new Page(page.getPage(), page.getSize())));
     }
 
     @ApiOperation(value = "根据用户ID查询该用户的角色和权限", notes = "根据用户ID查询该用户的角色和权限", httpMethod = "GET", produces = "application/json")
@@ -75,15 +76,17 @@ public class SysUserAdminController extends WebapiBaseController {
     @AuthorityRegister(authorityName = "根据用户ID查询该用户的角色和权限", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userId", value = "用户ID", paramType = "query", required = true)
+            @ApiImplicitParam(name = "userId", value = "用户ID", paramType = "query", required = true),
+            @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
     @UseValidator
     public Mono<JsonResult> userAllRoles(
             @Required(validatFailMessage = "用户ID不能为空")
             @NotEmpty(validatFailMessage = "用户ID不能为空")
                     String userId
+            , String appTag
     ){
-        return Mono.fromFuture(userProvider.getUserAllRoles(userId));
+        return Mono.fromFuture(userProvider.getUserAllRoles(userId, appTag));
     }
 
     @ApiOperation(value = "保存用户拥有的角色(替换原有角色)", notes = "保存用户拥有的角色(替换原有角色)", httpMethod = "POST", produces = "application/json")

@@ -12,6 +12,7 @@ import java.util.Base64;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +24,10 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.Assert;
 import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
+import top.klw8.alita.service.result.code.CommonResultCodeEnum;
 import top.klw8.alita.starter.common.UserCacheHelper;
 import top.klw8.alita.starter.datasecured.DataSecuredControllerMethodsLoader;
 import top.klw8.alita.starter.web.interceptor.AuthorityInterceptor;
@@ -50,6 +53,21 @@ public class OAuth2ResourceServerConfig {
 
     @Reference(async = true)
     private IAuthorityAdminProvider adminProvider;
+
+    @Value("${alita.authority.app.tag:}")
+    private String currectAppTag;
+
+    @Value("${alita.authority.app.name:}")
+    private String currectAppName;
+
+    @Value("${alita.authority.app.remark:}")
+    private String currectAppRemark;
+
+    @Bean
+    public AuthorityAppInfoInConfig authorityAppInfoInConfig(){
+        Assert.hasText(currectAppTag, CommonResultCodeEnum.APP_TAG_NOT_EXIST.getCodeMsg());
+        return new AuthorityAppInfoInConfig(currectAppTag, currectAppName, currectAppRemark);
+    }
 
     @Bean
     public UserCacheHelper userCacheHelper() {
