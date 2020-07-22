@@ -18,7 +18,7 @@ import top.klw8.alita.entitys.base.BaseEntity;
 @Getter
 @Setter
 @ToString
-public class SystemDataSecured extends BaseEntity {
+public class SystemDataSecured extends BaseEntity implements IAssociatedApp {
 
     private static final long serialVersionUID = 4226666111547632645L;
 

@@ -28,9 +28,10 @@ import java.util.Map;
 public class SystemAuthoritysCatlogServiceImpl extends ServiceImpl<ISystemAuthoritysCatlogMapper, SystemAuthoritysCatlog> implements ISystemAuthoritysCatlogService {
 
     @Override
-    public SystemAuthoritysCatlog findByCatlogName(String catlogName) {
+    public SystemAuthoritysCatlog findByCatlogNameAndAppTag(String catlogName, String appTag) {
         QueryWrapper<SystemAuthoritysCatlog> query = new QueryWrapper();
         query.eq("catlog_name", catlogName);
+        query.eq("app_tag", appTag);
         return this.getOne(query);
     }
 

@@ -17,7 +17,7 @@ import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.service.result.code.CommonResultCodeEnum;
 import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
-import top.klw8.alita.starter.cfg.AuthorityAppInfoInConfig;
+import top.klw8.alita.starter.cfg.AuthorityAppInfoInConfigBean;
 import top.klw8.alita.starter.utils.TokenUtil;
 import top.klw8.alita.validator.UseValidator;
 
@@ -42,7 +42,7 @@ public class SysUserController {
     private IAlitaUserProvider userProvider;
 
     @Autowired
-    private AuthorityAppInfoInConfig currectApp;
+    private AuthorityAppInfoInConfigBean currectApp;
 
     @ApiOperation(value = "获取当前登录用户的菜单", notes = "获取当前登录用户的菜单", httpMethod = "POST", produces = "application/json")
     @PostMapping("/userMenus")

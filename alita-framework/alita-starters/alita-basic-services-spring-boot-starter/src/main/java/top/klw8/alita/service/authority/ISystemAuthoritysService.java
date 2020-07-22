@@ -22,7 +22,7 @@ public interface ISystemAuthoritysService extends IService<SystemAuthoritys> {
      * @author klw
      * @Description: 根据authorityAction 查找
      */
-    SystemAuthoritys findByAuAction(String action);
+    SystemAuthoritys findByAuActionAndAppTag(String action, String appTag);
 
     /**
      * @return int

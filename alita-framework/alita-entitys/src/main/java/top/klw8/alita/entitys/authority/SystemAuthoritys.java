@@ -23,7 +23,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class SystemAuthoritys extends BaseEntity {
+public class SystemAuthoritys extends BaseEntity implements IAssociatedApp {
     
     private static final long serialVersionUID = 4226666111547632644L;
 

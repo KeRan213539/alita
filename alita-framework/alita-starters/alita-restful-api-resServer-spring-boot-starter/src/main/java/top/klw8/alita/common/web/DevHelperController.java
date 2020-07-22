@@ -28,6 +28,7 @@ import org.springframework.web.reactive.result.method.RequestMappingInfo;
 import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping;
 import reactor.core.publisher.Mono;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
+import top.klw8.alita.entitys.authority.SystemAuthoritysApp;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
 import top.klw8.alita.entitys.authority.SystemDataSecured;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
@@ -42,6 +43,7 @@ import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.annotations.PublicDataSecuredRegister;
 import top.klw8.alita.starter.auscan.IDataSecuredSourceItem;
 import top.klw8.alita.starter.auscan.IDataSecuredSource;
+import top.klw8.alita.starter.cfg.AuthorityAppInfoInConfigBean;
 import top.klw8.alita.utils.AuthorityUtil;
 
 import java.io.IOException;
@@ -77,6 +79,9 @@ public class DevHelperController {
 
     @Autowired
     private Environment env;
+
+    @Autowired
+    private AuthorityAppInfoInConfigBean currectApp;
 
     @Value("${alita.devHelper.resultCodeClassPackage:}")
     private String resultCodeClassPackage;
@@ -222,7 +227,9 @@ public class DevHelperController {
             });
         }
 
-        return Mono.fromFuture(devHelperProvider.batchAddAuthoritysAndCatlogs(new ArrayList<>(tempMap.values()), publicDataSecuredList, isAdd2SuperAdmin));
+        return Mono.fromFuture(devHelperProvider.batchAddAuthoritysAndCatlogs(
+                new ArrayList<>(tempMap.values()), publicDataSecuredList, isAdd2SuperAdmin,
+                currectApp.getAppEntity()));
     }
 
     @ApiOperation(value = "刷新缓存中的管理员权限", notes = "刷新缓存中的管理员权限", httpMethod = "POST", produces = "application/json")

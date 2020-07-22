@@ -27,9 +27,10 @@ public class SystemAuthoritysServiceImpl
         implements ISystemAuthoritysService {
 
     @Override
-    public SystemAuthoritys findByAuAction(String action) {
+    public SystemAuthoritys findByAuActionAndAppTag(String action, String appTag){
         QueryWrapper<SystemAuthoritys> query = new QueryWrapper();
         query.eq("authority_action", action);
+        query.eq("app_tag", appTag);
         return this.getOne(query);
     }
 

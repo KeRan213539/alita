@@ -1,5 +1,6 @@
 package top.klw8.alita.service.api.authority;
 
+import top.klw8.alita.entitys.authority.SystemAuthoritysApp;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
 import top.klw8.alita.entitys.authority.SystemDataSecured;
 import top.klw8.alita.service.result.JsonResult;
@@ -22,7 +23,9 @@ public interface IDevHelperProvider {
      * @param: catlogList
      * @return boolean
      */
-    CompletableFuture<JsonResult> batchAddAuthoritysAndCatlogs(List<SystemAuthoritysCatlog> catlogList, List<SystemDataSecured> publicDataSecuredList, boolean isAdd2SuperAdmin);
+    CompletableFuture<JsonResult> batchAddAuthoritysAndCatlogs(List<SystemAuthoritysCatlog> catlogList,
+                                                               List<SystemDataSecured> publicDataSecuredList,
+                                                               boolean isAdd2SuperAdmin, SystemAuthoritysApp app);
 
     /**
      * @author klw(213539@qq.com)

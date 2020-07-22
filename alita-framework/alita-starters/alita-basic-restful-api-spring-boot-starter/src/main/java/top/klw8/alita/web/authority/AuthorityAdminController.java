@@ -281,7 +281,8 @@ public class AuthorityAdminController extends WebapiBaseController {
             authorityShowIndex = 0)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "httpMethod", value = "httpMethod", paramType = "query", required = true),
-            @ApiImplicitParam(name = "auAction", value = "权限Action", paramType = "query", required = true)
+            @ApiImplicitParam(name = "auAction", value = "权限Action", paramType = "query", required = true),
+            @ApiImplicitParam(name = "appTag", value = "应用标识", paramType = "query", required = true),
     })
     @UseValidator
     public Mono<JsonResult> dataSecuredsByAuAction(
@@ -290,9 +291,13 @@ public class AuthorityAdminController extends WebapiBaseController {
 
             @Required(validatFailMessage = "权限Action不能为空")
             @NotEmpty(validatFailMessage = "权限Action不能为空")
-                    String auAction
+            String auAction,
+
+            @Required(validatFailMessage = "应用标识不能为空")
+            @NotEmpty(validatFailMessage = "应用标识不能为空")
+            String appTag
     ){
-        return Mono.fromFuture(auProvider.dataSecuredsByAuthorityAction(httpMethod.name(), auAction));
+        return Mono.fromFuture(auProvider.dataSecuredsByAuthorityAction(httpMethod.name(), auAction, appTag));
     }
 
     @ApiOperation(value = "获取全部权限(按目录分组)", notes = "获取全部权限(按目录分组),用于新增/编辑数据权限时选择所属分组", httpMethod = "GET", produces = "application/json")

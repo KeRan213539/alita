@@ -25,7 +25,6 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
-import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 import top.klw8.alita.service.result.code.CommonResultCodeEnum;
 import top.klw8.alita.starter.common.UserCacheHelper;
@@ -64,9 +63,9 @@ public class OAuth2ResourceServerConfig {
     private String currectAppRemark;
 
     @Bean
-    public AuthorityAppInfoInConfig authorityAppInfoInConfig(){
+    public AuthorityAppInfoInConfigBean authorityAppInfoInConfig(){
         Assert.hasText(currectAppTag, CommonResultCodeEnum.APP_TAG_NOT_EXIST.getCodeMsg());
-        return new AuthorityAppInfoInConfig(currectAppTag, currectAppName, currectAppRemark);
+        return new AuthorityAppInfoInConfigBean(currectAppTag, currectAppName, currectAppRemark);
     }
 
     @Bean

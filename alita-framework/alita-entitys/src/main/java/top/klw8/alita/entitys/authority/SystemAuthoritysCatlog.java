@@ -21,7 +21,7 @@ import java.util.List;
 @Setter
 //@EqualsAndHashCode(callSuper = false, exclude = {"authorityList"})
 //@ToString(callSuper = false, exclude ={"authorityList"})
-public class SystemAuthoritysCatlog extends BaseEntity {
+public class SystemAuthoritysCatlog extends BaseEntity implements IAssociatedApp {
 
     private static final long serialVersionUID = -8415317762418810314L;
 

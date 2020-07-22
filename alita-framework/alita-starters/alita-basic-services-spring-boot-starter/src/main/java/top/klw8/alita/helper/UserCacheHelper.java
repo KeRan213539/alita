@@ -45,29 +45,23 @@ public class UserCacheHelper {
         List<SystemRole> userRoles = user.getUserRoles();
         if (!CollectionUtils.isEmpty(userRoles)) {
             for (SystemRole userRole : userRoles) {
-                // 获取指定APP下的权限缓存 Map<权限url, "1">
-                Map<String, String> authorityMap = appAuthorityMap.get(userRole.getAppTag());
-                if(null == authorityMap){
-                    authorityMap = new HashMap<>(16);
-                    appAuthorityMap.put(userRole.getAppTag(), authorityMap);
-                }
                 // 权限入缓存
                 List<SystemAuthoritys> ruthorityList = userRole.getAuthorityList();
                 if (!CollectionUtils.isEmpty(ruthorityList)) {
                     for (SystemAuthoritys au : ruthorityList) {
                         if (au.getAuthorityType().equals(AuthorityTypeEnum.URL)) {
+                            // 获取指定APP下的权限缓存 Map<权限url, "1">
+                            Map<String, String> authorityMap = appAuthorityMap.get(au.getAppTag());
+                            if(null == authorityMap){
+                                authorityMap = new HashMap<>(16);
+                                appAuthorityMap.put(userRole.getAppTag(), authorityMap);
+                            }
                             // 只把URL类型的放缓存,MENU的不放(因为MENU是给前端生成菜单的,不是服务中的资源)
                             authorityMap.put(au.getAuthorityAction(), "1");
                         }
                     }
                 }
 
-                // 获取指定APP下的数据权限缓存   Map<权限url, List<资源标识>>
-                Map<String, List<String>> dataSecuredsMap = appDataSecuredsMap.get(userRole.getAppTag());
-                if(null == dataSecuredsMap){
-                    dataSecuredsMap = new HashMap<>(16);
-                    appDataSecuredsMap.put(userRole.getAppTag(), dataSecuredsMap);
-                }
                 // 数据权限入缓存
                 List<SystemDataSecured> dataSecuredList = userRole.getDataSecuredList();
                 if (!CollectionUtils.isEmpty(dataSecuredList)) {
@@ -80,6 +74,14 @@ public class UserCacheHelper {
                             // 权限中的数据权限
                             dataSecuredsMapKey = dataSecured.getAuthorityUrl();
                         }
+
+                        // 获取指定APP下的数据权限缓存   Map<权限url, List<资源标识>>
+                        Map<String, List<String>> dataSecuredsMap = appDataSecuredsMap.get(dataSecured.getAppTag());
+                        if(null == dataSecuredsMap){
+                            dataSecuredsMap = new HashMap<>(16);
+                            appDataSecuredsMap.put(userRole.getAppTag(), dataSecuredsMap);
+                        }
+
                         List<String> dataSecuredListInAu = dataSecuredsMap.get(dataSecuredsMapKey);
                         if(null == dataSecuredListInAu){
                             dataSecuredListInAu = new ArrayList<>(16);

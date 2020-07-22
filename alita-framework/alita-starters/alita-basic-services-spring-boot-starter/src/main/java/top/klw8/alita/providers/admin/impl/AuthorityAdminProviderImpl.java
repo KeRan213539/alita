@@ -338,18 +338,22 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
 
     @Override
     public CompletableFuture<JsonResult> saveRoleAuthoritys(String roleId, List<String> auIds) {
-        if(roleService.getById(roleId) == null){
+        SystemRole role = roleService.getById(roleId);
+        if(role == null){
             return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("角色不存在"));
         }
         for(String auId : auIds){
-            Object finded;
+            IAssociatedApp finded;
             if(auId.startsWith(ISystemRoleService.DS_ID_PREFIX)){
                 finded = dsService.getById(auId.replace(ISystemRoleService.DS_ID_PREFIX, ""));
             } else {
                 finded = auService.getById(auId);
             }
             if(null == finded){
-                return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("权限不存在"));
+                return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("权限或者数据权限不存在"));
+            }
+            if(!role.getAppTag().equals(finded.getAppTag())){
+                return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("权限或者数据权限与角色所属app不一致!"));
             }
         }
         return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(roleService.replaceAuthority2Role(roleId, auIds)));
@@ -570,14 +574,14 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> dataSecuredsByAuthorityAction(String httpMethod, String auAction) {
+    public CompletableFuture<JsonResult> dataSecuredsByAuthorityAction(String httpMethod, String auAction, String appTag) {
         Assert.hasText(auAction, "权限路径不能为空!");
         Assert.hasText(httpMethod, "httpMethod不能为空!");
 
         if(auAction.startsWith("http")){
             return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("权限路径格式不正确,请传入服务端返回的!"));
         }
-        SystemAuthoritys au = auService.findByAuAction(AuthorityUtil.composeWithSeparator2(httpMethod, auAction));
+        SystemAuthoritys au = auService.findByAuActionAndAppTag(AuthorityUtil.composeWithSeparator2(httpMethod, auAction), appTag);
         if(EntityUtil.isEntityNoId(au)){
             return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("权限路径格对应的权限不存在!"));
         }

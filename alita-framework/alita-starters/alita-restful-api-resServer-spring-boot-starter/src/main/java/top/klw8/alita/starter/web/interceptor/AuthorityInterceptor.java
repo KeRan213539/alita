@@ -43,7 +43,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.service.result.code.CommonResultCodeEnum;
-import top.klw8.alita.starter.cfg.AuthorityAppInfoInConfig;
+import top.klw8.alita.starter.cfg.AuthorityAppInfoInConfigBean;
 import top.klw8.alita.starter.cfg.ResServerAuthPathCfgBean;
 import top.klw8.alita.starter.common.UserCacheHelper;
 import top.klw8.alita.starter.common.WebApiContext;
@@ -85,7 +85,7 @@ public class AuthorityInterceptor implements WebFilter {
     private Environment env;
 
     @Autowired
-    private AuthorityAppInfoInConfig currectApp;
+    private AuthorityAppInfoInConfigBean currectApp;
 
     @Resource
     private ResServerAuthPathCfgBean cfgBean;

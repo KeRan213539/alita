@@ -242,7 +242,7 @@ public interface IAuthorityAdminProvider {
      * @param: auPath
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> dataSecuredsByAuthorityAction(String httpMethod, String auAction);
+    CompletableFuture<JsonResult> dataSecuredsByAuthorityAction(String httpMethod, String auAction, String appTag);
 
     /**
      * @author klw(213539@qq.com)

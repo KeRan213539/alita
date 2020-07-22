@@ -7,10 +7,7 @@ import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
-import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
-import top.klw8.alita.entitys.authority.SystemDataSecured;
-import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.entitys.authority.*;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.service.api.authority.IDevHelperProvider;
 import top.klw8.alita.service.authority.*;
@@ -40,6 +37,8 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
 
     private static final String ADMIN_ROLE_ID = "d84c6b4ed9134d468e5a43d467036c47";
 
+    private static final String ADMIN_APP_TAG = "SUPER_ADMIN";
+
     @Autowired
     private ISystemAuthoritysService auService;
 
@@ -55,30 +54,57 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
     @Autowired
     private ISystemDataSecuredService dsService;
 
+    @Autowired
+    private IAuthorityAppService appService;
+
     @Override
-    public CompletableFuture<JsonResult> batchAddAuthoritysAndCatlogs(List<SystemAuthoritysCatlog> catlogList, List<SystemDataSecured> publicDataSecuredList, boolean isAdd2SuperAdmin) {
+    public CompletableFuture<JsonResult> batchAddAuthoritysAndCatlogs(List<SystemAuthoritysCatlog> catlogList,
+                                                                      List<SystemDataSecured> publicDataSecuredList,
+                                                                      boolean isAdd2SuperAdmin, SystemAuthoritysApp app) {
         return CompletableFuture.supplyAsync(() -> {
+
+            if(StringUtils.isBlank(app.getAppTag())){
+                return JsonResult.sendFailedResult("注册失败: appTag 未配制");
+            }
+            //检查app是否存在
+            SystemAuthoritysApp appFinded = appService.getById(app.getAppTag());
+            if(null == appFinded){
+                //app不存在,检查name是否有值,有就新增app
+                if(StringUtils.isBlank(app.getAppName())){
+                    return JsonResult.sendFailedResult("注册失败: 配制的APP不存在,需要创建,但是缺少app名称");
+                }
+                SystemAuthoritysApp app4Save = new SystemAuthoritysApp();
+                app4Save.setAppTag(app.getAppTag());
+                app4Save.setAppName(app.getAppName());
+                if(StringUtils.isNotBlank(app.getRemark())){
+                    app4Save.setRemark(app.getRemark());
+                }
+                appService.save(app4Save);
+            }
+
             boolean processFlag = false;
             if (CollectionUtils.isNotEmpty(catlogList)) {
                 for (SystemAuthoritysCatlog catlog : catlogList) {
                     if (StringUtils.isBlank(catlog.getCatlogName())) {
                         continue;
                     }
-                    SystemAuthoritysCatlog catlogFinded = catlogService.findByCatlogName(catlog.getCatlogName());
+                    SystemAuthoritysCatlog catlogFinded = catlogService.findByCatlogNameAndAppTag(catlog.getCatlogName(), app.getAppTag());
                     String catlogId;
                     if (EntityUtil.isEntityNoId(catlogFinded)) {
                         catlogId = UUIDUtil.getRandomUUIDString();
                         catlog.setId(catlogId);
+                        catlog.setAppTag(app.getAppTag());
                         catlogService.save(catlog);
                     } else {
                         catlogId = catlogFinded.getId();
                     }
                     if (CollectionUtils.isNotEmpty(catlog.getAuthorityList())) {
                         for (SystemAuthoritys au : catlog.getAuthorityList()) {
-                            SystemAuthoritys auFinded = auService.findByAuAction(au.getAuthorityAction());
+                            SystemAuthoritys auFinded = auService.findByAuActionAndAppTag(au.getAuthorityAction(), app.getAppTag());
                             if (EntityUtil.isEntityNoId(auFinded)) {
                                 au.setId(UUIDUtil.getRandomUUIDString());
                                 au.setCatlogId(catlogId);
+                                au.setAppTag(app.getAppTag());
                                 auService.save(au);
                                 auFinded = au;
                             }
@@ -96,6 +122,7 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                                     if (EntityUtil.isEntityNoId(dsFinded)) {
                                         ds.setId(UUIDUtil.getRandomUUIDString());
                                         ds.setAuthoritysId(auFinded.getId());
+                                        ds.setAppTag(app.getAppTag());
                                         dsService.save(ds);
                                         dsFinded = ds;
                                     }
@@ -117,6 +144,7 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                     SystemDataSecured dsFinded = dsService.findByResourceAndAuId(ds.getResource(), null);
                     if (EntityUtil.isEntityNoId(dsFinded)) {
                         ds.setId(UUIDUtil.getRandomUUIDString());
+                        ds.setAppTag(app.getAppTag());
                         dsService.save(ds);
                         dsFinded = ds;
                     }
@@ -131,12 +159,13 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
             if(processFlag){
                 return JsonResult.sendSuccessfulResult("注册完成");
             }
-            return JsonResult.sendSuccessfulResult("注册失败,没有任何待注册数据", null);
+            return JsonResult.sendSuccessfulResult("扫描完成,没有任何待注册数据", null);
         }, ServiceContext.executor);
     }
 
     @Override
     public CompletableFuture<JsonResult> addAllAuthoritys2AdminRole() {
+
         // 检查超级管理员角色和用户是否存在,不存在则添加
         checkAdminUserRoleAndAddIfNotExist();
 
@@ -148,6 +177,9 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
 
     private void checkAdminUserRoleAndAddIfNotExist(){
         boolean isNeedAddRole2User = false;
+        if (null == appService.getById(ADMIN_APP_TAG)) {
+            appService.save(buildAdminApp());
+        }
         if (EntityUtil.isEntityNoId(userService.getById(ADMIN_USER_ID))) {
             isNeedAddRole2User = true;
             userService.save(buildAdminUser());
@@ -174,7 +206,16 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
         superAdminRole.setId(ADMIN_ROLE_ID);
         superAdminRole.setRoleName("超级管理员");
         superAdminRole.setRemark("超级管理员");
+        superAdminRole.setAppTag(ADMIN_APP_TAG);
         return superAdminRole;
+    }
+
+    private SystemAuthoritysApp buildAdminApp(){
+        SystemAuthoritysApp superAdminApp = new SystemAuthoritysApp();
+        superAdminApp.setAppTag(ADMIN_APP_TAG);
+        superAdminApp.setAppName("超级管理应用");
+        superAdminApp.setRemark("超级管理应用");
+        return superAdminApp;
     }
 
 }

@@ -21,7 +21,7 @@ import top.klw8.alita.entitys.base.BaseEntity;
 @Setter
 //@EqualsAndHashCode(callSuper = false, exclude = {"authorityList"})
 //@ToString(callSuper = false, exclude ={"authorityList"})
-public class SystemRole extends BaseEntity {
+public class SystemRole extends BaseEntity implements IAssociatedApp {
 
     private static final long serialVersionUID = -2919173399468066019L;
 
