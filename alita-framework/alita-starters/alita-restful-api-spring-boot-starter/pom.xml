@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>top.klw8.alita</groupId>
     <artifactId>alita-restful-api-starter</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.2.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>alita-restful-api-starter</name>
     <description>alita webapi(客户端接口) 启动器</description>
@@ -11,7 +11,7 @@
     <parent>
         <groupId>top.klw8.alita</groupId>
         <artifactId>alita-starter-base</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>0.2.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>

@@ -13,8 +13,8 @@ public interface IResourceParser {
      * @Description: 根据传入的数据解析出数据权限的资源名称, 支持多资源名称.
      * 如果返回多个资源名称,那么当前请求用户必须多个资源权限都必须拥有
      */
-    default String[] parseResource(IResourceParserData parserPojo){
-        return null;
+    default ResourceParserResult parseResource(IResourceParserData parserPojo){
+        return new ResourceParserResult();
     }
 
 }

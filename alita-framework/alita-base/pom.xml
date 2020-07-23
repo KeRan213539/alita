@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>top.klw8.alita</groupId>
     <artifactId>alita-base</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>alita-base</name>
     <description>alita-base项目,主要用于控制各个jar包的版本号</description>
@@ -12,7 +12,7 @@
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <skipJunitTest>true</skipJunitTest>
-        <alita.version>0.1.0-SNAPSHOT</alita.version>
+        <alita.version>0.2.0-SNAPSHOT</alita.version>
 
         <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
         <spring-cloud-alibaba-dependencies.version>2.2.1.RELEASE</spring-cloud-alibaba-dependencies.version>

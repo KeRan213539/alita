@@ -3,6 +3,7 @@ package top.klw8.alita.demo.web.demo.datasecured;
 import org.springframework.stereotype.Component;
 import top.klw8.alita.starter.datasecured.IResourceParser;
 import top.klw8.alita.starter.datasecured.IResourceParserData;
+import top.klw8.alita.starter.datasecured.ResourceParserResult;
 
 /**
  * @author klw(213539 @ qq.com)
@@ -14,8 +15,8 @@ import top.klw8.alita.starter.datasecured.IResourceParserData;
 public class DemoResourceParser implements IResourceParser {
 
     @Override
-    public String[] parseResource(IResourceParserData parserPojo) {
-        return new String[]{"demo"};
+    public ResourceParserResult parseResource(IResourceParserData parserPojo) {
+        return new ResourceParserResult(new String[]{"demo"});
     }
 
 }

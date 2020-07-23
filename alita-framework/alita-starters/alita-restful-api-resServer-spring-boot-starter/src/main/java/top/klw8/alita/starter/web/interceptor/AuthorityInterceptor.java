@@ -282,14 +282,11 @@ public class AuthorityInterceptor implements WebFilter {
             // 调用资源解析器,并把解析器返回的资源给下一步
             IResourceParser resourceParser = applicationContext.getBean(dataSecuredAnnotation.parser());
             Assert.notNull(resourceParser, "【" + reqPath + "】没有找到数据权限资源解析器,解析器需要放入spring容器中,请检查");
-            String[] parserResult = resourceParser.parseResource(rpd);
-            if(parserResult == null || parserResult.length <= 0){
-                parserResult = new String[0];
-            }
+            ResourceParserResult parserResult = resourceParser.parseResource(rpd);
             return parserResult;
         }).flatMap(parserResult -> {
             // 验证数据权限,并做相应处理
-            if(parserResult.length > 0 && checkDataSecured(finalAuthorityAction, parserResult, dataSecuredMap)){
+            if(parserResult.getParsedResources().length > 0 && checkDataSecured(finalAuthorityAction, parserResult, dataSecuredMap)){
                 // 有数据权限,继续下一个拦截器
                 ServerHttpRequest newRequest = (ServerHttpRequest) monoDataMap.get(MONO_DATA_KEY_NEW_REQUEST);
                 if(newRequest == null){
@@ -315,10 +312,14 @@ public class AuthorityInterceptor implements WebFilter {
     }
 
     private boolean checkDataSecured(String reqUrl, String resTag, Map<String, List<String>> dataSecuredMap){
-        return checkDataSecured(reqUrl, new String[]{resTag}, dataSecuredMap);
+        return checkDataSecured(reqUrl, new ResourceParserResult(new String[]{resTag}), dataSecuredMap);
     }
 
-    private boolean checkDataSecured(String reqUrl, String[] resTags, Map<String, List<String>> dataSecuredMap){
+    private boolean checkDataSecured(String reqUrl, ResourceParserResult parserResult, Map<String, List<String>> dataSecuredMap){
+        if(parserResult.isMasterKey()){
+            return parserResult.isMasterKey();
+        }
+        String[] resTags = parserResult.getParsedResources();
         // 先在当前请求的权限下的数据权限中找
         List<String> sdList = dataSecuredMap.get(reqUrl);
         if(sdList != null){
