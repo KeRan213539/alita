@@ -489,9 +489,16 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     public CompletableFuture<JsonResult> saveAuthority(SystemAuthoritys au, String httpMethod) {
         Assert.notNull(au, "要保存的权限不能为 null !!!");
         Assert.hasText(au.getCatlogId(), "所属权限目录ID不能为空!");
-        Assert.hasText(httpMethod, "httpMethod 不能为空");
-        Assert.notNull(catlogService.getById(au.getCatlogId()), "所属权限目录不存在 !!!");
-        au.setAuthorityAction(AuthorityUtil.composeWithSeparator2(httpMethod, au.getAuthorityAction()));
+
+        SystemAuthoritysCatlog catlog = catlogService.getById(au.getCatlogId());
+        if(null == catlog){
+            return ServiceUtil.buildFuture(JsonResult.sendFailedResult("所属权限目录不存在 !!!"));
+        }
+
+        if(AuthorityTypeEnum.URL.equals(au.getAuthorityType())) {
+            Assert.hasText(httpMethod, "httpMethod 不能为空");
+            au.setAuthorityAction(AuthorityUtil.composeWithSeparator2(httpMethod, au.getAuthorityAction()));
+        }
         if(StringUtils.isNotBlank(au.getId())){
             auService.updateById(au);
         } else {

@@ -225,7 +225,7 @@ public class AuthorityAdminController extends WebapiBaseController {
     public Mono<JsonResult> saveAuthority(@RequestBody SaveAuthoritysRequest req){
         SystemAuthoritys auToSave = new SystemAuthoritys();
         BeanUtils.copyProperties(req, auToSave);
-        return Mono.fromFuture(auProvider.saveAuthority(auToSave, req.getHttpMethod().name()));
+        return Mono.fromFuture(auProvider.saveAuthority(auToSave, null == req.getHttpMethod() ? null : req.getHttpMethod().name()));
     }
 
     @ApiOperation(value = "删除权限", notes = "删除权限(同时删除角色的关联)", httpMethod = "POST", produces = "application/json")
