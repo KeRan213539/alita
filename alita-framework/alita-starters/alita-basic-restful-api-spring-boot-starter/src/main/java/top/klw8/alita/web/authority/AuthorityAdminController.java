@@ -17,10 +17,13 @@ import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
+import top.klw8.alita.starter.datasecured.DataSecured;
 import top.klw8.alita.starter.web.base.WebapiBaseController;
 import top.klw8.alita.validator.UseValidator;
 import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
+import top.klw8.alita.web.authority.ds.AppTagByIdParser;
+import top.klw8.alita.web.authority.ds.AppTagParser;
 import top.klw8.alita.web.authority.vo.*;
 import top.klw8.alita.starter.web.common.vo.PageRequest;
 import top.klw8.alita.web.authority.vo.enums.HttpMethodPrarm;
@@ -54,6 +57,7 @@ public class AuthorityAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "roleName", value = "角色名称(支持模糊查询)", paramType = "query"),
             @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
+    @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> roleList(String roleName, String appTag, PageRequest page){
         return Mono.fromFuture(auProvider.roleList(roleName, appTag, new Page(page.getPage(), page.getSize())));
     }
@@ -65,6 +69,7 @@ public class AuthorityAdminController extends WebapiBaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
+    @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> roleAll(String appTag){
         return Mono.fromFuture(auProvider.roleAll(appTag));
     }
@@ -78,6 +83,7 @@ public class AuthorityAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
     @UseValidator
+    @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> markRoleAuthoritys(@Required("角色ID不能为空") @NotEmpty("角色ID不能为空") String roleId,
                                                String appTag){
         return Mono.fromFuture(auProvider.markRoleAuthoritys(roleId, appTag));
@@ -88,8 +94,9 @@ public class AuthorityAdminController extends WebapiBaseController {
     @AuthorityRegister(authorityName = "保存角色的权限(替换原有权限)", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @UseValidator
+    @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> saveRoleAuthoritys(@RequestBody SaveRoleAuthoritysRequest req){
-        return Mono.fromFuture(auProvider.saveRoleAuthoritys(req.getRoleId(), req.getAuIds()));
+        return Mono.fromFuture(auProvider.saveRoleAuthoritys(req.getRoleId(), req.getAuIds(), req.getAppTag()));
     }
 
     @ApiOperation(value = "保存角色", notes = "保存角色(无ID则添加,有则修改),支持从指定角色中复制该角色的权限," +
@@ -98,6 +105,7 @@ public class AuthorityAdminController extends WebapiBaseController {
     @AuthorityRegister(authorityName = "保存角色(无ID则添加,有则修改)", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @UseValidator
+    @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> saveRole(@RequestBody SaveRoleRequest req){
         SystemRole roleToSave = new SystemRole();
         roleToSave.setId(req.getRoleId());
@@ -122,6 +130,7 @@ public class AuthorityAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", required = true)
     })
     @UseValidator
+    @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> delRole(
             @Required(validatFailMessage = "角色ID不能为空")
             @NotEmpty(validatFailMessage = "角色ID不能为空")
@@ -138,6 +147,7 @@ public class AuthorityAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", required = true)
     })
     @UseValidator
+    @DataSecured(parser = AppTagByIdParser.class)
     public Mono<JsonResult> roleInfo(
             @Required(validatFailMessage = "角色ID不能为空")
             @NotEmpty(validatFailMessage = "角色ID不能为空")
@@ -154,6 +164,7 @@ public class AuthorityAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "catlogName", value = "权限目录名称(支持模糊查询)", paramType = "query"),
             @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
+    @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> catlogList(String catlogName, String appTag, PageRequest page){
         return Mono.fromFuture(auProvider.catlogList(catlogName, appTag, new Page(page.getPage(), page.getSize())));
     }
@@ -165,6 +176,7 @@ public class AuthorityAdminController extends WebapiBaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
+    @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> catlogAll(String appTag){
         return Mono.fromFuture(auProvider.catlogAll(appTag));
     }
@@ -174,6 +186,7 @@ public class AuthorityAdminController extends WebapiBaseController {
     @AuthorityRegister(authorityName = "保存权限目录(无ID则添加,有则修改)", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @UseValidator
+    @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> saveCatlog(@RequestBody SaveCatlogRequest req){
         SystemAuthoritysCatlog catlogToSave = new SystemAuthoritysCatlog();
         BeanUtils.copyProperties(req, catlogToSave);
@@ -188,6 +201,7 @@ public class AuthorityAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "catlogId", value = "权限目录ID", paramType = "query", required = true)
     })
     @UseValidator
+    @DataSecured(parser = AppTagByIdParser.class)
     public Mono<JsonResult> delCatlog(
             @Required(validatFailMessage = "权限目录ID不能为空")
             @NotEmpty(validatFailMessage = "权限目录ID不能为空")
@@ -204,6 +218,7 @@ public class AuthorityAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "catlogId", value = "权限目录ID", paramType = "query", required = true)
     })
     @UseValidator
+    @DataSecured(parser = AppTagByIdParser.class)
     public Mono<JsonResult> catlogInfo(
             @Required(validatFailMessage = "权限目录ID不能为空")
             @NotEmpty(validatFailMessage = "权限目录ID不能为空")
@@ -224,6 +239,7 @@ public class AuthorityAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "catlogName", value = "权限目录名称(支持模糊查询)", paramType = "query"),
             @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
+    @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> authoritysMenuList(String auName, AuthorityTypeEnum auType,
                                                String authorityAction, String catlogName,
                                                String appTag, PageRequest page){
@@ -237,6 +253,7 @@ public class AuthorityAdminController extends WebapiBaseController {
     @AuthorityRegister(authorityName = "保存权限(无ID则添加,有则修改)", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @UseValidator
+    @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> saveAuthority(@RequestBody SaveAuthoritysRequest req){
         SystemAuthoritys auToSave = new SystemAuthoritys();
         BeanUtils.copyProperties(req, auToSave);
@@ -251,6 +268,7 @@ public class AuthorityAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "auId", value = "权限ID", paramType = "query", required = true)
     })
     @UseValidator
+    @DataSecured(parser = AppTagByIdParser.class)
     public Mono<JsonResult> delAuthority(
             @Required(validatFailMessage = "权限ID不能为空")
             @NotEmpty(validatFailMessage = "权限ID不能为空")
@@ -267,6 +285,7 @@ public class AuthorityAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "auId", value = "权限ID", paramType = "query", required = true)
     })
     @UseValidator
+    @DataSecured(parser = AppTagByIdParser.class)
     public Mono<JsonResult> auInfo(
             @Required(validatFailMessage = "权限ID不能为空")
             @NotEmpty(validatFailMessage = "权限ID不能为空")
@@ -285,6 +304,7 @@ public class AuthorityAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "appTag", value = "应用标识", paramType = "query", required = true),
     })
     @UseValidator
+    @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> dataSecuredsByAuAction(
             @Required(validatFailMessage = "httpMethod不能为空")
                     HttpMethodPrarm httpMethod,
@@ -308,6 +328,7 @@ public class AuthorityAdminController extends WebapiBaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
+    @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> allAuList(String appTag){
         return Mono.fromFuture(auProvider.allAuthoritysWithCatlog(appTag));
     }
@@ -320,6 +341,7 @@ public class AuthorityAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "resource", value = "资源名称(支持模糊查询)", paramType = "query"),
             @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
+    @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> dataSecuredList(String resource, String appTag, PageRequest page){
         return Mono.fromFuture(auProvider.dataSecuredList(resource, appTag, new Page(page.getPage(), page.getSize())));
     }
@@ -329,6 +351,7 @@ public class AuthorityAdminController extends WebapiBaseController {
     @AuthorityRegister(authorityName = "保存数据权限(无ID则添加,有则修改)", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @UseValidator
+    @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> saveDataSecured(@RequestBody SaveDataSecuredRequest req){
         SystemDataSecured dsToSave = new SystemDataSecured();
         BeanUtils.copyProperties(req, dsToSave);
@@ -343,6 +366,7 @@ public class AuthorityAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "dsId", value = "数据权限ID", paramType = "query", required = true)
     })
     @UseValidator
+    @DataSecured(parser = AppTagByIdParser.class)
     public Mono<JsonResult> delDataSecured(
             @Required(validatFailMessage = "数据权限ID不能为空")
             @NotEmpty(validatFailMessage = "数据权限ID不能为空")
@@ -359,6 +383,7 @@ public class AuthorityAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "dsId", value = "数据权限ID", paramType = "query", required = true)
     })
     @UseValidator
+    @DataSecured(parser = AppTagByIdParser.class)
     public Mono<JsonResult> dataSecuredInfo(
             @Required(validatFailMessage = "数据权限ID不能为空")
             @NotEmpty(validatFailMessage = "数据权限ID不能为空")

@@ -33,8 +33,8 @@ public class ResourceParserResult {
         this.masterKey = false;
     }
 
-    public ResourceParserResult(String[] parsedResources, boolean isMasterKey){
-        this.parsedResources = parsedResources;
+    public ResourceParserResult(boolean isMasterKey){
+        this.parsedResources = new String[0];
         this.masterKey = isMasterKey;
     }
 

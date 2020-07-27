@@ -28,6 +28,12 @@ public class SystemAuthorityPojo implements java.io.Serializable, Comparable<Sys
 
     /**
      * @author klw
+     * @Fields authorityName : 所属应用的应用标识
+     */
+    private String appTag;
+
+    /**
+     * @author klw
      * @Fields authorityName : 权限名称
      */
     private String authorityName;
@@ -37,6 +43,12 @@ public class SystemAuthorityPojo implements java.io.Serializable, Comparable<Sys
      * @Description: 权限所属目录的ID
      */
     private String catlogId;
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: URL类型权限所属MENU类型权限的ID
+     */
+    private String menuId;
 
     /**
      * @author klw
@@ -67,6 +79,12 @@ public class SystemAuthorityPojo implements java.io.Serializable, Comparable<Sys
      * @Description: 该权限中的数据权限
      */
     private List<SystemDataSecuredPojo> dsList;
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 该权限中的按钮权限
+     */
+    private List<SystemAuthorityPojo> menuList;
 
     /**
      * @author klw(213539@qq.com)

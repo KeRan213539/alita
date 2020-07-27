@@ -115,7 +115,7 @@ public interface IAuthorityAdminProvider {
      * @param: auIds
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> saveRoleAuthoritys(String roleId, List<String> auIds);
+    CompletableFuture<JsonResult> saveRoleAuthoritys(String roleId, List<String> auIds, String appTag);
 
     /**
      * @author klw(213539@qq.com)

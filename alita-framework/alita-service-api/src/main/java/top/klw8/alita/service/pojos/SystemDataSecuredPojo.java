@@ -24,6 +24,12 @@ public class SystemDataSecuredPojo implements java.io.Serializable {
     private String id;
 
     /**
+     * @author klw
+     * @Fields authorityName : 所属应用的应用标识
+     */
+    private String appTag;
+
+    /**
      * @author klw(213539@qq.com)
      * @Description: 所属权限ID
      */

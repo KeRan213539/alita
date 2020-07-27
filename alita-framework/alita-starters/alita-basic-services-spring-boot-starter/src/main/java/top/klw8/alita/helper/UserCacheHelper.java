@@ -54,7 +54,7 @@ public class UserCacheHelper {
                             Map<String, String> authorityMap = appAuthorityMap.get(au.getAppTag());
                             if(null == authorityMap){
                                 authorityMap = new HashMap<>(16);
-                                appAuthorityMap.put(userRole.getAppTag(), authorityMap);
+                                appAuthorityMap.put(au.getAppTag(), authorityMap);
                             }
                             // 只把URL类型的放缓存,MENU的不放(因为MENU是给前端生成菜单的,不是服务中的资源)
                             authorityMap.put(au.getAuthorityAction(), "1");
@@ -79,7 +79,7 @@ public class UserCacheHelper {
                         Map<String, List<String>> dataSecuredsMap = appDataSecuredsMap.get(dataSecured.getAppTag());
                         if(null == dataSecuredsMap){
                             dataSecuredsMap = new HashMap<>(16);
-                            appDataSecuredsMap.put(userRole.getAppTag(), dataSecuredsMap);
+                            appDataSecuredsMap.put(dataSecured.getAppTag(), dataSecuredsMap);
                         }
 
                         List<String> dataSecuredListInAu = dataSecuredsMap.get(dataSecuredsMapKey);

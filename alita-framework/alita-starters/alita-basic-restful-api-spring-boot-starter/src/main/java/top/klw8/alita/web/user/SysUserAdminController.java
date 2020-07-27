@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
@@ -14,10 +15,13 @@ import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
+import top.klw8.alita.starter.cfg.AuthorityAppInfoInConfigBean;
+import top.klw8.alita.starter.datasecured.DataSecured;
 import top.klw8.alita.starter.web.base.WebapiBaseController;
 import top.klw8.alita.validator.UseValidator;
 import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
+import top.klw8.alita.web.authority.ds.AppTagParser;
 import top.klw8.alita.web.user.vo.AlitaUserAccountRequest;
 import top.klw8.alita.web.user.vo.ChangeUserPasswordByUserIdRequest;
 import top.klw8.alita.starter.web.common.vo.PageRequest;
@@ -45,6 +49,9 @@ public class SysUserAdminController extends WebapiBaseController {
     @Reference(async = true)
     private IAlitaUserProvider userProvider;
 
+    @Autowired
+    private AuthorityAppInfoInConfigBean currectApp;
+
     @ApiOperation(value = "用户列表(分页)", notes = "用户列表(分页)", httpMethod = "GET", produces = "application/json")
     @GetMapping("/userList")
     @AuthorityRegister(authorityName = "用户列表(分页)", authorityType = AuthorityTypeEnum.URL,
@@ -59,6 +66,7 @@ public class SysUserAdminController extends WebapiBaseController {
                     dataType = "java.time.LocalDate", example = "2019-10-25"),
             @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
+    @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> userList(String userName, Boolean enabled, @RequestParam(required = false) LocalDate createDateBegin,
                                      @RequestParam(required = false) LocalDate createDateEnd, String appTag, PageRequest page){
         AlitaUserAccount user = new AlitaUserAccount();
@@ -80,6 +88,7 @@ public class SysUserAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
     @UseValidator
+    @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> userAllRoles(
             @Required(validatFailMessage = "用户ID不能为空")
             @NotEmpty(validatFailMessage = "用户ID不能为空")
@@ -94,8 +103,9 @@ public class SysUserAdminController extends WebapiBaseController {
     @AuthorityRegister(authorityName = "保存用户拥有的角色(替换原有角色)", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @UseValidator
+    @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> saveUserRoles(@RequestBody SaveUserRolesRequest req){
-        return Mono.fromFuture(userProvider.saveUserRoles(req.getUserId(), req.getRoleIds()));
+        return Mono.fromFuture(userProvider.saveUserRoles(req.getUserId(), req.getRoleIds(), req.getAppTag()));
     }
 
     @ApiOperation(value = "新增用户", notes = "新增用户", httpMethod = "POST", produces = "application/json")

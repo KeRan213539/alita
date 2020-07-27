@@ -159,15 +159,19 @@ public class AlitaUserProvider implements IAlitaUserProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> saveUserRoles(String userId, List<String> roleIds) {
+    public CompletableFuture<JsonResult> saveUserRoles(String userId, List<String> roleIds, String appTag) {
         if(userService.getById(userId) == null){
             return CompletableFuture.supplyAsync(() -> JsonResult.sendBadParameterResult("用户不存在")
             , ServiceContext.executor);
         }
         for(String roleId : roleIds){
-            if(roleService.getById(roleId) == null){
+            SystemRole role = roleService.getById(roleId);
+            if(null == role){
                 return CompletableFuture.supplyAsync(() -> JsonResult.sendBadParameterResult("角色不存在")
                         , ServiceContext.executor);
+            }
+            if(StringUtils.isNotBlank(appTag) && !appTag.equals(role.getAppTag())){
+                return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("传入的appTag与角色的不匹配"));
             }
         }
         return CompletableFuture.supplyAsync(() -> JsonResult.sendSuccessfulResult(

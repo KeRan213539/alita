@@ -67,12 +67,13 @@ public interface IAlitaUserProvider {
     /**
      * @author klw(213539@qq.com)
      * @Description: 保存用户拥有的角色(替换原有角色)
-     * @Date 2019/10/15 17:02
+     * @Date 2020/7/27 14:40
      * @param: userId
      * @param: roleIds
+     * @param: appTag
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> saveUserRoles(String userId, List<String> roleIds);
+    CompletableFuture<JsonResult> saveUserRoles(String userId, List<String> roleIds, String appTag);
 
     /**
      * @author klw(213539@qq.com)

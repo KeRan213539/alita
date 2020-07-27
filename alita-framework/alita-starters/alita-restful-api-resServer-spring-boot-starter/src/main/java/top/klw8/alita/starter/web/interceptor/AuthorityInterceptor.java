@@ -286,7 +286,7 @@ public class AuthorityInterceptor implements WebFilter {
             return parserResult;
         }).flatMap(parserResult -> {
             // 验证数据权限,并做相应处理
-            if(parserResult.getParsedResources().length > 0 && checkDataSecured(finalAuthorityAction, parserResult, dataSecuredMap)){
+            if(checkDataSecured(finalAuthorityAction, parserResult, dataSecuredMap)){
                 // 有数据权限,继续下一个拦截器
                 ServerHttpRequest newRequest = (ServerHttpRequest) monoDataMap.get(MONO_DATA_KEY_NEW_REQUEST);
                 if(newRequest == null){
@@ -319,7 +319,11 @@ public class AuthorityInterceptor implements WebFilter {
         if(parserResult.isMasterKey()){
             return parserResult.isMasterKey();
         }
+
         String[] resTags = parserResult.getParsedResources();
+        if(resTags.length <= 0){
+            return false;
+        }
         // 先在当前请求的权限下的数据权限中找
         List<String> sdList = dataSecuredMap.get(reqUrl);
         if(sdList != null){

@@ -233,19 +233,19 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         }
 
         // 构造查询条件
-        QueryWrapper<SystemAuthoritys> auSuery = new QueryWrapper();
+        QueryWrapper<SystemAuthoritys> auQuery = new QueryWrapper();
         QueryWrapper<SystemDataSecured> dsQuery = new QueryWrapper();
-        auSuery.orderByAsc("show_index");
+        auQuery.orderByAsc("show_index");
         dsQuery.orderByAsc("authoritys_id");
         if(StringUtils.isNotBlank(appTag)){
-            auSuery.eq("app_tag", appTag);
+            auQuery.eq("app_tag", appTag);
             dsQuery.eq("app_tag", appTag);
         }
 
         // 查询权限
-        List<SystemAuthoritys> allAuList = auService.list();
+        List<SystemAuthoritys> allAuList = auService.list(auQuery);
         // 查询数据权限
-        List<SystemDataSecured> allDsList = dsService.list();
+        List<SystemDataSecured> allDsList = dsService.list(dsQuery);
 
         // 根据权限分组的非全局数据权限Map<权限ID: List<SystemDataSecuredPojo>
         Map<String, List<SystemDataSecuredPojo>> dsListGroupByAu = new HashMap<>(16);
@@ -303,6 +303,11 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         Map<String, SystemAuthorityCatlogPojo> catlogMap = new HashMap<>(16);
         catlogMap.put(ID_PUBLIC_DATA_SECURED_CATLOG, publicDsCatlog);
 
+
+        // 临时存放非 menuItem
+        Map<String, SystemAuthorityPojo> auNotMenuItemMap = new HashMap<>(50);
+        // 临时存放 menuItem
+        Map<String, SystemAuthorityPojo> auMenuItemMap = new HashMap<>(50);
         // 遍历权限和权限下的数据权限转为视图bean,并标记传入的角色是否拥有该权限
         for(SystemAuthoritys sysAu : allAuList){
             SystemAuthorityCatlogPojo catlogPojo = catlogMap.get(sysAu.getCatlogId());
@@ -327,8 +332,22 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             }
             // 数据权限放入权限
             auPojo.setDsList(dsListGroupByAu.get(auPojo.getId()));
-            catlogPojo.getAuthorityList().add(auPojo);
+            if(!AuthorityTypeEnum.MENU.equals(auPojo.getAuthorityType()) && StringUtils.isNotBlank(auPojo.getMenuId())){
+                auMenuItemMap.put(auPojo.getId(), auPojo);
+            } else {
+                catlogPojo.getAuthorityList().add(auPojo);
+                auNotMenuItemMap.put(auPojo.getId(), auPojo);
+            }
         }
+
+        // 遍历 menuItem, 并把它放到对应的 menu下
+        auMenuItemMap.forEach((key, value) -> {
+            SystemAuthorityPojo auMenu = auNotMenuItemMap.get(value.getMenuId());
+            if(null == auMenu.getMenuList()){
+                auMenu.setMenuList(new ArrayList<>(16));
+            }
+            auMenu.getMenuList().add(value);
+        });
 
         List<SystemAuthorityCatlogPojo> catlogPojoList = new ArrayList<>(catlogMap.values());
         Collections.sort(catlogPojoList);
@@ -337,10 +356,13 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> saveRoleAuthoritys(String roleId, List<String> auIds) {
+    public CompletableFuture<JsonResult> saveRoleAuthoritys(String roleId, List<String> auIds, String appTag) {
         SystemRole role = roleService.getById(roleId);
         if(role == null){
             return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("角色不存在"));
+        }
+        if(StringUtils.isNotBlank(appTag) && !appTag.equals(role.getAppTag())){
+            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("传入的appTag与角色的不匹配"));
         }
         for(String auId : auIds){
             IAssociatedApp finded;
@@ -539,12 +561,30 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             return ServiceUtil.buildFuture(JsonResult.sendFailedResult("所属权限目录不存在 !!!"));
         }
 
-        au.setAppTag(catlog.getAppTag());
-
         if(AuthorityTypeEnum.URL.equals(au.getAuthorityType())) {
-            Assert.hasText(httpMethod, "httpMethod 不能为空");
+            if(StringUtils.isBlank(httpMethod)) {
+                return ServiceUtil.buildFuture(JsonResult.sendFailedResult("httpMethod 不能为空"));
+            }
+            if(StringUtils.isNotBlank(au.getMenuId())) {
+                SystemAuthoritys menuAu = auService.getById(au.getMenuId());
+                if (EntityUtil.isEntityNoId(menuAu)) {
+                    return ServiceUtil.buildFuture(JsonResult.sendFailedResult("指定的权限所属MENU不存在"));
+                }
+                if (!AuthorityTypeEnum.MENU.equals(menuAu.getAuthorityType())) {
+                    return ServiceUtil.buildFuture(JsonResult.sendFailedResult("指定的权限所属MENU的类型不是MENU"));
+                }
+            }
             au.setAuthorityAction(AuthorityUtil.composeWithSeparator2(httpMethod, au.getAuthorityAction()));
         }
+
+        if(AuthorityTypeEnum.MENU.equals(au.getAuthorityType())) {
+            if(StringUtils.isNotBlank(au.getMenuId())) {
+                return ServiceUtil.buildFuture(JsonResult.sendFailedResult("MENU类型不能属于MENU"));
+            }
+        }
+
+        au.setAppTag(catlog.getAppTag());
+
         if(StringUtils.isNotBlank(au.getId())){
             auService.updateById(au);
         } else {

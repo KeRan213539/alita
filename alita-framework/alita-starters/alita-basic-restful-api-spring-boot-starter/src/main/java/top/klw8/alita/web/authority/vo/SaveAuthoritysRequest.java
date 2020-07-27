@@ -33,6 +33,10 @@ public class SaveAuthoritysRequest {
     @NotEmpty(validatFailMessage = "菜单所属权限目录的ID不能为空")
     @ApiParam(value = "菜单所属权限目录的ID", required=true)
     private String catlogId;
+
+    @NotEmpty(validatFailMessage = "URL类型权限所属MENU类型权限的ID不能为空")
+    @ApiParam(value = "URL类型权限所属MENU类型权限的ID")
+    private String menuId;
     
     @Required(validatFailMessage = "权限名称不能为空")
     @NotEmpty(validatFailMessage = "权限名称不能为空")

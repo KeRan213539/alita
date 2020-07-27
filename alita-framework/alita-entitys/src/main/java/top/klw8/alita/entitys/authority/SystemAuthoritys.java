@@ -56,6 +56,13 @@ public class SystemAuthoritys extends BaseEntity implements IAssociatedApp {
     private String catlogId;
 
     /**
+     * @author klw(213539@qq.com)
+     * @Description: URL类型权限所属MENU类型权限的ID
+     */
+    @TableField("menu_id")
+    private String menuId;
+
+    /**
      * @author xp
      * @Description: 权限组名称，冗余字段
      */
