@@ -4,10 +4,8 @@ import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Component;
 import top.klw8.alita.entitys.authority.SystemAuthoritysApp;
 import top.klw8.alita.service.api.authority.IAuthorityAdminDataSecuredProvider;
-import top.klw8.alita.service.api.authority.IAuthorityAppProvider;
 import top.klw8.alita.starter.annotations.PublicDataSecuredRegister;
 import top.klw8.alita.starter.auscan.IDataSecuredSource;
-import top.klw8.alita.starter.auscan.IDataSecuredSourceItem;
 
 import java.util.ArrayList;
 import java.util.List;

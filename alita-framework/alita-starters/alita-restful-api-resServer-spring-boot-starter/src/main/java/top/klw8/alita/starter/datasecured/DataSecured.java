@@ -17,7 +17,7 @@ public @interface DataSecured {
      * @author klw(213539@qq.com)
      * @Description: 资源名称
      */
-    String resource() default "";
+    String[] resource() default {};
 
     /**
      * @author klw(213539@qq.com)

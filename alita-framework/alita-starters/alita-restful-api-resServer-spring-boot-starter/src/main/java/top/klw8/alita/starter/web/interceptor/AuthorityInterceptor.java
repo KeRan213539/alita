@@ -157,12 +157,12 @@ public class AuthorityInterceptor implements WebFilter {
         // 判断是否需要走解析器,不需要的话直接验证数据权限
         if(dataSecuredAnnotation.parser() == IResourceParser.class){
             // 解析器是默认的,说明没有配制解析器,拿资源标识
-            String resTag = dataSecuredAnnotation.resource();
-            if(StringUtils.isBlank(resTag)){
+            String[] resTags = dataSecuredAnnotation.resource();
+            if(resTags.length == 0){
                 //没有配制解析器,也没有配制资源标识
                 return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.DATA_SECURED_NO_RES)));
             }
-            if(checkDataSecured(authorityAction, resTag, dataSecuredMap)){
+            if(checkDataSecured(authorityAction, resTags, dataSecuredMap)){
                 // 有数据权限,继续下一个拦截器
                 return chain.filter(exchange);
             } else {
@@ -311,8 +311,8 @@ public class AuthorityInterceptor implements WebFilter {
                 .doOnError(error -> DataBufferUtils.release(buffer));
     }
 
-    private boolean checkDataSecured(String reqUrl, String resTag, Map<String, List<String>> dataSecuredMap){
-        return checkDataSecured(reqUrl, new ResourceParserResult(new String[]{resTag}), dataSecuredMap);
+    private boolean checkDataSecured(String reqUrl, String[] resTags, Map<String, List<String>> dataSecuredMap){
+        return checkDataSecured(reqUrl, new ResourceParserResult(resTags), dataSecuredMap);
     }
 
     private boolean checkDataSecured(String reqUrl, ResourceParserResult parserResult, Map<String, List<String>> dataSecuredMap){
@@ -324,25 +324,33 @@ public class AuthorityInterceptor implements WebFilter {
         if(resTags.length <= 0){
             return false;
         }
+
+        int passCount = 0;
         // 先在当前请求的权限下的数据权限中找
         List<String> sdList = dataSecuredMap.get(reqUrl);
         if(sdList != null){
             for(String resTag : resTags){
                 if(sdList.contains(resTag)){
-                    return Boolean.TRUE;
+                    passCount++;
                 }
             }
         }
+
+        if(passCount == resTags.length){
+            // 如果这里就够了,就不去找全局了
+            return Boolean.TRUE;
+        }
+
         // 再找全局
         List<String> publicSDList = dataSecuredMap.get(WebApiContext.CACHE_KEY_USER_PUBLIC_DATA_SECUREDS);
         if(publicSDList != null){
             for(String resTag : resTags){
                 if(publicSDList.contains(resTag)){
-                    return Boolean.TRUE;
+                    passCount++;
                 }
             }
         }
-        return Boolean.FALSE;
+        return passCount == resTags.length;
     }
 
 }
