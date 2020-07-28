@@ -66,9 +66,9 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
      * @return int
      */
     @Insert("<script>" +
-            "INSERT INTO sys_user_has_role(user_id, role_id) VALUES" +
+            "INSERT INTO sys_user_has_role(user_id, role_id, app_tag) VALUES" +
             "<foreach collection =\"list\" item=\"item\" index= \"index\" separator =\",\"> " +
-            "(#{item.userId}, #{item.roleId})" +
+            "(#{item.userId}, #{item.roleId}, #{item.appTag})" +
             "</foreach >" +
             "</script>")
     int batchInsertRoles4User(List<Map<String, String>> list);

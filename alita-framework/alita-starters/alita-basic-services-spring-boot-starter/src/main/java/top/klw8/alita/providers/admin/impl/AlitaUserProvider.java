@@ -164,6 +164,7 @@ public class AlitaUserProvider implements IAlitaUserProvider {
             return CompletableFuture.supplyAsync(() -> JsonResult.sendBadParameterResult("用户不存在")
             , ServiceContext.executor);
         }
+        List<SystemRole> roleList = new ArrayList<>(roleIds.size());
         for(String roleId : roleIds){
             SystemRole role = roleService.getById(roleId);
             if(null == role){
@@ -173,9 +174,10 @@ public class AlitaUserProvider implements IAlitaUserProvider {
             if(StringUtils.isNotBlank(appTag) && !appTag.equals(role.getAppTag())){
                 return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("传入的appTag与角色的不匹配"));
             }
+            roleList.add(role);
         }
         return CompletableFuture.supplyAsync(() -> JsonResult.sendSuccessfulResult(
-                userService.replaceRole2User(userId, roleIds)), ServiceContext.executor);
+                userService.replaceRole2User(userId, roleList)), ServiceContext.executor);
     }
 
     @Override

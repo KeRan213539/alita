@@ -150,9 +150,6 @@ public class AuthorityInterceptor implements WebFilter {
 
         // 需要验证数据权限
         Map<String, List<String>> dataSecuredMap = userCacheHelper.getUserDataSecured(userId, currectApp.getAppTag());
-        if (dataSecuredMap == null) {
-            return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.LOGIN_TIMEOUT)));
-        }
 
         // 判断是否需要走解析器,不需要的话直接验证数据权限
         if(dataSecuredAnnotation.parser() == IResourceParser.class){
@@ -322,6 +319,11 @@ public class AuthorityInterceptor implements WebFilter {
 
         String[] resTags = parserResult.getParsedResources();
         if(resTags.length <= 0){
+            return false;
+        }
+
+        if (dataSecuredMap == null) {
+            log.debug("需要验证数据权限,但是该角色没有任何数据权限!");
             return false;
         }
 

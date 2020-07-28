@@ -39,10 +39,10 @@ public interface IAlitaUserService extends IService<AlitaUserAccount> {
      * @author klw
      * @Description: 使用传入的角色List替换用户中的角色
      * @param userId
-     * @param roleIdList
+     * @param roleList
      * @return
      */
-    int replaceRole2User(String userId, List<String> roleIdList);
+    int replaceRole2User(String userId, List<SystemRole> roleList);
 
     /**
      * @author klw(213539@qq.com)
