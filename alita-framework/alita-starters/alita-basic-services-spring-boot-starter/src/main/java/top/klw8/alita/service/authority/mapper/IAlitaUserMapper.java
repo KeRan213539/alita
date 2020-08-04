@@ -34,7 +34,11 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
      * @param: roleId
      * @return int
      */
-    @Insert("INSERT INTO sys_user_has_role(user_id, role_id) VALUES(#{userId}, #{roleId})")
+    @Insert("INSERT INTO sys_user_has_role(user_id, role_id, app_tag) " +
+            "VALUES(" +
+            "#{userId}, #{roleId}, " +
+            "(SELECT app_tag FROM sys_role WHERE id = #{roleId})" +
+            ")")
     int addRole2User(String userId, String roleId);
 
     /**

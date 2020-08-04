@@ -26,11 +26,22 @@ public interface ISystemDataSecuredService extends IService<SystemDataSecured> {
     /**
      * @author klw(213539@qq.com)
      * @Description: 根据所属权限ID查找数据权限, 传空查全局数据权限
-     * @Date 2020/5/18 16:07
+     * @Date 2020/8/4 16:01
      * @param: auId
+     * @param: appTag
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemDataSecured>
      */
-    List<SystemDataSecured> findByAuId(String auId);
+    List<SystemDataSecured> findByAuId(String auId, String appTag);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 根据角色ID和所属权限ID查找数据权限, 权限ID传空查全局数据权限
+     * @Date 2020/8/4 16:31
+     * @param: roleId 必传
+     * @param: auId 可选
+     * @return java.util.List<top.klw8.alita.entitys.authority.SystemDataSecured>
+     */
+    List<SystemDataSecured> findByRoleIdAndAuId(String roleId, String auId);
 
     /**
      * @author klw(213539@qq.com)

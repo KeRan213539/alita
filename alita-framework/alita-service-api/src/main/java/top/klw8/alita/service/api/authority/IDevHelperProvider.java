@@ -30,10 +30,10 @@ public interface IDevHelperProvider {
     /**
      * @author klw(213539@qq.com)
      * @Description: 添加所有权限到管理员角色和管理员账户,如果管理员角色或账户不存在则创建
-     * @Date 2019/10/22 17:23
-     * @param:
+     * @Date 2020/8/4 17:11
+     * @param: app
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> addAllAuthoritys2AdminRole();
+    CompletableFuture<JsonResult> addAllAuthoritys2AdminRole(SystemAuthoritysApp app);
 
 }

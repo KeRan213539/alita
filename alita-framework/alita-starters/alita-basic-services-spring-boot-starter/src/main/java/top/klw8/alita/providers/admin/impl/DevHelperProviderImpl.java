@@ -37,7 +37,6 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
 
     private static final String ADMIN_ROLE_ID = "d84c6b4ed9134d468e5a43d467036c47";
 
-    private static final String ADMIN_APP_TAG = "SUPER_ADMIN";
 
     @Autowired
     private ISystemAuthoritysService auService;
@@ -110,7 +109,7 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                             }
                             if (isAdd2SuperAdmin) {
                                 // 添加到超级管理员角色和用户中
-                                checkAdminUserRoleAndAddIfNotExist();
+                                checkAdminUserRoleAndAddIfNotExist(app);
                                 roleService.addAuthority2Role(ADMIN_ROLE_ID, auFinded);
                             }
 
@@ -128,7 +127,7 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                                     }
                                     if (isAdd2SuperAdmin) {
                                         // 添加到超级管理员角色和用户中
-                                        checkAdminUserRoleAndAddIfNotExist();
+                                        checkAdminUserRoleAndAddIfNotExist(app);
                                         roleService.addDataSecured2Role(ADMIN_ROLE_ID, dsFinded);
                                     }
                                 }
@@ -150,7 +149,7 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                     }
                     if (isAdd2SuperAdmin) {
                         // 添加到超级管理员角色和用户中
-                        checkAdminUserRoleAndAddIfNotExist();
+                        checkAdminUserRoleAndAddIfNotExist(app);
                         roleService.addDataSecured2Role(ADMIN_ROLE_ID, dsFinded);
                     }
                 }
@@ -164,10 +163,10 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> addAllAuthoritys2AdminRole() {
+    public CompletableFuture<JsonResult> addAllAuthoritys2AdminRole(SystemAuthoritysApp app) {
 
         // 检查超级管理员角色和用户是否存在,不存在则添加
-        checkAdminUserRoleAndAddIfNotExist();
+        checkAdminUserRoleAndAddIfNotExist(app);
 
         // 查询全部权限,并替换管理员角色中的权限
         List<SystemAuthoritys> authoritysList = auService.list();
@@ -175,10 +174,10 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
         return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult("OK"));
     }
 
-    private void checkAdminUserRoleAndAddIfNotExist(){
+    private void checkAdminUserRoleAndAddIfNotExist(SystemAuthoritysApp app){
         boolean isNeedAddRole2User = false;
-        if (null == appService.getById(ADMIN_APP_TAG)) {
-            appService.save(buildAdminApp());
+        if (null == appService.getById(app.getAppTag())) {
+            appService.save(buildAdminApp(app));
         }
         if (EntityUtil.isEntityNoId(userService.getById(ADMIN_USER_ID))) {
             isNeedAddRole2User = true;
@@ -186,7 +185,7 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
         }
         if (EntityUtil.isEntityNoId(roleService.getById(ADMIN_ROLE_ID))) {
             isNeedAddRole2User = true;
-            roleService.save(buildAdminRole());
+            roleService.save(buildAdminRole(app));
         }
         if (isNeedAddRole2User) {
             userService.addRole2User(ADMIN_USER_ID, ADMIN_ROLE_ID);
@@ -201,18 +200,18 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
         return superAdmin;
     }
 
-    private SystemRole buildAdminRole(){
+    private SystemRole buildAdminRole(SystemAuthoritysApp app){
         SystemRole superAdminRole = new SystemRole();
         superAdminRole.setId(ADMIN_ROLE_ID);
         superAdminRole.setRoleName("超级管理员");
         superAdminRole.setRemark("超级管理员");
-        superAdminRole.setAppTag(ADMIN_APP_TAG);
+        superAdminRole.setAppTag(app.getAppTag());
         return superAdminRole;
     }
 
-    private SystemAuthoritysApp buildAdminApp(){
+    private SystemAuthoritysApp buildAdminApp(SystemAuthoritysApp app){
         SystemAuthoritysApp superAdminApp = new SystemAuthoritysApp();
-        superAdminApp.setAppTag(ADMIN_APP_TAG);
+        superAdminApp.setAppTag(app.getAppTag());
         superAdminApp.setAppName("超级管理应用");
         superAdminApp.setRemark("超级管理应用");
         return superAdminApp;

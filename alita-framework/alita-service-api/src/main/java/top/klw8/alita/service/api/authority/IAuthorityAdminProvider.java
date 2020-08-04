@@ -238,11 +238,14 @@ public interface IAuthorityAdminProvider {
     /**
      * @author klw(213539@qq.com)
      * @Description: 根据权限路径获取该权限下的数据权限(包括全局数据权限)
-     * @Date 2020/5/18 15:22
-     * @param: auPath
+     * @Date 2020/8/4 15:31
+     * @param: httpMethod
+     * @param: auAction
+     * @param: appTag
+     * @param: userId  有值查指定用户权限中的,没值查全部
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> dataSecuredsByAuthorityAction(String httpMethod, String auAction, String appTag);
+    CompletableFuture<JsonResult> dataSecuredsByAuthorityAction(String httpMethod, String auAction, String appTag, String userId);
 
     /**
      * @author klw(213539@qq.com)

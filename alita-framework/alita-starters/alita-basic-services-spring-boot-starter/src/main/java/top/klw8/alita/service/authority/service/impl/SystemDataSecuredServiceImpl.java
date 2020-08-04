@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import top.klw8.alita.entitys.authority.SystemDataSecured;
 import top.klw8.alita.service.authority.ISystemDataSecuredService;
 import top.klw8.alita.service.authority.mapper.ISystemDataSecuredMapper;
@@ -36,14 +37,22 @@ public class SystemDataSecuredServiceImpl extends ServiceImpl<ISystemDataSecured
     }
 
     @Override
-    public List<SystemDataSecured> findByAuId(String auId) {
+    public List<SystemDataSecured> findByAuId(String auId, String appTag) {
         QueryWrapper<SystemDataSecured> query = new QueryWrapper();
         if(StringUtils.isBlank(auId)){
             query.isNull("authoritys_id");
         } else {
             query.eq("authoritys_id", auId);
         }
+        if(StringUtils.isNotBlank(appTag)){
+            query.eq("app_tag", appTag);
+        }
         return this.list(query);
+    }
+
+    public List<SystemDataSecured> findByRoleIdAndAuId(String roleId, String auId){
+        Assert.hasText(roleId, "roleId 不能为空");
+        return this.baseMapper.findByRoleIdAndAuId(roleId, auId);
     }
 
     @Override

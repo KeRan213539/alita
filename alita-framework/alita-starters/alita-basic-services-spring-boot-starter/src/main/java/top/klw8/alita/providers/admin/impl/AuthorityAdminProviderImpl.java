@@ -614,7 +614,8 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> dataSecuredsByAuthorityAction(String httpMethod, String auAction, String appTag) {
+    public CompletableFuture<JsonResult> dataSecuredsByAuthorityAction(String httpMethod, String auAction,
+                                                                       String appTag, String userId) {
         Assert.hasText(auAction, "权限路径不能为空!");
         Assert.hasText(httpMethod, "httpMethod不能为空!");
 
@@ -625,10 +626,24 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         if(EntityUtil.isEntityNoId(au)){
             return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("权限路径格对应的权限不存在!"));
         }
-        List<SystemDataSecured> auDsList = dsService.findByAuId(au.getId());
-        List<SystemDataSecured> publicDsList = dsService.findByAuId(null);
-        auDsList.addAll(publicDsList);
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(publicDsList));
+
+
+        List<SystemDataSecured> resultList = new LinkedList<>();
+        if(StringUtils.isNotBlank(userId)){
+            List<SystemRole> userRoles = userService.getUserAllRoles(userId, appTag);
+            for(SystemRole role : userRoles){
+                List<SystemDataSecured> auDsList = dsService.findByRoleIdAndAuId(role.getId(), au.getId());
+                resultList.addAll(auDsList);
+                List<SystemDataSecured> publicDsList = dsService.findByRoleIdAndAuId(role.getId(), null);
+                resultList.addAll(publicDsList);
+            }
+        } else {
+            List<SystemDataSecured> auDsList = dsService.findByAuId(au.getId(), appTag);
+            resultList.addAll(auDsList);
+            List<SystemDataSecured> publicDsList = dsService.findByAuId(null, appTag);
+            resultList.addAll(publicDsList);
+        }
+        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(resultList));
     }
 
     public CompletableFuture<JsonResult> allAuthoritysWithCatlog(String appTag){

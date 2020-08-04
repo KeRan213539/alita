@@ -6,8 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import springfox.documentation.annotations.ApiIgnore;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
 import top.klw8.alita.entitys.authority.SystemDataSecured;
@@ -15,9 +17,11 @@ import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 import top.klw8.alita.service.result.JsonResult;
+import top.klw8.alita.service.result.code.CommonResultCodeEnum;
 import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.datasecured.DataSecured;
+import top.klw8.alita.starter.utils.TokenUtil;
 import top.klw8.alita.starter.web.base.WebapiBaseController;
 import top.klw8.alita.validator.UseValidator;
 import top.klw8.alita.validator.annotations.NotEmpty;
@@ -306,9 +310,11 @@ public class AuthorityAdminController extends WebapiBaseController {
     @UseValidator
     @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> dataSecuredsByAuAction(
+            @ApiIgnore
+            ServerHttpRequest request,
+
             @Required(validatFailMessage = "httpMethod不能为空")
                     HttpMethodPrarm httpMethod,
-
             @Required(validatFailMessage = "权限Action不能为空")
             @NotEmpty(validatFailMessage = "权限Action不能为空")
             String auAction,
@@ -317,7 +323,11 @@ public class AuthorityAdminController extends WebapiBaseController {
             @NotEmpty(validatFailMessage = "应用标识不能为空")
             String appTag
     ){
-        return Mono.fromFuture(auProvider.dataSecuredsByAuthorityAction(httpMethod.name(), auAction, appTag));
+        String userId = TokenUtil.getUserId(request);
+        if (userId == null) {
+            return Mono.just(JsonResult.sendFailedResult(CommonResultCodeEnum.TOKEN_ERR));
+        }
+        return Mono.fromFuture(auProvider.dataSecuredsByAuthorityAction(httpMethod.name(), auAction, appTag, userId));
     }
 
     @ApiOperation(value = "获取全部权限(按目录分组)", notes = "获取全部权限(按目录分组),用于新增/编辑数据权限时选择所属分组", httpMethod = "GET", produces = "application/json")
