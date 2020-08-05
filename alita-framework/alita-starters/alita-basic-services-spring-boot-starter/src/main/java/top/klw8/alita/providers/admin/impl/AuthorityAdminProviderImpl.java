@@ -617,14 +617,18 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     public CompletableFuture<JsonResult> dataSecuredsByAuthorityAction(String httpMethod, String auAction,
                                                                        String appTag, String userId) {
         Assert.hasText(auAction, "权限路径不能为空!");
-        Assert.hasText(httpMethod, "httpMethod不能为空!");
 
         if(auAction.startsWith("http")){
-            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("权限路径格式不正确,请传入服务端返回的!"));
+            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("权限action格式不正确,请传入服务端返回的!"));
         }
-        SystemAuthoritys au = auService.findByAuActionAndAppTag(AuthorityUtil.composeWithSeparator2(httpMethod, auAction), appTag);
+        SystemAuthoritys au;
+        if(StringUtils.isBlank(httpMethod)){
+            au = auService.findByAuActionAndAppTag(auAction, appTag);
+        } else {
+            au = auService.findByAuActionAndAppTag(AuthorityUtil.composeWithSeparator2(httpMethod, auAction), appTag);
+        }
         if(EntityUtil.isEntityNoId(au)){
-            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("权限路径格对应的权限不存在!"));
+            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("权限action格对应的权限不存在!"));
         }
 
 

@@ -298,12 +298,12 @@ public class AuthorityAdminController extends WebapiBaseController {
         return Mono.fromFuture(auProvider.auInfo(auId));
     }
 
-    @ApiOperation(value = "根据权限Action获取该权限下的数据权限和全局数据权限", notes = "根据权限Action获取该权限下的数据权限和全局数据权限", httpMethod = "GET", produces = "application/json")
+    @ApiOperation(value = "根据权限Action获取该权限下的当前登录用户拥有的数据权限和全局数据权限", notes = "根据权限Action获取该权限下的当前登录用户拥有的数据权限和全局数据权限", httpMethod = "GET", produces = "application/json")
     @GetMapping("/dataSecuredsByAuAction")
     @AuthorityRegister(authorityName = "根据权限Action获取该权限下的数据权限和全局数据权限", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "httpMethod", value = "httpMethod", paramType = "query", required = true),
+            @ApiImplicitParam(name = "httpMethod", value = "httpMethod", paramType = "query"),
             @ApiImplicitParam(name = "auAction", value = "权限Action", paramType = "query", required = true),
             @ApiImplicitParam(name = "appTag", value = "应用标识", paramType = "query", required = true),
     })
@@ -313,8 +313,8 @@ public class AuthorityAdminController extends WebapiBaseController {
             @ApiIgnore
             ServerHttpRequest request,
 
-            @Required(validatFailMessage = "httpMethod不能为空")
-                    HttpMethodPrarm httpMethod,
+            HttpMethodPrarm httpMethod,
+
             @Required(validatFailMessage = "权限Action不能为空")
             @NotEmpty(validatFailMessage = "权限Action不能为空")
             String auAction,
@@ -327,7 +327,7 @@ public class AuthorityAdminController extends WebapiBaseController {
         if (userId == null) {
             return Mono.just(JsonResult.sendFailedResult(CommonResultCodeEnum.TOKEN_ERR));
         }
-        return Mono.fromFuture(auProvider.dataSecuredsByAuthorityAction(httpMethod.name(), auAction, appTag, userId));
+        return Mono.fromFuture(auProvider.dataSecuredsByAuthorityAction(httpMethod == null ? null : httpMethod.name(), auAction, appTag, userId));
     }
 
     @ApiOperation(value = "获取全部权限(按目录分组)", notes = "获取全部权限(按目录分组),用于新增/编辑数据权限时选择所属分组", httpMethod = "GET", produces = "application/json")
