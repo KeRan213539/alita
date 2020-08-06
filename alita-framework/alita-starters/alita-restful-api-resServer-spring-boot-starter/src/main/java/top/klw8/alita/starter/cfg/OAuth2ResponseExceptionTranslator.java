@@ -21,9 +21,9 @@ public class OAuth2ResponseExceptionTranslator implements WebResponseExceptionTr
     public ResponseEntity<JsonResult> translate(Exception e) {
         Throwable throwable = e.getCause();
         if (throwable instanceof InvalidTokenException) {
-            return new ResponseEntity<>(JsonResult.sendFailedResult(CommonResultCodeEnum.TOKEN_ERR), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(JsonResult.failed(CommonResultCodeEnum.TOKEN_ERR), HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>(JsonResult.sendFailedResult(CommonResultCodeEnum.ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(JsonResult.failed(CommonResultCodeEnum.ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

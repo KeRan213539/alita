@@ -63,14 +63,14 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
         return CompletableFuture.supplyAsync(() -> {
 
             if(StringUtils.isBlank(app.getAppTag())){
-                return JsonResult.sendFailedResult("注册失败: appTag 未配制");
+                return JsonResult.failed("注册失败: appTag 未配制");
             }
             //检查app是否存在
             SystemAuthoritysApp appFinded = appService.getById(app.getAppTag());
             if(null == appFinded){
                 //app不存在,检查name是否有值,有就新增app
                 if(StringUtils.isBlank(app.getAppName())){
-                    return JsonResult.sendFailedResult("注册失败: 配制的APP不存在,需要创建,但是缺少app名称");
+                    return JsonResult.failed("注册失败: 配制的APP不存在,需要创建,但是缺少app名称");
                 }
                 SystemAuthoritysApp app4Save = new SystemAuthoritysApp();
                 app4Save.setAppTag(app.getAppTag());
@@ -156,9 +156,9 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                 processFlag = true;
             }
             if(processFlag){
-                return JsonResult.sendSuccessfulResult("注册完成");
+                return JsonResult.successfu("注册完成");
             }
-            return JsonResult.sendSuccessfulResult("扫描完成,没有任何待注册数据", null);
+            return JsonResult.successfu("扫描完成,没有任何待注册数据", null);
         }, ServiceContext.executor);
     }
 
@@ -171,7 +171,7 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
         // 查询全部权限,并替换管理员角色中的权限
         List<SystemAuthoritys> authoritysList = auService.list();
         roleService.replaceAuthority2Role(ADMIN_ROLE_ID, authoritysList.stream().map(SystemAuthoritys::getId).collect(Collectors.toList()));
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult("OK"));
+        return ServiceUtil.buildFuture(JsonResult.successfu("OK"));
     }
 
     private void checkAdminUserRoleAndAddIfNotExist(SystemAuthoritysApp app){

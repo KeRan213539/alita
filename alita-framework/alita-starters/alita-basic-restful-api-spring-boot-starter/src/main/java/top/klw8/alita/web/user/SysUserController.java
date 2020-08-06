@@ -52,7 +52,7 @@ public class SysUserController {
     public Mono<JsonResult> userMenus(@ApiIgnore ServerHttpRequest request){
         String userId = TokenUtil.getUserId(request);
         if (userId == null) {
-            return Mono.just(JsonResult.sendFailedResult(CommonResultCodeEnum.TOKEN_ERR));
+            return Mono.just(JsonResult.failed(CommonResultCodeEnum.TOKEN_ERR));
         }
         return Mono.fromFuture(userProvider.findUserAuthorityMenus(userId, currectApp.getAppTag()));
     }

@@ -111,11 +111,11 @@ public class AuthorityInterceptor implements WebFilter {
         for (String authPath : cfgBean.getAuthPath()) {
             if (pathMatcher.match(authPath, reqPath)) {
                 if (userId == null) {
-                    return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.TOKEN_ERR)));
+                    return sendJsonStr(response, JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.TOKEN_ERR)));
                 }
                 Map<String, String> authorityMap = userCacheHelper.getUserAuthority(userId, currectApp.getAppTag());
                 if (authorityMap == null) {
-                    return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.LOGIN_TIMEOUT)));
+                    return sendJsonStr(response, JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.LOGIN_TIMEOUT)));
                 }
                 // 通过反射获取class中定义的 mapping 用于匹配权限(库里存的是原始的mapping,如果使用了url参数,就无法匹配到权限,所以拿原始mapping来匹配)
                 HandlerMethod handlerMethod = reqMapping.getHandlerInternal(exchange).block();
@@ -126,7 +126,7 @@ public class AuthorityInterceptor implements WebFilter {
                 authorityAction = env.resolvePlaceholders(AuthorityUtil.getCompleteMappingUrl(handlerMethod));
                 if (StringUtils.isBlank(authorityAction) || StringUtils.isEmpty(authorityMap.get(authorityAction))) {
                     // 没有权限
-                    return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.NO_PRIVILEGES)));
+                    return sendJsonStr(response, JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.NO_PRIVILEGES)));
                 }
                 break;
             }
@@ -145,7 +145,7 @@ public class AuthorityInterceptor implements WebFilter {
         }
 
         if (userId == null) {
-            return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.TOKEN_ERR)));
+            return sendJsonStr(response, JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.TOKEN_ERR)));
         }
 
         // 需要验证数据权限
@@ -157,14 +157,14 @@ public class AuthorityInterceptor implements WebFilter {
             String[] resTags = dataSecuredAnnotation.resource();
             if(resTags.length == 0){
                 //没有配制解析器,也没有配制资源标识
-                return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.DATA_SECURED_NO_RES)));
+                return sendJsonStr(response, JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.DATA_SECURED_NO_RES)));
             }
             if(checkDataSecured(authorityAction, resTags, dataSecuredMap)){
                 // 有数据权限,继续下一个拦截器
                 return chain.filter(exchange);
             } else {
                 // 没有数据权限
-                return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.NO_PRIVILEGES)));
+                return sendJsonStr(response, JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.NO_PRIVILEGES)));
             }
         }
 
@@ -293,7 +293,7 @@ public class AuthorityInterceptor implements WebFilter {
                 }
             }
             // 没有数据权限
-            return sendJsonStr(response, JSON.toJSONString(JsonResult.sendFailedResult(CommonResultCodeEnum.NO_PRIVILEGES)));
+            return sendJsonStr(response, JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.NO_PRIVILEGES)));
         });
     }
 

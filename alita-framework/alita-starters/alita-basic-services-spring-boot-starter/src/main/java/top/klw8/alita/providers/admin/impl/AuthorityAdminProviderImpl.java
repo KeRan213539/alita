@@ -83,16 +83,16 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         return CompletableFuture.supplyAsync(() -> {
             SystemAuthoritysCatlog catlog = catlogService.getById(au.getCatlogId());
             if (catlog == null) {
-                return JsonResult.sendFailedResult(AuthorityResultCodeEnum.CATLOG_NOT_EXIST, "权限目录不存在【" + au.getCatlogId() + "】");
+                return JsonResult.failed(AuthorityResultCodeEnum.CATLOG_NOT_EXIST, "权限目录不存在【" + au.getCatlogId() + "】");
             }
             if(StringUtils.isBlank(au.getId())) {
                 au.setId(UUIDUtil.getRandomUUIDString());
             }
             boolean isSaved = auService.save(au);
             if (isSaved) {
-                return JsonResult.sendSuccessfulResult();
+                return JsonResult.successfu();
             }
-            return JsonResult.sendFailedResult("保存失败");
+            return JsonResult.failed("保存失败");
         }, ServiceContext.executor);
     }
 
@@ -100,9 +100,9 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     public CompletableFuture<JsonResult> addCatlog(SystemAuthoritysCatlog catlog) {
         return CompletableFuture.supplyAsync(() -> {
             if (catlogService.save(catlog)) {
-                return JsonResult.sendSuccessfulResult();
+                return JsonResult.successfu();
             } else {
-                return JsonResult.sendFailedResult("保存失败");
+                return JsonResult.failed("保存失败");
             }
         }, ServiceContext.executor);
     }
@@ -111,9 +111,9 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     public CompletableFuture<JsonResult> addSysRole(SystemRole role) {
         return CompletableFuture.supplyAsync(() -> {
             if (roleService.save(role)) {
-                return JsonResult.sendSuccessfulResult();
+                return JsonResult.successfu();
             } else {
-                return JsonResult.sendFailedResult("保存失败");
+                return JsonResult.failed("保存失败");
             }
         }, ServiceContext.executor);
     }
@@ -124,17 +124,17 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             SystemRole role = roleService.getById(roleId);
 
             if (EntityUtil.isEntityNoId(role)) {
-                return JsonResult.sendFailedResult(AuthorityResultCodeEnum.ROLE_NOT_EXIST);
+                return JsonResult.failed(AuthorityResultCodeEnum.ROLE_NOT_EXIST);
             }
             SystemAuthoritys au = auService.getById(auId);
             if (EntityUtil.isEntityNoId(au)) {
-                return JsonResult.sendFailedResult(AuthorityResultCodeEnum.AUTHORITY_NOT_EXIST);
+                return JsonResult.failed(AuthorityResultCodeEnum.AUTHORITY_NOT_EXIST);
             }
             int saveResult = roleService.addAuthority2Role(role.getId(), au);
             if (saveResult > 0) {
-                return JsonResult.sendSuccessfulResult();
+                return JsonResult.successfu();
             } else {
-                return JsonResult.sendFailedResult("添加失败");
+                return JsonResult.failed("添加失败");
             }
         }, ServiceContext.executor);
     }
@@ -144,17 +144,17 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         return CompletableFuture.supplyAsync(() -> {
             AlitaUserAccount user = userService.getById(userId);
             if (EntityUtil.isEntityNoId(user)) {
-                return JsonResult.sendFailedResult(AuthorityResultCodeEnum.USER_NOT_EXIST);
+                return JsonResult.failed(AuthorityResultCodeEnum.USER_NOT_EXIST);
             }
             SystemRole role = roleService.getById(roleId);
             if (EntityUtil.isEntityNoId(role)) {
-                return JsonResult.sendFailedResult(AuthorityResultCodeEnum.ROLE_NOT_EXIST);
+                return JsonResult.failed(AuthorityResultCodeEnum.ROLE_NOT_EXIST);
             }
             int saveResult = userService.addRole2User(user.getId(), role.getId());
             if (saveResult > 0) {
-                return JsonResult.sendSuccessfulResult();
+                return JsonResult.successfu();
             } else {
-                return JsonResult.sendFailedResult("添加失败");
+                return JsonResult.failed("添加失败");
             }
         }, ServiceContext.executor);
     }
@@ -167,7 +167,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             AlitaUserAccount sysUser = userService.getById(userId);
             // 判断是否查询到用户
             if (EntityUtil.isEntityNoId(sysUser)) {
-                return JsonResult.sendFailedResult(AuthorityResultCodeEnum.USER_NOT_EXIST);
+                return JsonResult.failed(AuthorityResultCodeEnum.USER_NOT_EXIST);
             } else {
                 // 根据用户ID查询用户角色
                 List<SystemRole> userRoles = userService.getUserAllRoles(userId, null);
@@ -186,7 +186,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
                     sysUser.setUserRoles(userRoles);
                 }
                 userCacheHelper.putUserInfo2Cache(sysUser);
-                return JsonResult.sendSuccessfulResult();
+                return JsonResult.successfu();
             }
         }, ServiceContext.executor);
     }
@@ -203,7 +203,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         List<OrderItem> orders = new ArrayList<>(1);
         orders.add(OrderItem.asc("role_name"));
         page.setOrders(orders);
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
+        return ServiceUtil.buildFuture(JsonResult.successfu(
                 roleService.page(page, query)));
     }
 
@@ -216,7 +216,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             query.eq("app_tag", appTag);
             query.orderByAsc("role_name");
         }
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(roleService.list(query)));
+        return ServiceUtil.buildFuture(JsonResult.successfu(roleService.list(query)));
     }
 
     @Override
@@ -352,17 +352,17 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         List<SystemAuthorityCatlogPojo> catlogPojoList = new ArrayList<>(catlogMap.values());
         Collections.sort(catlogPojoList);
         catlogPojoList.stream().forEach(systemAuthorityCatlogPojo -> Collections.sort(systemAuthorityCatlogPojo.getAuthorityList()));
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(catlogPojoList));
+        return ServiceUtil.buildFuture(JsonResult.successfu(catlogPojoList));
     }
 
     @Override
     public CompletableFuture<JsonResult> saveRoleAuthoritys(String roleId, List<String> auIds, String appTag) {
         SystemRole role = roleService.getById(roleId);
         if(role == null){
-            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("角色不存在"));
+            return ServiceUtil.buildFuture(JsonResult.badParameter("角色不存在"));
         }
         if(StringUtils.isNotBlank(appTag) && !appTag.equals(role.getAppTag())){
-            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("传入的appTag与角色的不匹配"));
+            return ServiceUtil.buildFuture(JsonResult.badParameter("传入的appTag与角色的不匹配"));
         }
         for(String auId : auIds){
             IAssociatedApp finded;
@@ -372,13 +372,13 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
                 finded = auService.getById(auId);
             }
             if(null == finded){
-                return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("权限或者数据权限不存在"));
+                return ServiceUtil.buildFuture(JsonResult.badParameter("权限或者数据权限不存在"));
             }
             if(!role.getAppTag().equals(finded.getAppTag())){
-                return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("权限或者数据权限与角色所属app不一致!"));
+                return ServiceUtil.buildFuture(JsonResult.badParameter("权限或者数据权限与角色所属app不一致!"));
             }
         }
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(roleService.replaceAuthority2Role(roleId, auIds)));
+        return ServiceUtil.buildFuture(JsonResult.successfu(roleService.replaceAuthority2Role(roleId, auIds)));
     }
 
     @Override
@@ -388,7 +388,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
 
         SystemAuthoritysApp app = appService.getById(role.getAppTag());
         if(null == app){
-            return ServiceUtil.buildFuture(JsonResult.sendFailedResult("appTag 对应的应用不存在"));
+            return ServiceUtil.buildFuture(JsonResult.failed("appTag 对应的应用不存在"));
         }
 
         if(StringUtils.isNotBlank(role.getId())){
@@ -413,7 +413,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             for(SystemAuthoritys au : role.getAuthorityList()){
                 if(!isCopy && auService.getById(au.getId()) == null){
                     TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                    return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("权限不存在"));
+                    return ServiceUtil.buildFuture(JsonResult.badParameter("权限不存在"));
                 }
                 auIdList.add(au.getId());
             }
@@ -424,7 +424,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             }
             roleService.replaceAuthority2Role(role.getId(), auIdList);
         }
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
+        return ServiceUtil.buildFuture(JsonResult.successfu());
     }
 
     @Override
@@ -433,11 +433,11 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         Assert.hasText(roleId, "角色ID不能为空!");
         List<AlitaUserAccount> userList = userService.getUserByRoleId(roleId);
         if(CollectionUtils.isNotEmpty(userList)){
-            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("有用户拥有该角色,不允许删除"));
+            return ServiceUtil.buildFuture(JsonResult.badParameter("有用户拥有该角色,不允许删除"));
         }
         roleService.cleanAuthoritysFromRole(roleId);
         roleService.removeById(roleId);
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
+        return ServiceUtil.buildFuture(JsonResult.successfu());
     }
 
     @Override
@@ -478,7 +478,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             }
         }
 
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(tempResult));
+        return ServiceUtil.buildFuture(JsonResult.successfu(tempResult));
     }
 
     @Override
@@ -493,7 +493,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         List<OrderItem> orders = new ArrayList<>(1);
         orders.add(OrderItem.asc("show_index"));
         page.setOrders(orders);
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
+        return ServiceUtil.buildFuture(JsonResult.successfu(
                 catlogService.page(page, query)));
     }
 
@@ -504,7 +504,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             query.eq("app_tag", appTag);
         }
         query.orderByAsc("show_index");
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
+        return ServiceUtil.buildFuture(JsonResult.successfu(
                 catlogService.list(query)));
     }
 
@@ -513,14 +513,14 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         Assert.notNull(catlog, "要保存的权限目录不能为 null !!!");
         SystemAuthoritysApp app = appService.getById(catlog.getAppTag());
         if(null == app){
-            return ServiceUtil.buildFuture(JsonResult.sendFailedResult("appTag 对应的应用不存在"));
+            return ServiceUtil.buildFuture(JsonResult.failed("appTag 对应的应用不存在"));
         }
         if(StringUtils.isNotBlank(catlog.getId())){
             catlogService.updateById(catlog);
         } else {
             catlogService.save(catlog);
         }
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
+        return ServiceUtil.buildFuture(JsonResult.successfu());
     }
 
     @Override
@@ -530,23 +530,23 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         auQuery.eq("catlog_id", catlogId);
         int auCountByCatlogId = auService.count(auQuery);
         if(auCountByCatlogId > 0){
-            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("该目录下有权限,不允许删除"));
+            return ServiceUtil.buildFuture(JsonResult.badParameter("该目录下有权限,不允许删除"));
         }
         catlogService.removeById(catlogId);
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
+        return ServiceUtil.buildFuture(JsonResult.successfu());
     }
 
     @Override
     public CompletableFuture<JsonResult> catlogInfo(String catlogId){
         Assert.hasText(catlogId, "权限目录ID不能为空!");
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(catlogService.getById(catlogId)));
+        return ServiceUtil.buildFuture(JsonResult.successfu(catlogService.getById(catlogId)));
     }
 
     @Override
     public CompletableFuture<JsonResult> authoritysList(String auName, AuthorityTypeEnum auType,
                                                         Page<SystemAuthoritys> page, String authorityAction,
                                                         String catlogName, String appTag) {
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
+        return ServiceUtil.buildFuture(JsonResult.successfu(
                 auService.selectSystemAuthoritysList(page,auName, auType == null ? null : auType.name(),
                         authorityAction, catlogName, appTag)));
     }
@@ -558,20 +558,20 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
 
         SystemAuthoritysCatlog catlog = catlogService.getById(au.getCatlogId());
         if(null == catlog){
-            return ServiceUtil.buildFuture(JsonResult.sendFailedResult("所属权限目录不存在 !!!"));
+            return ServiceUtil.buildFuture(JsonResult.failed("所属权限目录不存在 !!!"));
         }
 
         if(AuthorityTypeEnum.URL.equals(au.getAuthorityType())) {
             if(StringUtils.isBlank(httpMethod)) {
-                return ServiceUtil.buildFuture(JsonResult.sendFailedResult("httpMethod 不能为空"));
+                return ServiceUtil.buildFuture(JsonResult.failed("httpMethod 不能为空"));
             }
             if(StringUtils.isNotBlank(au.getMenuId())) {
                 SystemAuthoritys menuAu = auService.getById(au.getMenuId());
                 if (EntityUtil.isEntityNoId(menuAu)) {
-                    return ServiceUtil.buildFuture(JsonResult.sendFailedResult("指定的权限所属MENU不存在"));
+                    return ServiceUtil.buildFuture(JsonResult.failed("指定的权限所属MENU不存在"));
                 }
                 if (!AuthorityTypeEnum.MENU.equals(menuAu.getAuthorityType())) {
-                    return ServiceUtil.buildFuture(JsonResult.sendFailedResult("指定的权限所属MENU的类型不是MENU"));
+                    return ServiceUtil.buildFuture(JsonResult.failed("指定的权限所属MENU的类型不是MENU"));
                 }
             }
             au.setAuthorityAction(AuthorityUtil.composeWithSeparator2(httpMethod, au.getAuthorityAction()));
@@ -579,7 +579,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
 
         if(AuthorityTypeEnum.MENU.equals(au.getAuthorityType())) {
             if(StringUtils.isNotBlank(au.getMenuId())) {
-                return ServiceUtil.buildFuture(JsonResult.sendFailedResult("MENU类型不能属于MENU"));
+                return ServiceUtil.buildFuture(JsonResult.failed("MENU类型不能属于MENU"));
             }
         }
 
@@ -590,7 +590,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         } else {
             auService.save(au);
         }
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
+        return ServiceUtil.buildFuture(JsonResult.successfu());
     }
 
     @Override
@@ -598,19 +598,19 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     public CompletableFuture<JsonResult> delAuthority(String auId) {
         Assert.hasText(auId, "权限ID不能为空!");
         if(roleService.countByAuId(auId) > 0){
-            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("该权限已被角色关联,禁止删除"));
+            return ServiceUtil.buildFuture(JsonResult.badParameter("该权限已被角色关联,禁止删除"));
         }
         if(dsService.countByAuId(auId) > 0){
-            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("该权限下有数据权限,禁止删除"));
+            return ServiceUtil.buildFuture(JsonResult.badParameter("该权限下有数据权限,禁止删除"));
         }
         auService.removeById(auId);
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
+        return ServiceUtil.buildFuture(JsonResult.successfu());
     }
 
     @Override
     public CompletableFuture<JsonResult> auInfo(String auId){
         Assert.hasText(auId, "权限ID不能为空!");
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(auService.getById(auId)));
+        return ServiceUtil.buildFuture(JsonResult.successfu(auService.getById(auId)));
     }
 
     @Override
@@ -619,7 +619,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         Assert.hasText(auAction, "权限路径不能为空!");
 
         if(auAction.startsWith("http")){
-            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("权限action格式不正确,请传入服务端返回的!"));
+            return ServiceUtil.buildFuture(JsonResult.badParameter("权限action格式不正确,请传入服务端返回的!"));
         }
         SystemAuthoritys au;
         if(StringUtils.isBlank(httpMethod)){
@@ -628,7 +628,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             au = auService.findByAuActionAndAppTag(AuthorityUtil.composeWithSeparator2(httpMethod, auAction), appTag);
         }
         if(EntityUtil.isEntityNoId(au)){
-            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("权限action格对应的权限不存在!"));
+            return ServiceUtil.buildFuture(JsonResult.badParameter("权限action格对应的权限不存在!"));
         }
 
 
@@ -647,7 +647,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             List<SystemDataSecured> publicDsList = dsService.findByAuId(null, appTag);
             resultList.addAll(publicDsList);
         }
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(resultList));
+        return ServiceUtil.buildFuture(JsonResult.successfu(resultList));
     }
 
     public CompletableFuture<JsonResult> allAuthoritysWithCatlog(String appTag){
@@ -678,7 +678,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         publicCatlogMap.put("auList", Lists.newArrayList(publicDsAu));
 
         tempResult.forEach((k, v) -> result.add(v));
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(result));
+        return ServiceUtil.buildFuture(JsonResult.successfu(result));
     }
 
     @Override
@@ -693,7 +693,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         List<OrderItem> orders = new ArrayList<>(1);
         orders.add(OrderItem.desc("resource"));
         page.setOrders(orders);
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
+        return ServiceUtil.buildFuture(JsonResult.successfu(
                 dsService.page(page, query)));
     }
 
@@ -708,14 +708,14 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             Assert.notNull(ds.getAppTag(), "全局数据权限需要 appTag !");
             SystemAuthoritysApp app = appService.getById(ds.getAppTag());
             if(null == app){
-                return ServiceUtil.buildFuture(JsonResult.sendFailedResult("appTag 对应的应用不存在"));
+                return ServiceUtil.buildFuture(JsonResult.failed("appTag 对应的应用不存在"));
             }
         }
         // 如果所属权限ID不为空,检查权限是否存在
         if(StringUtils.isNotBlank(ds.getAuthoritysId())){
             SystemAuthoritys au = auService.getById(ds.getAuthoritysId());
             if(null == au){
-                return ServiceUtil.buildFuture(JsonResult.sendFailedResult(AuthorityResultCodeEnum.AUTHORITY_NOT_EXIST, "权限不存在【" + ds.getAuthoritysId() + "】"));
+                return ServiceUtil.buildFuture(JsonResult.failed(AuthorityResultCodeEnum.AUTHORITY_NOT_EXIST, "权限不存在【" + ds.getAuthoritysId() + "】"));
             }
             // 非全局数据权限, appTag 从权限中取
             ds.setAppTag(au.getAppTag());
@@ -726,27 +726,27 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         } else {
             // 检查该数据权限是否存在(所属权限ID+权限标识)
             if(EntityUtil.isEntityHasId(dsService.findByResourceAndAuId(ds.getResource(), ds.getAuthoritysId()))){
-                return ServiceUtil.buildFuture(JsonResult.sendFailedResult(AuthorityResultCodeEnum.SYSTEM_DATA_SECURED_HAS_EXIST));
+                return ServiceUtil.buildFuture(JsonResult.failed(AuthorityResultCodeEnum.SYSTEM_DATA_SECURED_HAS_EXIST));
             }
             dsService.save(ds);
         }
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
+        return ServiceUtil.buildFuture(JsonResult.successfu());
     }
 
     @Override
     public CompletableFuture<JsonResult> delDataSecured(String dsId) {
         Assert.hasText(dsId, "数据权限ID不能为空!");
         if(roleService.countByDsId(dsId) > 0){
-            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("该数据权限已与角色关联,不允许删除"));
+            return ServiceUtil.buildFuture(JsonResult.badParameter("该数据权限已与角色关联,不允许删除"));
         }
         dsService.removeById(dsId);
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
+        return ServiceUtil.buildFuture(JsonResult.successfu());
     }
 
     @Override
     public CompletableFuture<JsonResult> dataSecuredInfo(String dsId){
         Assert.hasText(dsId, "数据权限ID不能为空!");
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(dsService.getById(dsId)));
+        return ServiceUtil.buildFuture(JsonResult.successfu(dsService.getById(dsId)));
     }
 
 }

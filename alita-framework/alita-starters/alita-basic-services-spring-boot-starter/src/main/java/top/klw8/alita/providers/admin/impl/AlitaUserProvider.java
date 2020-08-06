@@ -97,7 +97,7 @@ public class AlitaUserProvider implements IAlitaUserProvider {
             }
         }
 
-        return CompletableFuture.supplyAsync(() -> JsonResult.sendSuccessfulResult(
+        return CompletableFuture.supplyAsync(() -> JsonResult.successfu(
                 new ArrayList<>(menuMap.values())), ServiceContext.executor);
 
     }
@@ -154,41 +154,41 @@ public class AlitaUserProvider implements IAlitaUserProvider {
         for(AlitaUserAccount userAccount : userAccountList){
             userAccount.setUserRoles(userService.getUserAllRoles(userAccount.getId(), appTag));
         }
-        return CompletableFuture.supplyAsync(() -> JsonResult.sendSuccessfulResult(
+        return CompletableFuture.supplyAsync(() -> JsonResult.successfu(
                 pageResult), ServiceContext.executor);
     }
 
     @Override
     public CompletableFuture<JsonResult> saveUserRoles(String userId, List<String> roleIds, String appTag) {
         if(userService.getById(userId) == null){
-            return CompletableFuture.supplyAsync(() -> JsonResult.sendBadParameterResult("用户不存在")
+            return CompletableFuture.supplyAsync(() -> JsonResult.badParameter("用户不存在")
             , ServiceContext.executor);
         }
         List<SystemRole> roleList = new ArrayList<>(roleIds.size());
         for(String roleId : roleIds){
             SystemRole role = roleService.getById(roleId);
             if(null == role){
-                return CompletableFuture.supplyAsync(() -> JsonResult.sendBadParameterResult("角色不存在")
+                return CompletableFuture.supplyAsync(() -> JsonResult.badParameter("角色不存在")
                         , ServiceContext.executor);
             }
             if(StringUtils.isNotBlank(appTag) && !appTag.equals(role.getAppTag())){
-                return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("传入的appTag与角色的不匹配"));
+                return ServiceUtil.buildFuture(JsonResult.badParameter("传入的appTag与角色的不匹配"));
             }
             roleList.add(role);
         }
-        return CompletableFuture.supplyAsync(() -> JsonResult.sendSuccessfulResult(
+        return CompletableFuture.supplyAsync(() -> JsonResult.successfu(
                 userService.replaceRole2User(userId, roleList)), ServiceContext.executor);
     }
 
     @Override
     public CompletableFuture<JsonResult> addSaveUser(AlitaUserAccount user) {
         if(StringUtils.isNotBlank(user.getId())){
-            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("保存用户只支持新增,不支持修改!"));
+            return ServiceUtil.buildFuture(JsonResult.badParameter("保存用户只支持新增,不支持修改!"));
         }
         user.initNewAccount();
         user.setUserPwd(pwdEncoder.encode(user.getUserPwd()));
         userService.save(user);
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
+        return ServiceUtil.buildFuture(JsonResult.successfu());
     }
 
     @Override
@@ -199,15 +199,15 @@ public class AlitaUserProvider implements IAlitaUserProvider {
         AlitaUserAccount user = userService.getById(userId);
         Assert.notNull(user, "该用户不存在!");
         if(!pwdEncoder.matches(oldPwd, user.getUserPwd())){
-            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("密码不正确!"));
+            return ServiceUtil.buildFuture(JsonResult.badParameter("密码不正确!"));
         }
         AlitaUserAccount user4update = new AlitaUserAccount();
         user4update.setId(userId);
         user4update.setUserPwd(pwdEncoder.encode(newPwd));
         if(userService.updateById(user4update)){
-            return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult("密码更新成功!"));
+            return ServiceUtil.buildFuture(JsonResult.successfu("密码更新成功!"));
         }
-        return ServiceUtil.buildFuture(JsonResult.sendFailedResult("密码更新失败!"));
+        return ServiceUtil.buildFuture(JsonResult.failed("密码更新失败!"));
     }
 
     @Override
@@ -221,7 +221,7 @@ public class AlitaUserProvider implements IAlitaUserProvider {
             role.setAuthorityList(authoritys);
             role.setDataSecuredList(dsList);
         }
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(userRoles));
+        return ServiceUtil.buildFuture(JsonResult.successfu(userRoles));
     }
 
     @Override
@@ -231,7 +231,7 @@ public class AlitaUserProvider implements IAlitaUserProvider {
         // 排除密码字段
         query.select(AlitaUserAccount.class, i -> !i.getColumn().equals("user_pwd"));
         query.eq("id", userId);
-        return CompletableFuture.supplyAsync(() -> JsonResult.sendSuccessfulResult(
+        return CompletableFuture.supplyAsync(() -> JsonResult.successfu(
                 userService.getOne(query)), ServiceContext.executor);
     }
 
@@ -242,9 +242,9 @@ public class AlitaUserProvider implements IAlitaUserProvider {
         user.setId(userId);
         user.setEnabled1(enabled);
         if(userService.updateById(user)){
-            return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult("状态更新成功!"));
+            return ServiceUtil.buildFuture(JsonResult.successfu("状态更新成功!"));
         }
-        return ServiceUtil.buildFuture(JsonResult.sendFailedResult("状态更新失败!"));
+        return ServiceUtil.buildFuture(JsonResult.failed("状态更新失败!"));
     }
 
 }

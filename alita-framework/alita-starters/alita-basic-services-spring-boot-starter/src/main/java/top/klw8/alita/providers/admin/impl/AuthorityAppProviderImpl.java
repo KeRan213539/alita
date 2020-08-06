@@ -57,7 +57,7 @@ public class AuthorityAppProviderImpl implements IAuthorityAppProvider {
         List<OrderItem> orders = new ArrayList<>(1);
         orders.add(OrderItem.desc("app_tag"));
         page.setOrders(orders);
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
+        return ServiceUtil.buildFuture(JsonResult.successfu(
                 appService.page(page, new QueryWrapper<SystemAuthoritysApp>().lambda().
                         eq(StringUtils.isNotBlank(appTag), SystemAuthoritysApp::getRemark, appTag).
                         like(StringUtils.isNotBlank(remark), SystemAuthoritysApp::getRemark, remark).
@@ -66,7 +66,7 @@ public class AuthorityAppProviderImpl implements IAuthorityAppProvider {
 
     @Override
     public CompletableFuture<JsonResult> authorityAppList() {
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(
+        return ServiceUtil.buildFuture(JsonResult.successfu(
                 appService.list()));
     }
 }

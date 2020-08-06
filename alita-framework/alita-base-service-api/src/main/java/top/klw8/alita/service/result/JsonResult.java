@@ -54,27 +54,27 @@ public class JsonResult<T> implements java.io.Serializable {
         this.data = data;
     }
 
-    public static JsonResult sendSuccessfulResult() {
+    public static JsonResult successfu() {
         return new JsonResult(CommonResultCodeEnum.OK, null);
     }
 
-    public static <T> JsonResult sendSuccessfulResult(T data) {
+    public static <T> JsonResult successfu(T data) {
         return new JsonResult(CommonResultCodeEnum.OK, data);
     }
 
-    public static <T>  JsonResult sendSuccessfulResult(String message) {
+    public static <T>  JsonResult successfu(String message) {
         return new JsonResult(CommonResultCodeEnum.OK, message, null);
     }
 
-    public static <T>  JsonResult sendSuccessfulResult(String message, T data) {
+    public static <T>  JsonResult successfu(String message, T data) {
         return new JsonResult(CommonResultCodeEnum.OK, message, data);
     }
 
-    public static <T> JsonResult sendFailedResult(ISubResultCode subResultCode, T data) {
+    public static <T> JsonResult failed(ISubResultCode subResultCode, T data) {
         return new JsonResult(subResultCode, data);
     }
 
-    public static JsonResult sendFailedResult(ISubResultCode subResultCode) {
+    public static JsonResult failed(ISubResultCode subResultCode) {
         return new JsonResult(subResultCode);
     }
 
@@ -86,7 +86,7 @@ public class JsonResult<T> implements java.io.Serializable {
      * @param: errorMsg
      * @return top.klw8.alita.service.result.JsonResult
      */
-    public static JsonResult sendFailedResult(ISubResultCode subResultCode, String errorMsg) {
+    public static JsonResult failed(ISubResultCode subResultCode, String errorMsg) {
         return new JsonResult(subResultCode, errorMsg, null);
     }
 
@@ -97,7 +97,7 @@ public class JsonResult<T> implements java.io.Serializable {
      * @param: errorMsg
      * @return top.klw8.alita.service.result.JsonResult
      */
-    public static JsonResult sendFailedResult(String errorMsg) {
+    public static JsonResult failed(String errorMsg) {
         return new JsonResult(CommonResultCodeEnum.ERROR, errorMsg, null);
     }
 
@@ -108,7 +108,7 @@ public class JsonResult<T> implements java.io.Serializable {
      * @param: errorMsg
      * @return top.klw8.alita.service.result.JsonResult
      */
-    public static JsonResult sendBadParameterResult(String errorMsg) {
+    public static JsonResult badParameter(String errorMsg) {
         return new JsonResult(CommonResultCodeEnum.BAD_PARAMETER, errorMsg, null);
     }
 

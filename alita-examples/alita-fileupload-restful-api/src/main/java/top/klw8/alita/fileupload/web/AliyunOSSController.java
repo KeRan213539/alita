@@ -53,7 +53,7 @@ public class AliyunOSSController extends WebapiBaseController {
             authorityShowIndex = 0)
     public Mono<JsonResult> uploadToOSS(@RequestPart("file") FilePart filePart) throws Exception {
         if (StringUtils.isBlank(filePart.filename())) {
-            return Mono.just(JsonResult.sendFailedResult(ResultSubCodeEnum.FILE_NAME_EMPTY));
+            return Mono.just(JsonResult.failed(ResultSubCodeEnum.FILE_NAME_EMPTY));
         }
 
         String fileName = filePart.filename();
@@ -64,7 +64,7 @@ public class AliyunOSSController extends WebapiBaseController {
 
         return DataBufferUtils.join(filePart.content()).map(buffer -> {
             if (buffer.readableByteCount() <= 0) {
-                return JsonResult.sendFailedResult(ResultSubCodeEnum.FILE_DATA_EMPTY);
+                return JsonResult.failed(ResultSubCodeEnum.FILE_DATA_EMPTY);
             }
             try {
                 InputStream is = buffer.asInputStream();
@@ -73,12 +73,12 @@ public class AliyunOSSController extends WebapiBaseController {
                 is = null;
                 DataBufferUtils.release(buffer);
             } catch (Exception e) {
-                return JsonResult.sendFailedResult(ResultSubCodeEnum.FILE_UPLOAD_FAIL);
+                return JsonResult.failed(ResultSubCodeEnum.FILE_UPLOAD_FAIL);
             }
             Map<String, String> resultMap = new HashMap<String, String>();
             resultMap.put("filePath", ossObjKey);
             resultMap.put("fileName", ossFileName);
-            return JsonResult.sendSuccessfulResult(resultMap);
+            return JsonResult.successfu(resultMap);
         }).as(Mono::from);
     }
 
@@ -98,15 +98,15 @@ public class AliyunOSSController extends WebapiBaseController {
             authorityShowIndex = 0)
     public Mono<JsonResult> deleteFromOSS(@RequestParam String filePath) {
         if (StringUtils.isBlank(filePath)) {
-            return Mono.just(JsonResult.sendFailedResult(ResultSubCodeEnum.DELETE_OSS_FILE_FAIL));
+            return Mono.just(JsonResult.failed(ResultSubCodeEnum.DELETE_OSS_FILE_FAIL));
         }
 
         try {
             ossClient.deleteObject(FileUploadTypeEnum.OSS_BUCKET_NAME.getTypePath(), filePath);
         } catch (OSSException | ClientException e) {
-            return Mono.just(JsonResult.sendFailedResult(ResultSubCodeEnum.DELETE_OSS_FILE_FAIL, e.getMessage()));
+            return Mono.just(JsonResult.failed(ResultSubCodeEnum.DELETE_OSS_FILE_FAIL, e.getMessage()));
         }
-        return Mono.just(JsonResult.sendSuccessfulResult());
+        return Mono.just(JsonResult.successfu());
 
     }
 

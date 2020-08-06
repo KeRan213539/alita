@@ -23,7 +23,7 @@ public class ControllerExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     public Mono<JsonResult> jsonErrorHandler(Throwable e) {
         log.error("请求处理发生异常", e);
-        return Mono.just(JsonResult.sendFailedResult(CommonResultCodeEnum.ERROR));
+        return Mono.just(JsonResult.failed(CommonResultCodeEnum.ERROR));
     }
 
 }

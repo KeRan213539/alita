@@ -41,19 +41,19 @@ public class AuthorityAppServiceImpl extends ServiceImpl<IAuthorityAppMapper, Sy
     public JsonResult addAuthorityApp(SystemAuthoritysApp authorityApp) {
         SystemAuthoritysApp app = this.getById(authorityApp.getAppTag());
         if(!Objects.isNull(app)){
-            return JsonResult.sendFailedResult(String.format("当前 app_tag 【%S】 已存在", authorityApp.getAppTag()));
+            return JsonResult.failed(String.format("当前 app_tag 【%S】 已存在", authorityApp.getAppTag()));
         }
         if(this.save(authorityApp)){
-            return JsonResult.sendSuccessfulResult();
+            return JsonResult.successfu();
         }
-        return JsonResult.sendFailedResult(String.format("当前 app_tag 【%S】 保存失败", authorityApp.getAppTag()));
+        return JsonResult.failed(String.format("当前 app_tag 【%S】 保存失败", authorityApp.getAppTag()));
     }
 
     @Override
     public JsonResult deleteAuthorityApp(String appTag) {
         SystemAuthoritysApp app = this.getById(appTag);
         if(Objects.isNull(app)){
-            return JsonResult.sendFailedResult(String.format("当前 app_tag 【%S】 不存在", appTag));
+            return JsonResult.failed(String.format("当前 app_tag 【%S】 不存在", appTag));
         }
 
         //查询是否有权限关联app
@@ -69,29 +69,29 @@ public class AuthorityAppServiceImpl extends ServiceImpl<IAuthorityAppMapper, Sy
                 eq(StringUtils.isNotBlank(appTag), SystemRole::getAppTag, appTag));
 
         if(!authList.isEmpty() || !catLogList.isEmpty() || !dataSecuredList.isEmpty() || !roleList.isEmpty()){
-            return JsonResult.sendFailedResult(String.format("当前 app_tag 【%S】 存在权限、角色相关关联，不可删除", appTag));
+            return JsonResult.failed(String.format("当前 app_tag 【%S】 存在权限、角色相关关联，不可删除", appTag));
         }
         if(removeById(appTag)){
-            return JsonResult.sendSuccessfulResult();
+            return JsonResult.successfu();
         }
-        return JsonResult.sendFailedResult(String.format("当前 app_tag 【%S】 删除失败", appTag));
+        return JsonResult.failed(String.format("当前 app_tag 【%S】 删除失败", appTag));
     }
 
     @Override
     public JsonResult updateAuthorityApp(SystemAuthoritysApp authorityApp) {
         SystemAuthoritysApp app = this.getById(authorityApp.getAppTag());
         if(Objects.isNull(app)){
-            return JsonResult.sendFailedResult(String.format("当前 app_tag 【%S】 不存在", authorityApp.getAppTag()));
+            return JsonResult.failed(String.format("当前 app_tag 【%S】 不存在", authorityApp.getAppTag()));
         }
         if(this.updateById(authorityApp)){
-            return JsonResult.sendSuccessfulResult();
+            return JsonResult.successfu();
         }
-        return JsonResult.sendFailedResult(String.format("当前 app_tag 【%S】 修改失败", authorityApp.getAppTag()));
+        return JsonResult.failed(String.format("当前 app_tag 【%S】 修改失败", authorityApp.getAppTag()));
     }
 
     @Override
     public JsonResult<SystemAuthoritysApp> findAuthorityApp(SystemAuthoritysApp authorityApp) {
-        return JsonResult.sendSuccessfulResult(this.getOne(new QueryWrapper<SystemAuthoritysApp>().lambda().
+        return JsonResult.successfu(this.getOne(new QueryWrapper<SystemAuthoritysApp>().lambda().
                 eq(StringUtils.isNotBlank(authorityApp.getAppTag()), SystemAuthoritysApp::getAppTag, authorityApp.getAppTag()).
                 eq(StringUtils.isNotBlank(authorityApp.getAppName()), SystemAuthoritysApp::getAppName, authorityApp.getAppName()).
                 eq(StringUtils.isNotBlank(authorityApp.getRemark()), SystemAuthoritysApp::getRemark, authorityApp.getRemark())));

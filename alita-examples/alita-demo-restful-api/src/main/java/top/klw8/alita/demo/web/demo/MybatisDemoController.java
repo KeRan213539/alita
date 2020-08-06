@@ -44,7 +44,7 @@ public class MybatisDemoController extends WebapiBaseController {
             authorityShowIndex = 0)
     public Mono<JsonResult> addUserExt(@RequestBody ExtUserInfoVo vo) {
         if (null == vo) {
-            return Mono.just(JsonResult.sendFailedResult(CommonResultCodeEnum.BAD_PARAMETER));
+            return Mono.just(JsonResult.failed(CommonResultCodeEnum.BAD_PARAMETER));
         } else {
             ExtUserInfo info = new ExtUserInfo();
             BeanUtils.copyProperties(vo, info);
@@ -56,7 +56,7 @@ public class MybatisDemoController extends WebapiBaseController {
     @PostMapping("/delext")
     public Mono<JsonResult> deleteUserExt(@RequestBody ExtUserInfoVo vo) {
         if (null == vo && StringUtil.isNullOrEmpty(vo.getUserId())) {
-            return Mono.just(JsonResult.sendFailedResult(CommonResultCodeEnum.BAD_PARAMETER));
+            return Mono.just(JsonResult.failed(CommonResultCodeEnum.BAD_PARAMETER));
         } else {
             return Mono.fromFuture(extUserProvider.deleteUserExtInfo(vo.getUserId()));
         }
@@ -66,7 +66,7 @@ public class MybatisDemoController extends WebapiBaseController {
     @PostMapping("/updateext")
     public Mono<JsonResult> updateUserExt(@RequestBody ExtUserInfoVo vo) {
         if (null == vo && StringUtil.isNullOrEmpty(vo.getUserId())) {
-            return Mono.just(JsonResult.sendFailedResult(CommonResultCodeEnum.BAD_PARAMETER));
+            return Mono.just(JsonResult.failed(CommonResultCodeEnum.BAD_PARAMETER));
         } else {
             ExtUserInfo info = new ExtUserInfo();
             BeanUtils.copyProperties(vo, info);
@@ -79,7 +79,7 @@ public class MybatisDemoController extends WebapiBaseController {
     public Mono<JsonResult> findUserExtByUser(@RequestBody ExtUserInfoVo vo) throws ExecutionException, InterruptedException {
         // 首先判断一下是否传入了需要的参数
         if (StringUtil.isNullOrEmpty(vo.getUserId())) {
-            return Mono.just(JsonResult.sendFailedResult("调用失败"));
+            return Mono.just(JsonResult.failed("调用失败"));
         } else {
             return Mono.fromFuture(extUserProvider.findExtByUserId(vo.getUserId()));
         }
@@ -90,7 +90,7 @@ public class MybatisDemoController extends WebapiBaseController {
     public Mono<JsonResult> findExtsByLevel(@RequestBody ExtUserInfoVo vo) {
         // 首先判断一下是否传入了需要的参数
         if (null == vo.getUserLevel() || vo.getUserLevel().intValue() <= 0) {
-            return Mono.just(JsonResult.sendFailedResult("调用失败"));
+            return Mono.just(JsonResult.failed("调用失败"));
         } else {
             return Mono.fromFuture(extUserProvider.findExtsByLevel(vo.getUserLevel()));
         }

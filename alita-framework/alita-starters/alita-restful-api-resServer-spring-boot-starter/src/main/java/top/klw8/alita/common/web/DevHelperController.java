@@ -28,7 +28,6 @@ import org.springframework.web.reactive.result.method.RequestMappingInfo;
 import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping;
 import reactor.core.publisher.Mono;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
-import top.klw8.alita.entitys.authority.SystemAuthoritysApp;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
 import top.klw8.alita.entitys.authority.SystemDataSecured;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
@@ -111,7 +110,7 @@ public class DevHelperController {
                 if (controllerClass.isAnnotationPresent(AuthorityCatlogRegister.class)) {
                     AuthorityCatlogRegister catlogRegister = controllerClass.getAnnotation(AuthorityCatlogRegister.class);
                     if(StringUtils.isBlank(catlogRegister.name())){
-                        return Mono.just(JsonResult.sendFailedResult(controllerClass.getName() + "的 AuthorityCatlogRegister 中没有设置catlog名称,注册失败"));
+                        return Mono.just(JsonResult.failed(controllerClass.getName() + "的 AuthorityCatlogRegister 中没有设置catlog名称,注册失败"));
                     }
                     catlog = tempMap.get(catlogRegister.name());
                     if (catlog == null) {
@@ -146,7 +145,7 @@ public class DevHelperController {
                 if (catlog == null) {
                     // 因为之前处理过 AuthorityCatlogRegister 和 AuthorityRegister,这里catlog不应该为null
                     // 为null说明没有 AuthorityCatlogRegister 注解, AuthorityRegister 中也没有 catlog信息
-                    return Mono.just(JsonResult.sendFailedResult(controllerClass.getName() + "." + method.getName()
+                    return Mono.just(JsonResult.failed(controllerClass.getName() + "." + method.getName()
                             + "  没有 AuthorityCatlogRegister 注解,并且 AuthorityRegister 中也没有 catlog 信息,注册失败"));
                 }
                 SystemAuthoritys au = new SystemAuthoritys();

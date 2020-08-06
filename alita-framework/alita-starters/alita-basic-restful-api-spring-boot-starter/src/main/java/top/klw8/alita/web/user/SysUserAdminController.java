@@ -115,7 +115,7 @@ public class SysUserAdminController extends WebapiBaseController {
     @UseValidator
     public Mono<JsonResult> addSaveUser(@RequestBody AlitaUserAccountRequest req){
         if(!req.getUserPwd().equals(req.getUserPwd2())){
-            return Mono.just(JsonResult.sendBadParameterResult("两次输入的密码不一致"));
+            return Mono.just(JsonResult.badParameter("两次输入的密码不一致"));
         }
         AlitaUserAccount userToSave = new AlitaUserAccount();
         BeanUtils.copyProperties(req, userToSave);
@@ -129,7 +129,7 @@ public class SysUserAdminController extends WebapiBaseController {
     @UseValidator
     public Mono<JsonResult> changeUserPasswordByUserId(@RequestBody ChangeUserPasswordByUserIdRequest req){
         if(!req.getNewPwd().equals(req.getNewPwd2())){
-            return Mono.just(JsonResult.sendBadParameterResult("两次输入的密码不一致"));
+            return Mono.just(JsonResult.badParameter("两次输入的密码不一致"));
         }
         return Mono.fromFuture(userProvider.changeUserPasswordByUserId(req.getUserId(), req.getOldPwd(),
                 req.getNewPwd()));

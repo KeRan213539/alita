@@ -325,7 +325,7 @@ public class AuthorityAdminController extends WebapiBaseController {
     ){
         String userId = TokenUtil.getUserId(request);
         if (userId == null) {
-            return Mono.just(JsonResult.sendFailedResult(CommonResultCodeEnum.TOKEN_ERR));
+            return Mono.just(JsonResult.failed(CommonResultCodeEnum.TOKEN_ERR));
         }
         return Mono.fromFuture(auProvider.dataSecuredsByAuthorityAction(httpMethod == null ? null : httpMethod.name(), auAction, appTag, userId));
     }
