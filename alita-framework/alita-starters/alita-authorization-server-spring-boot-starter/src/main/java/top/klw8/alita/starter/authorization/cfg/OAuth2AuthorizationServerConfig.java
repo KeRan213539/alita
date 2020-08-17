@@ -9,7 +9,9 @@ import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
@@ -44,6 +46,9 @@ import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 import top.klw8.alita.starter.authorization.cfg.beans.ClientItemBean;
 import top.klw8.alita.starter.authorization.cfg.beans.OAuth2ClientBean;
+import top.klw8.alita.starter.authorization.cfg.beans.TokenConfigBean;
+import top.klw8.alita.starter.authorization.cfg.tokenStore.RedisJwtTokenStore;
+import top.klw8.alita.utils.redis.TokenRedisUtil;
 
 
 /**
@@ -54,7 +59,7 @@ import top.klw8.alita.starter.authorization.cfg.beans.OAuth2ClientBean;
  */
 @Configuration
 @EnableAuthorizationServer
-@EnableConfigurationProperties(OAuth2ClientBean.class)
+@EnableConfigurationProperties({OAuth2ClientBean.class, TokenConfigBean.class})
 @Slf4j
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
@@ -67,8 +72,11 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     @Autowired
     private Environment env;
 
-    @Autowired
+    @Autowired(required = false)
     private IExtTokenGranters extTokenGranterBean;
+
+    @Autowired
+    private TokenStore tokenStore;
 
     @Reference(async=true)
     private IAuthorityAdminProvider authorityAdminProvider;
@@ -78,6 +86,9 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
     @javax.annotation.Resource
     private OAuth2ClientBean clientCfg;
+
+    @javax.annotation.Resource
+    private TokenConfigBean tokenCfg;
 
     private ClientDetailsService clientDetailsService = null;
 
@@ -136,7 +147,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         if(clientDetailsService == null) {
             buildClientDetailsService();
         }
-        endpoints.tokenStore(tokenStore())
+        endpoints.tokenStore(tokenStore)
 //		.accessTokenConverter(accessTokenConverter())
                 .tokenGranter(tokenGranter(endpoints))
                 .tokenServices(tokenServices())
@@ -164,9 +175,13 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
     }
 
-
+    @Bean
     public TokenStore tokenStore() {
-        return new JwtTokenStore(accessTokenConverter());
+        if(tokenCfg.isStoreInRedis()) {
+            return new RedisJwtTokenStore(accessTokenConverter());
+        } else {
+            return new JwtTokenStore(accessTokenConverter());
+        }
     }
 
     public JwtAccessTokenConverter accessTokenConverter() {
@@ -178,17 +193,24 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
     public DefaultTokenServices tokenServices() {
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        defaultTokenServices.setTokenStore(tokenStore());
+        defaultTokenServices.setTokenStore(tokenStore);
         defaultTokenServices.setSupportRefreshToken(true);
         defaultTokenServices.setTokenEnhancer(tokenEnhancer());
         String[] activeprofiles = env.getActiveProfiles();
+        boolean isDev = false;
         for(String activeprofile : activeprofiles) {
             if("dev".equals(activeprofile)) {
+                isDev = true;
                 // dev 模式下token和刷新token永不过期, 默认为 access_token 12小时, refresh_token 30天
                 defaultTokenServices.setAccessTokenValiditySeconds(-1);
                 defaultTokenServices.setRefreshTokenValiditySeconds(-1);
                 break;
             }
+        }
+        if(!isDev){
+            defaultTokenServices.setAccessTokenValiditySeconds(tokenCfg.getTimeoutSeconds().getAccess());
+            defaultTokenServices.setRefreshTokenValiditySeconds(tokenCfg.getTimeoutSeconds().getRefresh());
+            TokenRedisUtil.setTokenTimeout(tokenCfg.getTimeoutSeconds().getAccess(), tokenCfg.getTimeoutSeconds().getRefresh());
         }
         return defaultTokenServices;
     }

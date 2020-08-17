@@ -48,7 +48,7 @@ public class UserCacheHelper {
         return authorityMap;
     }
 
-    public  Map<String, List<String>> getUserDataSecured(String userId, String appTag) {
+    public Map<String, List<String>> getUserDataSecured(String userId, String appTag) {
         long cacheTimeout;
         if (EnvHelper.isDev()) {
             cacheTimeout = USER_AUS_TIME_OUT_SECOND_DEV;
@@ -66,6 +66,18 @@ public class UserCacheHelper {
             return (Map<String, List<String>>) RedisUtil.getAndUpdateExpire(CACHE_PREFIX_USER_DATA_SECUREDS + appTag + "_"  + userId, cacheTimeout, RedisTagEnum.REDIS_TAG_DEFAULT);
         }
         return dataSecuredsMap;
+    }
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 移除缓存中的用户权限,包括数据权限
+     * @Date 2020/8/17 15:14
+     * @param:
+     * @return void
+     */
+    public void removeUserAuthoritysInCache(String userId, String appTag){
+        RedisUtil.del(CACHE_PREFIX_USER_AUS + appTag + "_" + userId, RedisTagEnum.REDIS_TAG_DEFAULT);
+        RedisUtil.del(CACHE_PREFIX_USER_DATA_SECUREDS + appTag + "_"  + userId, RedisTagEnum.REDIS_TAG_DEFAULT);
     }
 
 }

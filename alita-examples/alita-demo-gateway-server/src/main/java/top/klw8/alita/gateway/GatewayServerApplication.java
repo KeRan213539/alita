@@ -1,17 +1,5 @@
 package top.klw8.alita.gateway;
 
-import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
-import com.alibaba.cloud.nacos.NacosServiceInstance;
-import com.alibaba.cloud.nacos.discovery.NacosDiscoveryClient;
-import com.alibaba.cloud.nacos.endpoint.NacosDiscoveryEndpoint;
-import com.alibaba.cloud.nacos.endpoint.NacosDiscoveryEndpointAutoConfiguration;
-import com.alibaba.cloud.nacos.registry.NacosRegistration;
-import com.alibaba.cloud.nacos.registry.NacosServiceRegistry;
-import com.alibaba.cloud.nacos.ribbon.NacosServerList;
-import com.alibaba.nacos.api.annotation.NacosInjected;
-import com.alibaba.nacos.api.exception.NacosException;
-import com.alibaba.nacos.api.naming.NamingService;
-import com.alibaba.nacos.api.naming.pojo.Instance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -19,16 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.client.loadbalancer.LoadBalancerInterceptor;
-import org.springframework.cloud.client.loadbalancer.LoadBalancerRequest;
-import org.springframework.cloud.gateway.config.LoadBalancerProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Mono;
 
 import java.util.List;

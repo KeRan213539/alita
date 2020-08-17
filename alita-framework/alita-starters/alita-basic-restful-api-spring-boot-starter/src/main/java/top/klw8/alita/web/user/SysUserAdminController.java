@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
@@ -16,8 +17,10 @@ import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.cfg.AuthorityAppInfoInConfigBean;
+import top.klw8.alita.starter.common.UserCacheHelper;
 import top.klw8.alita.starter.datasecured.DataSecured;
 import top.klw8.alita.starter.web.base.WebapiBaseController;
+import top.klw8.alita.utils.redis.TokenRedisUtil;
 import top.klw8.alita.validator.UseValidator;
 import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
@@ -51,6 +54,12 @@ public class SysUserAdminController extends WebapiBaseController {
 
     @Autowired
     private AuthorityAppInfoInConfigBean currectApp;
+
+    @Autowired
+    private UserCacheHelper userCacheHelper;
+
+    @Value("${alita.oauth2.token.storeInRedis:false}")
+    private boolean tokenStoreUseReids;
 
     @ApiOperation(value = "用户列表(分页)", notes = "用户列表(分页)", httpMethod = "GET", produces = "application/json")
     @GetMapping("/userList")
@@ -158,6 +167,12 @@ public class SysUserAdminController extends WebapiBaseController {
             authorityShowIndex = 0)
     @UseValidator
     public Mono<JsonResult> changeUserStatus(@RequestBody ChangeUserStatusRequest req){
+        if(tokenStoreUseReids && !req.getEnabled().booleanValue()){
+            // 禁用用户,移除缓存中的token
+            TokenRedisUtil.removeAccessToken(req.getUserId());
+            TokenRedisUtil.removeRefreshToken(req.getUserId());
+            userCacheHelper.removeUserAuthoritysInCache(req.getUserId(), currectApp.getAppTag());
+        }
         return Mono.fromFuture(userProvider.changeUserStatus(req.getUserId(), req.getEnabled().booleanValue()));
     }
 

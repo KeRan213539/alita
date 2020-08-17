@@ -1,15 +1,13 @@
-package top.klw8.alita.starter.utils;
+package top.klw8.alita.starter.authorization.utils;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.http.server.reactive.ServerHttpRequest;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author klw
@@ -83,7 +81,9 @@ public class TokenUtil {
      * @Description: 获取token中的所有数据
      */
     public static Map<String, Object> getAllTokenData(String jwtToken) {
-        jwtToken = removeTokenType(jwtToken);
+        if (jwtToken.startsWith("Bearer ")) {
+            jwtToken = jwtToken.substring("Bearer ".length());
+        }
         String tokenDataPart;
         try {
             tokenDataPart = jwtToken.split("\\.")[1];
@@ -110,13 +110,6 @@ public class TokenUtil {
         }
         String jwtToken = tokenList.get(0);
         return getAllTokenData(jwtToken);
-    }
-
-    public static String removeTokenType(String token){
-        if (token.startsWith("Bearer ")) {
-            return token.substring("Bearer ".length());
-        }
-        return token;
     }
 
 }

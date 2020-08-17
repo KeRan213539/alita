@@ -19,6 +19,7 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -52,6 +53,7 @@ import top.klw8.alita.starter.utils.FormDataNoFileParserUtil;
 import top.klw8.alita.starter.utils.TokenUtil;
 import top.klw8.alita.starter.web.base.SynchronossFormFieldPart;
 import top.klw8.alita.utils.AuthorityUtil;
+import top.klw8.alita.utils.redis.TokenRedisUtil;
 
 /**
  * @author klw
@@ -90,6 +92,9 @@ public class AuthorityInterceptor implements WebFilter {
     @Resource
     private ResServerAuthPathCfgBean cfgBean;
 
+    @Value("${alita.oauth2.token.storeInRedis:false}")
+    private boolean tokenStoreUseReids;
+
     private AntPathMatcher pathMatcher = new AntPathMatcher();
 
     @Override
@@ -101,18 +106,28 @@ public class AuthorityInterceptor implements WebFilter {
         String authorityAction = null;
 
         String userId = null;
+        String jwtToken = null;
         List<String> tokenList = request.getHeaders().get("Authorization");
         if (CollectionUtils.isNotEmpty(tokenList)) {
-            String jwtToken = tokenList.get(0);
+            jwtToken = tokenList.get(0);
             userId = TokenUtil.getUserId(jwtToken);
         }
 
         // 判断请求的路径是否需要验证权限
         for (String authPath : cfgBean.getAuthPath()) {
             if (pathMatcher.match(authPath, reqPath)) {
-                if (userId == null) {
+                if (StringUtils.isBlank(jwtToken) || StringUtils.isBlank(userId)) {
                     return sendJsonStr(response, JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.TOKEN_ERR)));
                 }
+
+                if(tokenStoreUseReids){
+                    // 如果token放redis中, 则验证token在redis中是否存在
+                    String cachedToken = TokenRedisUtil.getAccessToken(userId);
+                    if(StringUtils.isBlank(cachedToken) || !TokenUtil.removeTokenType(jwtToken).equals(cachedToken)){
+                        return sendJsonStr(response, JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.TOKEN_ERR)));
+                    }
+                }
+
                 Map<String, String> authorityMap = userCacheHelper.getUserAuthority(userId, currectApp.getAppTag());
                 if (authorityMap == null) {
                     return sendJsonStr(response, JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.LOGIN_TIMEOUT)));
