@@ -41,3 +41,6 @@ alita:
             - sms_code
           authorities:
             - client
+springfox:
+  documentation:
+    enabled: false

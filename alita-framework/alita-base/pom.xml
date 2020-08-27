@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>top.klw8.alita</groupId>
     <artifactId>alita-base</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.3.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>alita-base</name>
     <description>alita-base项目,主要用于控制各个jar包的版本号</description>
@@ -12,7 +12,7 @@
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <skipJunitTest>true</skipJunitTest>
-        <alita.version>0.2.0-SNAPSHOT</alita.version>
+        <alita.version>0.3.0-SNAPSHOT</alita.version>
 
         <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
         <spring-cloud-alibaba-dependencies.version>2.2.1.RELEASE</spring-cloud-alibaba-dependencies.version>
@@ -29,7 +29,7 @@
         <aliyun-sdk-oss.version>3.3.0</aliyun-sdk-oss.version>
         <commons-fileupload.version>1.3.3</commons-fileupload.version>
         <elasticsearch-rest-high-level-client.version>6.2.3</elasticsearch-rest-high-level-client.version>
-        <springfox.version>3.0.0-SNAPSHOT</springfox.version>
+        <springfox.version>3.0.0</springfox.version>
         <xxl-job.version>2.1.0</xxl-job.version>
         <commons-text.version>1.6</commons-text.version>
         <spring-security.version>5.3.3.RELEASE</spring-security.version>
@@ -45,11 +45,11 @@
         <dubbo.doc.version>1.0.3</dubbo.doc.version>
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
         <postgresql.version>42.2.6</postgresql.version>
-        <nacos.version>1.1.4</nacos.version>
-        <nacos-config-spring.version>0.2.7</nacos-config-spring.version>
+        <nacos.version>1.3.2</nacos.version>
+        <nacos-config-spring.version>0.2.8</nacos-config-spring.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
         <commonOkHttp.version>0.4.1</commonOkHttp.version>
-        <fastjson.version>1.2.62</fastjson.version>
+        <fastjson.version>1.2.73</fastjson.version>
         <freemarker.version>2.3.30</freemarker.version>
         <cglib.version>3.2.6</cglib.version>
         <commons-net.version>3.6</commons-net.version>
@@ -64,22 +64,6 @@
 
     <dependencyManagement>
         <dependencies>
-
-            <!--
-            [Begin] Solve the spring fox problem temporarily
-            Spring fox relies on 1.2.0 but doesn't work. It works under 2.0.0
-            -->
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.plugin</groupId>-->
-<!--                <artifactId>spring-plugin-core</artifactId>-->
-<!--                <version>2.0.0.RELEASE</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.plugin</groupId>-->
-<!--                <artifactId>spring-plugin-metadata</artifactId>-->
-<!--                <version>2.0.0.RELEASE</version>-->
-<!--            </dependency>-->
-            <!-- [End] Solve the spring fox problem temporarily -->
 
             <!--dubbo doc-->
             <dependency>
@@ -330,7 +314,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
+    
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox.version}</version>
+            </dependency>
+    
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>
@@ -339,13 +329,7 @@
 
             <dependency>
                 <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${springfox.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-spring-webflux</artifactId>
+                <artifactId>springfox-boot-starter</artifactId>
                 <version>${springfox.version}</version>
                 <exclusions>
                     <exclusion>
@@ -355,11 +339,6 @@
                 </exclusions>
             </dependency>
 
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-spring-integration-webflux</artifactId>
-                <version>${springfox.version}</version>
-            </dependency>
 
             <!-- rocketmq 远程 日志支持,已经自带rocketmq的client,所以上面的注释了 -->
             <dependency>
@@ -518,6 +497,12 @@
             <dependency>
                 <groupId>com.alibaba.nacos</groupId>
                 <artifactId>nacos-api</artifactId>
+                <version>${nacos.version}</version>
+            </dependency>
+
+            <dependency>
+                <artifactId>nacos-client</artifactId>
+                <groupId>com.alibaba.nacos</groupId>
                 <version>${nacos.version}</version>
             </dependency>
 

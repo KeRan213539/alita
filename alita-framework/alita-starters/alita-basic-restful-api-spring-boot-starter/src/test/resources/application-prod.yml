@@ -1,0 +1,4 @@
+profile: prod
+springfox:
+  documentation:
+    enabled: false

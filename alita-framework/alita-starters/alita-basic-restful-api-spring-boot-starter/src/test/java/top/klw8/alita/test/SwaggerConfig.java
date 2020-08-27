@@ -3,7 +3,6 @@ package top.klw8.alita.test;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import springfox.documentation.swagger2.annotations.EnableSwagger2WebFlux;
 import top.klw8.alita.web.cfg.BasicWebApisSwaggerConfig;
 
 /**
@@ -13,7 +12,6 @@ import top.klw8.alita.web.cfg.BasicWebApisSwaggerConfig;
  * @date 2019/11/4 15:08
  */
 @Configuration
-@EnableSwagger2WebFlux
 @Profile("dev")  // 仅在dev模式(application.yml中的spring.profiles.active=dev时)下才会执行该配制
 public class SwaggerConfig extends BasicWebApisSwaggerConfig {
 

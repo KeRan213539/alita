@@ -14,6 +14,7 @@ import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.SecurityReference;
+import springfox.documentation.service.SecurityScheme;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
@@ -29,7 +30,7 @@ public class SwaggerConfigBase {
 
     private List<SecurityReference> defaultAuth;
 
-    private List<ApiKey> securitySchemes;
+    private List<SecurityScheme> securitySchemes;
 
     protected SwaggerConfigBase() {
         securitySchemes = new ArrayList<>();
@@ -51,7 +52,7 @@ public class SwaggerConfigBase {
     }
 
 
-    protected List<ApiKey> securitySchemes() {
+    protected List<SecurityScheme> securitySchemes() {
         return securitySchemes;
     }
 

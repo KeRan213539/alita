@@ -30,7 +30,7 @@ import top.klw8.alita.base.springctx.EnableSpringApplicationContextUtil;
  */
 @SpringBootApplication
 @EnableSpringApplicationContextUtil
-@ComponentScan(basePackages = {"top.klw8.alita.starter.authorization.cfg"})
+@ComponentScan(basePackages = {"top.klw8.alita.test", "top.klw8.alita.starter.authorization.cfg"})
 public class AuthorizationServerTestApplication {
 
     public static void main(String[] args) {
