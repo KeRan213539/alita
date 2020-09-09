@@ -1,5 +1,6 @@
 package top.klw8.alita.starter.authorization.cfg;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -7,10 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -50,6 +52,12 @@ import top.klw8.alita.starter.authorization.cfg.beans.TokenConfigBean;
 import top.klw8.alita.starter.authorization.cfg.tokenStore.RedisJwtTokenStore;
 import top.klw8.alita.utils.redis.TokenRedisUtil;
 
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
 
 /**
  * @ClassName: OAuth2AuthorizationServerConfig
@@ -77,6 +85,9 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
     @Autowired
     private TokenStore tokenStore;
+    
+    @Autowired
+    private ApplicationContext context;
 
     @Reference(async=true)
     private IAuthorityAdminProvider authorityAdminProvider;
@@ -171,7 +182,20 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         //允许表单认证
         oauthServer.allowFormAuthenticationForClients()
                 .checkTokenAccess("permitAll()");  // 允许 check_token
-//        .sslOnly()   //TODO 强制使用 https方式.后面开启
+        //        .sslOnly()   //TODO 强制使用 https方式.后面开启
+        
+        Map<String, TokenEndpointFilter> validatorImplsMap = context.getBeansOfType(TokenEndpointFilter.class);
+        if (MapUtils.isNotEmpty(validatorImplsMap)) {
+            for (Map.Entry<String, TokenEndpointFilter> entry : validatorImplsMap.entrySet()) {
+                oauthServer.addTokenEndpointAuthenticationFilter(new Filter() {
+                    @Override
+                    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
+                            FilterChain filterChain) throws IOException, ServletException {
+                        entry.getValue().doFilter(servletRequest, servletResponse, filterChain);
+                    }
+                });
+            }
+        }
 
     }
 

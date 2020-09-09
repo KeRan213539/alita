@@ -27,6 +27,14 @@ public class BasicServiceTestApplication extends BaseServiceApplication {
 //        System.out.println(RedisUtil.incr("test2", 5L, RedisTagEnum.REDIS_TAG_DEFAULT));
 //        System.out.println(RedisUtil.incr("test2", 5L, RedisTagEnum.REDIS_TAG_DEFAULT));
 //        System.out.println(RedisUtil.incr("test2", 5L, RedisTagEnum.REDIS_TAG_DEFAULT));
+//        ExecutorService executorService = Executors.newCachedThreadPool();
+        //executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 40 * (1 + 5 / 2));
+//        for(int i=0;i<100;i++) {
+//            executorService.execute(() -> {
+//                System.out.println(RedisUtil.setnx("1111", "222", 5L, RedisTagEnum.REDIS_TAG_DEFAULT));
+//            });
+//        }
+    
     }
 
 }
