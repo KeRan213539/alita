@@ -7,8 +7,7 @@ import org.springframework.security.oauth2.common.exceptions.InvalidTokenExcepti
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import top.klw8.alita.starter.authorization.utils.TokenUtil;
-import top.klw8.alita.utils.redis.RedisUtil;
+import top.klw8.alita.utils.TokenUtil;
 import top.klw8.alita.utils.redis.TokenRedisUtil;
 
 /**
@@ -35,14 +34,25 @@ public class RedisJwtTokenStore extends JwtTokenStore {
     @Override
     public void storeAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
         // 登录认证通过生成token时和刷新token时会被调用
-        String userId = TokenUtil.getUserId(token.getValue());
-        TokenRedisUtil.storeAccessToken(userId, token.getValue());
+        String strToken = token.getValue();
+        String userId = TokenUtil.getUserId(strToken);
+        String[] appTagAndChannelTag = TokenUtil.getAppTagAndChannelTag(strToken);
+        TokenRedisUtil.storeAccessToken(userId, token.getValue(), appTagAndChannelTag[0], appTagAndChannelTag[1]);
         if(token.getRefreshToken() != null) {
             String refreshToken = token.getRefreshToken().getValue();
             if(StringUtils.isNotBlank(refreshToken)){
-                TokenRedisUtil.storeRefreshToken(userId, refreshToken);
+                TokenRedisUtil.storeRefreshToken(userId, refreshToken, appTagAndChannelTag[0], appTagAndChannelTag[1]);
             }
         }
+    }
+    
+    @Override
+    public void removeAccessTokenUsingRefreshToken(OAuth2RefreshToken refreshToken) {
+        String strToken = refreshToken.getValue();
+        String userId = TokenUtil.getUserId(strToken);
+        String[] appTagAndChannelTag = TokenUtil.getAppTagAndChannelTag(strToken);
+        TokenRedisUtil.removeAccessToken(userId, appTagAndChannelTag[0], appTagAndChannelTag[1]);
+        TokenRedisUtil.removeRefreshToken(userId, appTagAndChannelTag[0], appTagAndChannelTag[1]);
     }
 
     /**
@@ -56,7 +66,10 @@ public class RedisJwtTokenStore extends JwtTokenStore {
     @Override
     public void storeRefreshToken(OAuth2RefreshToken refreshToken, OAuth2Authentication authentication) {
         // 登录认证通过生成token时会被调用,刷新token时不会调用
-        TokenRedisUtil.storeRefreshToken(TokenUtil.getUserId(refreshToken.getValue()), refreshToken.getValue());
+        String strToken = refreshToken.getValue();
+        String userId = TokenUtil.getUserId(strToken);
+        String[] appTagAndChannelTag = TokenUtil.getAppTagAndChannelTag(strToken);
+        TokenRedisUtil.storeRefreshToken(userId, strToken, appTagAndChannelTag[0], appTagAndChannelTag[1]);
     }
 
     /**
@@ -68,7 +81,8 @@ public class RedisJwtTokenStore extends JwtTokenStore {
      */
     @Override
     public OAuth2RefreshToken readRefreshToken(String tokenValue) {
-        String cachedToken = TokenRedisUtil.getRefreshToken(TokenUtil.getUserId(tokenValue));
+        String[] appTagAndChannelTag = TokenUtil.getAppTagAndChannelTag(tokenValue);
+        String cachedToken = TokenRedisUtil.getRefreshToken(TokenUtil.getUserId(tokenValue), appTagAndChannelTag[0], appTagAndChannelTag[1]);
         if(StringUtils.isBlank(cachedToken)){
             throw new InvalidTokenException("刷新令牌不存在!");
         }

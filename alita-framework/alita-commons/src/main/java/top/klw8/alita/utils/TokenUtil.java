@@ -1,12 +1,10 @@
-package top.klw8.alita.starter.authorization.utils;
+package top.klw8.alita.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 
 import java.util.Base64;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,6 +15,8 @@ import java.util.Map;
  */
 @Slf4j
 public class TokenUtil {
+    
+    public static final String APP_CHANNEL_COMBINED_CLIENT_SPLIT = "@@";
 
     /**
      * @return
@@ -27,20 +27,17 @@ public class TokenUtil {
     public static String getUserId(String jwtToken) {
         return (String) getTokenAdditionalData(jwtToken, "userId");
     }
-
-    /**
-     * @param request
-     * @return
-     * @Title: getUserId
-     * @author klw
-     * @Description: 获取token中的userId
-     */
-    public static String getUserId(ServerHttpRequest request) {
-        Object userId = getTokenAdditionalData(request, "userId");
-        if (userId instanceof Integer) {
-            return String.valueOf(userId);
-        }
-        return (String) userId;
+    
+    public static String[] getAppTagAndChannelTag(String jwtToken){
+        return ((String) getTokenAdditionalData(jwtToken, "client_id")).split(APP_CHANNEL_COMBINED_CLIENT_SPLIT);
+    }
+    
+    public static String getAppTag(String jwtToken) {
+        return getAppTagAndChannelTag(jwtToken)[0];
+    }
+    
+    public static String getAppChannelTag(String jwtToken) {
+        return getAppTagAndChannelTag(jwtToken)[1];
     }
 
     /**
@@ -52,22 +49,6 @@ public class TokenUtil {
      */
     public static Object getTokenAdditionalData(String jwtToken, String key) {
         Map<String, Object> allTokenData = getAllTokenData(jwtToken);
-        if (allTokenData == null) {
-            return null;
-        }
-        return allTokenData.get(key);
-    }
-
-    /**
-     * @param request
-     * @param key
-     * @return
-     * @Title: getTokenAdditionalData
-     * @author klw
-     * @Description: 根据key获取token中的额外数据
-     */
-    public static Object getTokenAdditionalData(ServerHttpRequest request, String key) {
-        Map<String, Object> allTokenData = getAllTokenData(request);
         if (allTokenData == null) {
             return null;
         }
@@ -95,21 +76,12 @@ public class TokenUtil {
         JSONObject obj = JSON.parseObject(json);
         return obj;
     }
-
-    /**
-     * @param request
-     * @return
-     * @Title: getAllTokenData
-     * @author klw
-     * @Description: 获取token中的所有数据
-     */
-    public static Map<String, Object> getAllTokenData(ServerHttpRequest request) {
-        List<String> tokenList = request.getHeaders().get("Authorization");
-        if (tokenList == null || tokenList.isEmpty()) {
-            return null;
+    
+    public static String removeTokenType(String token){
+        if (token.startsWith("Bearer ")) {
+            return token.substring("Bearer ".length());
         }
-        String jwtToken = tokenList.get(0);
-        return getAllTokenData(jwtToken);
+        return token;
     }
 
 }

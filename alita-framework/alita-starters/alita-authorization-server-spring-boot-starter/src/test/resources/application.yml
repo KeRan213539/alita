@@ -29,18 +29,6 @@ alita:
 #        access: 43200 # 12小时
 #        refresh: 2592000 # 30天
       storeInRedis: true
-    clients:
-      clientList:
-        - clientId: alita
-          clientSecret: $2a$10$9s0p62wfKh7WT64a/VYFpOAk19GsrHh5C7Ty9.wPRWX40cjq7Rmu.
-          scope:
-            - select
-          authorizedGrantTypes:
-            - refresh_token
-            - password
-            - sms_code
-          authorities:
-            - client
 springfox:
   documentation:
     enabled: false

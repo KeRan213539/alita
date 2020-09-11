@@ -1,12 +1,11 @@
 server:
   port: 8783
 alita:
-#  pkGenerator:  # 雪花算法配制
-#    workerId: 1  # 相同服务不同节点累加此ID
-#    datacenterId: 17  # 相同服务使用相同ID, web项目从17开始,最大32
   oauth2:
     token:
       storeInRedis: true
+      checkExcludePaths:
+        - /${spring.application.name}/test/**
     resServer:
       authPath:
         - /${spring.application.name}/**
@@ -18,3 +17,7 @@ alita:
       remark: 测试应用
 #    dataSecured:
 #      enable: true
+
+#  pkGenerator:  # 雪花算法配制
+#    workerId: 1  # 相同服务不同节点累加此ID
+#    datacenterId: 17  # 相同服务使用相同ID, web项目从17开始,最大32

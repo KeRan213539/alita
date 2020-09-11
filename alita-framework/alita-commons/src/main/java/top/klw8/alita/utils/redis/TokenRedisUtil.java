@@ -31,40 +31,46 @@ public class TokenRedisUtil {
         }
     }
 
-    public static void storeAccessToken(String userId, String accessToken){
-        RedisUtil.set(ACCESS_TOKEN_KEY_PREFIX + userId, accessToken, accessTokenTimeoutSeconds, RedisTagEnum.REDIS_TAG_DEFAULT);
+    public static void storeAccessToken(String userId, String accessToken, String appTag, String channelTag){
+        RedisUtil.set(ACCESS_TOKEN_KEY_PREFIX + "_" + appTag + "_" + channelTag
+                + userId, accessToken, accessTokenTimeoutSeconds, RedisTagEnum.REDIS_TAG_DEFAULT);
     }
 
-    public static void storeRefreshToken(String userId, String refreshToken){
-        RedisUtil.set(REFRESH_TOKEN_KEY_PREFIX + userId, refreshToken, refreshTokenTimeoutSeconds, RedisTagEnum.REDIS_TAG_DEFAULT);
+    public static void storeRefreshToken(String userId, String refreshToken, String appTag, String channelTag){
+        RedisUtil.set(REFRESH_TOKEN_KEY_PREFIX + "_" + appTag + "_" + channelTag
+                + userId, refreshToken, refreshTokenTimeoutSeconds, RedisTagEnum.REDIS_TAG_DEFAULT);
     }
 
-    public static String getAccessToken(String userId){
-        return (String) RedisUtil.getAndUpdateExpire(ACCESS_TOKEN_KEY_PREFIX + userId, accessTokenTimeoutSeconds, RedisTagEnum.REDIS_TAG_DEFAULT);
+    public static String getAccessToken(String userId, String appTag, String channelTag){
+        return (String) RedisUtil.getAndUpdateExpire(ACCESS_TOKEN_KEY_PREFIX + "_" + appTag + "_" + channelTag
+                + userId, accessTokenTimeoutSeconds, RedisTagEnum.REDIS_TAG_DEFAULT);
     }
 
-    public static String getRefreshToken(String userId){
-        return (String) RedisUtil.getAndUpdateExpire(REFRESH_TOKEN_KEY_PREFIX + userId, refreshTokenTimeoutSeconds, RedisTagEnum.REDIS_TAG_DEFAULT);
+    public static String getRefreshToken(String userId, String appTag, String channelTag){
+        return (String) RedisUtil.getAndUpdateExpire(REFRESH_TOKEN_KEY_PREFIX + "_" + appTag + "_" + channelTag
+                + userId, refreshTokenTimeoutSeconds, RedisTagEnum.REDIS_TAG_DEFAULT);
     }
 
-    public static void removeAccessToken(String userId){
-        RedisUtil.del(ACCESS_TOKEN_KEY_PREFIX + userId, RedisTagEnum.REDIS_TAG_DEFAULT);
+    public static void removeAccessToken(String userId, String appTag, String channelTag){
+        RedisUtil.del(ACCESS_TOKEN_KEY_PREFIX + "_" + appTag + "_" + channelTag
+                + userId, RedisTagEnum.REDIS_TAG_DEFAULT);
     }
 
-    public static void removeRefreshToken(String userId){
-        RedisUtil.del(REFRESH_TOKEN_KEY_PREFIX + userId, RedisTagEnum.REDIS_TAG_DEFAULT);
+    public static void removeRefreshToken(String userId, String appTag, String channelTag){
+        RedisUtil.del(REFRESH_TOKEN_KEY_PREFIX + "_" + appTag + "_" + channelTag
+                + userId, RedisTagEnum.REDIS_TAG_DEFAULT);
     }
 
-    public static boolean checkAccessTokenInRedis(String userId, String token){
-        String accessToken = getAccessToken(userId);
+    public static boolean checkAccessTokenInRedis(String userId, String token, String appTag, String channelTag){
+        String accessToken = getAccessToken(userId, appTag, channelTag);
         if(StringUtils.isNotBlank(accessToken) && accessToken.equals(token)){
             return true;
         }
         return false;
     }
 
-    public static boolean checkRefreshTokenInRedis(String userId, String token){
-        String refreshToken = getRefreshToken(userId);
+    public static boolean checkRefreshTokenInRedis(String userId, String token, String appTag, String channelTag){
+        String refreshToken = getRefreshToken(userId, appTag, channelTag);
         if(StringUtils.isNotBlank(refreshToken) && refreshToken.equals(token)){
             return true;
         }

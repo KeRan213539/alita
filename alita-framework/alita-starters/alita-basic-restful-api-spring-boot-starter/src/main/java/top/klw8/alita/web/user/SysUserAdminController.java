@@ -8,6 +8,7 @@ import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
@@ -19,6 +20,7 @@ import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.cfg.AuthorityAppInfoInConfigBean;
 import top.klw8.alita.starter.common.UserCacheHelper;
 import top.klw8.alita.starter.datasecured.DataSecured;
+import top.klw8.alita.starter.utils.ResServerTokenUtil;
 import top.klw8.alita.starter.web.base.WebapiBaseController;
 import top.klw8.alita.utils.redis.TokenRedisUtil;
 import top.klw8.alita.validator.UseValidator;
@@ -166,11 +168,12 @@ public class SysUserAdminController extends WebapiBaseController {
     @AuthorityRegister(authorityName = "禁用/启用用户", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @UseValidator
-    public Mono<JsonResult> changeUserStatus(@RequestBody ChangeUserStatusRequest req){
+    public Mono<JsonResult> changeUserStatus(ServerHttpRequest request, @RequestBody ChangeUserStatusRequest req){
         if(tokenStoreUseReids && !req.getEnabled().booleanValue()){
             // 禁用用户,移除缓存中的token
-            TokenRedisUtil.removeAccessToken(req.getUserId());
-            TokenRedisUtil.removeRefreshToken(req.getUserId());
+            String[] appTagAndChannelTag = ResServerTokenUtil.getAppTagAndChannelTag(ResServerTokenUtil.getToken(request));
+            TokenRedisUtil.removeAccessToken(req.getUserId(), appTagAndChannelTag[0], appTagAndChannelTag[1]);
+            TokenRedisUtil.removeRefreshToken(req.getUserId(), appTagAndChannelTag[0], appTagAndChannelTag[1]);
             userCacheHelper.removeUserAuthoritysInCache(req.getUserId(), currectApp.getAppTag());
         }
         return Mono.fromFuture(userProvider.changeUserStatus(req.getUserId(), req.getEnabled().booleanValue()));

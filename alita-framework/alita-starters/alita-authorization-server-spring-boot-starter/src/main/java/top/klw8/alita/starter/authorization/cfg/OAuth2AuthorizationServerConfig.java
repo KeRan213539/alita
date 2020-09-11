@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.dubbo.config.annotation.Reference;
@@ -15,12 +16,13 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -44,12 +46,14 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import lombok.extern.slf4j.Slf4j;
+import top.klw8.alita.entitys.authority.SystemAuthoritysAppChannel;
 import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
-import top.klw8.alita.starter.authorization.cfg.beans.ClientItemBean;
-import top.klw8.alita.starter.authorization.cfg.beans.OAuth2ClientBean;
+import top.klw8.alita.service.api.authority.IAuthorityAppChannelProvider;
 import top.klw8.alita.starter.authorization.cfg.beans.TokenConfigBean;
 import top.klw8.alita.starter.authorization.cfg.tokenStore.RedisJwtTokenStore;
+import top.klw8.alita.starter.authorization.endpoints.LogoutEndpoint;
+import top.klw8.alita.utils.TokenUtil;
 import top.klw8.alita.utils.redis.TokenRedisUtil;
 
 import javax.servlet.Filter;
@@ -67,7 +71,8 @@ import javax.servlet.ServletResponse;
  */
 @Configuration
 @EnableAuthorizationServer
-@EnableConfigurationProperties({OAuth2ClientBean.class, TokenConfigBean.class})
+@EnableConfigurationProperties({TokenConfigBean.class})
+@Import(LogoutEndpoint.class)
 @Slf4j
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
@@ -94,9 +99,9 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
     @Reference(async=true)
     private IAlitaUserProvider userProvider;
-
-    @javax.annotation.Resource
-    private OAuth2ClientBean clientCfg;
+    
+    @Reference
+    private IAuthorityAppChannelProvider channelProvider;
 
     @javax.annotation.Resource
     private TokenConfigBean tokenCfg;
@@ -112,23 +117,22 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     }
 
     private void buildClientDetailsService() {
-        Map<String, ClientDetails> clientDetails = new HashMap<String, ClientDetails>();
-        if(clientCfg != null && CollectionUtils.isNotEmpty(clientCfg.getClientList())) {
-            List<ClientItemBean> clientList = clientCfg.getClientList();
-            for(ClientItemBean client : clientList) {
-                BaseClientDetails result = new BaseClientDetails();
-                result.setClientId(client.getClientId());
-                result.setClientSecret(client.getClientSecret());
-                result.setScope(client.getScope());
-                result.setAuthorizedGrantTypes(client.getAuthorizedGrantTypes());
-                if(client.getAuthorities() != null) {
-                    result.setAuthorities(AuthorityUtils.createAuthorityList(client.getAuthorities().toArray(new String[]{})));
-                }
-                clientDetails.put(result.getClientId(), result);
+        Map<String, ClientDetails> clientDetails = new HashMap<>();
+        List<SystemAuthoritysAppChannel> allChannel = channelProvider.allChannel();
+        if(CollectionUtils.isNotEmpty(allChannel)){
+            BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
+            for(SystemAuthoritysAppChannel channel : allChannel) {
+                BaseClientDetails client = new BaseClientDetails();
+                client.setClientId(channel.getAppTag() + TokenUtil.APP_CHANNEL_COMBINED_CLIENT_SPLIT + channel.getChannelTag());
+                client.setClientSecret(pwdEncoder.encode(channel.getChannelPwd()));
+                client.setScope(Lists.newArrayList("select"));
+                client.setAuthorizedGrantTypes(Lists.newArrayList(channel.getChannelLoginType().split(",")));
+                clientDetails.put(client.getClientId(), client);
             }
         } else {
             log.error("没有配制认证中心客户端,这将导致没有任何客户端可以请求认证中心接口");
         }
+        
         InMemoryClientDetailsService inMemClientDetailsService = new InMemoryClientDetailsService();
         inMemClientDetailsService.setClientDetailsStore(clientDetails);
         clientDetailsService = inMemClientDetailsService;

@@ -21,7 +21,7 @@ import top.klw8.alita.service.result.code.CommonResultCodeEnum;
 import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.datasecured.DataSecured;
-import top.klw8.alita.starter.utils.TokenUtil;
+import top.klw8.alita.starter.utils.ResServerTokenUtil;
 import top.klw8.alita.starter.web.base.WebapiBaseController;
 import top.klw8.alita.validator.UseValidator;
 import top.klw8.alita.validator.annotations.NotEmpty;
@@ -323,7 +323,7 @@ public class AuthorityAdminController extends WebapiBaseController {
             @NotEmpty(validatFailMessage = "应用标识不能为空")
             String appTag
     ){
-        String userId = TokenUtil.getUserId(request);
+        String userId = ResServerTokenUtil.getUserId(request);
         if (userId == null) {
             return Mono.just(JsonResult.failed(CommonResultCodeEnum.TOKEN_ERR));
         }

@@ -19,14 +19,12 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.core.io.buffer.NettyDataBufferFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.multipart.Part;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -37,7 +35,6 @@ import org.springframework.util.Assert;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 
 import reactor.core.publisher.Flux;
@@ -50,10 +47,9 @@ import top.klw8.alita.starter.common.UserCacheHelper;
 import top.klw8.alita.starter.common.WebApiContext;
 import top.klw8.alita.starter.datasecured.*;
 import top.klw8.alita.starter.utils.FormDataNoFileParserUtil;
-import top.klw8.alita.starter.utils.TokenUtil;
+import top.klw8.alita.starter.utils.ResServerTokenUtil;
 import top.klw8.alita.starter.web.base.SynchronossFormFieldPart;
 import top.klw8.alita.utils.AuthorityUtil;
-import top.klw8.alita.utils.redis.TokenRedisUtil;
 
 /**
  * @author klw
@@ -62,312 +58,298 @@ import top.klw8.alita.utils.redis.TokenRedisUtil;
  * @date 2018年12月6日 下午2:48:28
  */
 @Slf4j
-public class AuthorityInterceptor implements WebFilter {
-
+@Order(2)
+public class AuthorityInterceptor extends BaseWebFilter {
+    
     private final static String MONO_DATA_KEY_NEW_REQUEST = "newRequest";
-
-    public static final List<MediaType> legalLogMediaTypes = Lists.newArrayList(
-            MediaType.APPLICATION_XML,
-            MediaType.APPLICATION_JSON,
-            MediaType.APPLICATION_JSON_UTF8,
-            MediaType.MULTIPART_FORM_DATA,
-            MediaType.TEXT_XML);
-
-
+    
+    public static final List<MediaType> legalLogMediaTypes = Lists
+            .newArrayList(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_UTF8,
+                    MediaType.MULTIPART_FORM_DATA, MediaType.TEXT_XML);
+    
+    
     @Autowired
     private UserCacheHelper userCacheHelper;
-
+    
     @Autowired
     private ApplicationContext applicationContext;
-
+    
     @Autowired
     private RequestMappingHandlerMapping reqMapping;
-
+    
     @Autowired
     private Environment env;
-
+    
     @Autowired
     private AuthorityAppInfoInConfigBean currectApp;
-
+    
     @Resource
     private ResServerAuthPathCfgBean cfgBean;
-
-    @Value("${alita.oauth2.token.storeInRedis:false}")
-    private boolean tokenStoreUseReids;
-
+    
     private AntPathMatcher pathMatcher = new AntPathMatcher();
-
+    
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-
+        
+        if (CollectionUtils.isEmpty(cfgBean.getAuthPath())) {
+            // 没有配制权限验证的url,直接过
+            return chain.filter(exchange);
+        }
+        
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
         String reqPath = request.getURI().getPath();
-        String authorityAction = null;
-
-        String userId = null;
-        String jwtToken = null;
-        List<String> tokenList = request.getHeaders().get("Authorization");
-        if (CollectionUtils.isNotEmpty(tokenList)) {
-            jwtToken = tokenList.get(0);
-            userId = TokenUtil.getUserId(jwtToken);
-        }
-
+        
         // 判断请求的路径是否需要验证权限
         for (String authPath : cfgBean.getAuthPath()) {
             if (pathMatcher.match(authPath, reqPath)) {
-                if (StringUtils.isBlank(jwtToken) || StringUtils.isBlank(userId)) {
-                    return sendJsonStr(response, JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.TOKEN_ERR)));
+                String authorityAction;
+                String jwtToken = ResServerTokenUtil.getToken(request);
+                if (StringUtils.isBlank(jwtToken)) {
+                    return sendJsonStr(response, JSON.toJSONString(
+                            JsonResult.failed(CommonResultCodeEnum.NO_TOKEN, "需要验证权限,但没有token,请检查配制是否正确!")));
                 }
-
-                if(tokenStoreUseReids){
-                    // 如果token放redis中, 则验证token在redis中是否存在
-                    String cachedToken = TokenRedisUtil.getAccessToken(userId);
-                    if(StringUtils.isBlank(cachedToken) || !TokenUtil.removeTokenType(jwtToken).equals(cachedToken)){
-                        return sendJsonStr(response, JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.TOKEN_ERR)));
-                    }
-                }
-
+                String userId = ResServerTokenUtil.getUserId(jwtToken);
                 Map<String, String> authorityMap = userCacheHelper.getUserAuthority(userId, currectApp.getAppTag());
                 if (authorityMap == null) {
-                    return sendJsonStr(response, JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.LOGIN_TIMEOUT)));
+                    return sendJsonStr(response,
+                            JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.LOGIN_TIMEOUT)));
                 }
                 // 通过反射获取class中定义的 mapping 用于匹配权限(库里存的是原始的mapping,如果使用了url参数,就无法匹配到权限,所以拿原始mapping来匹配)
                 HandlerMethod handlerMethod = reqMapping.getHandlerInternal(exchange).block();
-                if(handlerMethod == null){
+                if (handlerMethod == null) {
                     // 没找到 handlerMethod 直接过,spring 会返回404
                     return chain.filter(exchange);
                 }
                 authorityAction = env.resolvePlaceholders(AuthorityUtil.getCompleteMappingUrl(handlerMethod));
                 if (StringUtils.isBlank(authorityAction) || StringUtils.isEmpty(authorityMap.get(authorityAction))) {
                     // 没有权限
-                    return sendJsonStr(response, JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.NO_PRIVILEGES)));
+                    return sendJsonStr(response,
+                            JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.NO_PRIVILEGES)));
                 }
-                break;
-            }
-        }
-
-
-        // 处理未配制到 alita.oauth2.resServer.authPath 中的路径(仅限制数据权限,不做url权限的)
-        if(StringUtils.isBlank(authorityAction)){
-            authorityAction = AuthorityUtil.composeWithSeparator(request.getMethod(), reqPath);
-        }
-        // 判断是否需要验证数据权限
-        DataSecured dataSecuredAnnotation = DataSecuredControllerMethodsCache.getMethod(authorityAction);
-        if(dataSecuredAnnotation == null){
-            //没有数据权限注解,继续执行下一个拦截器
-            return chain.filter(exchange.mutate().request(request).build());
-        }
-
-        if (userId == null) {
-            return sendJsonStr(response, JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.TOKEN_ERR)));
-        }
-
-        // 需要验证数据权限
-        Map<String, List<String>> dataSecuredMap = userCacheHelper.getUserDataSecured(userId, currectApp.getAppTag());
-
-        // 判断是否需要走解析器,不需要的话直接验证数据权限
-        if(dataSecuredAnnotation.parser() == IResourceParser.class){
-            // 解析器是默认的,说明没有配制解析器,拿资源标识
-            String[] resTags = dataSecuredAnnotation.resource();
-            if(resTags.length == 0){
-                //没有配制解析器,也没有配制资源标识
-                return sendJsonStr(response, JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.DATA_SECURED_NO_RES)));
-            }
-            if(checkDataSecured(authorityAction, resTags, dataSecuredMap)){
-                // 有数据权限,继续下一个拦截器
-                return chain.filter(exchange);
-            } else {
-                // 没有数据权限
-                return sendJsonStr(response, JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.NO_PRIVILEGES)));
-            }
-        }
-
-        ResourceParserData rpdata = new ResourceParserData(reqPath);
-        // 处理 query 参数(url里通过?xxx=xxx传入的参数)
-        request.getQueryParams().forEach((k, v) -> rpdata.putQueryPrarm(k, v));
-
-        // 处理 url 路径参数
-        Map<String, String> pathPrarms = pathMatcher.extractUriTemplateVariables(AuthorityUtil.removeSeparator(authorityAction), reqPath);
-        if(MapUtils.isNotEmpty(pathPrarms)){
-            rpdata.putAllPathPrarms(pathPrarms);
-        }
-
-        MediaType contentType = request.getHeaders().getContentType();
-        Mono<ResourceParserData> result;
-        Map<String, Object> monoDataMap = new HashMap<>();
-        if(contentType != null){
-            // 有 contentType, 说明有post数据
-            if(MediaType.APPLICATION_FORM_URLENCODED.equals(contentType)){
-                // 只处理 application/x-www-form-urlencoded
-                result = exchange.getFormData().map(valueMap -> {
-                    valueMap.forEach((k, v) -> {
-                        rpdata.putQueryPrarm(k, v);
-                    });
-                    return rpdata;
-                });
-            } else {
-                if(dataSecuredAnnotation.fileUpload()){
-                    // 处理 ====contentType====multipart/form-data 有文件上传的
-                    result = exchange.getMultipartData().map(valueMap -> {
-                        valueMap.forEach((k, v) -> {
-                            List<Part> partList = new ArrayList<>(v.size());
-                            List<String> formDataList = new ArrayList<>(v.size());
-                            v.forEach(part -> {
-                                if("org.springframework.http.codec.multipart.SynchronossPartHttpMessageReader$SynchronossFormFieldPart".equals(part.getClass().getName())){
-                                    // body里的东西读过就没了,这里读了以后后面的过滤器和controller就拿不到了,所以要塞回去
-                                    part.content().subscribe(dataBuff -> {
-                                        InputStream buff = dataBuff.asInputStream();
-                                        String str = null;
-                                        try {
-                                            str = IOUtils.toString(buff, Charset.forName("utf-8"));
-                                        } catch (IOException e) {
-                                            log.error("", e);
-                                        }
-                                        NettyDataBufferFactory nettyDataBufferFactory = new NettyDataBufferFactory(new UnpooledByteBufAllocator(false));
-                                        DataBufferUtils.release(dataBuff);
-                                        partList.add(new SynchronossFormFieldPart(part.headers(), nettyDataBufferFactory, str));
-                                        formDataList.add(str);
-                                    });
-                                } else {
-                                    // 文件数据不处理,直接塞回去
-                                    partList.add(part);
-                                }
+                
+                // 处理未配制到 alita.oauth2.resServer.authPath 中的路径(仅限制数据权限,不做url权限的)
+                if (StringUtils.isBlank(authorityAction)) {
+                    authorityAction = AuthorityUtil.composeWithSeparator(request.getMethod(), reqPath);
+                }
+                // 判断是否需要验证数据权限
+                DataSecured dataSecuredAnnotation = DataSecuredControllerMethodsCache.getMethod(authorityAction);
+                if (dataSecuredAnnotation == null) {
+                    //没有数据权限注解,继续执行下一个拦截器
+                    return chain.filter(exchange.mutate().request(request).build());
+                }
+                
+                // 需要验证数据权限
+                Map<String, List<String>> dataSecuredMap = userCacheHelper
+                        .getUserDataSecured(userId, currectApp.getAppTag());
+                
+                // 判断是否需要走解析器,不需要的话直接验证数据权限
+                if (dataSecuredAnnotation.parser() == IResourceParser.class) {
+                    // 解析器是默认的,说明没有配制解析器,拿资源标识
+                    String[] resTags = dataSecuredAnnotation.resource();
+                    if (resTags.length == 0) {
+                        //没有配制解析器,也没有配制资源标识
+                        return sendJsonStr(response,
+                                JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.DATA_SECURED_NO_RES)));
+                    }
+                    if (checkDataSecured(authorityAction, resTags, dataSecuredMap)) {
+                        // 有数据权限,继续下一个拦截器
+                        return chain.filter(exchange);
+                    } else {
+                        // 没有数据权限
+                        return sendJsonStr(response,
+                                JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.NO_PRIVILEGES)));
+                    }
+                }
+                
+                ResourceParserData rpdata = new ResourceParserData(reqPath);
+                // 处理 query 参数(url里通过?xxx=xxx传入的参数)
+                request.getQueryParams().forEach((k, v) -> rpdata.putQueryPrarm(k, v));
+                
+                // 处理 url 路径参数
+                Map<String, String> pathPrarms = pathMatcher
+                        .extractUriTemplateVariables(AuthorityUtil.removeSeparator(authorityAction), reqPath);
+                if (MapUtils.isNotEmpty(pathPrarms)) {
+                    rpdata.putAllPathPrarms(pathPrarms);
+                }
+                
+                MediaType contentType = request.getHeaders().getContentType();
+                Mono<ResourceParserData> result;
+                Map<String, Object> monoDataMap = new HashMap<>();
+                if (contentType != null) {
+                    // 有 contentType, 说明有post数据
+                    if (MediaType.APPLICATION_FORM_URLENCODED.equals(contentType)) {
+                        // 只处理 application/x-www-form-urlencoded
+                        result = exchange.getFormData().map(valueMap -> {
+                            valueMap.forEach((k, v) -> {
+                                rpdata.putQueryPrarm(k, v);
                             });
-                            valueMap.put(k, partList);
-                            if(!formDataList.isEmpty()){
-                                rpdata.putFormData(k, formDataList);
-                            }
+                            return rpdata;
                         });
-                        return rpdata;
-                    });
+                    } else {
+                        if (dataSecuredAnnotation.fileUpload()) {
+                            // 处理 ====contentType====multipart/form-data 有文件上传的
+                            result = exchange.getMultipartData().map(valueMap -> {
+                                valueMap.forEach((k, v) -> {
+                                    List<Part> partList = new ArrayList<>(v.size());
+                                    List<String> formDataList = new ArrayList<>(v.size());
+                                    v.forEach(part -> {
+                                        if ("org.springframework.http.codec.multipart.SynchronossPartHttpMessageReader$SynchronossFormFieldPart"
+                                                .equals(part.getClass().getName())) {
+                                            // body里的东西读过就没了,这里读了以后后面的过滤器和controller就拿不到了,所以要塞回去
+                                            part.content().subscribe(dataBuff -> {
+                                                InputStream buff = dataBuff.asInputStream();
+                                                String str = null;
+                                                try {
+                                                    str = IOUtils.toString(buff, Charset.forName("utf-8"));
+                                                } catch (IOException e) {
+                                                    log.error("", e);
+                                                }
+                                                NettyDataBufferFactory nettyDataBufferFactory = new NettyDataBufferFactory(
+                                                        new UnpooledByteBufAllocator(false));
+                                                DataBufferUtils.release(dataBuff);
+                                                partList.add(new SynchronossFormFieldPart(part.headers(),
+                                                        nettyDataBufferFactory, str));
+                                                formDataList.add(str);
+                                            });
+                                        } else {
+                                            // 文件数据不处理,直接塞回去
+                                            partList.add(part);
+                                        }
+                                    });
+                                    valueMap.put(k, partList);
+                                    if (!formDataList.isEmpty()) {
+                                        rpdata.putFormData(k, formDataList);
+                                    }
+                                });
+                                return rpdata;
+                            });
+                        } else {
+                            // 处理post数据,form-data(非文件上传,也就是非二进制方式),raw, binary(文件), graphQL 都能拿到东西
+                            result = request.getBody().map(dataBuffer -> {
+                                // 只处理下面几种,其他不处理
+                                // graphQL  application/json
+                                // form-data:  multipart/form-data
+                                // raw + json:  application/json
+                                // raw + xml:  application/xml
+                                InputStream buffer = dataBuffer.asInputStream();
+                                byte[] bytes = new byte[0];
+                                try {
+                                    bytes = IOUtils.toByteArray(buffer);
+                                } catch (IOException e) {
+                                    log.error("", e);
+                                }
+                                if (legalLogMediaTypes.contains(contentType)) {
+                                    String bodyData = new String(bytes);
+                                    // 要处理的类型
+                                    if (MediaType.APPLICATION_XML.equals(contentType) || MediaType.APPLICATION_XML
+                                            .equals(contentType)) {
+                                        // 处理XML
+                                        rpdata.setXmlString(bodyData);
+                                    } else if (MediaType.APPLICATION_JSON.equals(contentType)
+                                            || MediaType.APPLICATION_JSON_UTF8.equals(contentType)) {
+                                        // 处理 JSON
+                                        rpdata.setJsonString(bodyData);
+                                    } else {
+                                        // 处理 form-data
+                                        rpdata.putAllFormData(FormDataNoFileParserUtil
+                                                .parser(bodyData, contentType.getParameter("boundary")));
+                                    }
+                                }
+                                NettyDataBufferFactory nettyDataBufferFactory = new NettyDataBufferFactory(
+                                        new UnpooledByteBufAllocator(false));
+                                DataBufferUtils.release(dataBuffer);
+                                return nettyDataBufferFactory.wrap(bytes);
+                            }).collectList().map(dataBufferList -> {
+                                // body 读过就没了,这里读过后重新塞回去
+                                ServerHttpRequest newRequest = new ServerHttpRequestDecorator(request) {
+                                    @Override
+                                    public Flux<DataBuffer> getBody() {
+                                        return Flux.fromIterable(dataBufferList);
+                                    }
+                                };
+                                monoDataMap.put(MONO_DATA_KEY_NEW_REQUEST, newRequest);
+                                return rpdata;
+                            });
+                        }
+                    }
                 } else {
-                    // 处理post数据,form-data(非文件上传,也就是非二进制方式),raw, binary(文件), graphQL 都能拿到东西
-                    result = request.getBody().map(dataBuffer -> {
-                        // 只处理下面几种,其他不处理
-                        // graphQL  application/json
-                        // form-data:  multipart/form-data
-                        // raw + json:  application/json
-                        // raw + xml:  application/xml
-                        InputStream buffer = dataBuffer.asInputStream();
-                        byte[] bytes = new byte[0];
-                        try {
-                            bytes = IOUtils.toByteArray(buffer);
-                        } catch (IOException e) {
-                            log.error("", e);
-                        }
-                        if(legalLogMediaTypes.contains(contentType)){
-                            String bodyData = new String(bytes);
-                            // 要处理的类型
-                            if(MediaType.APPLICATION_XML.equals(contentType) || MediaType.APPLICATION_XML.equals(contentType)){
-                                // 处理XML
-                                rpdata.setXmlString(bodyData);
-                            } else if(MediaType.APPLICATION_JSON.equals(contentType) || MediaType.APPLICATION_JSON_UTF8.equals(contentType)){
-                                // 处理 JSON
-                                rpdata.setJsonString(bodyData);
-                            } else {
-                                // 处理 form-data
-                                rpdata.putAllFormData(FormDataNoFileParserUtil.parser(bodyData, contentType.getParameter("boundary")));
-                            }
-                        }
-                        NettyDataBufferFactory nettyDataBufferFactory = new NettyDataBufferFactory(new UnpooledByteBufAllocator(false));
-                        DataBufferUtils.release(dataBuffer);
-                        return nettyDataBufferFactory.wrap(bytes);
-                    }).collectList().map(dataBufferList -> {
-                        ServerHttpRequest newRequest = new ServerHttpRequestDecorator(request){
-                            @Override
-                            public Flux<DataBuffer> getBody() {
-                                return Flux.fromIterable(dataBufferList);
-                            }
-                        };
-                        monoDataMap.put(MONO_DATA_KEY_NEW_REQUEST, newRequest);
-                        return rpdata;
-                    });
+                    result = Mono.just(rpdata);
                 }
+                
+                String finalAuthorityAction = authorityAction;
+                return result.map(rpd -> {
+                    // 调用资源解析器,并把解析器返回的资源给下一步
+                    IResourceParser resourceParser = applicationContext.getBean(dataSecuredAnnotation.parser());
+                    Assert.notNull(resourceParser, "【" + reqPath + "】没有找到数据权限资源解析器,解析器需要放入spring容器中,请检查");
+                    ResourceParserResult parserResult = resourceParser.parseResource(rpd);
+                    return parserResult;
+                }).flatMap(parserResult -> {
+                    // 验证数据权限,并做相应处理
+                    if (checkDataSecured(finalAuthorityAction, parserResult, dataSecuredMap)) {
+                        // 有数据权限,继续下一个拦截器
+                        ServerHttpRequest newRequest = (ServerHttpRequest) monoDataMap.get(MONO_DATA_KEY_NEW_REQUEST);
+                        if (newRequest == null) {
+                            return chain.filter(exchange);
+                        } else {
+                            return chain.filter(exchange.mutate().request(newRequest).build());
+                        }
+                    }
+                    // 没有数据权限
+                    return sendJsonStr(response,
+                            JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.NO_PRIVILEGES)));
+                });
             }
-        } else {
-            result = Mono.just(rpdata);
         }
-
-        String finalAuthorityAction = authorityAction;
-        return result.map(rpd -> {
-            // 调用资源解析器,并把解析器返回的资源给下一步
-            IResourceParser resourceParser = applicationContext.getBean(dataSecuredAnnotation.parser());
-            Assert.notNull(resourceParser, "【" + reqPath + "】没有找到数据权限资源解析器,解析器需要放入spring容器中,请检查");
-            ResourceParserResult parserResult = resourceParser.parseResource(rpd);
-            return parserResult;
-        }).flatMap(parserResult -> {
-            // 验证数据权限,并做相应处理
-            if(checkDataSecured(finalAuthorityAction, parserResult, dataSecuredMap)){
-                // 有数据权限,继续下一个拦截器
-                ServerHttpRequest newRequest = (ServerHttpRequest) monoDataMap.get(MONO_DATA_KEY_NEW_REQUEST);
-                if(newRequest == null){
-                    return chain.filter(exchange);
-                } else {
-                    return chain.filter(exchange.mutate().request(newRequest).build());
-                }
-            }
-            // 没有数据权限
-            return sendJsonStr(response, JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.NO_PRIVILEGES)));
-        });
+        return chain.filter(exchange);
     }
-
-    private Mono<Void> sendJsonStr(ServerHttpResponse response, String str) {
-        response.setStatusCode(HttpStatus.BAD_REQUEST);
-        response.getHeaders().setContentType(MediaType.APPLICATION_JSON_UTF8);
-        response.getHeaders().set("Cache-Control", "no-cache");
-        DataBufferFactory dataBufferFactory = response.bufferFactory();
-        DataBuffer buffer = dataBufferFactory.wrap(str.getBytes(
-                Charset.defaultCharset()));
-        return response.writeWith(Mono.just(buffer))
-                .doOnError(error -> DataBufferUtils.release(buffer));
-    }
-
-    private boolean checkDataSecured(String reqUrl, String[] resTags, Map<String, List<String>> dataSecuredMap){
+    
+    private boolean checkDataSecured(String reqUrl, String[] resTags, Map<String, List<String>> dataSecuredMap) {
         return checkDataSecured(reqUrl, new ResourceParserResult(resTags), dataSecuredMap);
     }
-
-    private boolean checkDataSecured(String reqUrl, ResourceParserResult parserResult, Map<String, List<String>> dataSecuredMap){
-        if(parserResult.isMasterKey()){
+    
+    private boolean checkDataSecured(String reqUrl, ResourceParserResult parserResult,
+            Map<String, List<String>> dataSecuredMap) {
+        if (parserResult.isMasterKey()) {
             return parserResult.isMasterKey();
         }
-
+        
         String[] resTags = parserResult.getParsedResources();
-        if(resTags.length <= 0){
+        if (resTags.length <= 0) {
             return false;
         }
-
+        
         if (dataSecuredMap == null) {
             log.debug("需要验证数据权限,但是该角色没有任何数据权限!");
             return false;
         }
-
+        
         int passCount = 0;
         // 先在当前请求的权限下的数据权限中找
         List<String> sdList = dataSecuredMap.get(reqUrl);
-        if(sdList != null){
-            for(String resTag : resTags){
-                if(sdList.contains(resTag)){
+        if (sdList != null) {
+            for (String resTag : resTags) {
+                if (sdList.contains(resTag)) {
                     passCount++;
                 }
             }
         }
-
-        if(passCount == resTags.length){
+        
+        if (passCount == resTags.length) {
             // 如果这里就够了,就不去找全局了
             return Boolean.TRUE;
         }
-
+        
         // 再找全局
         List<String> publicSDList = dataSecuredMap.get(WebApiContext.CACHE_KEY_USER_PUBLIC_DATA_SECUREDS);
-        if(publicSDList != null){
-            for(String resTag : resTags){
-                if(publicSDList.contains(resTag)){
+        if (publicSDList != null) {
+            for (String resTag : resTags) {
+                if (publicSDList.contains(resTag)) {
                     passCount++;
                 }
             }
         }
         return passCount == resTags.length;
     }
-
+    
 }

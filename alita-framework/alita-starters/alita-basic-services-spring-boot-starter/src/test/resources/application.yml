@@ -15,8 +15,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 nacos:
   config:
-    serverAddr: "[::1]:8848"
-#    serverAddr: 127.0.0.1:8848
+#    serverAddr: "[::1]:8848"
+    serverAddr: 127.0.0.1:8848
     namespace: alita-dev
     remoteFirst: true
     dataId: ${spring.application.name}.yml

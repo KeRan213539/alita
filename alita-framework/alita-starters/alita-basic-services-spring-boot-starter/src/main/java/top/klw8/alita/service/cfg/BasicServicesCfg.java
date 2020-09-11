@@ -14,6 +14,7 @@ import top.klw8.alita.helper.UserCacheHelper;
 import top.klw8.alita.providers.admin.impl.*;
 import top.klw8.alita.service.api.authority.*;
 import top.klw8.alita.service.authority.service.impl.AlitaUserServiceImpl;
+import top.klw8.alita.service.authority.service.impl.AuthorityAppChannelServiceImpl;
 import top.klw8.alita.service.authority.service.impl.SystemAuthoritysCatlogServiceImpl;
 import top.klw8.alita.service.authority.service.impl.SystemAuthoritysServiceImpl;
 import top.klw8.alita.service.authority.service.impl.SystemRoleServiceImpl;
@@ -29,8 +30,10 @@ import top.klw8.alita.service.authority.service.impl.SystemRoleServiceImpl;
 @Import({UserCacheHelper.class
         , AlitaUserServiceImpl.class, SystemAuthoritysCatlogServiceImpl.class
         , SystemAuthoritysServiceImpl.class, SystemRoleServiceImpl.class
-        , DevHelperProviderImpl.class, AuthorityAdminProviderImpl.class, AlitaUserProvider.class,
-        AuthorityAppProviderImpl.class, AuthorityAdminDataSecuredProviderImpl.class})
+        , DevHelperProviderImpl.class, AuthorityAdminProviderImpl.class,
+        AuthorityAppChannelServiceImpl.class,
+        AlitaUserProvider.class, AuthorityAppProviderImpl.class,
+        AuthorityAdminDataSecuredProviderImpl.class, AuthorityAppChannelProviderImpl.class})
 public class BasicServicesCfg {
 
     @Autowired
@@ -50,7 +53,8 @@ public class BasicServicesCfg {
                                     @Autowired IAuthorityAdminProvider authorityAdminProvider,
                                     @Autowired IAlitaUserProvider alitaUserProvider,
                                     @Autowired IAuthorityAppProvider authorityAppProvider,
-                                    @Autowired IAuthorityAdminDataSecuredProvider authorityAdminDataSecuredProvider) {
+                                    @Autowired IAuthorityAdminDataSecuredProvider authorityAdminDataSecuredProvider,
+                                    @Autowired IAuthorityAppChannelProvider appChannelProvider) {
         String[] activeprofiles = env.getActiveProfiles();
         for (String activeprofile : activeprofiles) {
             if (activeprofile.equals("dev")) {
@@ -61,6 +65,7 @@ public class BasicServicesCfg {
         exportDubboService(IAuthorityAdminProvider.class, authorityAdminProvider, true);
         exportDubboService(IAuthorityAppProvider.class, authorityAppProvider, true);
         exportDubboService(IAuthorityAdminDataSecuredProvider.class, authorityAdminDataSecuredProvider, false);
+        exportDubboService(IAuthorityAppChannelProvider.class, appChannelProvider, false);
 
 
         return new Object();

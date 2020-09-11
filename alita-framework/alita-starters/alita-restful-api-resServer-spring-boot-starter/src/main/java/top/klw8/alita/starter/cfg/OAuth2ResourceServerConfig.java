@@ -8,6 +8,7 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
+import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.IOUtils;
@@ -31,6 +32,7 @@ import top.klw8.alita.starter.common.UserCacheHelper;
 import top.klw8.alita.starter.datasecured.DataSecuredControllerMethodsLoader;
 import top.klw8.alita.starter.web.interceptor.AuthorityInterceptor;
 import top.klw8.alita.starter.validator.AlitaResponseGenerator;
+import top.klw8.alita.starter.web.interceptor.TokenCheckInterceptor;
 import top.klw8.alita.validator.EnableValidator;
 
 /**
@@ -41,14 +43,17 @@ import top.klw8.alita.validator.EnableValidator;
  */
 @Slf4j
 @Configuration
-@EnableConfigurationProperties(ResServerAuthPathCfgBean.class)
+@EnableConfigurationProperties({ResServerAuthPathCfgBean.class, TokenConfigBean.class})
 @EnableWebFluxSecurity
 @EnableValidator(responseMsgGenerator = AlitaResponseGenerator.class)
-@Import({AuthorityInterceptor.class, DataSecuredControllerMethodsLoader.class})
+@Import({TokenCheckInterceptor.class, AuthorityInterceptor.class, DataSecuredControllerMethodsLoader.class})
 public class OAuth2ResourceServerConfig {
 
     @javax.annotation.Resource
     private ResServerAuthPathCfgBean cfgBean;
+    
+    @javax.annotation.Resource
+    private TokenConfigBean tokenConfigBean;
 
     @Reference(async = true)
     private IAuthorityAdminProvider adminProvider;
@@ -87,11 +92,15 @@ public class OAuth2ResourceServerConfig {
                 .authenticationEntryPoint(xx)
                 .and()
                 .csrf().disable();
-        //下面配制必须认证过后才可以访问的url
-        for (String path : cfgBean.getAuthPath()) {
-            http.authorizeExchange().pathMatchers(path).authenticated();
+        // 所有页面都验证token,除了排除的
+//        http.authorizeExchange().pathMatchers("/**").authenticated();
+        //下面配制不验证token的url
+        if(CollectionUtils.isNotEmpty(tokenConfigBean.getCheckExcludePaths())){
+            for(String path : tokenConfigBean.getCheckExcludePaths()){
+                http.authorizeExchange().pathMatchers(path).permitAll();
+            }
         }
-        http.authorizeExchange().anyExchange().permitAll();
+        http.authorizeExchange().anyExchange().authenticated();
         http.oauth2ResourceServer().jwt().publicKey(jwtPublicKey());
         return http.build();
     }
