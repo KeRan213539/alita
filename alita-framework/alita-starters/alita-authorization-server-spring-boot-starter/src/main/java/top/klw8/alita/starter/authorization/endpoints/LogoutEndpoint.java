@@ -21,8 +21,8 @@ public class LogoutEndpoint {
     @Autowired
     private TokenStore tokenStore;
 
-    @PostMapping("/oauth/logout")
-    public ResponseEntity logout(String refreshToken){
+    @PostMapping(value = "/oauth/logout", produces = "text/html;charset=utf-8")
+    public ResponseEntity<String> logout(String refreshToken){
         if(StringUtils.isBlank(refreshToken)){
             return new ResponseEntity("刷新令牌不能为空", HttpStatus.BAD_REQUEST);
         }

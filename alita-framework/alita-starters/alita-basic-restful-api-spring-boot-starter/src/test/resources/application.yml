@@ -1,5 +1,9 @@
 server:
   port: 8783
+springfox:
+  documentation:
+    swagger-ui:
+      enabled: true  # 默认就是true,生产设为false
 alita:
   oauth2:
     token:

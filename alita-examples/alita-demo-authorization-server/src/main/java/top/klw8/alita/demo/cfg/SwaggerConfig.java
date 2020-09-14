@@ -14,7 +14,6 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @ClassName: SwaggerConfig
@@ -23,7 +22,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @date 2018年9月14日 09:54:14
  */
 @Configuration  
-@EnableSwagger2
 @Profile("dev")  // 仅在dev模式(application.yml中的spring.profiles.active=dev时)下才会执行该配制
 public class SwaggerConfig extends WebMvcConfigurationSupport  {
 

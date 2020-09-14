@@ -93,7 +93,6 @@ public class OAuth2ResourceServerConfig {
                 .and()
                 .csrf().disable();
         // 所有页面都验证token,除了排除的
-//        http.authorizeExchange().pathMatchers("/**").authenticated();
         //下面配制不验证token的url
         if(CollectionUtils.isNotEmpty(tokenConfigBean.getCheckExcludePaths())){
             for(String path : tokenConfigBean.getCheckExcludePaths()){
