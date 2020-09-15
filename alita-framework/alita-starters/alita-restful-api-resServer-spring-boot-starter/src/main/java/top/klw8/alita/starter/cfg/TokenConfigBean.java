@@ -2,6 +2,7 @@ package top.klw8.alita.starter.cfg;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.ArrayList;
@@ -33,9 +34,13 @@ public class TokenConfigBean {
     
     public List<String> getCheckExcludePaths(){
         if(mergedCheckExcludePaths == null){
-            mergedCheckExcludePaths = new ArrayList<>(defaultCheckExcludePaths.size() + checkExcludePaths.size());
-            mergedCheckExcludePaths.addAll(defaultCheckExcludePaths);
-            mergedCheckExcludePaths.addAll(checkExcludePaths);
+            if(CollectionUtils.isEmpty(checkExcludePaths)) {
+                mergedCheckExcludePaths = defaultCheckExcludePaths;
+            } else {
+                mergedCheckExcludePaths = new ArrayList<>(defaultCheckExcludePaths.size() + checkExcludePaths.size());
+                mergedCheckExcludePaths.addAll(defaultCheckExcludePaths);
+                mergedCheckExcludePaths.addAll(checkExcludePaths);
+            }
         }
         return this.mergedCheckExcludePaths;
     }

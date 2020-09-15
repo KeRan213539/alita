@@ -4,22 +4,19 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.service.result.code.CommonResultCodeEnum;
 import top.klw8.alita.starter.cfg.TokenConfigBean;
 import top.klw8.alita.starter.utils.ResServerTokenUtil;
+import top.klw8.alita.starter.web.base.BaseWebFilter;
 import top.klw8.alita.utils.redis.TokenRedisUtil;
-
-import java.util.List;
 
 /**
  * token验证拦截器.

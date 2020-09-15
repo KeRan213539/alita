@@ -25,6 +25,16 @@
             <groupId>top.klw8.alita</groupId>
             <artifactId>alita-commons</artifactId>
         </dependency>
+    
+        <dependency>
+            <groupId>top.klw8.alita</groupId>
+            <artifactId>alita-validator</artifactId>
+        </dependency>
+    
+        <dependency>
+            <groupId>top.klw8.alita</groupId>
+            <artifactId>alita-service-api</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -83,7 +93,7 @@
             <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-logappender</artifactId>
         </dependency>
-
+    
     </dependencies>
 
 </project>

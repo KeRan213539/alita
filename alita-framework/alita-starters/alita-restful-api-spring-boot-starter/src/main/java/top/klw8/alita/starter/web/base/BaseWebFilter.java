@@ -1,4 +1,4 @@
-package top.klw8.alita.starter.web.interceptor;
+package top.klw8.alita.starter.web.base;
 
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
@@ -21,8 +21,6 @@ import java.nio.charset.Charset;
  * @date 2020/9/10 15:47
  */
 public abstract class BaseWebFilter implements WebFilter {
-    
-    abstract public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain);
     
     protected Mono<Void> sendJsonStr(ServerHttpResponse response, String str) {
         response.setStatusCode(HttpStatus.BAD_REQUEST);

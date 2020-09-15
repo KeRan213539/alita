@@ -1,11 +1,7 @@
 package top.klw8.alita.starter.cfg.base;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.context.annotation.Bean;
-
 import io.swagger.annotations.Api;
+import org.springframework.context.annotation.Bean;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -17,6 +13,9 @@ import springfox.documentation.service.SecurityReference;
 import springfox.documentation.service.SecurityScheme;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author klw
