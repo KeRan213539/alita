@@ -51,7 +51,7 @@
         <nacos-config-spring.version>0.2.7</nacos-config-spring.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
         <commonOkHttp.version>0.4.1</commonOkHttp.version>
-        <fastjson.version>1.2.9</fastjson.version>
+        <fastjson.version>1.2.73</fastjson.version>
         <freemarker.version>2.3.30</freemarker.version>
         <cglib.version>3.2.6</cglib.version>
         <commons-net.version>3.6</commons-net.version>
