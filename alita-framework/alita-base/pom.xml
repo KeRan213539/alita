@@ -51,7 +51,7 @@
         <nacos-config-spring.version>0.2.7</nacos-config-spring.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
         <commonOkHttp.version>0.4.1</commonOkHttp.version>
-        <fastjson.version>1.2.73</fastjson.version>
+        <fastjson.version>1.2.9</fastjson.version>
         <freemarker.version>2.3.30</freemarker.version>
         <cglib.version>3.2.6</cglib.version>
         <commons-net.version>3.6</commons-net.version>
@@ -66,6 +66,22 @@
 
     <dependencyManagement>
         <dependencies>
+    
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
             <!--dubbo doc-->
             <dependency>
@@ -233,14 +249,6 @@
             </dependency>
 
             <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>${spring-cloud-alibaba-dependencies.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-spring-boot-starter</artifactId>
                 <version>${dubbo.version}</version>
@@ -307,14 +315,6 @@
                 <groupId>com.xuxueli</groupId>
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxl-job.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
             </dependency>
     
             <dependency>
