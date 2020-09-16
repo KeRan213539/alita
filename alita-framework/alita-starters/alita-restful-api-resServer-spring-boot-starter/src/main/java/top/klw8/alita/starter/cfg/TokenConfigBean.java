@@ -23,9 +23,6 @@ public class TokenConfigBean {
     @Setter
     private boolean storeInRedis;
     
-    @Setter
-    private List<String> checkExcludePaths;
-    
     private List<String> defaultCheckExcludePaths = Arrays
             .asList(new String[] {"/devHelper/**", "/swagger-ui.html**", "/webjars/**", "/swagger-ui/**",
                     "/swagger-resources/**", "/static/**", "/js/**"});
@@ -33,16 +30,17 @@ public class TokenConfigBean {
     private List<String> mergedCheckExcludePaths;
     
     public List<String> getCheckExcludePaths(){
-        if(mergedCheckExcludePaths == null){
-            if(CollectionUtils.isEmpty(checkExcludePaths)) {
-                mergedCheckExcludePaths = defaultCheckExcludePaths;
-            } else {
-                mergedCheckExcludePaths = new ArrayList<>(defaultCheckExcludePaths.size() + checkExcludePaths.size());
-                mergedCheckExcludePaths.addAll(defaultCheckExcludePaths);
-                mergedCheckExcludePaths.addAll(checkExcludePaths);
-            }
-        }
         return this.mergedCheckExcludePaths;
+    }
+    
+    public void setCheckExcludePaths(List<String> list){
+        if(CollectionUtils.isEmpty(list)) {
+            mergedCheckExcludePaths = defaultCheckExcludePaths;
+        } else {
+            mergedCheckExcludePaths = new ArrayList<>(defaultCheckExcludePaths.size() + list.size());
+            mergedCheckExcludePaths.addAll(defaultCheckExcludePaths);
+            mergedCheckExcludePaths.addAll(list);
+        }
     }
     
 }

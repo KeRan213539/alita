@@ -81,10 +81,9 @@ public class OAuth2ResourceServerConfig {
     @Bean
     public SecurityWebFilterChain configure(ServerHttpSecurity http) throws Exception {
         if (cfgBean == null || CollectionUtils.isEmpty(cfgBean.getAuthPath())) {
-            log.error("---------------------------------------------------------------------");
-            log.error("oauth2 资源服务需要认证的路径未配制,至少配制一个!");
-            log.error("---------------------------------------------------------------------");
-            System.exit(1);
+            log.warn("---------------------------------------------------------------------");
+            log.warn("【警告】没有配制需要验证权限的url, 如果项目本身没有这个需求请忽略本警告!");
+            log.warn("---------------------------------------------------------------------");
         }
         SecurityAuthenticationEntryPoint xx = new SecurityAuthenticationEntryPoint();
         http.exceptionHandling()
