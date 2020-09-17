@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>top.klw8.alita</groupId>
 	<artifactId>alita-basic-services-spring-boot-starter</artifactId>
-	<version>0.3.0-SNAPSHOT</version>
+	<version>${revision}</version>
 	<packaging>jar</packaging>
 	<name>alita-basic-services-spring-boot-starter</name>
 	<description>alita核心服务starter,包含用户,权限等,引入后即提供基础服务</description>
@@ -11,7 +11,8 @@
 	<parent>
 		<groupId>top.klw8.alita</groupId>
 		<artifactId>alita-starter-base</artifactId>
-		<version>0.3.0-SNAPSHOT</version>
+		<version>${revision}</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<dependencies>

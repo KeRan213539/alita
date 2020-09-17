@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>top.klw8.alita</groupId>
 	<artifactId>alita-authorization-server-spring-boot-starter</artifactId>
-	<version>0.3.0-SNAPSHOT</version>
+	<version>${revision}</version>
 	<packaging>jar</packaging>
 	<name>alita-authorization-server-spring-boot-starter</name>
 	<description>alita 认证服务器 启动器</description>
@@ -11,7 +11,8 @@
 	<parent>
 		<groupId>top.klw8.alita</groupId>
 		<artifactId>alita-starter-base</artifactId>
-		<version>0.3.0-SNAPSHOT</version>
+		<version>${revision}</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<dependencies>
