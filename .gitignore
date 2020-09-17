@@ -142,3 +142,18 @@ rebel-remote.xml
 #zkui
 zkui-master/zkui.*.db
 zkui-master/zkui*.log
+
+# dependencies
+node_modules
+
+# production
+dist
+
+# misc
+.DS_Store
+npm-debug.log*
+
+packageScript/dev/packageOut
+packageScript/prod-payCenter/packageOut
+
+.flattened-pom.xml
