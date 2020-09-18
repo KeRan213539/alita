@@ -15,18 +15,6 @@
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>top.klw8.alita</groupId>
-                <artifactId>alita-base</artifactId>
-                <version>${revision}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <modules>
         <module>alita-mongodb-spring-data-spring-boot-starter</module>
