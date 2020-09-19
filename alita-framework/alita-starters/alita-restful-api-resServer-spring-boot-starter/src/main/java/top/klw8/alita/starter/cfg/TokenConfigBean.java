@@ -27,7 +27,7 @@ public class TokenConfigBean {
             .asList(new String[] {"/devHelper/**", "/swagger-ui.html**", "/webjars/**", "/swagger-ui/**",
                     "/swagger-resources/**", "/static/**", "/js/**"});
     
-    private List<String> mergedCheckExcludePaths;
+    private List<String> mergedCheckExcludePaths = defaultCheckExcludePaths;
     
     public List<String> getCheckExcludePaths(){
         return this.mergedCheckExcludePaths;
