@@ -67,7 +67,7 @@
         <spring-security-oauth2.version>2.3.6.RELEASE</spring-security-oauth2.version>
         <dubbo.version>2.7.4.1</dubbo.version>
         <sentinel.version>1.7.0</sentinel.version>
-        <alibaba-spring-context-support.version>1.0.2</alibaba-spring-context-support.version>
+        <alibaba-spring-context-support.version>1.0.6</alibaba-spring-context-support.version>
         <IK_Analyzer.version>2012FF_hf1_1</IK_Analyzer.version>
         
         <druid.version>1.1.21</druid.version>
