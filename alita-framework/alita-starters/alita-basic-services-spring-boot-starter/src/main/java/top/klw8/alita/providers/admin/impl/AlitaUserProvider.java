@@ -186,7 +186,9 @@ public class AlitaUserProvider implements IAlitaUserProvider {
             return ServiceUtil.buildFuture(JsonResult.badParameter("保存用户只支持新增,不支持修改!"));
         }
         user.initNewAccount();
-        user.setUserPwd(pwdEncoder.encode(user.getUserPwd()));
+        if(StringUtils.isNotBlank(user.getUserPwd())) {
+            user.setUserPwd(pwdEncoder.encode(user.getUserPwd()));
+        }
         userService.save(user);
         return ServiceUtil.buildFuture(JsonResult.successfu());
     }
