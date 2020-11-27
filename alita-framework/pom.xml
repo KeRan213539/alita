@@ -33,12 +33,11 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.7.RELEASE</version>
-        <relativePath />
     </parent>
     
     <properties>
         <!-- Project revision -->
-        <revision>0.3.0-SNAPSHOT</revision>
+        <revision>0.4.0-SNAPSHOT</revision>
         <project.build.jdkVersion>1.8</project.build.jdkVersion>
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -58,7 +57,7 @@
         <commons-collections.version>4.2</commons-collections.version>
         <aliyun-sdk-oss.version>3.3.0</aliyun-sdk-oss.version>
         <commons-fileupload.version>1.3.3</commons-fileupload.version>
-        <elasticsearch-rest-high-level-client.version>6.2.3</elasticsearch-rest-high-level-client.version>
+<!--        <elasticsearch-rest-high-level-client.version>6.2.3</elasticsearch-rest-high-level-client.version>-->
         <springfox.version>3.0.0</springfox.version>
         <xxl-job.version>2.2.0</xxl-job.version>
         <commons-text.version>1.6</commons-text.version>
@@ -89,7 +88,7 @@
 
     <dependencyManagement>
         <dependencies>
-            
+    
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -128,109 +127,109 @@
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-commons</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-base-entitys</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-base-service-api</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-entitys</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-service-api</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-service-mongodb-api</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-service-mongodb-starter</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-service-mybatis-spring-boot-starter</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-restful-api-starter</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-restful-api-resServer-starter</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-authorization-server-spring-boot-starter</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-rocketmq-consumers-starter</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-job-executor-starter</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-mongodb-spring-data-spring-boot-starter</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-mybatis-spring-data-spring-boot-starter</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-basic-services-spring-boot-starter</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-basic-restful-api-spring-boot-starter</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-gateway-server-spring-boot-starter</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
             
             <!-- end 基本base项目 -->
@@ -441,23 +440,23 @@
                 <version>${commons-fileupload.version}</version>
             </dependency>
             
-            <dependency>
-                <groupId>org.elasticsearch.client</groupId>
-                <artifactId>elasticsearch-rest-high-level-client</artifactId>
-                <version>${elasticsearch-rest-high-level-client.version}</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>org.elasticsearch.client</groupId>
-                <artifactId>elasticsearch-rest-client</artifactId>
-                <version>${elasticsearch-rest-high-level-client.version}</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>org.elasticsearch</groupId>
-                <artifactId>elasticsearch</artifactId>
-                <version>${elasticsearch-rest-high-level-client.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.elasticsearch.client</groupId>-->
+<!--                <artifactId>elasticsearch-rest-high-level-client</artifactId>-->
+<!--                <version>${elasticsearch-rest-high-level-client.version}</version>-->
+<!--            </dependency>-->
+<!--            -->
+<!--            <dependency>-->
+<!--                <groupId>org.elasticsearch.client</groupId>-->
+<!--                <artifactId>elasticsearch-rest-client</artifactId>-->
+<!--                <version>${elasticsearch-rest-high-level-client.version}</version>-->
+<!--            </dependency>-->
+<!--            -->
+<!--            <dependency>-->
+<!--                <groupId>org.elasticsearch</groupId>-->
+<!--                <artifactId>elasticsearch</artifactId>-->
+<!--                <version>${elasticsearch-rest-high-level-client.version}</version>-->
+<!--            </dependency>-->
             
             <dependency>
                 <groupId>org.apache.rocketmq</groupId>
@@ -730,31 +729,31 @@
                 </repository>
             </repositories>
             <distributionManagement>
-                <snapshotRepository>
-                    <id>oss-releases</id>
-                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-                </snapshotRepository>
                 <repository>
                     <id>oss-releases</id>
                     <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
                 </repository>
+                <snapshotRepository>
+                    <id>oss-releases</id>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+                </snapshotRepository>
             </distributionManagement>
         </profile>
         
         <profile>
-            <id>deployTo75Nexus</id>
+            <id>deployToKlw8</id>
             <properties>
                 <profile.active>release</profile.active>
             </properties>
             <distributionManagement>
-                <snapshotRepository>
-                    <id>nexus-releases</id>
-                    <url>http://192.168.1.75:8081/repository/maven-snapshots/</url>
-                </snapshotRepository>
                 <repository>
                     <id>nexus-releases</id>
-                    <url>http://192.168.1.75:8081/repository/maven-releases/</url>
+                    <url>https://packages.aliyun.com/maven/repository/2052514-release-pjjtXx/</url>
                 </repository>
+                <snapshotRepository>
+                    <id>nexus-releases</id>
+                    <url>https://packages.aliyun.com/maven/repository/2052514-snapshot-aOBD8z/</url>
+                </snapshotRepository>
             </distributionManagement>
         </profile>
     
@@ -805,6 +804,13 @@
                 </configuration>
             </plugin>
             <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <!-- We are not suppose to setup the customer resources here -->
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
                 <version>1.18.6.0</version>
@@ -849,7 +855,7 @@
                     <charset>UTF-8</charset>
                     <encoding>UTF-8</encoding>
                     <docencoding>UTF-8</docencoding>
-                    <additionalparam>-Xdoclint:none</additionalparam>  <!-- TODO 临时解决不规范的javadoc生成报错,后面要规范化后把这行去掉 -->
+                    <additionalparam>-Xdoclint:none</additionalparam>
                 </configuration>
                 <executions>
                     <execution>
