@@ -1,9 +1,6 @@
 package top.klw8.alita.service.authority;
 
-import java.util.List;
-
 import com.baomidou.mybatisplus.extension.service.IService;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
 
 /**

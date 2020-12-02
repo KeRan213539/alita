@@ -129,6 +129,11 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.rocketmq</groupId>
+			<artifactId>rocketmq-logappender</artifactId>
+		</dependency>
 
 
 		<!-- 以上来自原来的web-api-starter,由于web-api-starter已改为webflux的,但是目前认证服务器无法webflux,所以把原来MVC时的 web-api-starter 应用的相关jar包挪到这 -->

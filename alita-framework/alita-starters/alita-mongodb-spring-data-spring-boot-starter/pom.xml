@@ -41,6 +41,11 @@
 			<groupId>top.klw8.alita</groupId>
 			<artifactId>alita-service-mongodb-api</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 </project>
