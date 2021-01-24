@@ -64,8 +64,8 @@
         <spring-security-jwt.version>1.0.10.RELEASE</spring-security-jwt.version>
         <spring-security-oauth2.version>2.3.6.RELEASE</spring-security-oauth2.version>
         <dubbo.version>2.7.8</dubbo.version>
-        <druid.version>1.2.3</druid.version>
-        <mybatis-plus.version>3.4.1</mybatis-plus.version>
+        <druid.version>1.2.4</druid.version>
+        <mybatis-plus.version>3.4.2</mybatis-plus.version>
         <postgresql.version>42.2.18</postgresql.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
         <fastjson.version>1.2.75</fastjson.version>
