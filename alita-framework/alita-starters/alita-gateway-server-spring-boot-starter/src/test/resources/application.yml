@@ -7,7 +7,8 @@ spring:
     nacos:
       discovery:
         serverAddr: 127.0.0.1:8848
-        namespace: cb525a6a-d6c7-4082-bfd9-8ddbcc5aa823
+        namespace: yd-alita-web-service
+        group: YD_ALITA_BASE_GROUP
         autoUpdateRoute:
           enable: true
           runSecond: 10

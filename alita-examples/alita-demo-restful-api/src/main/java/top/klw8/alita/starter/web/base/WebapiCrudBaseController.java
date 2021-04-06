@@ -86,9 +86,9 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 //        service().save(vo.buildEntity());
 //        Future<E> task = RpcContext.getContext().getFuture();
 //        if (task == null) {
-//            return Mono.just(JsonResult.sendFailedResult("服务调用失败", null));
+//            return Mono.just(JsonResult.failed("服务调用失败", null));
 //        }
-//        return Mono.just(task.get()).map(result -> JsonResult.sendSuccessfulResult(CallBackMessage.querySuccess, result));
+//        return Mono.just(task.get()).map(result -> JsonResult.successfu(CallBackMessage.querySuccess, result));
 //    }
 //
 //    /**
@@ -114,12 +114,12 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 //            return RpcContext.getContext().getFuture();
 //        }).map(obj -> {
 //            if (obj == null) {
-//                return JsonResult.sendFailedResult("服务调用失败", null);
+//                return JsonResult.failed("服务调用失败", null);
 //            }
 //            if (obj instanceof JsonResult) {
 //                return (JsonResult) obj;
 //            } else {
-//                return JsonResult.sendSuccessfulResult(CallBackMessage.querySuccess, ((RpcContext) obj).get());
+//                return JsonResult.successfu(CallBackMessage.querySuccess, ((RpcContext) obj).get());
 //            }
 //        });
 //
@@ -148,13 +148,13 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 //        service().findById(id)
 //		Future<E> task = RpcContext.getContext().getFuture();
 //        if (task == null) {
-//            return Mono.just(JsonResult.sendFailedResult("服务调用失败", null));
+//            return Mono.just(JsonResult.failed("服务调用失败", null));
 //        }
 //        return Mono.just(task.get()).map(findedEntity -> {
 //            if (EntityUtil.isEntityEmpty(findedEntity)) {
 //                return JsonResult.sendParamError("ID对应的数据不存在!");
 //            }
-//            return JsonResult.sendSuccessfulResult(CallBackMessage.querySuccess, findedEntity);
+//            return JsonResult.successfu(CallBackMessage.querySuccess, findedEntity);
 //        });
 //    }
 //
@@ -182,7 +182,7 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 //                                          geoPointFieldName(), vo.getLongitude(), vo.getLatitude(), geoRangeKm());
 //            Future<List<E>> task = RpcContext.getContext().getFuture();
 //            if (task == null) {
-//                return Mono.just(JsonResult.sendFailedResult("服务调用失败", null));
+//                return Mono.just(JsonResult.failed("服务调用失败", null));
 //            }
 //            return Mono.just(task.get()).map(result -> JsonResult
 //                    .sendSuccessfulResult(CallBackMessage.querySuccess, result));
@@ -196,7 +196,7 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 //                                                   isQueryRef, vo.getKeywords());
 //            Future<List<E>> task = RpcContext.getContext().getFuture();
 //            if (task == null) {
-//                return Mono.just(JsonResult.sendFailedResult("服务调用失败", null));
+//                return Mono.just(JsonResult.failed("服务调用失败", null));
 //            }
 //            return Mono.just(task.get()).map(result -> JsonResult
 //                    .sendSuccessfulResult(CallBackMessage.querySuccess, result));
@@ -204,10 +204,10 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 //        service().findByEntity(entity, vo.getSortDirection(), sortFiled(), isQueryRef);
 //        Future<List<E>> task = RpcContext.getContext().getFuture();
 //        if (task == null) {
-//            return Mono.just(JsonResult.sendFailedResult("服务调用失败", null));
+//            return Mono.just(JsonResult.failed("服务调用失败", null));
 //        }
 //        return Mono.just(task.get()).map(
-//                result -> JsonResult.sendSuccessfulResult(CallBackMessage.querySuccess, result));
+//                result -> JsonResult.successfu(CallBackMessage.querySuccess, result));
 //    }
 //
 //    /**
@@ -236,7 +236,7 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 //            service().queryForPageWithGeo(entity, pagePrarmBean, isQueryRef, ForPageMode.SKIP().build(), geoPointFieldName(), vo.getLongitude(), vo.getLatitude(), geoRangeKm());
 //            Future<Page<E>> task = RpcContext.getContext().getFuture();
 //            if (task == null) {
-//                return Mono.just(JsonResult.sendFailedResult("服务调用失败", null));
+//                return Mono.just(JsonResult.failed("服务调用失败", null));
 //            }
 //            return returnPage(Mono.just(task.get()), entityByPage);
 //        }
@@ -247,14 +247,14 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 //            service().queryForPageWithTextMatching(entity, pagePrarmBean, isQueryRef, ForPageMode.SKIP().build(), vo.getKeywords());
 //            Future<Page<E>> task = RpcContext.getContext().getFuture();
 //            if (task == null) {
-//                return Mono.just(JsonResult.sendFailedResult("服务调用失败", null));
+//                return Mono.just(JsonResult.failed("服务调用失败", null));
 //            }
 //            return returnPage(Mono.just(task.get()), entityByPage);
 //        }
 //        service().queryForPage(vo.buildEntity(), pagePrarmBean, isQueryRef, ForPageMode.SKIP().build());
 //        Future<Page<E>> task = RpcContext.getContext().getFuture();
 //        if (task == null) {
-//            return Mono.just(JsonResult.sendFailedResult("服务调用失败", null));
+//            return Mono.just(JsonResult.failed("服务调用失败", null));
 //        }
 //        return returnPage(Mono.just(task.get()), entityByPage);
 //    }
@@ -291,7 +291,7 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 //            service().queryForPageWithGeo(entity, pagePrarmBean, isQueryRef, forPageMode.build(), geoPointFieldName(), vo.getLongitude(), vo.getLatitude(), geoRangeKm());
 //            Future<Page<E>> task = RpcContext.getContext().getFuture();
 //            if (task == null) {
-//                return Mono.just(JsonResult.sendFailedResult("服务调用失败", null));
+//                return Mono.just(JsonResult.failed("服务调用失败", null));
 //            }
 //            return returnPage(Mono.just(task.get()), entityByPage);
 //        }
@@ -302,14 +302,14 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 //            service().queryForPageWithTextMatching(entity, pagePrarmBean, isQueryRef, forPageMode.build(), vo.getKeywords());
 //            Future<Page<E>> task = RpcContext.getContext().getFuture();
 //            if (task == null) {
-//                return Mono.just(JsonResult.sendFailedResult("服务调用失败", null));
+//                return Mono.just(JsonResult.failed("服务调用失败", null));
 //            }
 //            return returnPage(Mono.just(task.get()), entityByPage);
 //        }
 //        service().queryForPage(vo.buildEntity(), pagePrarmBean, isQueryRef, forPageMode.build());
 //        Future<Page<E>> task = RpcContext.getContext().getFuture();
 //        if (task == null) {
-//            return Mono.just(JsonResult.sendFailedResult("服务调用失败", null));
+//            return Mono.just(JsonResult.failed("服务调用失败", null));
 //        }
 //        return returnPage(Mono.just(task.get()), entityByPage);
 //
@@ -319,10 +319,10 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 //            throws Exception {
 //        return pageMono.map(page -> {
 //            if (page != null && CollectionUtils.isNotEmpty(page.getContent())) {
-//                return JsonResult.sendSuccessfulResult(CallBackMessage.querySuccess,
+//                return JsonResult.successfu(CallBackMessage.querySuccess,
 //                                                       entityByPage.createPageData(page.getTotalElements(), page.getContent()));
 //            } else {
-//                return JsonResult.sendSuccessfulResult(CallBackMessage.querySuccess,
+//                return JsonResult.successfu(CallBackMessage.querySuccess,
 //                                                       entityByPage.createPageData());
 //            }
 //        });
@@ -332,14 +332,14 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 ////    @PostMapping("/batchSave")
 ////    @AuthorityRegister(authorityName = "批量新增", authorityType = AuthorityType.URL, authorityShowIndex = 0)
 ////    public JsonResult batchSave(@ApiParam(required = true) @RequestBody List<T> list) {
-////	return JsonResult.sendSuccessfulResult(CallBackMessage.saveSuccess, getService().batchSave(list));
+////	return JsonResult.successfu(CallBackMessage.saveSuccess, getService().batchSave(list));
 ////    }
 ////
 ////    @ApiOperation(value = "批量更新", notes = "批量更新", httpMethod = "POST", produces = "application/json")
 ////    @PostMapping("/batchUpdate")
 ////    @AuthorityRegister(authorityName = "批量更新", authorityType = AuthorityType.URL, authorityShowIndex = 0)
 ////    public JsonResult batchUpdate(@ApiParam(required = true) @RequestBody List<T> list) {
-////	return JsonResult.sendSuccessfulResult(CallBackMessage.modifySuccess, getService().batchUpdate(list));
+////	return JsonResult.successfu(CallBackMessage.modifySuccess, getService().batchUpdate(list));
 ////    }
 
 }

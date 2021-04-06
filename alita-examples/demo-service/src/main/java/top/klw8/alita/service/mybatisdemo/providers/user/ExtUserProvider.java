@@ -31,9 +31,9 @@ public class ExtUserProvider implements IExtUserProvider {
     public CompletableFuture<JsonResult> addUserExtInfo(ExtUserInfo extUserInfo) {
         return CompletableFuture.supplyAsync(() -> {
             if (extUserService.addUserExtInfo(extUserInfo)) {
-                return JsonResult.sendSuccessfulResult();
+                return JsonResult.successfu();
             } else {
-                return JsonResult.sendFailedResult(CommonResultCodeEnum.ERROR, "添加失败");
+                return JsonResult.failed(CommonResultCodeEnum.ERROR, "添加失败");
             }
         });
     }
@@ -42,9 +42,9 @@ public class ExtUserProvider implements IExtUserProvider {
     public CompletableFuture<JsonResult> deleteUserExtInfo(String userId) {
         return CompletableFuture.supplyAsync(() -> {
             if (extUserService.deleteUserExtInfo(userId)) {
-                return JsonResult.sendSuccessfulResult();
+                return JsonResult.successfu();
             } else {
-                return JsonResult.sendFailedResult(CommonResultCodeEnum.ERROR, "删除失败");
+                return JsonResult.failed(CommonResultCodeEnum.ERROR, "删除失败");
             }
         });
     }
@@ -53,9 +53,9 @@ public class ExtUserProvider implements IExtUserProvider {
     public CompletableFuture<JsonResult> updateUserExtInfo(ExtUserInfo extUserInfo) {
         return CompletableFuture.supplyAsync(() -> {
             if (extUserService.updateUserExtInfo(extUserInfo)) {
-                return JsonResult.sendSuccessfulResult();
+                return JsonResult.successfu();
             } else {
-                return JsonResult.sendFailedResult(CommonResultCodeEnum.ERROR, "更新失败");
+                return JsonResult.failed(CommonResultCodeEnum.ERROR, "更新失败");
             }
         });
     }
@@ -64,10 +64,10 @@ public class ExtUserProvider implements IExtUserProvider {
     public CompletableFuture<JsonResult> findExtByUserId(String userId) {
         return CompletableFuture.supplyAsync(() -> {
             ExtUserInfo extUserInfo = extUserService.getExtByUserId(userId);
-            if (null != extUserInfo && !EntityUtil.isEntityEmpty(extUserInfo)) {
-                return JsonResult.sendSuccessfulResult(extUserInfo);
+            if (null != extUserInfo && !EntityUtil.isEntityNoId(extUserInfo)) {
+                return JsonResult.successfu(extUserInfo);
             } else {
-                return JsonResult.sendFailedResult("未找到");
+                return JsonResult.failed("未找到");
             }
         });
     }
@@ -76,10 +76,10 @@ public class ExtUserProvider implements IExtUserProvider {
     public CompletableFuture<JsonResult> findExtByEmail(String userEmail) {
         return CompletableFuture.supplyAsync(() -> {
             ExtUserInfo extUserInfo = extUserService.getExtByEmail(userEmail);
-            if (null != extUserInfo && !EntityUtil.isEntityEmpty(extUserInfo)) {
-                return JsonResult.sendSuccessfulResult(extUserInfo);
+            if (null != extUserInfo && !EntityUtil.isEntityNoId(extUserInfo)) {
+                return JsonResult.successfu(extUserInfo);
             } else {
-                return JsonResult.sendFailedResult("未找到");
+                return JsonResult.failed("未找到");
             }
         });
     }
@@ -89,9 +89,9 @@ public class ExtUserProvider implements IExtUserProvider {
         return CompletableFuture.supplyAsync(() -> {
             List<ExtUserInfo> extUserInfos = extUserService.getExtsByLevel(userLevel);
             if (null != extUserInfos && !extUserInfos.isEmpty()) {
-                return JsonResult.sendSuccessfulResult(extUserInfos);
+                return JsonResult.successfu(extUserInfos);
             } else {
-                return JsonResult.sendFailedResult("未找到");
+                return JsonResult.failed("未找到");
             }
         });
     }

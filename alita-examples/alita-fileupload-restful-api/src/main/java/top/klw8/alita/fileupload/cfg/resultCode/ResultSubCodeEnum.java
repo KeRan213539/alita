@@ -2,7 +2,6 @@ package top.klw8.alita.fileupload.cfg.resultCode;
 
 import top.klw8.alita.service.result.IResultCode;
 import top.klw8.alita.service.result.ISubResultCode;
-import top.klw8.alita.service.result.SubResultCode;
 
 /**
  * @author klw(213539 @ qq.com)
@@ -10,7 +9,6 @@ import top.klw8.alita.service.result.SubResultCode;
  * @Description: 权限相关
  * @date 2019/8/15 16:52
  */
-@SubResultCode
 public enum ResultSubCodeEnum implements ISubResultCode {
 
     FILE_NAME_EMPTY("001", "文件名不能为空"),

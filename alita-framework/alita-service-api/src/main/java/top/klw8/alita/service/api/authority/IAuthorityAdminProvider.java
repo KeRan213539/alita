@@ -3,7 +3,9 @@ package top.klw8.alita.service.api.authority;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.SystemDataSecured;
 import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.service.result.JsonResult;
 
 import java.util.List;
@@ -78,21 +80,32 @@ public interface IAuthorityAdminProvider {
     /**
      * @author klw(213539@qq.com)
      * @Description: 角色列表
-     * @Date 2019/10/17 16:41
+     * @Date 2020/7/16 16:36
      * @param: roleName
+     * @param: appTag
+     * @param: page
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> roleList(String roleName, Page<SystemRole> page);
+    CompletableFuture<JsonResult> roleList(String roleName, String appTag, Page<SystemRole> page);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 获取全部角色,不分页
+     * @Date 2020/7/16 16:36
+     * @param: appTag
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> roleAll(String appTag);
 
     /**
      * @author klw(213539@qq.com)
      * @Description: 获取全部权限,并根据传入的角色ID标识出该角色拥有的权限
-     * @Date 2019/10/17 17:12
+     * @Date 2020/7/16 16:43
      * @param: roleId
-     * @param: userId
+     * @param: appTag
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> markRoleAuthoritys(String roleId);
+    CompletableFuture<JsonResult> markRoleAuthoritys(String roleId, String appTag);
 
     /**
      * @author klw(213539@qq.com)
@@ -102,7 +115,7 @@ public interface IAuthorityAdminProvider {
      * @param: auIds
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> saveRoleAuthoritys(String roleId, List<String> auIds);
+    CompletableFuture<JsonResult> saveRoleAuthoritys(String roleId, List<String> auIds, String appTag);
 
     /**
      * @author klw(213539@qq.com)
@@ -137,12 +150,14 @@ public interface IAuthorityAdminProvider {
 
     /**
      * @author klw(213539@qq.com)
-     * @Description: 权限目录列表,分页,可根据权限名称查询
-     * @Date 2019/10/22 9:23
+     * @Description: 权限目录列表,分页,可根据目录名称查询
+     * @Date 2020/7/16 16:54
      * @param: catlogName
+     * @param: appTag
+     * @param: page
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> catlogList(String catlogName, Page<SystemAuthoritysCatlog> page);
+    CompletableFuture<JsonResult> catlogList(String catlogName, String appTag, Page<SystemAuthoritysCatlog> page);
 
     /**
      * @author klw(213539@qq.com)
@@ -151,7 +166,7 @@ public interface IAuthorityAdminProvider {
      * @param: 
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> catlogAll();
+    CompletableFuture<JsonResult> catlogAll(String appTag);
 
     /**
      * @author klw(213539@qq.com)
@@ -189,7 +204,9 @@ public interface IAuthorityAdminProvider {
      * @param: page
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> authoritysList(String auName, Page<SystemAuthoritys> page);
+    CompletableFuture<JsonResult> authoritysList(String auName, AuthorityTypeEnum auType,
+                                                 Page<SystemAuthoritys> page, String authorityAction,
+                                                 String catlogName, String appTag);
 
     /**
      * @author klw(213539@qq.com)
@@ -198,7 +215,7 @@ public interface IAuthorityAdminProvider {
      * @param: catlog
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> saveAuthority(SystemAuthoritys au);
+    CompletableFuture<JsonResult> saveAuthority(SystemAuthoritys au, String httpMethod);
 
     /**
      * @author klw(213539@qq.com)
@@ -217,5 +234,64 @@ public interface IAuthorityAdminProvider {
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
     CompletableFuture<JsonResult> auInfo(String auId);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 根据权限路径获取该权限下的数据权限(包括全局数据权限)
+     * @Date 2020/8/4 15:31
+     * @param: httpMethod
+     * @param: auAction
+     * @param: appTag
+     * @param: userId  有值查指定用户权限中的,没值查全部
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> dataSecuredsByAuthorityAction(String httpMethod, String auAction, String appTag, String userId);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 获取全部权限,包含目录信息,并按目录分组
+     * @Date 2020/7/17 14:46
+     * @param: appTag
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> allAuthoritysWithCatlog(String appTag);
+
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 数据权限列表,分页,可根据资源名称查询
+     * @Date 2020/5/20 11:21
+     * @param: resource
+     * @param: page
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> dataSecuredList(String resource, String appTag, Page<SystemDataSecured> page);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 新增/修改数据权限的保存
+     * @Date 2020/5/20 11:22
+     * @param: catlog
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> saveDataSecured(SystemDataSecured ds);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 删除数据权限(没有角色关联它才能删除)
+     * @Date 2020/5/20 11:23
+     * @param: dsId
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> delDataSecured(String dsId);
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 数据权限详情
+     * @Date 2020/5/20 11:23
+     * @param: dsId
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> dataSecuredInfo(String dsId);
 
 }

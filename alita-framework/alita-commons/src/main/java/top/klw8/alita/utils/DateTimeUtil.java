@@ -51,6 +51,7 @@ public class DateTimeUtil {
 		Date targetDate=sdf.parse(dateStr);
 		return isDateWithinRange(targetDate,beginDate,endDate);
 	}
+	
 	/**
 	 * @author xp
 	 * @Description: 判断日期是否在指定日期范围之内

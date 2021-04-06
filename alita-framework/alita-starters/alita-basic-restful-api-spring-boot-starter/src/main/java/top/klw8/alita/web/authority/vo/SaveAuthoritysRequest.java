@@ -8,6 +8,7 @@ import lombok.ToString;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
+import top.klw8.alita.web.authority.vo.enums.HttpMethodPrarm;
 
 /**
  * @ClassName: SaveAuthoritysRequest
@@ -21,10 +22,21 @@ import top.klw8.alita.validator.annotations.Required;
 @EqualsAndHashCode(callSuper = false)
 public class SaveAuthoritysRequest {
 
+    /**
+     * @author xp
+     * @Description: id
+     */
+    @ApiParam(value = "ID", required=true)
+    private String id;
+
     @Required(validatFailMessage = "菜单所属权限目录的ID不能为空")
     @NotEmpty(validatFailMessage = "菜单所属权限目录的ID不能为空")
     @ApiParam(value = "菜单所属权限目录的ID", required=true)
     private String catlogId;
+
+    @NotEmpty(validatFailMessage = "URL类型权限所属MENU类型权限的ID不能为空")
+    @ApiParam(value = "URL类型权限所属MENU类型权限的ID")
+    private String menuId;
     
     @Required(validatFailMessage = "权限名称不能为空")
     @NotEmpty(validatFailMessage = "权限名称不能为空")
@@ -41,6 +53,9 @@ public class SaveAuthoritysRequest {
 	    	+ "作为菜单显示: MENU  <br />"
 	    	+ "是URL相对路径: URL", required=true, allowableValues= "MENU,URL")
     private AuthorityTypeEnum authorityType;
+
+    @ApiParam(value = "httpMethod, 权限类型为URL时必传")
+    private HttpMethodPrarm httpMethod;
     
     @Required(validatFailMessage = "显示顺序不能为空")
     @ApiParam(value = "作为菜单时的显示顺序,非菜单传0", required=true)

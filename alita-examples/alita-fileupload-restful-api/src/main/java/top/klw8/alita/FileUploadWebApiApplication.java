@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import com.aliyun.oss.OSS;
 
 import top.klw8.alita.fileupload.helpers.FileUploadTypeEnum;
-import top.klw8.alita.starter.annotations.BaseWebApiApplication;
+import top.klw8.alita.starter.BaseWebApiApplication;
 
 
 /**

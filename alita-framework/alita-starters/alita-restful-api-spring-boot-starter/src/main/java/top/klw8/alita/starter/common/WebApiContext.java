@@ -13,6 +13,18 @@ public class WebApiContext {
      * @Fields CACHE_PREFIX_USER_AU : 用户的权限缓存前缀
      */
     public static final String CACHE_PREFIX_USER_AUS = "USER_AUS_";
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 用户的数据权限缓存前缀
+     */
+    public static final String CACHE_PREFIX_USER_DATA_SECUREDS = "USER_DATA_SECUREDS_";
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 用户数据权限缓存中的全局数据权限的KEY
+     */
+    public static final String CACHE_KEY_USER_PUBLIC_DATA_SECUREDS = "USER_PUBLIC_DATA_SECUREDS";
     
     /**
      * @author klw

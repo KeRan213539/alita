@@ -27,4 +27,8 @@ public class SaveUserRolesRequest {
     @NotEmpty("多个角色ID不能为空")
     @ApiParam(value = "多个角色ID", required = true)
     private List<String> roleIds;
+
+    @NotEmpty("appTag并不能为空")
+    @ApiParam(value = "操作的角色所属应用的appTag")
+    private String appTag;
 }

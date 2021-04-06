@@ -1,0 +1,34 @@
+server:
+  port: 8789
+  servlet:
+    contextPath: /au-server-test
+spring:
+  application:
+    name: au-server-test
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        namespace: yd-alita-web-service
+        group: YD_ALITA_BASE_GROUP
+        serverAddr: 127.0.0.1:8848
+dubbo:
+  application:
+    name: au-server-test
+  registry:
+    address: nacos://127.0.0.1:8848
+alita:
+  redis:
+    enabled: true
+    defaultHost: 127.0.0.1
+    defaultPort: 6379
+  oauth2:
+    token:
+#      timeoutSeconds:
+#        access: 43200 # 12小时
+#        refresh: 2592000 # 30天
+      storeInRedis: true
+springfox:
+  documentation:
+    enabled: false

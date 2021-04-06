@@ -39,20 +39,20 @@ public interface IAlitaUserService extends IService<AlitaUserAccount> {
      * @author klw
      * @Description: 使用传入的角色List替换用户中的角色
      * @param userId
-     * @param roleIdList
+     * @param roleList
      * @return
      */
-    int replaceRole2User(String userId, List<String> roleIdList);
+    int replaceRole2User(String userId, List<SystemRole> roleList);
 
     /**
-     *
-     * @Author zhanglei
-     * @Description 查询用户拥有的全部角色ID
-     * @Date 15:28 2019-08-15
+     * @author klw(213539@qq.com)
+     * @Description: 查询用户拥有的全部角色ID
+     * @Date 2020/7/17 16:38
      * @param: userId
-     * @return java.util.List<java.lang.String>
-     **/
-    List<SystemRole> getUserAllRoles(String userId);
+     * @param: appTag
+     * @return java.util.List<top.klw8.alita.entitys.authority.SystemRole>
+     */
+    List<SystemRole> getUserAllRoles(String userId, String appTag);
 
     /**
      * @author klw(213539@qq.com)

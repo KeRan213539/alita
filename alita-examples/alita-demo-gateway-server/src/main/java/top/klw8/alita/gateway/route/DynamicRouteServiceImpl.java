@@ -1,16 +1,6 @@
 package top.klw8.alita.gateway.route;
 
-import com.alibaba.cloud.nacos.discovery.NacosDiscoveryClient;
-import com.alibaba.cloud.nacos.endpoint.NacosDiscoveryEndpoint;
-import com.alibaba.cloud.nacos.registry.NacosAutoServiceRegistration;
-import com.alibaba.cloud.nacos.registry.NacosServiceRegistry;
-import com.netflix.loadbalancer.ServerList;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
-import org.springframework.cloud.client.loadbalancer.LoadBalancerInterceptor;
-import org.springframework.cloud.client.loadbalancer.LoadBalancerRequestFactory;
-import org.springframework.cloud.gateway.config.LoadBalancerProperties;
 import org.springframework.cloud.gateway.event.RefreshRoutesEvent;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionWriter;

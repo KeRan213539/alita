@@ -1,6 +1,5 @@
 package top.klw8.alita.starter.authorization.cfg;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -36,6 +35,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
         // token 里不能放敏感信息,因为token只是base64编码,可以反编码出来.虽然要加上HTTPS,但是也不是绝对安全
         // authentication.getName() 可以拿到登录的用户名
         // authentication 里面包含用户实体  authentication.getUserAuthentication().getPrincipal()
+        
 
         //token 中也不要放太多内容了,特别是敏感信息. 还是放在缓存里吧
         Map<String, Object> additionalInfo = new HashMap<>();

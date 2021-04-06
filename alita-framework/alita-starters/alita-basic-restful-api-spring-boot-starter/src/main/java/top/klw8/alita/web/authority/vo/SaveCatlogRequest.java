@@ -16,7 +16,16 @@ import top.klw8.alita.validator.annotations.Required;
 @ToString
 @EqualsAndHashCode(callSuper = false)
 public class SaveCatlogRequest {
-    
+
+    @NotEmpty(validatFailMessage = "id不能为空")
+    @ApiParam(value = "id")
+    private String id;
+
+    @Required(validatFailMessage = "所属应用标识不能为空")
+    @NotEmpty(validatFailMessage = "所属应用标识不能为空")
+    @ApiParam(value = "所属应用标识", required=true)
+    private String appTag;
+
     @Required(validatFailMessage = "目录名称不能为空")
     @NotEmpty(validatFailMessage = "目录名称不能为空")
     @ApiParam(value = "目录名称", required=true)

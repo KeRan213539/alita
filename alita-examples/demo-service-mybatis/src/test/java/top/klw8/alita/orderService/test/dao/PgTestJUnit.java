@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import top.klw8.alita.DemoMybatisServiceApplication;
 import top.klw8.alita.entitys.demo.mongo.PgTest;
-import top.klw8.alita.service.api.mybatis.IPgTestService;
+import top.klw8.alita.service.demo.service.demo.IPgTestService;
 
 /**
  * @author klw(213539 @ qq.com)

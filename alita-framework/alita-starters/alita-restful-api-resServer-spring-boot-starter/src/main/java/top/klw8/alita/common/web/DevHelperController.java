@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.reactive.result.method.RequestMappingInfo;
@@ -27,6 +29,7 @@ import org.springframework.web.reactive.result.method.annotation.RequestMappingH
 import reactor.core.publisher.Mono;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.SystemDataSecured;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 import top.klw8.alita.service.api.authority.IDevHelperProvider;
 import top.klw8.alita.service.result.IResultCode;
@@ -36,6 +39,11 @@ import top.klw8.alita.service.result.SubResultCode;
 import top.klw8.alita.service.result.code.ResultCodeEnum;
 import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
+import top.klw8.alita.starter.annotations.PublicDataSecuredRegister;
+import top.klw8.alita.starter.auscan.IDataSecuredSourceItem;
+import top.klw8.alita.starter.auscan.IDataSecuredSource;
+import top.klw8.alita.starter.cfg.AuthorityAppInfoInConfigBean;
+import top.klw8.alita.utils.AuthorityUtil;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -71,6 +79,9 @@ public class DevHelperController {
     @Autowired
     private Environment env;
 
+    @Autowired
+    private AuthorityAppInfoInConfigBean currectApp;
+
     @Value("${alita.devHelper.resultCodeClassPackage:}")
     private String resultCodeClassPackage;
 
@@ -81,13 +92,13 @@ public class DevHelperController {
     })
     @PostMapping("/registeAllAuthority")
     public Mono<JsonResult> registeAllAuthority(boolean isAdd2SuperAdmin) {
+
         RequestMappingHandlerMapping reqMapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
         Map<RequestMappingInfo, HandlerMethod> methodMap = reqMapping.getHandlerMethods();
         Map<String, SystemAuthoritysCatlog> tempMap = new HashMap<>();
         for (Entry<RequestMappingInfo, HandlerMethod> methodEntry : methodMap.entrySet()) {
             HandlerMethod v = methodEntry.getValue();
             Method method = v.getMethod();
-            String authorityActionPrefix;
             String authorityAction;
             SystemAuthoritysCatlog catlog = null;
             String moduleName = "";
@@ -99,7 +110,7 @@ public class DevHelperController {
                 if (controllerClass.isAnnotationPresent(AuthorityCatlogRegister.class)) {
                     AuthorityCatlogRegister catlogRegister = controllerClass.getAnnotation(AuthorityCatlogRegister.class);
                     if(StringUtils.isBlank(catlogRegister.name())){
-                        return Mono.just(JsonResult.sendFailedResult(controllerClass.getName() + "的 AuthorityCatlogRegister 中没有设置catlog名称,注册失败"));
+                        return Mono.just(JsonResult.failed(controllerClass.getName() + "的 AuthorityCatlogRegister 中没有设置catlog名称,注册失败"));
                     }
                     catlog = tempMap.get(catlogRegister.name());
                     if (catlog == null) {
@@ -112,45 +123,16 @@ public class DevHelperController {
                     }
                     moduleName = "【" + catlog.getCatlogName() + "】";
                 }
-                if (controllerClass.isAnnotationPresent(RequestMapping.class)) {
-                    RequestMapping mapping = controllerClass.getAnnotation(RequestMapping.class);
-                    authorityActionPrefix = env.resolvePlaceholders(mapping.value()[0]);
-                } else {
-                    authorityActionPrefix = "";
-                }
-
-                if (method.isAnnotationPresent(RequestMapping.class)) {
-                    RequestMapping mapping = method.getAnnotation(RequestMapping.class);
-                    authorityAction = authorityActionPrefix + mapping.value()[0];
-                } else if (method.isAnnotationPresent(PostMapping.class)) {
-                    PostMapping mapping = method.getAnnotation(PostMapping.class);
-                    authorityAction = authorityActionPrefix + mapping.value()[0];
-                } else if (method.isAnnotationPresent(GetMapping.class)) {
-                    GetMapping mapping = method.getAnnotation(GetMapping.class);
-                    authorityAction = authorityActionPrefix + mapping.value()[0];
-                } else if (method.isAnnotationPresent(PutMapping.class)) {
-                    PutMapping mapping = method.getAnnotation(PutMapping.class);
-                    authorityAction = authorityActionPrefix + mapping.value()[0];
-                } else if (method.isAnnotationPresent(DeleteMapping.class)) {
-                    DeleteMapping mapping = method.getAnnotation(DeleteMapping.class);
-                    authorityAction = authorityActionPrefix + mapping.value()[0];
-                } else {
-                    // 不可能走到这里, RequestMappingHandlerMapping.getHandlerMethods()拿到的都是有mapping注解的方法
-                    return Mono.just(JsonResult.sendFailedResult(method.getDeclaringClass().getName() + "." + method.getName() + "() 没有 mapping 注解"));
-                }
-                authorityAction = env.resolvePlaceholders(authorityAction);
+                authorityAction = env.resolvePlaceholders(AuthorityUtil.getCompleteMappingUrl(v));
 
                 AuthorityRegister register = method.getAnnotation(AuthorityRegister.class);
-                // 先检查 catlog 是否存在
-                if (catlog == null) {
-                    // 如果没有 AuthorityCatlogRegister 注解,那么这里 catlog 就是 null
-                    if (StringUtils.isBlank(register.catlogName()) || register.catlogShowIndex() < 0) {
-                        // 如果权限注册注解里面没有这几个属性, 直接略过这个权限
-                        return Mono.just(JsonResult.sendFailedResult(controllerClass.getName() + "." + method.getName()
-                                + "的 AuthorityRegister 中没有设置catlog名称,注册失败"));
-                    }
+
+                // 如果AuthorityRegister中有catlog信息,就用AuthorityRegister中的
+                if (StringUtils.isNotBlank(register.catlogName()) && register.catlogShowIndex() > 0) {
+                    // 先从缓存中拿
                     catlog = tempMap.get(register.catlogName());
                     if(catlog == null) {
+                        // 缓存中没有,新增
                         catlog = new SystemAuthoritysCatlog();
                         catlog.setCatlogName(register.catlogName());
                         catlog.setShowIndex(register.catlogShowIndex());
@@ -159,16 +141,94 @@ public class DevHelperController {
                         tempMap.put(register.catlogName(), catlog);
                     }
                 }
+                // AuthorityRegister 中没有catlog信息, 取 AuthorityCatlogRegister 的
+                if (catlog == null) {
+                    // 因为之前处理过 AuthorityCatlogRegister 和 AuthorityRegister,这里catlog不应该为null
+                    // 为null说明没有 AuthorityCatlogRegister 注解, AuthorityRegister 中也没有 catlog信息
+                    return Mono.just(JsonResult.failed(controllerClass.getName() + "." + method.getName()
+                            + "  没有 AuthorityCatlogRegister 注解,并且 AuthorityRegister 中也没有 catlog 信息,注册失败"));
+                }
                 SystemAuthoritys au = new SystemAuthoritys();
                 au.setAuthorityName(register.authorityName());
                 au.setAuthorityType(register.authorityType());
                 au.setAuthorityAction(authorityAction);
                 au.setShowIndex(register.authorityShowIndex());
                 au.setRemark(moduleName + (StringUtils.isBlank(register.authorityRemark()) ? register.authorityName() : register.authorityRemark()));
+
+
+                List<SystemDataSecured> dataSecuredList = new LinkedList<>();
+                // 解析数据权限枚举源
+                if(register.dataSecuredSourceEnum() != IDataSecuredSourceItem.class){
+                    if(Enum.class.isAssignableFrom(register.dataSecuredSourceEnum())){
+                        Object[] enumConstants = register.dataSecuredSourceEnum().getEnumConstants();
+                        for (Object obj : enumConstants){
+                            IDataSecuredSourceItem enumItem = (IDataSecuredSourceItem)obj;
+                            SystemDataSecured sds = new SystemDataSecured();
+                            sds.setResource(enumItem.getResource());
+                            sds.setRemark(enumItem.getRemark());
+                            dataSecuredList.add(sds);
+                        }
+                    } else {
+                        log.warn("【{}】中配制的数据权限源【{}#dataSecuredSourceEnum()】仅支持枚举类型,将忽略...", authorityAction, AuthorityRegister.class.getName());
+                    }
+                }
+
+                // 解析数据权限源,有就入库,没有就继续
+                if(register.dataSecuredSource() != IDataSecuredSource.class){
+                    // 有数据权限源
+                    IDataSecuredSource staticSource = applicationContext.getBean(register.dataSecuredSource());
+                    Assert.notNull(staticSource, "【" + authorityAction + "】没有找到数据权限静态数据源,数据源需要放入spring容器中,请检查");
+                    List<IDataSecuredSourceItem> itemList = staticSource.getDataSecuredSourceList();
+                    if(CollectionUtils.isEmpty(itemList)){
+                        log.warn("【" + authorityAction + "】中配制的数据权限静态数据源返回结果为空,请检查!");
+                    } else {
+                        for(IDataSecuredSourceItem item : itemList){
+                            SystemDataSecured sds = new SystemDataSecured();
+                            sds.setResource(item.getResource());
+                            sds.setRemark(item.getRemark());
+                            dataSecuredList.add(sds);
+                        }
+                    }
+                }
+
+                if(!dataSecuredList.isEmpty()) {
+                    au.setDataSecuredList(dataSecuredList);
+                }
+
                 catlog.getAuthorityList().add(au);
             }
         }
-        return Mono.fromFuture(devHelperProvider.batchAddAuthoritysAndCatlogs(new ArrayList<>(tempMap.values()), isAdd2SuperAdmin));
+
+        // 处理全局数据权限
+        List<SystemDataSecured> publicDataSecuredList = new ArrayList<>(16);
+        Map<String, Object> publicDataSecureds = applicationContext.getBeansWithAnnotation(PublicDataSecuredRegister.class);
+        if(null != publicDataSecureds && !publicDataSecureds.isEmpty()){
+            publicDataSecureds.forEach((key, value) -> {
+                if(!IDataSecuredSource.class.isAssignableFrom(value.getClass())){
+                    log.error("【{}】使用了 @PublicDataSecuredRegister 注解,但没实现 IDataSecuredSource 接口",value.getClass().getName());
+                } else {
+                    Class<?> vClass = value.getClass();
+                    PublicDataSecuredRegister ann = vClass.getAnnotation(PublicDataSecuredRegister.class);
+                    IDataSecuredSource dsSource = (IDataSecuredSource)value;
+                    List<IDataSecuredSourceItem> dsSourceList = dsSource.getDataSecuredSourceList();
+                    if(CollectionUtils.isEmpty(dsSourceList)){
+                        log.warn("【{}】中返回的全局数据权限数据为空,将没有任何全局数据权限入库",value.getClass().getName());
+                    } else {
+                        // 静态数据源,入库
+                        for (IDataSecuredSourceItem item : dsSourceList) {
+                            SystemDataSecured sds = new SystemDataSecured();
+                            sds.setResource(item.getResource());
+                            sds.setRemark(item.getRemark());
+                            publicDataSecuredList.add(sds);
+                        }
+                    }
+                }
+            });
+        }
+
+        return Mono.fromFuture(devHelperProvider.batchAddAuthoritysAndCatlogs(
+                new ArrayList<>(tempMap.values()), publicDataSecuredList, isAdd2SuperAdmin,
+                currectApp.getAppEntity()));
     }
 
     @ApiOperation(value = "刷新缓存中的管理员权限", notes = "刷新缓存中的管理员权限", httpMethod = "POST", produces = "application/json")
@@ -243,7 +303,7 @@ public class DevHelperController {
             "到管理员角色和管理员账户,如果管理员角色或账户不存在则创建", httpMethod = "POST", produces = "application/json")
     @PostMapping("/addAllAuthoritys2AdminRole")
     public Mono<JsonResult> addAllAuthoritys2AdminRole() {
-        return Mono.fromFuture(devHelperProvider.addAllAuthoritys2AdminRole());
+        return Mono.fromFuture(devHelperProvider.addAllAuthoritys2AdminRole(currectApp.getAppEntity()));
     }
 
 }

@@ -6,7 +6,7 @@ package top.klw8.alita.utils.redis;
  * @author klw
  * @date 2017年5月16日 下午5:16:11
  */
-public enum RedisTagEnum {
+public enum RedisTagEnum implements IRedisTag {
 
     /**
      * @Fields REDIS_TAG_DEFAULT : alita redis缓存(默认)
@@ -19,7 +19,7 @@ public enum RedisTagEnum {
     
     private String tag;
     
-    private RedisTagEnum(String tag) {
+    RedisTagEnum(String tag) {
 	this.tag = tag;
     }
     

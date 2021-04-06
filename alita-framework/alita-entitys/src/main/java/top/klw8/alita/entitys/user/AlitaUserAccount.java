@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -102,6 +103,7 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
     private List<SystemRole> userRoles;
 
     public AlitaUserAccount() {
+        // 序列化用的构造方法
     }
 
     public AlitaUserAccount(String userName, String userPhoneNum, String userPwd) {

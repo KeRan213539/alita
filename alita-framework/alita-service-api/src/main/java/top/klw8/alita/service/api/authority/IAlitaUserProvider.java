@@ -43,14 +43,15 @@ public interface IAlitaUserProvider {
      */
     CompletableFuture<AlitaUserAccount> findUserByPhoneNum(String userPhoneNum);
 
-    /*
+    /**
      * @author klw(213539@qq.com)
      * @Description: 根据用户id获取用户的权限菜单
-     * @Date 2019/10/9 15:11
+     * @Date 2020/7/17 17:06
      * @param: userId
-     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.entitys.user.AlitaUserAccount>
+     * @param: appTag
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> findUserAuthorityMenus(String userId);
+    CompletableFuture<JsonResult> findUserAuthorityMenus(String userId, String appTag);
 
     /**
      * @author klw(213539@qq.com)
@@ -61,17 +62,18 @@ public interface IAlitaUserProvider {
      * @param: createDateEnd
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> userList(AlitaUserAccount user, LocalDate createDateBegin, LocalDate createDateEnd, Page<AlitaUserAccount> page);
+    CompletableFuture<JsonResult> userList(AlitaUserAccount user, LocalDate createDateBegin, LocalDate createDateEnd, String appTag, Page<AlitaUserAccount> page);
 
     /**
      * @author klw(213539@qq.com)
      * @Description: 保存用户拥有的角色(替换原有角色)
-     * @Date 2019/10/15 17:02
+     * @Date 2020/7/27 14:40
      * @param: userId
      * @param: roleIds
+     * @param: appTag
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> saveUserRoles(String userId, List<String> roleIds);
+    CompletableFuture<JsonResult> saveUserRoles(String userId, List<String> roleIds, String appTag);
 
     /**
      * @author klw(213539@qq.com)
@@ -100,7 +102,7 @@ public interface IAlitaUserProvider {
      * @param: userId
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> getUserAllRoles(String userId);
+    CompletableFuture<JsonResult> getUserAllRoles(String userId, String appTag);
 
     /**
      * @author klw(213539@qq.com)

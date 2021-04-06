@@ -1,10 +1,27 @@
 server:
   port: 8783
+springfox:
+  documentation:
+    swagger-ui:
+      enabled: true  # 默认就是true,生产设为false
 alita:
-#  pkGenerator:  # 雪花算法配制
-#    workerId: 1  # 相同服务不同节点累加此ID
-#    datacenterId: 17  # 相同服务使用相同ID, web项目从17开始,最大32
   oauth2:
+    token:
+      storeInRedis: true
+      checkExcludePaths:
+        - /${spring.application.name}/test/**
     resServer:
       authPath:
         - /${spring.application.name}/**
+  authority:
+    app:
+      tag: TEST_APP
+      # 下面两个不是必须,但扫描权限入库时如果应用不存在需要使用name和remark(如果配制了的话)创建应用,该情况下如果name无值则会扫描失败
+      name: 测试应用
+      remark: 测试应用
+#    dataSecured:
+#      enable: true
+
+#  pkGenerator:  # 雪花算法配制
+#    workerId: 1  # 相同服务不同节点累加此ID
+#    datacenterId: 17  # 相同服务使用相同ID, web项目从17开始,最大32

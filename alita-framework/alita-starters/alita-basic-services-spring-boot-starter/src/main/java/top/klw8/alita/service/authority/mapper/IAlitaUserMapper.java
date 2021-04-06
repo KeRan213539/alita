@@ -34,7 +34,11 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
      * @param: roleId
      * @return int
      */
-    @Insert("INSERT INTO sys_user_has_role(user_id, role_id) VALUES(#{userId}, #{roleId})")
+    @Insert("INSERT INTO sys_user_has_role(user_id, role_id, app_tag) " +
+            "VALUES(" +
+            "#{userId}, #{roleId}, " +
+            "(SELECT app_tag FROM sys_role WHERE id = #{roleId})" +
+            ")")
     int addRole2User(String userId, String roleId);
 
     /**
@@ -66,9 +70,9 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
      * @return int
      */
     @Insert("<script>" +
-            "INSERT INTO sys_user_has_role(user_id, role_id) VALUES" +
+            "INSERT INTO sys_user_has_role(user_id, role_id, app_tag) VALUES" +
             "<foreach collection =\"list\" item=\"item\" index= \"index\" separator =\",\"> " +
-            "(#{item.userId}, #{item.roleId})" +
+            "(#{item.userId}, #{item.roleId}, #{item.appTag})" +
             "</foreach >" +
             "</script>")
     int batchInsertRoles4User(List<Map<String, String>> list);
@@ -81,8 +85,15 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
      * @param: userId
      * @return java.util.List<java.lang.String>
      **/
-    @Select("select * from sys_role where id in (SELECT role_id from sys_user_has_role WHERE user_id = #{userId})")
-    List<SystemRole> selectUserAllRoles(String userId);
+    @Select("<script> " +
+            "select * from sys_role where id in (" +
+                "SELECT role_id from sys_user_has_role WHERE user_id = #{userId}" +
+                "<if test=\"appTag != null and appTag != '' \">" +
+                "    and app_tag = #{appTag} " +
+                "</if>" +
+            ")"
+            + "</script>")
+    List<SystemRole> selectUserAllRoles(String userId, String appTag);
 
     /**
      * @author klw(213539@qq.com)

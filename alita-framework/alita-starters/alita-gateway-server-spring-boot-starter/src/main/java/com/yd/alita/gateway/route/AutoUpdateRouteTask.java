@@ -24,9 +24,9 @@ public class AutoUpdateRouteTask implements Runnable {
     @Override
     public void run() {
         while (true){
-            log.info("=============【AutoUpdateRouteTask】开始运行===================");
+            log.debug("=============【AutoUpdateRouteTask】开始运行===================");
             routesUpdateHandle.routesUpdate();
-            log.info("=============【AutoUpdateRouteTask】运行结束===================");
+            log.debug("=============【AutoUpdateRouteTask】运行结束===================");
             try {
                 Thread.sleep(SLEEP_TIME_MILLIS);
             } catch (InterruptedException e) {

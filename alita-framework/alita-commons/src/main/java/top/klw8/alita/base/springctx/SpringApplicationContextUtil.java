@@ -29,7 +29,7 @@ public class SpringApplicationContextUtil implements ApplicationContextAware {
 	}
 
 	String logInfo = "\n---------------------------------------------------------------------\n\n"
-		+ "ApplicationContext已 hole 住,可以通过SpringApplicationContextUtil.getAppContext()获取applicationContext对象\n\n"
+		+ "ApplicationContext已 hold 住,可以通过SpringApplicationContextUtil.getAppContext()获取applicationContext对象\n\n"
 		+ "---------------------------------------------------------------------";
 	log.info(logInfo);
     }

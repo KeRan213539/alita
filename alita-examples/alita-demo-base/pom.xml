@@ -10,12 +10,12 @@
     <parent>
         <groupId>top.klw8.alita</groupId>
         <artifactId>alita-base</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>0.3.0-SNAPSHOT</version>
     </parent>
 
     <properties>
-        <demo-entitys.version>0.1.0-SNAPSHOT</demo-entitys.version>
-        <demo-service-api.version>0.1.0-SNAPSHOT</demo-service-api.version>
+        <demo-entitys.version>0.3.0-SNAPSHOT</demo-entitys.version>
+        <demo-service-api.version>0.3.0-SNAPSHOT</demo-service-api.version>
     </properties>
 
     <dependencyManagement>

@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import top.klw8.alita.utils.ElasticSearchRestClient;
+//import top.klw8.alita.utils.ElasticSearchRestClient;
 
 
 
@@ -39,11 +39,11 @@ public class SystemLogRecorderApplication {
 	
 	
 	try {
-	    ElasticSearchRestClient esClient = ElasticSearchRestClient.getInstance(esHost, esPort);
-	    if(!esClient.isIndexExist("alita-new-log")) {   // 检查索引是否存在--省兜兜日志
-	        esClient.createIndex("alita-new-log", 5, 0);   //TODO: 单节点的情况下,副本数要设为0(最后一个参数)
-	        esClient.putMapping("alita-new-log", logMappingJson);
-	    }
+//	    ElasticSearchRestClient esClient = ElasticSearchRestClient.getInstance(esHost, esPort);
+//	    if(!esClient.isIndexExist("alita-new-log")) {   // 检查索引是否存在--省兜兜日志
+//	        esClient.createIndex("alita-new-log", 5, 0);   //TODO: 单节点的情况下,副本数要设为0(最后一个参数)
+//	        esClient.putMapping("alita-new-log", logMappingJson);
+//	    }
 //	    if (!esClient.isIndexExist("pay-center-log")) { // 检查索引是否存在--支付中心日志
 //		esClient.createIndex("pay-center-log", 5, 0);  //TODO: 单节点的情况下,副本数要设为0(最后一个参数)
 //		esClient.putMapping("pay-center-log", logMappingJson);

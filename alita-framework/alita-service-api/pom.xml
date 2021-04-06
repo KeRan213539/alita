@@ -9,7 +9,8 @@
 	<parent>
 		<groupId>top.klw8.alita</groupId>
 		<artifactId>alita-base</artifactId>
-		<version>0.1.0-SNAPSHOT</version>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
 	</parent>
     
     	
@@ -18,6 +19,11 @@
 		<dependency>
             <groupId>top.klw8.alita</groupId>
             <artifactId>alita-commons</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>top.klw8.alita</groupId>
+            <artifactId>alita-base-service-api</artifactId>
         </dependency>
 
         <dependency>
@@ -38,11 +44,6 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.springframework.security.oauth</groupId>
-            <artifactId>spring-security-oauth2</artifactId>
         </dependency>
         
 	</dependencies>

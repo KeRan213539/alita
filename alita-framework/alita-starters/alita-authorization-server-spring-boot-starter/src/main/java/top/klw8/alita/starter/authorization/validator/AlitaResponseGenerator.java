@@ -23,7 +23,7 @@ public class AlitaResponseGenerator implements IResponseMsgGenerator {
      */
     @Override
     public Object generatorResponse(String code, String message, ValidatorException ex) {
-        return JsonResult.sendFailedResult(message);
+        return JsonResult.failed(message);
     }
 
 }

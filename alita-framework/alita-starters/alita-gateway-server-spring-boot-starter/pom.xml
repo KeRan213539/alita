@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>top.klw8.alita</groupId>
 	<artifactId>alita-gateway-server-spring-boot-starter</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>${revision}</version>
 	<packaging>jar</packaging>
 	<name>alita-gateway-server-spring-boot-starter</name>
 	<description>alita-路由网关 启动器</description>
@@ -11,13 +11,20 @@
 	<parent>
 		<groupId>top.klw8.alita</groupId>
 		<artifactId>alita-starter-base</artifactId>
-		<version>0.1.0-SNAPSHOT</version>
+		<version>${revision}</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-gateway</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-boot-starter-logging</artifactId>
+					<groupId>org.springframework.boot</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
@@ -27,20 +34,10 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-spring-webflux</artifactId>
+			<artifactId>springfox-boot-starter</artifactId>
 		</dependency>
 		
 		<dependency>
@@ -58,6 +55,12 @@
 		<dependency>
 			<groupId>com.alibaba.csp</groupId>
 			<artifactId>sentinel-spring-cloud-gateway-adapter</artifactId>
+		</dependency>
+
+		<!-- rocketmq 远程 日志支持 -->
+		<dependency>
+			<groupId>org.apache.rocketmq</groupId>
+			<artifactId>rocketmq-logappender</artifactId>
 		</dependency>
 
 	</dependencies>

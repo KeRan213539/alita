@@ -6,10 +6,22 @@ dubbo:
     name: dubbo
   application:
     name: basic-service-test
-#alita:
-#  pkGenerator:  # 雪花算法配制
-#    workerId: 1  # 相同服务不同节点累加此ID
-#    datacenterId: 2  # 相同服务使用相同ID, service项目从1开始,最大16
 spring:
+  application:
+    name: basic-service-test
+  profiles:
+      active: dev
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+nacos:
+  config:
+#    serverAddr: "[::1]:8848"
+    serverAddr: 127.0.0.1:8848
+    namespace: alita-dev
+    remoteFirst: true
+    dataId: ${spring.application.name}.yml
+    group: ALITA_TEST_GROUP
+    type: yaml
+    autoRefresh: true
+    bootstrap:
+      enable: true

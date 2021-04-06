@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>top.klw8.alita</groupId>
 	<artifactId>alita-authorization-server-spring-boot-starter</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>${revision}</version>
 	<packaging>jar</packaging>
 	<name>alita-authorization-server-spring-boot-starter</name>
 	<description>alita 认证服务器 启动器</description>
@@ -11,14 +11,30 @@
 	<parent>
 		<groupId>top.klw8.alita</groupId>
 		<artifactId>alita-starter-base</artifactId>
-		<version>0.1.0-SNAPSHOT</version>
+		<version>${revision}</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<dependencies>
 
 		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>top.klw8.alita</groupId>
 			<artifactId>alita-commons</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>top.klw8.alita</groupId>
+			<artifactId>alita-validator</artifactId>
 		</dependency>
 
 		<dependency>
@@ -66,16 +82,10 @@
 			<groupId>com.alibaba.cloud</groupId>
 			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
 		</dependency>
-
-
+		
 		<dependency>
 			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
+			<artifactId>springfox-boot-starter</artifactId>
 		</dependency>
 
 		<dependency>
@@ -113,6 +123,16 @@
 		<dependency>
 			<groupId>com.alibaba.spring</groupId>
 			<artifactId>spring-context-support</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.rocketmq</groupId>
+			<artifactId>rocketmq-logappender</artifactId>
 		</dependency>
 
 

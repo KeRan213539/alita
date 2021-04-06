@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>alita-base-entitys</artifactId>
+	<packaging>jar</packaging>
+	<name>alita-base-entitys</name>
+	<description>数据实体相关通用</description>
+	
+	<parent>
+		<groupId>top.klw8.alita</groupId>
+		<artifactId>alita-base</artifactId>
+		<version>${revision}</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+    
+    	
+	<dependencies>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-annotation</artifactId>
+			<scope>compile</scope>
+        </dependency>
+
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-core</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
+			<scope>compile</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>

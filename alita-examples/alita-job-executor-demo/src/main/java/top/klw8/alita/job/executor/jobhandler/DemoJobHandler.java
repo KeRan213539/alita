@@ -2,7 +2,6 @@ package top.klw8.alita.job.executor.jobhandler;
 
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;
-import com.xxl.job.core.handler.annotation.JobHandler;
 import com.xxl.job.core.log.XxlJobLogger;
 
 
@@ -26,7 +25,6 @@ import top.klw8.alita.service.api.demo.ISpringCloudProviderDemoService;
  * @author klw
  * @date 2018年10月23日 下午3:27:20
  */
-@JobHandler(value = "demoJobHandler")
 @Component
 public class DemoJobHandler extends IJobHandler {
     

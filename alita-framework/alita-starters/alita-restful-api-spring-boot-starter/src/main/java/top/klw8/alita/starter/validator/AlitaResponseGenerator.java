@@ -25,7 +25,10 @@ public class AlitaResponseGenerator implements IResponseMsgGenerator {
      */
     @Override
     public Mono<Object> generatorResponse(String code, String message, ValidatorException ex) {
-        return Mono.just(JsonResult.sendFailedResult(CommonResultCodeEnum.BAD_PARAMETER, message));
+        JsonResult result = new JsonResult();
+        result.setCode(code);
+        result.setMessage(message);
+        return Mono.just(result);
     }
 
 }

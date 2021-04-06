@@ -2,7 +2,6 @@ package top.klw8.alita.service.result.code;
 
 import top.klw8.alita.service.result.IResultCode;
 import top.klw8.alita.service.result.ISubResultCode;
-import top.klw8.alita.service.result.SubResultCode;
 
 /**
  * @author klw(213539 @ qq.com)
@@ -10,7 +9,6 @@ import top.klw8.alita.service.result.SubResultCode;
  * @Description: 权限相关
  * @date 2019/8/15 16:52
  */
-@SubResultCode
 public enum AuthorityResultCodeEnum implements ISubResultCode {
 
     CATLOG_NOT_EXIST("001", "权限目录不存在"),
@@ -20,6 +18,8 @@ public enum AuthorityResultCodeEnum implements ISubResultCode {
     AUTHORITY_NOT_EXIST("003", "权限不存在"),
 
     USER_NOT_EXIST("004", "用户不存在"),
+
+    SYSTEM_DATA_SECURED_HAS_EXIST("005", "该资数据权限已存在(全局或者同权限中,数据权限资源标识不能相同)"),
 
     ;
     /**

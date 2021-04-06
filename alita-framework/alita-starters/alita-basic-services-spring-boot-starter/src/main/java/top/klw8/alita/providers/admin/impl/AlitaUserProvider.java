@@ -1,6 +1,7 @@
 package top.klw8.alita.providers.admin.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.Assert;
 import top.klw8.alita.entitys.authority.SystemAuthoritys;
 import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.SystemDataSecured;
 import top.klw8.alita.entitys.authority.SystemRole;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
@@ -26,7 +28,6 @@ import top.klw8.alita.starter.service.common.ServiceUtil;
 import top.klw8.alita.utils.LocalDateTimeUtil;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,10 +76,10 @@ public class AlitaUserProvider implements IAlitaUserProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> findUserAuthorityMenus(String userId) {
+    public CompletableFuture<JsonResult> findUserAuthorityMenus(String userId, String appTag) {
         Map<String, UserMenu> menuMap = new HashMap<>(16);
         // 根据用户ID查询用户角色
-        List<SystemRole> userRoles = userService.getUserAllRoles(userId);
+        List<SystemRole> userRoles = userService.getUserAllRoles(userId, appTag);
         // 根据用户角色查询角色对应的权限并更新到SystemRole实体中
         for (SystemRole role : userRoles) {
             List<SystemAuthoritys> authoritys = roleService.getRoleAllAuthoritys(role.getId());
@@ -96,14 +97,14 @@ public class AlitaUserProvider implements IAlitaUserProvider {
             }
         }
 
-        return CompletableFuture.supplyAsync(() -> JsonResult.sendSuccessfulResult(
+        return CompletableFuture.supplyAsync(() -> JsonResult.successfu(
                 new ArrayList<>(menuMap.values())), ServiceContext.executor);
 
     }
 
     @Override
     public CompletableFuture<JsonResult> userList(AlitaUserAccount user, LocalDate createDateBegin,
-                                                  LocalDate createDateEnd, Page<AlitaUserAccount> page) {
+                                                  LocalDate createDateEnd, String appTag, Page<AlitaUserAccount> page) {
         QueryWrapper<AlitaUserAccount> query = new QueryWrapper();
         // 排除密码字段
         query.select(AlitaUserAccount.class, i -> !i.getColumn().equals("user_pwd"));
@@ -148,35 +149,48 @@ public class AlitaUserProvider implements IAlitaUserProvider {
         List<OrderItem> orders = new ArrayList<>(1);
         orders.add(OrderItem.desc("create_date"));
         page.setOrders(orders);
-        return CompletableFuture.supplyAsync(() -> JsonResult.sendSuccessfulResult(
-                userService.page(page, query)), ServiceContext.executor);
+        IPage pageResult = userService.page(page, query);
+        List<AlitaUserAccount> userAccountList = pageResult.getRecords();
+        for(AlitaUserAccount userAccount : userAccountList){
+            userAccount.setUserRoles(userService.getUserAllRoles(userAccount.getId(), appTag));
+        }
+        return CompletableFuture.supplyAsync(() -> JsonResult.successfu(
+                pageResult), ServiceContext.executor);
     }
 
     @Override
-    public CompletableFuture<JsonResult> saveUserRoles(String userId, List<String> roleIds) {
+    public CompletableFuture<JsonResult> saveUserRoles(String userId, List<String> roleIds, String appTag) {
         if(userService.getById(userId) == null){
-            return CompletableFuture.supplyAsync(() -> JsonResult.sendBadParameterResult("用户不存在")
+            return CompletableFuture.supplyAsync(() -> JsonResult.badParameter("用户不存在")
             , ServiceContext.executor);
         }
+        List<SystemRole> roleList = new ArrayList<>(roleIds.size());
         for(String roleId : roleIds){
-            if(roleService.getById(roleId) == null){
-                return CompletableFuture.supplyAsync(() -> JsonResult.sendBadParameterResult("角色不存在")
+            SystemRole role = roleService.getById(roleId);
+            if(null == role){
+                return CompletableFuture.supplyAsync(() -> JsonResult.badParameter("角色不存在")
                         , ServiceContext.executor);
             }
+            if(StringUtils.isNotBlank(appTag) && !appTag.equals(role.getAppTag())){
+                return ServiceUtil.buildFuture(JsonResult.badParameter("传入的appTag与角色的不匹配"));
+            }
+            roleList.add(role);
         }
-        return CompletableFuture.supplyAsync(() -> JsonResult.sendSuccessfulResult(
-                userService.replaceRole2User(userId, roleIds)), ServiceContext.executor);
+        return CompletableFuture.supplyAsync(() -> JsonResult.successfu(
+                userService.replaceRole2User(userId, roleList)), ServiceContext.executor);
     }
 
     @Override
     public CompletableFuture<JsonResult> addSaveUser(AlitaUserAccount user) {
         if(StringUtils.isNotBlank(user.getId())){
-            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("保存用户只支持新增,不支持修改!"));
+            return ServiceUtil.buildFuture(JsonResult.badParameter("保存用户只支持新增,不支持修改!"));
         }
         user.initNewAccount();
-        user.setUserPwd(pwdEncoder.encode(user.getUserPwd()));
+        if(StringUtils.isNotBlank(user.getUserPwd())) {
+            user.setUserPwd(pwdEncoder.encode(user.getUserPwd()));
+        }
         userService.save(user);
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult());
+        return ServiceUtil.buildFuture(JsonResult.successfu());
     }
 
     @Override
@@ -187,21 +201,29 @@ public class AlitaUserProvider implements IAlitaUserProvider {
         AlitaUserAccount user = userService.getById(userId);
         Assert.notNull(user, "该用户不存在!");
         if(!pwdEncoder.matches(oldPwd, user.getUserPwd())){
-            return ServiceUtil.buildFuture(JsonResult.sendBadParameterResult("密码不正确!"));
+            return ServiceUtil.buildFuture(JsonResult.badParameter("密码不正确!"));
         }
         AlitaUserAccount user4update = new AlitaUserAccount();
         user4update.setId(userId);
         user4update.setUserPwd(pwdEncoder.encode(newPwd));
         if(userService.updateById(user4update)){
-            return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult("密码更新成功!"));
+            return ServiceUtil.buildFuture(JsonResult.successfu("密码更新成功!"));
         }
-        return ServiceUtil.buildFuture(JsonResult.sendFailedResult("密码更新失败!"));
+        return ServiceUtil.buildFuture(JsonResult.failed("密码更新失败!"));
     }
 
     @Override
-    public CompletableFuture<JsonResult> getUserAllRoles(String userId) {
+    public CompletableFuture<JsonResult> getUserAllRoles(String userId, String appTag) {
         Assert.hasText(userId, "用户ID不能为空!");
-        return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult(userService.getUserAllRoles(userId)));
+        List<SystemRole> userRoles = userService.getUserAllRoles(userId, appTag);
+        // 根据用户角色查询角色对应的权限并更新到SystemRole实体中
+        for (SystemRole role : userRoles) {
+            List<SystemAuthoritys> authoritys = roleService.getRoleAllAuthoritys(role.getId());
+            List<SystemDataSecured> dsList = roleService.getRoleAllDataSecureds(role.getId());
+            role.setAuthorityList(authoritys);
+            role.setDataSecuredList(dsList);
+        }
+        return ServiceUtil.buildFuture(JsonResult.successfu(userRoles));
     }
 
     @Override
@@ -211,7 +233,7 @@ public class AlitaUserProvider implements IAlitaUserProvider {
         // 排除密码字段
         query.select(AlitaUserAccount.class, i -> !i.getColumn().equals("user_pwd"));
         query.eq("id", userId);
-        return CompletableFuture.supplyAsync(() -> JsonResult.sendSuccessfulResult(
+        return CompletableFuture.supplyAsync(() -> JsonResult.successfu(
                 userService.getOne(query)), ServiceContext.executor);
     }
 
@@ -222,9 +244,9 @@ public class AlitaUserProvider implements IAlitaUserProvider {
         user.setId(userId);
         user.setEnabled1(enabled);
         if(userService.updateById(user)){
-            return ServiceUtil.buildFuture(JsonResult.sendSuccessfulResult("状态更新成功!"));
+            return ServiceUtil.buildFuture(JsonResult.successfu("状态更新成功!"));
         }
-        return ServiceUtil.buildFuture(JsonResult.sendFailedResult("状态更新失败!"));
+        return ServiceUtil.buildFuture(JsonResult.failed("状态更新失败!"));
     }
 
 }

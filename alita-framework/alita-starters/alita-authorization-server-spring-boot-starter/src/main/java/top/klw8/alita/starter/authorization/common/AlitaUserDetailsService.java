@@ -38,7 +38,7 @@ public class AlitaUserDetailsService implements UserDetailsService {
 		} catch (InterruptedException | ExecutionException e) {
 			log.error("", e);
 		}
-		if (EntityUtil.isEntityNotEmpty(user)) {
+		if (EntityUtil.isEntityHasId(user)) {
             return user;
         }
         throw new UsernameNotFoundException(username);

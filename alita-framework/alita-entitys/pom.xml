@@ -9,11 +9,17 @@
 	<parent>
 		<groupId>top.klw8.alita</groupId>
 		<artifactId>alita-base</artifactId>
-		<version>0.1.0-SNAPSHOT</version>
+		<version>${revision}</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
     
     	
 	<dependencies>
+
+		<dependency>
+			<groupId>top.klw8.alita</groupId>
+			<artifactId>alita-base-entitys</artifactId>
+		</dependency>
 
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -34,7 +40,11 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
 </project>

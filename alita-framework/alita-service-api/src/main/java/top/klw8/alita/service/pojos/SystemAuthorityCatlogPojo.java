@@ -26,6 +26,12 @@ public class SystemAuthorityCatlogPojo implements java.io.Serializable, Comparab
 
     /**
      * @author klw
+     * @Fields authorityName : 所属应用的应用标识
+     */
+    private String appTag;
+
+    /**
+     * @author klw
      * @Fields roleName : 角色名称
      */
     private String catlogName;

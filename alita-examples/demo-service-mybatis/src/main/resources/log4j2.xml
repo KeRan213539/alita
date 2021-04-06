@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN" monitorInterval="600">
+<Configuration status="WARN" monitorInterval="600" shutdownHook="disable">
     <!-- 将一些常用值提取出来，然后在文件的其他部分通过${}的形式引用，这些值可以随便定义 -->
     <Properties>
         <!-- 定义日志文件根目录 -->
@@ -42,10 +42,7 @@
         <!-- <Root level="trace"> <AppenderRef ref="consoleAppender" /> </Root> -->
         <!-- 定义一个普通的logger，这里我定义为异步的 -->
         <!-- additivity 表式是否向根 longer输出,由于上面配制的根是控制台,所以这里配为ture -->
-        <asyncLogger name="top.klw8.alita.service.demo" level="info">
-            <AppenderRef ref="rocketmqAppender" />
-        </asyncLogger>
-        <asyncLogger name="top.klw8.alita.starter.service" level="info">
+        <asyncLogger name="top.klw8.alita.service.authority.mapper" level="DEBUG" additivity="true">
             <AppenderRef ref="rocketmqAppender" />
         </asyncLogger>
         <!-- 定义一个普通的logger -->

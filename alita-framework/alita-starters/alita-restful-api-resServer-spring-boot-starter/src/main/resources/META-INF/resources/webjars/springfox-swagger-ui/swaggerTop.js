@@ -84,7 +84,7 @@ $(document).ready(function() {
 				$("#changeLogContent").html(html);
 			});
 
-			$.get("devHelper/statusCodeInfo?t=" + new Date(), function(data){
+			$.get("../devHelper/statusCodeInfo?t=" + new Date(), function(data){
 				if(!data){
 					return;
 				}

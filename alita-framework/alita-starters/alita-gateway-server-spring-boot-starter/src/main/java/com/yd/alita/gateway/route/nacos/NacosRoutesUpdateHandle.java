@@ -15,6 +15,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author klw(213539 @ qq.com)
@@ -45,7 +46,7 @@ public class NacosRoutesUpdateHandle implements IRoutesUpdateHandle {
      */
     @Override
     public void routesUpdate() {
-        // 获取从nacos命名空间中获取到的所有服务名称，这其中还包含了自己的服务名
+        // 从nacos命名空间中获取到的所有服务名称，这其中还包含了自己的服务名
         List<String> serviceNames = discoveryClient.getServices();
         Map<String, RouteDefinition> toAddRouteMap = new HashMap<>();
         Map<String, String> serviceNamesMap = new HashMap<>();
@@ -61,6 +62,7 @@ public class NacosRoutesUpdateHandle implements IRoutesUpdateHandle {
 
                 if(cachedRouteMap.get(serviceName) == null){
                     RouteDefinition routeDefinition = new RouteDefinition();
+                    routeDefinition.setId(UUID.randomUUID().toString());
                     routeDefinition.setUri(URI.create("lb://" + serviceName));
                     PredicateDefinition predicateDefinition = new PredicateDefinition();
                     predicateDefinition.setName("Path");

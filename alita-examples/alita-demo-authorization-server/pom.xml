@@ -6,13 +6,12 @@
 	<name>alita-demo-authorization-server</name>
 	<description>alita - 认证服务demo</description>
 	<properties>
-		<springfox.version>2.7.0</springfox.version>
 	</properties>
 
 	<parent>
         <groupId>top.klw8.alita</groupId>
         <artifactId>alita-spring-boot-base</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>0.3.0-SNAPSHOT</version>
     </parent>
 
 	<dependencies>

@@ -1,6 +1,7 @@
 package top.klw8.alita.entitys.authority;
 
 import java.util.List;
+import java.util.Map;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -20,9 +21,16 @@ import top.klw8.alita.entitys.base.BaseEntity;
 @Setter
 //@EqualsAndHashCode(callSuper = false, exclude = {"authorityList"})
 //@ToString(callSuper = false, exclude ={"authorityList"})
-public class SystemRole extends BaseEntity {
+public class SystemRole extends BaseEntity implements IAssociatedApp {
 
     private static final long serialVersionUID = -2919173399468066019L;
+
+    /**
+     * @author klw
+     * @Fields authorityName : 所属应用的应用标识
+     */
+    @TableField("app_tag")
+    private String appTag;
     
     /**
      * @author klw
@@ -44,5 +52,12 @@ public class SystemRole extends BaseEntity {
      */
     @TableField(exist=false)
     private List<SystemAuthoritys> authorityList;
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 角色拥有的数据权限
+     */
+    @TableField(exist=false)
+    private List<SystemDataSecured> dataSecuredList;
     
 }
