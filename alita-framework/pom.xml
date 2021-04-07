@@ -743,6 +743,23 @@
                 </snapshotRepository>
             </distributionManagement>
         </profile>
+
+        <profile>
+            <id>deployToKlw8</id>
+            <properties>
+                <profile.active>release</profile.active>
+            </properties>
+            <distributionManagement>
+                <repository>
+                    <id>nexus-releases</id>
+                    <url>https://packages.aliyun.com/maven/repository/2052514-release-pjjtXx/</url>
+                </repository>
+                <snapshotRepository>
+                    <id>nexus-releases</id>
+                    <url>https://packages.aliyun.com/maven/repository/2052514-snapshot-aOBD8z/</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
     </profiles>
 
     <build>
