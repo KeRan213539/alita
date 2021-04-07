@@ -8,7 +8,7 @@ package top.klw8.alita.service.demo.service.impl.test;
  * @date 2019-01-30 11:39:45
  */
 //@Slf4j
-//@Service(async = true)
+//@DubboService(async = true)
 //public class ExtUserInfoDemoServiceImpl extends BaseServiceImpl<ExtUserInfoDemo> implements IExtUserInfoDemoService {
 //
 ////    private IExtUserInfoDemoServicenfoDemoDao dao;

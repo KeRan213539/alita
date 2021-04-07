@@ -1,7 +1,8 @@
 package top.klw8.alita.service.demo.providers.impl.demo;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Service;
+
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import top.klw8.alita.entitys.demo.mybatis.ExtUserInfo;
 import top.klw8.alita.service.demo.providers.user.IExtUserProvider;
@@ -21,7 +22,7 @@ import java.util.concurrent.CompletableFuture;
  * @date 2019-08-19 14:50
  */
 @Slf4j
-@Service(async = true)
+@DubboService(async = true)
 public class ExtUserProvider implements IExtUserProvider {
 
     @Autowired

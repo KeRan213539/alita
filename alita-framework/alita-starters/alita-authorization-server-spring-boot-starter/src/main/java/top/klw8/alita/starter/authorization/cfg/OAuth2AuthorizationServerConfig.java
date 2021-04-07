@@ -1,3 +1,19 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.starter.authorization.cfg;
 
 import java.io.IOException;
@@ -10,7 +26,8 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
-import org.apache.dubbo.config.annotation.Reference;
+
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
@@ -56,6 +73,7 @@ import top.klw8.alita.starter.authorization.endpoints.LogoutEndpoint;
 import top.klw8.alita.utils.TokenUtil;
 import top.klw8.alita.utils.redis.TokenRedisUtil;
 
+import javax.annotation.Resource;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -94,16 +112,16 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     @Autowired
     private ApplicationContext context;
 
-    @Reference(async=true)
+    @DubboReference(async=true)
     private IAuthorityAdminProvider authorityAdminProvider;
 
-    @Reference(async=true)
+    @DubboReference(async=true)
     private IAlitaUserProvider userProvider;
     
-    @Reference
+    @DubboReference
     private IAuthorityAppChannelProvider channelProvider;
 
-    @javax.annotation.Resource
+    @Resource
     private TokenConfigBean tokenCfg;
 
     private ClientDetailsService clientDetailsService = null;

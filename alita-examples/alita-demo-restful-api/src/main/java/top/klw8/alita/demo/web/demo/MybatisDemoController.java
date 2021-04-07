@@ -4,7 +4,8 @@ import io.netty.util.internal.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
+
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +35,7 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 public class MybatisDemoController extends WebapiBaseController {
 
-    @Reference(async = true)
+    @DubboReference(async = true)
     private IExtUserProvider extUserProvider;
 
     @ApiOperation(value = "添加新的用户扩展信息", notes = "添加新的用户扩展信息", httpMethod = "POST", produces = "application/json")

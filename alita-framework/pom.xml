@@ -1,4 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
@@ -9,7 +24,7 @@
     <version>${revision}</version>
     <name>alita-framworks</name>
     <description>alita-base项目,主要用于控制各个jar包的版本号</description>
-    
+
     <url>https://alita.klw8.top/</url>
     <licenses>
         <license>
@@ -28,27 +43,27 @@
         <developerConnection>https://github.com/KeRan213539/alita.git</developerConnection>
         <url>https://github.com/KeRan213539/alita.git</url>
     </scm>
-    
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.6.RELEASE</version>
+        <version>2.3.9.RELEASE</version>
     </parent>
-    
+
     <properties>
         <!-- Project revision -->
-        <revision>0.4.0-SNAPSHOT</revision>
+        <revision>1.0.0-SNAPSHOT</revision>
         <project.build.jdkVersion>1.8</project.build.jdkVersion>
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <skipJunitTest>true</skipJunitTest>
-        
-        <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
-        <spring-cloud-alibaba-dependencies.version>2.2.3.RELEASE</spring-cloud-alibaba-dependencies.version>
-    
+
+        <spring-cloud.version>Hoxton.SR10</spring-cloud.version>
+        <spring-cloud-alibaba-dependencies.version>2.2.5.RELEASE</spring-cloud-alibaba-dependencies.version>
+
         <maven_flatten_version>1.2.5</maven_flatten_version>
-        <rocketmq-client.version>4.7.1</rocketmq-client.version>
-        <rocketmq-spring-boot-starter.version>2.1.1</rocketmq-spring-boot-starter.version>
+        <rocketmq-client.version>4.8.0</rocketmq-client.version>
+        <rocketmq-spring-boot-starter.version>2.2.0</rocketmq-spring-boot-starter.version>
         <junit5-platform.version>1.3.1</junit5-platform.version>
         <disruptor.version>3.4.2</disruptor.version>
         <aviator.version>3.3.0</aviator.version>
@@ -56,28 +71,28 @@
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-collections.version>4.2</commons-collections.version>
         <commons-fileupload.version>1.3.3</commons-fileupload.version>
-<!--        <elasticsearch-rest-high-level-client.version>7.11.2</elasticsearch-rest-high-level-client.version>-->
+        <!--        <elasticsearch-rest-high-level-client.version>7.11.2</elasticsearch-rest-high-level-client.version>-->
         <springfox.version>3.0.0</springfox.version>
-        <xxl-job.version>2.2.0</xxl-job.version>
+        <xxl-job.version>2.3.0</xxl-job.version>
         <commons-text.version>1.6</commons-text.version>
         <spring-security.version>5.3.3.RELEASE</spring-security.version>
         <spring-security-jwt.version>1.0.10.RELEASE</spring-security-jwt.version>
-        <spring-security-oauth2.version>2.3.6.RELEASE</spring-security-oauth2.version>
-        <dubbo.version>2.7.8</dubbo.version>
-        <druid.version>1.2.4</druid.version>
+        <spring-security-oauth2.version>2.3.8.RELEASE</spring-security-oauth2.version>
+        <dubbo.version>2.7.9</dubbo.version>
+        <druid.version>1.2.5</druid.version>
         <mybatis-plus.version>3.4.2</mybatis-plus.version>
         <postgresql.version>42.2.18</postgresql.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
-        <fastjson.version>1.2.75</fastjson.version>
-        <freemarker.version>2.3.30</freemarker.version>
+        <fastjson.version>1.2.76</fastjson.version>
+        <freemarker.version>2.3.31</freemarker.version>
         <cglib.version>3.3.0</cglib.version>
         <commons-net.version>3.7.2</commons-net.version>
         <aliyun-sdk-oss.version>3.11.1</aliyun-sdk-oss.version>
-    
+
         <IK_Analyzer.version>2012FF_hf1_1</IK_Analyzer.version>
         <alita-validator.version>0.9</alita-validator.version>
-        <dubbo.api.docs.version>2.7.8.1</dubbo.api.docs.version>
-        <nacos.version>1.1.4</nacos.version>
+        <dubbo.api.docs.version>2.7.8.2</dubbo.api.docs.version>
+        <nacos.version>1.4.1</nacos.version>
         <!--        <nacos.version>1.4.0-SNAPSHOT</nacos.version>-->
         <!--        <nacos-config-spring.version>0.2.8</nacos-config-spring.version>-->
         <nacos-config-spring.version>0.2.7</nacos-config-spring.version>
@@ -86,7 +101,7 @@
 
     <dependencyManagement>
         <dependencies>
-    
+
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -94,7 +109,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
@@ -102,7 +117,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            
+
             <!--dubbo doc-->
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
@@ -114,148 +129,148 @@
                 <artifactId>dubbo-api-docs-core</artifactId>
                 <version>${dubbo.api.docs.version}</version>
             </dependency>
-            
+
             <!-- begin 基本base项目 -->
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-validator</artifactId>
                 <version>${alita-validator.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-commons</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-base-entitys</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-base-service-api</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-entitys</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-service-api</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-service-mongodb-api</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-service-mongodb-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-service-mybatis-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-restful-api-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-restful-api-resServer-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-authorization-server-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-rocketmq-consumers-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-job-executor-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-mongodb-spring-data-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-mybatis-spring-data-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-basic-services-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-basic-restful-api-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>alita-gateway-server-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+
             <!-- end 基本base项目 -->
-            
+
             <dependency>
                 <groupId>cglib</groupId>
                 <artifactId>cglib</artifactId>
                 <version>${cglib.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>commons-net</groupId>
                 <artifactId>commons-net</artifactId>
                 <version>${commons-net.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.freemarker</groupId>
                 <artifactId>freemarker</artifactId>
                 <version>${freemarker.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.github.keran213539</groupId>
                 <artifactId>IK_Analyzer</artifactId>
                 <version>${IK_Analyzer.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-registry-nacos</artifactId>
@@ -271,7 +286,7 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-    
+
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-common</artifactId>
@@ -283,7 +298,7 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-spring-boot-starter</artifactId>
@@ -295,76 +310,76 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo</artifactId>
                 <version>${dubbo.version}</version>
             </dependency>
-            
-            
+
+
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-core</artifactId>
                 <version>${spring-security.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-config</artifactId>
                 <version>${spring-security.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
                 <version>${spring-security.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-jwt</artifactId>
                 <version>${spring-security-jwt.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.springframework.security.oauth</groupId>
                 <artifactId>spring-security-oauth2</artifactId>
                 <version>${spring-security-oauth2.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-oauth2-resource-server</artifactId>
                 <version>${spring-security.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-oauth2-jose</artifactId>
                 <version>${spring-security.version}</version>
             </dependency>
-            
-            
+
+
             <!-- xxl-job-core -->
             <dependency>
                 <groupId>com.xuxueli</groupId>
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxl-job.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${springfox.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>
                 <version>${springfox.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-boot-starter</artifactId>
@@ -376,8 +391,8 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            
-            
+
+
             <!-- rocketmq 远程 日志支持,已经自带rocketmq的client,所以上面的注释了 -->
             <dependency>
                 <groupId>org.apache.rocketmq</groupId>
@@ -389,71 +404,71 @@
                 <artifactId>rocketmq-logappender</artifactId>
                 <version>${rocketmq-client.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.junit.platform</groupId>
                 <artifactId>junit-platform-runner</artifactId>
                 <version>${junit5-platform.version}</version>
                 <scope>test</scope>
             </dependency>
-            
+
             <!-- log4j 2 的异步日志依赖包 -->
             <dependency>
                 <groupId>com.lmax</groupId>
                 <artifactId>disruptor</artifactId>
                 <version>${disruptor.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.googlecode.aviator</groupId>
                 <artifactId>aviator</artifactId>
                 <version>${aviator.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
                 <version>${commons-beanutils.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-collections4</artifactId>
                 <version>${commons-collections.version}</version>
             </dependency>
-            
-            
+
+
             <!-- 文件上传组件 -->
             <dependency>
                 <groupId>commons-fileupload</groupId>
                 <artifactId>commons-fileupload</artifactId>
                 <version>${commons-fileupload.version}</version>
             </dependency>
-            
-<!--            <dependency>-->
-<!--                <groupId>org.elasticsearch.client</groupId>-->
-<!--                <artifactId>elasticsearch-rest-high-level-client</artifactId>-->
-<!--                <version>${elasticsearch-rest-high-level-client.version}</version>-->
-<!--            </dependency>-->
-<!--            -->
-<!--            <dependency>-->
-<!--                <groupId>org.elasticsearch.client</groupId>-->
-<!--                <artifactId>elasticsearch-rest-client</artifactId>-->
-<!--                <version>${elasticsearch-rest-high-level-client.version}</version>-->
-<!--            </dependency>-->
-<!--            -->
-<!--            <dependency>-->
-<!--                <groupId>org.elasticsearch</groupId>-->
-<!--                <artifactId>elasticsearch</artifactId>-->
-<!--                <version>${elasticsearch-rest-high-level-client.version}</version>-->
-<!--            </dependency>-->
-            
+
+            <!--            <dependency>-->
+            <!--                <groupId>org.elasticsearch.client</groupId>-->
+            <!--                <artifactId>elasticsearch-rest-high-level-client</artifactId>-->
+            <!--                <version>${elasticsearch-rest-high-level-client.version}</version>-->
+            <!--            </dependency>-->
+            <!--            -->
+            <!--            <dependency>-->
+            <!--                <groupId>org.elasticsearch.client</groupId>-->
+            <!--                <artifactId>elasticsearch-rest-client</artifactId>-->
+            <!--                <version>${elasticsearch-rest-high-level-client.version}</version>-->
+            <!--            </dependency>-->
+            <!--            -->
+            <!--            <dependency>-->
+            <!--                <groupId>org.elasticsearch</groupId>-->
+            <!--                <artifactId>elasticsearch</artifactId>-->
+            <!--                <version>${elasticsearch-rest-high-level-client.version}</version>-->
+            <!--            </dependency>-->
+
             <dependency>
                 <groupId>org.apache.rocketmq</groupId>
                 <artifactId>rocketmq-spring-boot-starter</artifactId>
@@ -465,67 +480,67 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-text</artifactId>
                 <version>${commons-text.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-core</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-annotation</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-extension</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${postgresql.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
                 <version>${spring-cloud-alibaba-dependencies.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.alibaba.nacos</groupId>
                 <artifactId>nacos-api</artifactId>
                 <version>${nacos.version}</version>
             </dependency>
-            
+
             <dependency>
                 <artifactId>nacos-client</artifactId>
                 <groupId>com.alibaba.nacos</groupId>
                 <version>${nacos.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.alibaba.boot</groupId>
                 <artifactId>nacos-config-spring-boot-starter</artifactId>
@@ -537,25 +552,25 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis-typehandlers-jsr310</artifactId>
                 <version>${mybatis-typehandlers-jsr310.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.github.keran213539</groupId>
                 <artifactId>commonOkHttp-spring-boot-starter</artifactId>
                 <version>${commonOkHttp.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
             </dependency>
-    
+
             <dependency>
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
@@ -563,43 +578,42 @@
             </dependency>
 
 
-
         </dependencies>
     </dependencyManagement>
-    
+
     <dependencies>
-        
+
         <!-- junit5 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-runner</artifactId>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-console-standalone</artifactId>
             <version>${junit5-platform.version}</version>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
         </dependency>
-        
+
         <!-- log4j 1 迁移 2 的包 -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-1.2-api</artifactId>
         </dependency>
-        
+
         <!-- slf4j 使用 log4j 2的实现 ,相关jar一起就引入了 -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -615,63 +629,62 @@
             <groupId>com.lmax</groupId>
             <artifactId>disruptor</artifactId>
         </dependency>
-        
+
         <!-- AOP -->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>com.googlecode.aviator</groupId>
             <artifactId>aviator</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
         </dependency>
-        
+
         <!-- commons-lang -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
         </dependency>
-    
+
     </dependencies>
-    
-    
-    
+
+
     <profiles>
         <profile>
             <id>dev</id>
@@ -730,29 +743,11 @@
                 </snapshotRepository>
             </distributionManagement>
         </profile>
-        
-        <profile>
-            <id>deployToKlw8</id>
-            <properties>
-                <profile.active>release</profile.active>
-            </properties>
-            <distributionManagement>
-                <repository>
-                    <id>nexus-releases</id>
-                    <url>https://packages.aliyun.com/maven/repository/2052514-release-pjjtXx/</url>
-                </repository>
-                <snapshotRepository>
-                    <id>nexus-releases</id>
-                    <url>https://packages.aliyun.com/maven/repository/2052514-snapshot-aOBD8z/</url>
-                </snapshotRepository>
-            </distributionManagement>
-        </profile>
-    
     </profiles>
-    
+
     <build>
         <plugins>
-    
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
@@ -781,7 +776,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -790,7 +785,7 @@
                     <target>${project.build.jdkVersion}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <compilerArguments>
-                        <verbose />
+                        <verbose/>
                     </compilerArguments>
                 </configuration>
             </plugin>
@@ -901,7 +896,7 @@
         </repository>
         -->
     </repositories>
-    
+
     <modules>
         <module>alita-base-entitys</module>
         <module>alita-springboot-base</module>

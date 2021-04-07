@@ -11,7 +11,8 @@ import java.util.Base64;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.dubbo.config.annotation.Reference;
+
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -54,7 +55,7 @@ public class OAuth2ResourceServerConfig {
     @javax.annotation.Resource
     private TokenConfigBean tokenConfigBean;
 
-    @Reference(async = true)
+    @DubboReference(async = true)
     private IAuthorityAdminProvider adminProvider;
 
     @Value("${alita.authority.app.tag:}")

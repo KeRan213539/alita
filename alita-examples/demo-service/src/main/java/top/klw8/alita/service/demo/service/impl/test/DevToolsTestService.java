@@ -7,7 +7,7 @@ package top.klw8.alita.service.demo.service.impl.test;
  * @date 2019年03月05日 11:44:29
  */
 //@Slf4j
-//@Service(async=true)
+//@DubboService(async=true)
 //public class DevToolsTestService extends BaseServiceImpl<DevToolsTestEntity> implements IDevToolsTestService {
 //
 //    private IDevToolsTestDao dao;
