@@ -91,7 +91,7 @@
         <IK_Analyzer.version>2012FF_hf1_1</IK_Analyzer.version>
         <alita-validator.version>0.9</alita-validator.version>
         <dubbo.api.docs.version>2.7.8.2</dubbo.api.docs.version>
-        <nacos.version>1.4.1</nacos.version>
+        <nacos.version>1.1.4</nacos.version>
         <!--        <nacos.version>1.4.0-SNAPSHOT</nacos.version>-->
         <!--        <nacos-config-spring.version>0.2.8</nacos-config-spring.version>-->
         <nacos-config-spring.version>0.2.7</nacos-config-spring.version>

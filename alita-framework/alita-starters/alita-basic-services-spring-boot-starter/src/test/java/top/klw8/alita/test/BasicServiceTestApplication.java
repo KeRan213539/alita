@@ -19,7 +19,10 @@ import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.logging.LoggingSystem;
+import org.springframework.context.ApplicationContext;
 import top.klw8.alita.BaseServiceApplication;
+import top.klw8.alita.test.spitest.SPITest;
+import top.klw8.alita.test.spitest.SPITest2;
 //import top.klw8.alita.utils.redis.RedisTagEnum;
 //import top.klw8.alita.utils.redis.RedisUtil;
 
@@ -34,9 +37,13 @@ public class BasicServiceTestApplication extends BaseServiceApplication {
 
     public static void main(String[] args) {
         System.setProperty("org.springframework.boot.logging.LoggingSystem", LoggingSystem.NONE);  // 彻底关闭 spring boot 自带的 LoggingSystem
-        new SpringApplicationBuilder(BasicServiceTestApplication.class)
+        ApplicationContext context = new SpringApplicationBuilder(BasicServiceTestApplication.class)
                 .web(WebApplicationType.NONE) // 非 Web 应用
                 .run(args);
+
+        SPITest test1 = context.getBean(SPITest.class);
+        test1.doSPIInterface();
+        SPITest2.doSPIInterface();
 
         // 测试 RedisUtil
 //        System.out.println(RedisUtil.incr("test2", 5L, RedisTagEnum.REDIS_TAG_DEFAULT));
