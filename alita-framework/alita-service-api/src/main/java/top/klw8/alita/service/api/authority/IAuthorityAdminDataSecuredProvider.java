@@ -27,14 +27,14 @@ import java.util.List;
  */
 public interface IAuthorityAdminDataSecuredProvider {
 
-    List<SystemAuthoritysApp> allApp();
+    List<AlitaAuthoritysApp> allApp();
 
-    SystemRole roleById(String id);
+    AlitaRole roleById(String id);
 
-    SystemAuthoritysCatlog catlogById(String id);
+    AlitaAuthoritysCatlog catlogById(String id);
 
-    SystemAuthoritys auById(String id);
+    AlitaAuthoritysMenu auById(String id);
 
-    SystemDataSecured dsById(String id);
+    AlitaAuthoritysResource dsById(String id);
 
 }

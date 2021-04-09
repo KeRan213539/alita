@@ -51,27 +51,27 @@ public class AuthorityAdminDataSecuredProviderImpl implements IAuthorityAdminDat
     private ISystemDataSecuredService dataSecuredService;
 
     @Override
-    public List<SystemAuthoritysApp> allApp() {
+    public List<AlitaAuthoritysApp> allApp() {
         return appService.list();
     }
 
     @Override
-    public SystemRole roleById(String id) {
+    public AlitaRole roleById(String id) {
         return roleService.getById(id);
     }
 
     @Override
-    public SystemAuthoritysCatlog catlogById(String id) {
+    public AlitaAuthoritysCatlog catlogById(String id) {
         return catlogService.getById(id);
     }
 
     @Override
-    public SystemAuthoritys auById(String id) {
+    public AlitaAuthoritysMenu auById(String id) {
         return authoritysService.getById(id);
     }
 
     @Override
-    public SystemDataSecured dsById(String id) {
+    public AlitaAuthoritysResource dsById(String id) {
         return dataSecuredService.getById(id);
     }
 

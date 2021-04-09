@@ -20,9 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
-import top.klw8.alita.entitys.authority.SystemDataSecured;
-import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysMenu;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysResource;
+import top.klw8.alita.entitys.authority.AlitaRole;
 import top.klw8.alita.service.authority.ISystemRoleService;
 import top.klw8.alita.service.authority.mapper.ISystemRoleMapper;
 
@@ -39,10 +39,10 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, SystemRole> implements ISystemRoleService {
+public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, AlitaRole> implements ISystemRoleService {
 
     @Override
-    public int addAuthority2Role(String roleId, SystemAuthoritys au) {
+    public int addAuthority2Role(String roleId, AlitaAuthoritysMenu au) {
         try {
             if (null == roleId || null == au || null == au.getId()) {
                 return 0;
@@ -54,7 +54,7 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, System
     }
 
     @Override
-    public int removeAuthorityFromRole(String roleId, SystemAuthoritys au) {
+    public int removeAuthorityFromRole(String roleId, AlitaAuthoritysMenu au) {
         if (null == roleId || null == au || null == au.getId()) {
             return 0;
         }
@@ -102,22 +102,22 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, System
     }
 
     @Override
-    public List<SystemAuthoritys> getRoleAllAuthoritys(String roleId) {
+    public List<AlitaAuthoritysMenu> getRoleAllAuthoritys(String roleId) {
         return this.baseMapper.selectRoleAuthoritys(roleId);
     }
 
     @Override
-    public List<SystemAuthoritys> selectSystemAuthoritysWithCatlogByRoleId(String roleId) {
+    public List<AlitaAuthoritysMenu> selectSystemAuthoritysWithCatlogByRoleId(String roleId) {
         return this.baseMapper.selectSystemAuthoritysWithCatlogByRoleId(roleId);
     }
 
     @Override
-    public List<SystemDataSecured> getRoleAllDataSecureds(String roleId) {
+    public List<AlitaAuthoritysResource> getRoleAllDataSecureds(String roleId) {
         return this.baseMapper.selectRoleDataSecureds(roleId);
     }
 
     @Override
-    public int addDataSecured2Role(String roleId, SystemDataSecured ds) {
+    public int addDataSecured2Role(String roleId, AlitaAuthoritysResource ds) {
         try {
             if (null == roleId || null == ds || null == ds.getId()) {
                 return 0;
@@ -129,7 +129,7 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, System
     }
 
     @Override
-    public int removeDataSecuredFromRole(String roleId, SystemDataSecured ds) {
+    public int removeDataSecuredFromRole(String roleId, AlitaAuthoritysResource ds) {
         if (null == roleId || null == ds || null == ds.getId()) {
             return 0;
         }

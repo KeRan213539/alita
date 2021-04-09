@@ -19,9 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
-import top.klw8.alita.entitys.authority.SystemDataSecured;
-import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysMenu;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysResource;
+import top.klw8.alita.entitys.authority.AlitaRole;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.utils.redis.RedisTagEnum;
@@ -57,13 +57,13 @@ public class UserCacheHelper {
         // 用APP区分数据权限
         Map<String, Map<String, List<String>>> appDataSecuredsMap = new HashMap<>(16);
 
-        List<SystemRole> userRoles = user.getUserRoles();
+        List<AlitaRole> userRoles = user.getUserRoles();
         if (!CollectionUtils.isEmpty(userRoles)) {
-            for (SystemRole userRole : userRoles) {
+            for (AlitaRole userRole : userRoles) {
                 // 权限入缓存
-                List<SystemAuthoritys> ruthorityList = userRole.getAuthorityList();
+                List<AlitaAuthoritysMenu> ruthorityList = userRole.getAuthorityList();
                 if (!CollectionUtils.isEmpty(ruthorityList)) {
-                    for (SystemAuthoritys au : ruthorityList) {
+                    for (AlitaAuthoritysMenu au : ruthorityList) {
                         if (au.getAuthorityType().equals(AuthorityTypeEnum.URL)) {
                             // 获取指定APP下的权限缓存 Map<权限url, "1">
                             Map<String, String> authorityMap = appAuthorityMap.get(au.getAppTag());
@@ -78,9 +78,9 @@ public class UserCacheHelper {
                 }
 
                 // 数据权限入缓存
-                List<SystemDataSecured> dataSecuredList = userRole.getDataSecuredList();
+                List<AlitaAuthoritysResource> dataSecuredList = userRole.getDataSecuredList();
                 if (!CollectionUtils.isEmpty(dataSecuredList)) {
-                    for (SystemDataSecured dataSecured : dataSecuredList) {
+                    for (AlitaAuthoritysResource dataSecured : dataSecuredList) {
                         String dataSecuredsMapKey;
                         if(StringUtils.isBlank(dataSecured.getAuthoritysId())){
                             // 全局数据权限

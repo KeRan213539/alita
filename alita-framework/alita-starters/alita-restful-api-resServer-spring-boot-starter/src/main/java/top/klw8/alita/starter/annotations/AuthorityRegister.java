@@ -6,16 +6,18 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import top.klw8.alita.entitys.authority.AlitaAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysMenu;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
-import top.klw8.alita.starter.auscan.IDataSecuredSource;
-import top.klw8.alita.starter.auscan.IDataSecuredSourceItem;
+import top.klw8.alita.starter.auscan.IAuthoritysResourceSource;
+import top.klw8.alita.starter.auscan.IAuthoritysResourceSourceItem;
 
 
 /**
  * @ClassName: AuthorityRegister
  * @Description: 将权限写入到数据库中,需要通过 /devHelper/registeAllAuthority 注册
- * 相关参数含义可参考 {@link top.klw8.alita.entitys.authority.SystemAuthoritys} 
- * {@link top.klw8.alita.entitys.authority.SystemAuthoritysCatlog}
+ * 相关参数含义可参考 {@link AlitaAuthoritysMenu}
+ * {@link AlitaAuthoritysCatlog}
  * @author klw
  * @date 2018年12月7日 下午4:58:53
  */
@@ -85,13 +87,13 @@ public @interface AuthorityRegister {
      * @Description: 静态数据权限来源, 实现该接口的来源结果在权限扫描时存入数据库.
      * 与 {@link #dataSecuredSourceEnum()} 不冲突, 两者都处理
      */
-    Class<? extends IDataSecuredSource> dataSecuredSource() default IDataSecuredSource.class;
+    Class<? extends IAuthoritysResourceSource> dataSecuredSource() default IAuthoritysResourceSource.class;
 
     /**
      * @author klw(213539@qq.com)
      * @Description: 枚举类型的静态数据来源, 实现该接口的枚举在权限扫描时存入数据库.
      * 与 {@link #dataSecuredSource()} 不冲突, 两者都处理
      */
-    Class<? extends IDataSecuredSourceItem> dataSecuredSourceEnum() default IDataSecuredSourceItem.class;
+    Class<? extends IAuthoritysResourceSourceItem> dataSecuredSourceEnum() default IAuthoritysResourceSourceItem.class;
 
 }

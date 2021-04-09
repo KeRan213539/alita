@@ -26,10 +26,10 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 import springfox.documentation.annotations.ApiIgnore;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
-import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
-import top.klw8.alita.entitys.authority.SystemDataSecured;
-import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysMenu;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysResource;
+import top.klw8.alita.entitys.authority.AlitaRole;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 import top.klw8.alita.service.result.JsonResult;
@@ -127,14 +127,14 @@ public class AuthorityAdminController extends WebapiBaseController {
     @UseValidator
     @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> saveRole(@RequestBody SaveRoleRequest req){
-        SystemRole roleToSave = new SystemRole();
+        AlitaRole roleToSave = new AlitaRole();
         roleToSave.setId(req.getRoleId());
         roleToSave.setAppTag(req.getAppTag());
         roleToSave.setRoleName(req.getRoleName());
         roleToSave.setRemark(req.getRemark());
         if(CollectionUtils.isNotEmpty(req.getAuIdList())) {
             roleToSave.setAuthorityList(req.getAuIdList().stream().map(s -> {
-                SystemAuthoritys au = new SystemAuthoritys();
+                AlitaAuthoritysMenu au = new AlitaAuthoritysMenu();
                 au.setId(s);
                 return au;
             }).collect(Collectors.toList()));
@@ -208,7 +208,7 @@ public class AuthorityAdminController extends WebapiBaseController {
     @UseValidator
     @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> saveCatlog(@RequestBody SaveCatlogRequest req){
-        SystemAuthoritysCatlog catlogToSave = new SystemAuthoritysCatlog();
+        AlitaAuthoritysCatlog catlogToSave = new AlitaAuthoritysCatlog();
         BeanUtils.copyProperties(req, catlogToSave);
         return Mono.fromFuture(auProvider.saveCatlog(catlogToSave));
     }
@@ -275,7 +275,7 @@ public class AuthorityAdminController extends WebapiBaseController {
     @UseValidator
     @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> saveAuthority(@RequestBody SaveAuthoritysRequest req){
-        SystemAuthoritys auToSave = new SystemAuthoritys();
+        AlitaAuthoritysMenu auToSave = new AlitaAuthoritysMenu();
         BeanUtils.copyProperties(req, auToSave);
         return Mono.fromFuture(auProvider.saveAuthority(auToSave, null == req.getHttpMethod() ? null : req.getHttpMethod().name()));
     }
@@ -379,7 +379,7 @@ public class AuthorityAdminController extends WebapiBaseController {
     @UseValidator
     @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> saveDataSecured(@RequestBody SaveDataSecuredRequest req){
-        SystemDataSecured dsToSave = new SystemDataSecured();
+        AlitaAuthoritysResource dsToSave = new AlitaAuthoritysResource();
         BeanUtils.copyProperties(req, dsToSave);
         return Mono.fromFuture(auProvider.saveDataSecured(dsToSave));
     }

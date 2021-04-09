@@ -16,7 +16,7 @@
 package top.klw8.alita.service.authority;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysCatlog;
 
 /**
  * @ClassName: ISystemAuthoritysCatlogService
@@ -24,7 +24,7 @@ import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
  * @author klw
  * @date 2018年11月28日 下午3:48:33
  */
-public interface ISystemAuthoritysCatlogService extends IService<SystemAuthoritysCatlog> {
+public interface ISystemAuthoritysCatlogService extends IService<AlitaAuthoritysCatlog> {
 
     /**
      * @author klw(213539@qq.com)
@@ -34,6 +34,6 @@ public interface ISystemAuthoritysCatlogService extends IService<SystemAuthority
      * @param: appTag
      * @return top.klw8.alita.entitys.authority.SystemAuthoritysCatlog
      */
-    SystemAuthoritysCatlog findByCatlogNameAndAppTag(String catlogName, String appTag);
+    AlitaAuthoritysCatlog findByCatlogNameAndAppTag(String catlogName, String appTag);
 
 }

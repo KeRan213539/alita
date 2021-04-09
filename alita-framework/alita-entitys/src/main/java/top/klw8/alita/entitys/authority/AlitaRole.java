@@ -15,6 +15,7 @@
  */
 package top.klw8.alita.entitys.authority;
 
+import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -23,22 +24,20 @@ import lombok.Getter;
 import lombok.Setter;
 import top.klw8.alita.entitys.base.BaseEntity;
 
-import java.util.List;
-
 /**
- * @ClassName: SystemAuthoritysCatlog
- * @Description: 权限的目录
+ * @ClassName: SystemRole
+ * @Description: 系统角色
  * @author klw
- * @date 2018年11月28日 上午11:53:50
+ * @date 2018年11月28日 上午11:54:15
  */
-@TableName("alita_authoritys_catlog")
+@TableName("alita_role")
 @Getter
 @Setter
 //@EqualsAndHashCode(callSuper = false, exclude = {"authorityList"})
 //@ToString(callSuper = false, exclude ={"authorityList"})
-public class SystemAuthoritysCatlog extends BaseEntity implements IAssociatedApp {
+public class AlitaRole extends BaseEntity implements IAssociatedApp {
 
-    private static final long serialVersionUID = -8415317762418810314L;
+    private static final long serialVersionUID = -2919173399468066019L;
 
     /**
      * @author klw
@@ -46,20 +45,13 @@ public class SystemAuthoritysCatlog extends BaseEntity implements IAssociatedApp
      */
     @TableField("app_tag")
     private String appTag;
-
-    /**
-     * @author klw
-     * @Fields catlogName : 目录名称
-     */
-    @TableField("catlog_name")
-    private String catlogName;
     
     /**
      * @author klw
-     * @Fields showIndex : 显示顺序
+     * @Fields roleName : 角色名称
      */
-    @TableField("show_index")
-    private Integer showIndex;
+    @TableField("role_name")
+    private String roleName;
     
     /**
      * @author klw
@@ -67,12 +59,19 @@ public class SystemAuthoritysCatlog extends BaseEntity implements IAssociatedApp
      */
     @TableField("remark")
     private String remark;
-
+    
     /**
      * @author klw
-     * @Fields authorityList : 目录下的权限(冗余数据)
+     * @Fields authorityList : 角色下的权限(冗余数据)
      */
     @TableField(exist=false)
-    private List<SystemAuthoritys> authorityList;
+    private List<AlitaAuthoritysMenu> authorityList;
+
+    /**
+     * @author klw(213539@qq.com)
+     * @Description: 角色拥有的数据权限
+     */
+    @TableField(exist=false)
+    private List<AlitaAuthoritysResource> dataSecuredList;
     
 }

@@ -19,9 +19,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
-import top.klw8.alita.entitys.authority.SystemDataSecured;
-import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysMenu;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysResource;
+import top.klw8.alita.entitys.authority.AlitaRole;
 
 import java.util.List;
 import java.util.Map;
@@ -32,7 +32,7 @@ import java.util.Map;
  * @author klw
  * @date 2018年11月28日 下午3:40:27
  */
-public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
+public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
 
     /**
      * @author klw(213539@qq.com)
@@ -89,8 +89,8 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
      * @param: roleId
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
      **/
-    @Select("select * from alita_authoritys where id in (select authoritys_id from alita_role_has_authoritys where role_id = #{roleId})")
-    List<SystemAuthoritys> selectRoleAuthoritys(String roleId);
+    @Select("select * from alita_authoritys_menu where id in (select authoritys_id from alita_role_has_authoritys where role_id = #{roleId})")
+    List<AlitaAuthoritysMenu> selectRoleAuthoritys(String roleId);
 
     /**
      * @author klw(213539@qq.com)
@@ -100,11 +100,11 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemDataSecured>
      */
     @Select("select ds.*, au.authority_action as authority_url " +
-            " from alita_resource_secured ds" +
-            " left join alita_authoritys au" +
+            " from alita_authoritys_resource ds" +
+            " left join alita_authoritys_menu au" +
             " on au.id = ds.authoritys_id" +
             " where ds.id in (select data_secured_id from alita_role_has_resource_secured where role_id = #{roleId})")
-    List<SystemDataSecured> selectRoleDataSecureds(String roleId);
+    List<AlitaAuthoritysResource> selectRoleDataSecureds(String roleId);
 
     /**
      * @author klw(213539@qq.com)
@@ -183,8 +183,8 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
      * @param:
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
      */
-    @Select("select a.*,c.catlog_name from alita_authoritys a left join alita_authoritys_catlog c on a.catlog_id=c.id " +
+    @Select("select a.*,c.catlog_name from alita_authoritys_menu a left join alita_authoritys_catlog c on a.catlog_id=c.id " +
             "where a.id in (select authoritys_id from alita_role_has_authoritys where role_id=#{roleId})")
-    List<SystemAuthoritys> selectSystemAuthoritysWithCatlogByRoleId(String roleId);
+    List<AlitaAuthoritysMenu> selectSystemAuthoritysWithCatlogByRoleId(String roleId);
 
 }

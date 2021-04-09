@@ -19,7 +19,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysCatlog;
 import top.klw8.alita.service.authority.ISystemAuthoritysCatlogService;
 import top.klw8.alita.service.authority.mapper.ISystemAuthoritysCatlogMapper;
 
@@ -31,11 +31,11 @@ import top.klw8.alita.service.authority.mapper.ISystemAuthoritysCatlogMapper;
  */
 @Slf4j
 @Service
-public class SystemAuthoritysCatlogServiceImpl extends ServiceImpl<ISystemAuthoritysCatlogMapper, SystemAuthoritysCatlog> implements ISystemAuthoritysCatlogService {
+public class SystemAuthoritysCatlogServiceImpl extends ServiceImpl<ISystemAuthoritysCatlogMapper, AlitaAuthoritysCatlog> implements ISystemAuthoritysCatlogService {
 
     @Override
-    public SystemAuthoritysCatlog findByCatlogNameAndAppTag(String catlogName, String appTag) {
-        QueryWrapper<SystemAuthoritysCatlog> query = new QueryWrapper();
+    public AlitaAuthoritysCatlog findByCatlogNameAndAppTag(String catlogName, String appTag) {
+        QueryWrapper<AlitaAuthoritysCatlog> query = new QueryWrapper();
         query.eq("catlog_name", catlogName);
         query.eq("app_tag", appTag);
         return this.getOne(query);

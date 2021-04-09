@@ -115,7 +115,7 @@ public class DataAuthorityDemoController {
     @PostMapping("/urlPrarmTestPost/{urlPrarm}")
     @AuthorityRegister(catlogName = "数据权限demo", catlogShowIndex = 99,
             authorityName = "url参数测试POST", authorityType = AuthorityTypeEnum.URL,
-            authorityShowIndex = 0, dataSecuredSource = DemoDataSecuredSource.class, dataSecuredSourceEnum = DemoDataSecuredSourceEnum.class)
+            authorityShowIndex = 0, dataSecuredSource = DemoAuthoritysResourceSource.class, dataSecuredSourceEnum = DemoAuthoritysResourceSourceEnum.class)
     @DataSecured(parser = DemoResourceParser.class)
     public Mono<String> urlPrarmTestPost(String str1, @PathVariable("urlPrarm")String urlPrarm){
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>begin call 【urlPrarmTestPost】");
@@ -129,7 +129,7 @@ public class DataAuthorityDemoController {
     @GetMapping
     @AuthorityRegister(catlogName = "数据权限demo", catlogShowIndex = 99,
             authorityName = "NO Mapping 测试--GET", authorityType = AuthorityTypeEnum.URL,
-            authorityShowIndex = 0, dataSecuredSource = DemoDataSecuredSource.class)
+            authorityShowIndex = 0, dataSecuredSource = DemoAuthoritysResourceSource.class)
     @DataSecured(parser = DemoResourceParser.class)
     public Mono<String> testGetNoMapping(String str1){
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>begin call 【testGetNoMapping】");

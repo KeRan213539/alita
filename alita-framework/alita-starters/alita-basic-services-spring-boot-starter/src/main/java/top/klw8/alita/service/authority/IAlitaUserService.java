@@ -16,7 +16,7 @@
 package top.klw8.alita.service.authority;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.entitys.authority.AlitaRole;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 
 import java.util.List;
@@ -47,7 +47,7 @@ public interface IAlitaUserService extends IService<AlitaUserAccount> {
      * @param role
      * @return
      */
-    int removeRoleFromUser(String userId, SystemRole role);
+    int removeRoleFromUser(String userId, AlitaRole role);
     
     /**
      * @Title: replaceRole2User
@@ -57,7 +57,7 @@ public interface IAlitaUserService extends IService<AlitaUserAccount> {
      * @param roleList
      * @return
      */
-    int replaceRole2User(String userId, List<SystemRole> roleList);
+    int replaceRole2User(String userId, List<AlitaRole> roleList);
 
     /**
      * @author klw(213539@qq.com)
@@ -67,7 +67,7 @@ public interface IAlitaUserService extends IService<AlitaUserAccount> {
      * @param: appTag
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemRole>
      */
-    List<SystemRole> getUserAllRoles(String userId, String appTag);
+    List<AlitaRole> getUserAllRoles(String userId, String appTag);
 
     /**
      * @author klw(213539@qq.com)

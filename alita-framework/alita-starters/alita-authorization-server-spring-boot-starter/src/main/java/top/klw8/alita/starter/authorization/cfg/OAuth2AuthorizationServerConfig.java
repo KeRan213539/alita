@@ -62,7 +62,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import lombok.extern.slf4j.Slf4j;
-import top.klw8.alita.entitys.authority.SystemAuthoritysAppChannel;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysAppChannel;
 import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 import top.klw8.alita.service.api.authority.IAuthorityAppChannelProvider;
@@ -135,10 +135,10 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
     private void buildClientDetailsService() {
         Map<String, ClientDetails> clientDetails = new HashMap<>();
-        List<SystemAuthoritysAppChannel> allChannel = channelProvider.allChannel();
+        List<AlitaAuthoritysAppChannel> allChannel = channelProvider.allChannel();
         if(CollectionUtils.isNotEmpty(allChannel)){
             BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
-            for(SystemAuthoritysAppChannel channel : allChannel) {
+            for(AlitaAuthoritysAppChannel channel : allChannel) {
                 BaseClientDetails client = new BaseClientDetails();
                 client.setClientId(channel.getAppTag() + TokenUtil.APP_CHANNEL_COMBINED_CLIENT_SPLIT + channel.getChannelTag());
                 client.setClientSecret(pwdEncoder.encode(channel.getChannelPwd()));

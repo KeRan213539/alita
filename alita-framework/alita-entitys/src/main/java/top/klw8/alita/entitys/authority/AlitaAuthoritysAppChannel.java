@@ -36,7 +36,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class SystemAuthoritysAppChannel implements Serializable, Cloneable {
+public class AlitaAuthoritysAppChannel implements Serializable, Cloneable {
     
     private static final long serialVersionUID = -3145989952679035685L;
     

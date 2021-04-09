@@ -18,27 +18,25 @@ package top.klw8.alita.entitys.authority;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
-import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
-import top.klw8.alita.entitys.authority.jsonfield.SystemAuthoritysAdditionalData;
 import top.klw8.alita.entitys.base.BaseEntity;
 
 import java.util.List;
 
 /**
- * @ClassName: SystemAuthoritys
- * @Description: 整个系统的所有功能权限(WEB_API),包括前台后台
+ * @ClassName: SystemAuthoritysMenu
+ * @Description: 权限菜单表(url, 菜单)
  * @author klw
  * @date 2018年11月28日 上午11:52:04
  */
-@TableName(value = "alita_authoritys")
+@TableName(value = "alita_authoritys_menu")
 @Getter
 @Setter
 @ToString
-public class SystemAuthoritys extends BaseEntity implements IAssociatedApp {
+public class AlitaAuthoritysMenu extends BaseEntity implements IAssociatedApp {
     
     private static final long serialVersionUID = 4226666111547632644L;
 
@@ -54,7 +52,7 @@ public class SystemAuthoritys extends BaseEntity implements IAssociatedApp {
      * @Fields catlog : 权限所属权限目录
      */
     @TableField(exist=false)
-    private SystemAuthoritysCatlog catlog;
+    private AlitaAuthoritysCatlog catlog;
 
     /**
      * @author klw
@@ -117,6 +115,6 @@ public class SystemAuthoritys extends BaseEntity implements IAssociatedApp {
      * @Fields authorityList : 权限下的数据权限
      */
     @TableField(exist=false)
-    private List<SystemDataSecured> dataSecuredList;
+    private List<AlitaAuthoritysResource> dataSecuredList;
     
 }

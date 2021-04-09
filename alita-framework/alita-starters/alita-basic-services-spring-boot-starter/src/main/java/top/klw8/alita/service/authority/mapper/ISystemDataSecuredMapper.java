@@ -17,7 +17,7 @@ package top.klw8.alita.service.authority.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Select;
-import top.klw8.alita.entitys.authority.SystemDataSecured;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysResource;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ import java.util.List;
  * @Description: 数据权限表 mapper
  * @date 2020/5/13 16:45
  */
-public interface ISystemDataSecuredMapper extends BaseMapper<SystemDataSecured> {
+public interface ISystemDataSecuredMapper extends BaseMapper<AlitaAuthoritysResource> {
 
     /**
      * @author klw(213539@qq.com)
@@ -36,12 +36,12 @@ public interface ISystemDataSecuredMapper extends BaseMapper<SystemDataSecured> 
      * @param: auId
      * @return int
      */
-    @Select("select count(1) from alita_resource_secured WHERE authoritys_id = #{auId}")
+    @Select("select count(1) from alita_authoritys_resource WHERE authoritys_id = #{auId}")
     int countByAuId(String auId);
 
     @Select("<script> " +
             "SELECT * FROM alita_role_has_resource_secured rhds " +
-            "LEFT JOIN alita_resource_secured ds " +
+            "LEFT JOIN alita_authoritys_resource ds " +
             "on ds.id = rhds.data_secured_id " +
             "where rhds.role_id = #{roleId} " +
             "<choose>" +
@@ -53,6 +53,6 @@ public interface ISystemDataSecuredMapper extends BaseMapper<SystemDataSecured> 
             "</otherwise>" +
             "</choose>" +
             "</script>")
-    List<SystemDataSecured> findByRoleIdAndAuId(String roleId, String auId);
+    List<AlitaAuthoritysResource> findByRoleIdAndAuId(String roleId, String auId);
 
 }

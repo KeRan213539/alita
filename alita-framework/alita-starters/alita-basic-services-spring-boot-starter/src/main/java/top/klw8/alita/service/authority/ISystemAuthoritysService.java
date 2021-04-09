@@ -18,7 +18,7 @@ package top.klw8.alita.service.authority;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysMenu;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ import java.util.List;
  * @Description: 系统权限Service
  * @date 2018年11月28日 下午3:48:18
  */
-public interface ISystemAuthoritysService extends IService<SystemAuthoritys> {
+public interface ISystemAuthoritysService extends IService<AlitaAuthoritysMenu> {
 
     /**
      * @param action
@@ -37,7 +37,7 @@ public interface ISystemAuthoritysService extends IService<SystemAuthoritys> {
      * @author klw
      * @Description: 根据authorityAction 查找
      */
-    SystemAuthoritys findByAuActionAndAppTag(String action, String appTag);
+    AlitaAuthoritysMenu findByAuActionAndAppTag(String action, String appTag);
 
     /**
      * @return int
@@ -56,9 +56,9 @@ public interface ISystemAuthoritysService extends IService<SystemAuthoritys> {
      * @param: authorityName
      * @param: authorityType
      */
-    IPage<SystemAuthoritys> selectSystemAuthoritysList(Page page, String authorityName,
-                                                       String authorityType, String authorityAction,
-                                                       String catlogName, String appTag);
+    IPage<AlitaAuthoritysMenu> selectSystemAuthoritysList(Page page, String authorityName,
+                                                          String authorityType, String authorityAction,
+                                                          String catlogName, String appTag);
 
     /**
      * @author klw(213539@qq.com)
@@ -67,6 +67,6 @@ public interface ISystemAuthoritysService extends IService<SystemAuthoritys> {
      * @param: appTag
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
      */
-    List<SystemAuthoritys> selectAllSystemAuthoritysWithCatlog(String appTag);
+    List<AlitaAuthoritysMenu> selectAllSystemAuthoritysWithCatlog(String appTag);
 
 }

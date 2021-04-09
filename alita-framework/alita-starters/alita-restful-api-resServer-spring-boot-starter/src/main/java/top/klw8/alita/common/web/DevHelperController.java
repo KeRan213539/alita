@@ -43,9 +43,9 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.reactive.result.method.RequestMappingInfo;
 import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping;
 import reactor.core.publisher.Mono;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
-import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
-import top.klw8.alita.entitys.authority.SystemDataSecured;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysMenu;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysResource;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 import top.klw8.alita.service.api.authority.IDevHelperProvider;
 import top.klw8.alita.service.result.IResultCode;
@@ -56,8 +56,8 @@ import top.klw8.alita.service.result.code.ResultCodeEnum;
 import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.annotations.PublicDataSecuredRegister;
-import top.klw8.alita.starter.auscan.IDataSecuredSourceItem;
-import top.klw8.alita.starter.auscan.IDataSecuredSource;
+import top.klw8.alita.starter.auscan.IAuthoritysResourceSourceItem;
+import top.klw8.alita.starter.auscan.IAuthoritysResourceSource;
 import top.klw8.alita.starter.cfg.AuthorityAppInfoInConfigBean;
 import top.klw8.alita.utils.AuthorityUtil;
 
@@ -111,12 +111,12 @@ public class DevHelperController {
 
         RequestMappingHandlerMapping reqMapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
         Map<RequestMappingInfo, HandlerMethod> methodMap = reqMapping.getHandlerMethods();
-        Map<String, SystemAuthoritysCatlog> tempMap = new HashMap<>();
+        Map<String, AlitaAuthoritysCatlog> tempMap = new HashMap<>();
         for (Entry<RequestMappingInfo, HandlerMethod> methodEntry : methodMap.entrySet()) {
             HandlerMethod v = methodEntry.getValue();
             Method method = v.getMethod();
             String authorityAction;
-            SystemAuthoritysCatlog catlog = null;
+            AlitaAuthoritysCatlog catlog = null;
             String moduleName = "";
 
             if (method.isAnnotationPresent(AuthorityRegister.class)) {
@@ -130,7 +130,7 @@ public class DevHelperController {
                     }
                     catlog = tempMap.get(catlogRegister.name());
                     if (catlog == null) {
-                        catlog = new SystemAuthoritysCatlog();
+                        catlog = new AlitaAuthoritysCatlog();
                         catlog.setCatlogName(catlogRegister.name());
                         catlog.setShowIndex(catlogRegister.showIndex());
                         catlog.setRemark(catlogRegister.remark());
@@ -149,7 +149,7 @@ public class DevHelperController {
                     catlog = tempMap.get(register.catlogName());
                     if(catlog == null) {
                         // 缓存中没有,新增
-                        catlog = new SystemAuthoritysCatlog();
+                        catlog = new AlitaAuthoritysCatlog();
                         catlog.setCatlogName(register.catlogName());
                         catlog.setShowIndex(register.catlogShowIndex());
                         catlog.setRemark(register.catlogRemark());
@@ -164,7 +164,7 @@ public class DevHelperController {
                     return Mono.just(JsonResult.failed(controllerClass.getName() + "." + method.getName()
                             + "  没有 AuthorityCatlogRegister 注解,并且 AuthorityRegister 中也没有 catlog 信息,注册失败"));
                 }
-                SystemAuthoritys au = new SystemAuthoritys();
+                AlitaAuthoritysMenu au = new AlitaAuthoritysMenu();
                 au.setAuthorityName(register.authorityName());
                 au.setAuthorityType(register.authorityType());
                 au.setAuthorityAction(authorityAction);
@@ -172,14 +172,14 @@ public class DevHelperController {
                 au.setRemark(moduleName + (StringUtils.isBlank(register.authorityRemark()) ? register.authorityName() : register.authorityRemark()));
 
 
-                List<SystemDataSecured> dataSecuredList = new LinkedList<>();
+                List<AlitaAuthoritysResource> dataSecuredList = new LinkedList<>();
                 // 解析数据权限枚举源
-                if(register.dataSecuredSourceEnum() != IDataSecuredSourceItem.class){
+                if(register.dataSecuredSourceEnum() != IAuthoritysResourceSourceItem.class){
                     if(Enum.class.isAssignableFrom(register.dataSecuredSourceEnum())){
                         Object[] enumConstants = register.dataSecuredSourceEnum().getEnumConstants();
                         for (Object obj : enumConstants){
-                            IDataSecuredSourceItem enumItem = (IDataSecuredSourceItem)obj;
-                            SystemDataSecured sds = new SystemDataSecured();
+                            IAuthoritysResourceSourceItem enumItem = (IAuthoritysResourceSourceItem)obj;
+                            AlitaAuthoritysResource sds = new AlitaAuthoritysResource();
                             sds.setResource(enumItem.getResource());
                             sds.setRemark(enumItem.getRemark());
                             dataSecuredList.add(sds);
@@ -190,16 +190,16 @@ public class DevHelperController {
                 }
 
                 // 解析数据权限源,有就入库,没有就继续
-                if(register.dataSecuredSource() != IDataSecuredSource.class){
+                if(register.dataSecuredSource() != IAuthoritysResourceSource.class){
                     // 有数据权限源
-                    IDataSecuredSource staticSource = applicationContext.getBean(register.dataSecuredSource());
+                    IAuthoritysResourceSource staticSource = applicationContext.getBean(register.dataSecuredSource());
                     Assert.notNull(staticSource, "【" + authorityAction + "】没有找到数据权限静态数据源,数据源需要放入spring容器中,请检查");
-                    List<IDataSecuredSourceItem> itemList = staticSource.getDataSecuredSourceList();
+                    List<IAuthoritysResourceSourceItem> itemList = staticSource.getDataSecuredSourceList();
                     if(CollectionUtils.isEmpty(itemList)){
                         log.warn("【" + authorityAction + "】中配制的数据权限静态数据源返回结果为空,请检查!");
                     } else {
-                        for(IDataSecuredSourceItem item : itemList){
-                            SystemDataSecured sds = new SystemDataSecured();
+                        for(IAuthoritysResourceSourceItem item : itemList){
+                            AlitaAuthoritysResource sds = new AlitaAuthoritysResource();
                             sds.setResource(item.getResource());
                             sds.setRemark(item.getRemark());
                             dataSecuredList.add(sds);
@@ -216,23 +216,23 @@ public class DevHelperController {
         }
 
         // 处理全局数据权限
-        List<SystemDataSecured> publicDataSecuredList = new ArrayList<>(16);
+        List<AlitaAuthoritysResource> publicDataSecuredList = new ArrayList<>(16);
         Map<String, Object> publicDataSecureds = applicationContext.getBeansWithAnnotation(PublicDataSecuredRegister.class);
         if(null != publicDataSecureds && !publicDataSecureds.isEmpty()){
             publicDataSecureds.forEach((key, value) -> {
-                if(!IDataSecuredSource.class.isAssignableFrom(value.getClass())){
+                if(!IAuthoritysResourceSource.class.isAssignableFrom(value.getClass())){
                     log.error("【{}】使用了 @PublicDataSecuredRegister 注解,但没实现 IDataSecuredSource 接口",value.getClass().getName());
                 } else {
                     Class<?> vClass = value.getClass();
                     PublicDataSecuredRegister ann = vClass.getAnnotation(PublicDataSecuredRegister.class);
-                    IDataSecuredSource dsSource = (IDataSecuredSource)value;
-                    List<IDataSecuredSourceItem> dsSourceList = dsSource.getDataSecuredSourceList();
+                    IAuthoritysResourceSource dsSource = (IAuthoritysResourceSource)value;
+                    List<IAuthoritysResourceSourceItem> dsSourceList = dsSource.getDataSecuredSourceList();
                     if(CollectionUtils.isEmpty(dsSourceList)){
                         log.warn("【{}】中返回的全局数据权限数据为空,将没有任何全局数据权限入库",value.getClass().getName());
                     } else {
                         // 静态数据源,入库
-                        for (IDataSecuredSourceItem item : dsSourceList) {
-                            SystemDataSecured sds = new SystemDataSecured();
+                        for (IAuthoritysResourceSourceItem item : dsSourceList) {
+                            AlitaAuthoritysResource sds = new AlitaAuthoritysResource();
                             sds.setResource(item.getResource());
                             sds.setRemark(item.getRemark());
                             publicDataSecuredList.add(sds);

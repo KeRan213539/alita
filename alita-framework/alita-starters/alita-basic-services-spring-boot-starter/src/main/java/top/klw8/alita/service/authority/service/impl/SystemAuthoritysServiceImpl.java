@@ -22,7 +22,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysMenu;
 import top.klw8.alita.service.authority.mapper.ISystemAuthoritysMapper;
 import top.klw8.alita.service.authority.ISystemAuthoritysService;
 
@@ -38,12 +38,12 @@ import java.util.List;
 @Slf4j
 @Service
 public class SystemAuthoritysServiceImpl
-        extends ServiceImpl<ISystemAuthoritysMapper, SystemAuthoritys>
+        extends ServiceImpl<ISystemAuthoritysMapper, AlitaAuthoritysMenu>
         implements ISystemAuthoritysService {
 
     @Override
-    public SystemAuthoritys findByAuActionAndAppTag(String action, String appTag){
-        QueryWrapper<SystemAuthoritys> query = new QueryWrapper();
+    public AlitaAuthoritysMenu findByAuActionAndAppTag(String action, String appTag){
+        QueryWrapper<AlitaAuthoritysMenu> query = new QueryWrapper();
         query.eq("authority_action", action);
         query.eq("app_tag", appTag);
         return this.getOne(query);
@@ -55,15 +55,15 @@ public class SystemAuthoritysServiceImpl
     }
 
     @Override
-    public IPage<SystemAuthoritys> selectSystemAuthoritysList(Page page, String authorityName,
-                                                              String authorityType, String authorityAction,
-                                                              String catlogName, String appTag) {
+    public IPage<AlitaAuthoritysMenu> selectSystemAuthoritysList(Page page, String authorityName,
+                                                                 String authorityType, String authorityAction,
+                                                                 String catlogName, String appTag) {
         return this.baseMapper.selectSystemAuthoritysList(page,authorityName, authorityType,
                 authorityAction, catlogName, appTag);
     }
 
     @Override
-    public List<SystemAuthoritys> selectAllSystemAuthoritysWithCatlog(String appTag){
+    public List<AlitaAuthoritysMenu> selectAllSystemAuthoritysWithCatlog(String appTag){
         return this.baseMapper.selectAllSystemAuthoritysWithCatlog(appTag);
     }
 

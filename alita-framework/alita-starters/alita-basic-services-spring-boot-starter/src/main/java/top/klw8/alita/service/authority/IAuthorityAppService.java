@@ -16,7 +16,7 @@
 package top.klw8.alita.service.authority;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import top.klw8.alita.entitys.authority.SystemAuthoritysApp;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysApp;
 import top.klw8.alita.service.result.JsonResult;
 
 /**
@@ -25,14 +25,14 @@ import top.klw8.alita.service.result.JsonResult;
  * @date: 2020-07-16
  */
 
-public interface IAuthorityAppService extends IService<SystemAuthoritysApp> {
+public interface IAuthorityAppService extends IService<AlitaAuthoritysApp> {
 
 
-    JsonResult addAuthorityApp(SystemAuthoritysApp authorityApp);
+    JsonResult addAuthorityApp(AlitaAuthoritysApp authorityApp);
 
     JsonResult deleteAuthorityApp(String appTag);
 
-    JsonResult updateAuthorityApp(SystemAuthoritysApp authorityApp);
+    JsonResult updateAuthorityApp(AlitaAuthoritysApp authorityApp);
 
-    JsonResult<SystemAuthoritysApp> findAuthorityApp(SystemAuthoritysApp authorityApp);
+    JsonResult<AlitaAuthoritysApp> findAuthorityApp(AlitaAuthoritysApp authorityApp);
 }

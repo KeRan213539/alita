@@ -15,7 +15,7 @@
  */
 package top.klw8.alita.entitys.authority.enums;
 
-import com.baomidou.mybatisplus.core.enums.IEnum;
+import com.baomidou.mybatisplus.annotation.IEnum;
 
 import java.io.Serializable;
 

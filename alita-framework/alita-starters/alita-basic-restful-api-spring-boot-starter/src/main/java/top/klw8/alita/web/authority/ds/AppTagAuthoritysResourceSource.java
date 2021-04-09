@@ -17,10 +17,11 @@ package top.klw8.alita.web.authority.ds;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Component;
-import top.klw8.alita.entitys.authority.SystemAuthoritysApp;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysApp;
+import top.klw8.alita.entitys.authority.enums.ResourceType;
 import top.klw8.alita.service.api.authority.IAuthorityAdminDataSecuredProvider;
 import top.klw8.alita.starter.annotations.PublicDataSecuredRegister;
-import top.klw8.alita.starter.auscan.IDataSecuredSource;
+import top.klw8.alita.starter.auscan.IAuthoritysResourceSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,18 +34,18 @@ import java.util.List;
  */
 @Component
 @PublicDataSecuredRegister
-public class AppTagDataSecuredSource implements IDataSecuredSource {
+public class AppTagAuthoritysResourceSource implements IAuthoritysResourceSource {
 
     @DubboReference
     private IAuthorityAdminDataSecuredProvider adminDataSecuredProvider;
 
     @Override
-    public List<AppDataSecuredSourceItem> getDataSecuredSourceList() {
-        List<SystemAuthoritysApp> allApp = adminDataSecuredProvider.allApp();
+    public List<AppAuthoritysResourceSourceItem> getDataSecuredSourceList() {
+        List<AlitaAuthoritysApp> allApp = adminDataSecuredProvider.allApp();
         if(null != allApp) {
-            List<AppDataSecuredSourceItem> result = new ArrayList<>(allApp.size());
-            for (SystemAuthoritysApp app : allApp) {
-                result.add(new AppDataSecuredSourceItem(app));
+            List<AppAuthoritysResourceSourceItem> result = new ArrayList<>(allApp.size());
+            for (AlitaAuthoritysApp app : allApp) {
+                result.add(new AppAuthoritysResourceSourceItem(app, ResourceType.DATA));
             }
             return result;
         }

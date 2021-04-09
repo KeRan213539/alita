@@ -16,7 +16,7 @@
 package top.klw8.alita.service.api.authority;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import top.klw8.alita.entitys.authority.SystemAuthoritysApp;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysApp;
 import top.klw8.alita.service.result.JsonResult;
 
 import java.util.concurrent.CompletableFuture;
@@ -36,7 +36,7 @@ public interface IAuthorityAppProvider {
      * @param: authorityApp
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> addAuthorityApp(SystemAuthoritysApp authorityApp);
+    CompletableFuture<JsonResult> addAuthorityApp(AlitaAuthoritysApp authorityApp);
 
     /**
      * @author zhaozheng
@@ -45,7 +45,7 @@ public interface IAuthorityAppProvider {
      * @param: authorityApp
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> updateAuthorityApp(SystemAuthoritysApp authorityApp);
+    CompletableFuture<JsonResult> updateAuthorityApp(AlitaAuthoritysApp authorityApp);
 
     /**
      * @author zhaozheng
@@ -72,7 +72,7 @@ public interface IAuthorityAppProvider {
      * @param: authorityApp
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> authorityAppPage(String appTag, String appName, String remark, Page<SystemAuthoritysApp> page);
+    CompletableFuture<JsonResult> authorityAppPage(String appTag, String appName, String remark, Page<AlitaAuthoritysApp> page);
 
     /**
      * @author zhaozheng

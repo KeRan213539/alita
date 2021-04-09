@@ -1,5 +1,7 @@
 package top.klw8.alita.starter.annotations;
 
+import top.klw8.alita.entitys.authority.AlitaAuthoritysCatlog;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,7 +11,7 @@ import java.lang.annotation.Target;
 /**
  * @ClassName: AuthorityCatlogRegister
  * @Description: 将权限目录写入到数据库中,需要通过 /devHelper/registeAllAuthority 注册
- * 相关参数含义可参考 {@link top.klw8.alita.entitys.authority.SystemAuthoritysCatlog}
+ * 相关参数含义可参考 {@link AlitaAuthoritysCatlog}
  * @author klw
  * @date 2018年12月11日 下午1:26:24
  */

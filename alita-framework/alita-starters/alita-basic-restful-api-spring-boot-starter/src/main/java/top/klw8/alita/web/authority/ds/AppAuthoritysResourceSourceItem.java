@@ -15,8 +15,9 @@
  */
 package top.klw8.alita.web.authority.ds;
 
-import top.klw8.alita.entitys.authority.SystemAuthoritysApp;
-import top.klw8.alita.starter.auscan.IDataSecuredSourceItem;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysApp;
+import top.klw8.alita.entitys.authority.enums.ResourceType;
+import top.klw8.alita.starter.auscan.IAuthoritysResourceSourceItem;
 
 /**
  * @author klw(213539 @ qq.com)
@@ -24,15 +25,18 @@ import top.klw8.alita.starter.auscan.IDataSecuredSourceItem;
  * @Description: 数据权限来源中的 APP 元素
  * @date 2020/5/12 16:50
  */
-public class AppDataSecuredSourceItem implements IDataSecuredSourceItem {
+public class AppAuthoritysResourceSourceItem implements IAuthoritysResourceSourceItem {
 
     private String appTag;
 
     private String appName;
 
-    public AppDataSecuredSourceItem(SystemAuthoritysApp app){
+    private ResourceType resType;
+
+    public AppAuthoritysResourceSourceItem(AlitaAuthoritysApp app, ResourceType resType){
         this.appTag = app.getAppTag();
         this.appName = app.getAppName();
+        this.resType = resType;
     }
 
     @Override
@@ -44,4 +48,11 @@ public class AppDataSecuredSourceItem implements IDataSecuredSourceItem {
     public String getRemark() {
         return this.appName;
     }
+
+    @Override
+    public ResourceType getResType() {
+        return this.resType;
+    }
+
+
 }

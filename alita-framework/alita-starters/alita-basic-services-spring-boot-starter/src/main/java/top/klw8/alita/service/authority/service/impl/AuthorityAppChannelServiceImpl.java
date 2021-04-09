@@ -18,7 +18,7 @@ package top.klw8.alita.service.authority.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import top.klw8.alita.entitys.authority.SystemAuthoritysAppChannel;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysAppChannel;
 import top.klw8.alita.service.authority.IAuthorityAppChannelService;
 import top.klw8.alita.service.authority.mapper.IAuthorityAppChannelMapper;
 
@@ -31,7 +31,7 @@ import top.klw8.alita.service.authority.mapper.IAuthorityAppChannelMapper;
  */
 @Slf4j
 @Service
-public class AuthorityAppChannelServiceImpl extends ServiceImpl<IAuthorityAppChannelMapper, SystemAuthoritysAppChannel>
+public class AuthorityAppChannelServiceImpl extends ServiceImpl<IAuthorityAppChannelMapper, AlitaAuthoritysAppChannel>
         implements IAuthorityAppChannelService {
 
 }

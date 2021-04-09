@@ -73,22 +73,22 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
     private IAuthorityAppService appService;
 
     @Override
-    public CompletableFuture<JsonResult> batchAddAuthoritysAndCatlogs(List<SystemAuthoritysCatlog> catlogList,
-                                                                      List<SystemDataSecured> publicDataSecuredList,
-                                                                      boolean isAdd2SuperAdmin, SystemAuthoritysApp app) {
+    public CompletableFuture<JsonResult> batchAddAuthoritysAndCatlogs(List<AlitaAuthoritysCatlog> catlogList,
+                                                                      List<AlitaAuthoritysResource> publicDataSecuredList,
+                                                                      boolean isAdd2SuperAdmin, AlitaAuthoritysApp app) {
         return CompletableFuture.supplyAsync(() -> {
 
             if(StringUtils.isBlank(app.getAppTag())){
                 return JsonResult.failed("注册失败: appTag 未配制");
             }
             //检查app是否存在
-            SystemAuthoritysApp appFinded = appService.getById(app.getAppTag());
+            AlitaAuthoritysApp appFinded = appService.getById(app.getAppTag());
             if(null == appFinded){
                 //app不存在,检查name是否有值,有就新增app
                 if(StringUtils.isBlank(app.getAppName())){
                     return JsonResult.failed("注册失败: 配制的APP不存在,需要创建,但是缺少app名称");
                 }
-                SystemAuthoritysApp app4Save = new SystemAuthoritysApp();
+                AlitaAuthoritysApp app4Save = new AlitaAuthoritysApp();
                 app4Save.setAppTag(app.getAppTag());
                 app4Save.setAppName(app.getAppName());
                 if(StringUtils.isNotBlank(app.getRemark())){
@@ -99,11 +99,11 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
 
             boolean processFlag = false;
             if (CollectionUtils.isNotEmpty(catlogList)) {
-                for (SystemAuthoritysCatlog catlog : catlogList) {
+                for (AlitaAuthoritysCatlog catlog : catlogList) {
                     if (StringUtils.isBlank(catlog.getCatlogName())) {
                         continue;
                     }
-                    SystemAuthoritysCatlog catlogFinded = catlogService.findByCatlogNameAndAppTag(catlog.getCatlogName(), app.getAppTag());
+                    AlitaAuthoritysCatlog catlogFinded = catlogService.findByCatlogNameAndAppTag(catlog.getCatlogName(), app.getAppTag());
                     String catlogId;
                     if (EntityUtil.isEntityNoId(catlogFinded)) {
                         catlogId = UUIDUtil.getRandomUUIDString();
@@ -114,8 +114,8 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                         catlogId = catlogFinded.getId();
                     }
                     if (CollectionUtils.isNotEmpty(catlog.getAuthorityList())) {
-                        for (SystemAuthoritys au : catlog.getAuthorityList()) {
-                            SystemAuthoritys auFinded = auService.findByAuActionAndAppTag(au.getAuthorityAction(), app.getAppTag());
+                        for (AlitaAuthoritysMenu au : catlog.getAuthorityList()) {
+                            AlitaAuthoritysMenu auFinded = auService.findByAuActionAndAppTag(au.getAuthorityAction(), app.getAppTag());
                             if (EntityUtil.isEntityNoId(auFinded)) {
                                 au.setId(UUIDUtil.getRandomUUIDString());
                                 au.setCatlogId(catlogId);
@@ -130,10 +130,10 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                             }
 
                             // 处理数据权限
-                            List<SystemDataSecured> dataSecuredList = au.getDataSecuredList();
+                            List<AlitaAuthoritysResource> dataSecuredList = au.getDataSecuredList();
                             if(CollectionUtils.isNotEmpty(dataSecuredList)){
-                                for(SystemDataSecured ds : dataSecuredList){
-                                    SystemDataSecured dsFinded = dsService.findByResourceAndAuId(ds.getResource(), auFinded.getId());
+                                for(AlitaAuthoritysResource ds : dataSecuredList){
+                                    AlitaAuthoritysResource dsFinded = dsService.findByResourceAndAuId(ds.getResource(), auFinded.getId());
                                     if (EntityUtil.isEntityNoId(dsFinded)) {
                                         ds.setId(UUIDUtil.getRandomUUIDString());
                                         ds.setAuthoritysId(auFinded.getId());
@@ -155,8 +155,8 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                 processFlag = true;
             }
             if (CollectionUtils.isNotEmpty(publicDataSecuredList)) {
-                for(SystemDataSecured ds : publicDataSecuredList){
-                    SystemDataSecured dsFinded = dsService.findByResourceAndAuId(ds.getResource(), null);
+                for(AlitaAuthoritysResource ds : publicDataSecuredList){
+                    AlitaAuthoritysResource dsFinded = dsService.findByResourceAndAuId(ds.getResource(), null);
                     if (EntityUtil.isEntityNoId(dsFinded)) {
                         ds.setId(UUIDUtil.getRandomUUIDString());
                         ds.setAppTag(app.getAppTag());
@@ -179,18 +179,18 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> addAllAuthoritys2AdminRole(SystemAuthoritysApp app) {
+    public CompletableFuture<JsonResult> addAllAuthoritys2AdminRole(AlitaAuthoritysApp app) {
 
         // 检查超级管理员角色和用户是否存在,不存在则添加
         checkAdminUserRoleAndAddIfNotExist(app);
 
         // 查询全部权限,并替换管理员角色中的权限
-        List<SystemAuthoritys> authoritysList = auService.list();
-        roleService.replaceAuthority2Role(ADMIN_ROLE_ID, authoritysList.stream().map(SystemAuthoritys::getId).collect(Collectors.toList()));
+        List<AlitaAuthoritysMenu> authoritysList = auService.list();
+        roleService.replaceAuthority2Role(ADMIN_ROLE_ID, authoritysList.stream().map(AlitaAuthoritysMenu::getId).collect(Collectors.toList()));
         return ServiceUtil.buildFuture(JsonResult.successfu("OK"));
     }
 
-    private void checkAdminUserRoleAndAddIfNotExist(SystemAuthoritysApp app){
+    private void checkAdminUserRoleAndAddIfNotExist(AlitaAuthoritysApp app){
         boolean isNeedAddRole2User = false;
         if (null == appService.getById(app.getAppTag())) {
             appService.save(buildAdminApp(app));
@@ -216,8 +216,8 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
         return superAdmin;
     }
 
-    private SystemRole buildAdminRole(SystemAuthoritysApp app){
-        SystemRole superAdminRole = new SystemRole();
+    private AlitaRole buildAdminRole(AlitaAuthoritysApp app){
+        AlitaRole superAdminRole = new AlitaRole();
         superAdminRole.setId(ADMIN_ROLE_ID);
         superAdminRole.setRoleName("超级管理员");
         superAdminRole.setRemark("超级管理员");
@@ -225,8 +225,8 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
         return superAdminRole;
     }
 
-    private SystemAuthoritysApp buildAdminApp(SystemAuthoritysApp app){
-        SystemAuthoritysApp superAdminApp = new SystemAuthoritysApp();
+    private AlitaAuthoritysApp buildAdminApp(AlitaAuthoritysApp app){
+        AlitaAuthoritysApp superAdminApp = new AlitaAuthoritysApp();
         superAdminApp.setAppTag(app.getAppTag());
         superAdminApp.setAppName("超级管理应用");
         superAdminApp.setRemark("超级管理应用");

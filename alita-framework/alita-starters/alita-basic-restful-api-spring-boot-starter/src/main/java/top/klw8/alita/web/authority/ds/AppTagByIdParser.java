@@ -21,12 +21,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
-import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
-import top.klw8.alita.entitys.authority.SystemDataSecured;
-import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysMenu;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysResource;
+import top.klw8.alita.entitys.authority.AlitaRole;
 import top.klw8.alita.service.api.authority.IAuthorityAdminDataSecuredProvider;
-import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 import top.klw8.alita.starter.datasecured.IResourceParser;
 import top.klw8.alita.starter.datasecured.IResourceParserData;
 import top.klw8.alita.starter.datasecured.ResourceParserResult;
@@ -62,7 +61,7 @@ public class AppTagByIdParser extends DsBaseParser implements IResourceParser {
             if(CollectionUtils.isNotEmpty(queryPrarmList)){
                 String roleId = queryPrarmList.get(0);
                 if(StringUtils.isNotBlank(roleId)){
-                    SystemRole role = adminDataSecuredProvider.roleById(roleId);
+                    AlitaRole role = adminDataSecuredProvider.roleById(roleId);
                     appTag = role.getAppTag();
                 }
             }
@@ -72,7 +71,7 @@ public class AppTagByIdParser extends DsBaseParser implements IResourceParser {
             if(CollectionUtils.isNotEmpty(queryPrarmList)){
                 String catlogId = queryPrarmList.get(0);
                 if(StringUtils.isNotBlank(catlogId)){
-                    SystemAuthoritysCatlog catlog = adminDataSecuredProvider.catlogById(catlogId);
+                    AlitaAuthoritysCatlog catlog = adminDataSecuredProvider.catlogById(catlogId);
                     appTag = catlog.getAppTag();
                 }
             }
@@ -82,7 +81,7 @@ public class AppTagByIdParser extends DsBaseParser implements IResourceParser {
             if(CollectionUtils.isNotEmpty(queryPrarmList)){
                 String auId = queryPrarmList.get(0);
                 if(StringUtils.isNotBlank(auId)){
-                    SystemAuthoritys au = adminDataSecuredProvider.auById(auId);
+                    AlitaAuthoritysMenu au = adminDataSecuredProvider.auById(auId);
                     appTag = au.getAppTag();
                 }
             }
@@ -92,7 +91,7 @@ public class AppTagByIdParser extends DsBaseParser implements IResourceParser {
             if(CollectionUtils.isNotEmpty(queryPrarmList)){
                 String dsId = queryPrarmList.get(0);
                 if(StringUtils.isNotBlank(dsId)){
-                    SystemDataSecured ds = adminDataSecuredProvider.dsById(dsId);
+                    AlitaAuthoritysResource ds = adminDataSecuredProvider.dsById(dsId);
                     appTag = ds.getAppTag();
                 }
             }

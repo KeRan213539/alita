@@ -17,7 +17,8 @@ package top.klw8.alita.demo.web.demo.datasecured;
 
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Component;
-import top.klw8.alita.starter.auscan.IDataSecuredSource;
+import top.klw8.alita.entitys.authority.enums.ResourceType;
+import top.klw8.alita.starter.auscan.IAuthoritysResourceSource;
 
 import java.util.List;
 
@@ -28,9 +29,9 @@ import java.util.List;
  * @date 2020/5/15 15:23
  */
 @Component
-public class GetTestDsSource implements IDataSecuredSource {
+public class GetTestDsSource implements IAuthoritysResourceSource {
     @Override
-    public List<DemoDataSecuredSourceItem> getDataSecuredSourceList() {
-        return Lists.newArrayList(new DemoDataSecuredSourceItem("getTest", "getTest"));
+    public List<DemoAuthoritysResourceSourceItem> getDataSecuredSourceList() {
+        return Lists.newArrayList(new DemoAuthoritysResourceSourceItem("getTest", "getTest", ResourceType.DATA));
     }
 }

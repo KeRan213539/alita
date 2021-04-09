@@ -16,7 +16,6 @@
 package top.klw8.alita.service.authority.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -37,7 +36,7 @@ import java.util.Objects;
  */
 @Slf4j
 @Service
-public class AuthorityAppServiceImpl extends ServiceImpl<IAuthorityAppMapper, SystemAuthoritysApp> implements IAuthorityAppService {
+public class AuthorityAppServiceImpl extends ServiceImpl<IAuthorityAppMapper, AlitaAuthoritysApp> implements IAuthorityAppService {
 
     @Autowired
     private ISystemAuthoritysService authorityService;
@@ -53,8 +52,8 @@ public class AuthorityAppServiceImpl extends ServiceImpl<IAuthorityAppMapper, Sy
 
 
     @Override
-    public JsonResult addAuthorityApp(SystemAuthoritysApp authorityApp) {
-        SystemAuthoritysApp app = this.getById(authorityApp.getAppTag());
+    public JsonResult addAuthorityApp(AlitaAuthoritysApp authorityApp) {
+        AlitaAuthoritysApp app = this.getById(authorityApp.getAppTag());
         if(!Objects.isNull(app)){
             return JsonResult.failed(String.format("当前 app_tag 【%S】 已存在", authorityApp.getAppTag()));
         }
@@ -66,22 +65,22 @@ public class AuthorityAppServiceImpl extends ServiceImpl<IAuthorityAppMapper, Sy
 
     @Override
     public JsonResult deleteAuthorityApp(String appTag) {
-        SystemAuthoritysApp app = this.getById(appTag);
+        AlitaAuthoritysApp app = this.getById(appTag);
         if(Objects.isNull(app)){
             return JsonResult.failed(String.format("当前 app_tag 【%S】 不存在", appTag));
         }
 
         //查询是否有权限关联app
-        List<SystemAuthoritys> authList = authorityService.list(new QueryWrapper<SystemAuthoritys>().lambda().
-                eq(StringUtils.isNotBlank(appTag), SystemAuthoritys::getAppTag, appTag));
+        List<AlitaAuthoritysMenu> authList = authorityService.list(new QueryWrapper<AlitaAuthoritysMenu>().lambda().
+                eq(StringUtils.isNotBlank(appTag), AlitaAuthoritysMenu::getAppTag, appTag));
         //查询是否有权限目录关联app
-        List<SystemAuthoritysCatlog> catLogList = catLogService.list(new QueryWrapper<SystemAuthoritysCatlog>().lambda().
-                eq(StringUtils.isNotBlank(appTag), SystemAuthoritysCatlog::getAppTag, appTag));
+        List<AlitaAuthoritysCatlog> catLogList = catLogService.list(new QueryWrapper<AlitaAuthoritysCatlog>().lambda().
+                eq(StringUtils.isNotBlank(appTag), AlitaAuthoritysCatlog::getAppTag, appTag));
         //查询是否有数据权限目录关联app
-        List<SystemDataSecured> dataSecuredList = dataSecuredService.list(new QueryWrapper<SystemDataSecured>().lambda().
-                eq(StringUtils.isNotBlank(appTag), SystemDataSecured::getAppTag, appTag));
-        List<SystemRole> roleList = roleService.list(new QueryWrapper<SystemRole>().lambda().
-                eq(StringUtils.isNotBlank(appTag), SystemRole::getAppTag, appTag));
+        List<AlitaAuthoritysResource> dataSecuredList = dataSecuredService.list(new QueryWrapper<AlitaAuthoritysResource>().lambda().
+                eq(StringUtils.isNotBlank(appTag), AlitaAuthoritysResource::getAppTag, appTag));
+        List<AlitaRole> roleList = roleService.list(new QueryWrapper<AlitaRole>().lambda().
+                eq(StringUtils.isNotBlank(appTag), AlitaRole::getAppTag, appTag));
 
         if(!authList.isEmpty() || !catLogList.isEmpty() || !dataSecuredList.isEmpty() || !roleList.isEmpty()){
             return JsonResult.failed(String.format("当前 app_tag 【%S】 存在权限、角色相关关联，不可删除", appTag));
@@ -93,8 +92,8 @@ public class AuthorityAppServiceImpl extends ServiceImpl<IAuthorityAppMapper, Sy
     }
 
     @Override
-    public JsonResult updateAuthorityApp(SystemAuthoritysApp authorityApp) {
-        SystemAuthoritysApp app = this.getById(authorityApp.getAppTag());
+    public JsonResult updateAuthorityApp(AlitaAuthoritysApp authorityApp) {
+        AlitaAuthoritysApp app = this.getById(authorityApp.getAppTag());
         if(Objects.isNull(app)){
             return JsonResult.failed(String.format("当前 app_tag 【%S】 不存在", authorityApp.getAppTag()));
         }
@@ -105,11 +104,11 @@ public class AuthorityAppServiceImpl extends ServiceImpl<IAuthorityAppMapper, Sy
     }
 
     @Override
-    public JsonResult<SystemAuthoritysApp> findAuthorityApp(SystemAuthoritysApp authorityApp) {
-        return JsonResult.successfu(this.getOne(new QueryWrapper<SystemAuthoritysApp>().lambda().
-                eq(StringUtils.isNotBlank(authorityApp.getAppTag()), SystemAuthoritysApp::getAppTag, authorityApp.getAppTag()).
-                eq(StringUtils.isNotBlank(authorityApp.getAppName()), SystemAuthoritysApp::getAppName, authorityApp.getAppName()).
-                eq(StringUtils.isNotBlank(authorityApp.getRemark()), SystemAuthoritysApp::getRemark, authorityApp.getRemark())));
+    public JsonResult<AlitaAuthoritysApp> findAuthorityApp(AlitaAuthoritysApp authorityApp) {
+        return JsonResult.successfu(this.getOne(new QueryWrapper<AlitaAuthoritysApp>().lambda().
+                eq(StringUtils.isNotBlank(authorityApp.getAppTag()), AlitaAuthoritysApp::getAppTag, authorityApp.getAppTag()).
+                eq(StringUtils.isNotBlank(authorityApp.getAppName()), AlitaAuthoritysApp::getAppName, authorityApp.getAppName()).
+                eq(StringUtils.isNotBlank(authorityApp.getRemark()), AlitaAuthoritysApp::getRemark, authorityApp.getRemark())));
     }
 
 }

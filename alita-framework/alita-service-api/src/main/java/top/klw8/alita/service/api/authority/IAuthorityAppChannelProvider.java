@@ -15,7 +15,7 @@
  */
 package top.klw8.alita.service.api.authority;
 
-import top.klw8.alita.entitys.authority.SystemAuthoritysAppChannel;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysAppChannel;
 
 import java.util.List;
 
@@ -28,6 +28,6 @@ import java.util.List;
  */
 public interface IAuthorityAppChannelProvider {
     
-    List<SystemAuthoritysAppChannel> allChannel();
+    List<AlitaAuthoritysAppChannel> allChannel();
     
 }

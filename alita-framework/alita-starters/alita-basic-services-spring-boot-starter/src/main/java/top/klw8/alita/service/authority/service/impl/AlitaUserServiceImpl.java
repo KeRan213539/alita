@@ -21,7 +21,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.entitys.authority.AlitaRole;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.service.authority.IAlitaUserService;
 import top.klw8.alita.service.authority.mapper.IAlitaUserMapper;
@@ -53,7 +53,7 @@ public class AlitaUserServiceImpl extends ServiceImpl<IAlitaUserMapper, AlitaUse
     }
 
     @Override
-    public int removeRoleFromUser(String userId, SystemRole role) {
+    public int removeRoleFromUser(String userId, AlitaRole role) {
         if (null == userId || null == role || null == role.getId()) {
             return 0;
         }
@@ -62,13 +62,13 @@ public class AlitaUserServiceImpl extends ServiceImpl<IAlitaUserMapper, AlitaUse
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int replaceRole2User(String userId, List<SystemRole> roleList) {
+    public int replaceRole2User(String userId, List<AlitaRole> roleList) {
         if (null == userId || CollectionUtils.isEmpty(roleList)) {
             return 0;
         }
         this.getBaseMapper().removeRolesFromUser(userId);
         List<Map<String, String>> dataList = new ArrayList<>();
-        for (SystemRole role : roleList) {
+        for (AlitaRole role : roleList) {
             Map<String, String> item = new HashMap<>(2);
             item.put("userId", userId);
             item.put("roleId", role.getId());
@@ -79,7 +79,7 @@ public class AlitaUserServiceImpl extends ServiceImpl<IAlitaUserMapper, AlitaUse
     }
 
     @Override
-    public List<SystemRole> getUserAllRoles(String userId, String appTag) {
+    public List<AlitaRole> getUserAllRoles(String userId, String appTag) {
         return this.getBaseMapper().selectUserAllRoles(userId, appTag);
     }
 

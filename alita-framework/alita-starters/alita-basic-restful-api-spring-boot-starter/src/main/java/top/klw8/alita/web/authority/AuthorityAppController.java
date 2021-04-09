@@ -24,7 +24,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-import top.klw8.alita.entitys.authority.SystemAuthoritysApp;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysApp;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.service.api.authority.IAuthorityAppProvider;
 import top.klw8.alita.service.result.JsonResult;
@@ -62,7 +62,7 @@ public class AuthorityAppController extends WebapiBaseController {
     @UseValidator
     @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> save(@RequestBody AuthorityAppRequest req){
-        SystemAuthoritysApp authorityApp = new SystemAuthoritysApp();
+        AlitaAuthoritysApp authorityApp = new AlitaAuthoritysApp();
         BeanUtils.copyProperties(req, authorityApp);
         return Mono.fromFuture(appProvider.addAuthorityApp(authorityApp));
     }
@@ -83,7 +83,7 @@ public class AuthorityAppController extends WebapiBaseController {
     @UseValidator
     @DataSecured(parser = AppTagParser.class)
     public Mono<JsonResult> update(@RequestBody AuthorityAppRequest req){
-        SystemAuthoritysApp authorityApp = new SystemAuthoritysApp();
+        AlitaAuthoritysApp authorityApp = new AlitaAuthoritysApp();
         BeanUtils.copyProperties(req, authorityApp);
         return Mono.fromFuture(appProvider.updateAuthorityApp(authorityApp));
     }

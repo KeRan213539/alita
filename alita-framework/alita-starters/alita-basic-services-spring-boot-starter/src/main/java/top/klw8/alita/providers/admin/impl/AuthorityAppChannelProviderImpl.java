@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
-import top.klw8.alita.entitys.authority.SystemAuthoritysAppChannel;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysAppChannel;
 import top.klw8.alita.service.api.authority.IAuthorityAppChannelProvider;
 import top.klw8.alita.service.authority.IAuthorityAppChannelService;
 
@@ -39,7 +39,7 @@ public class AuthorityAppChannelProviderImpl implements IAuthorityAppChannelProv
     @Autowired
     private IAuthorityAppChannelService channelService;
     
-    public List<SystemAuthoritysAppChannel> allChannel() {
+    public List<AlitaAuthoritysAppChannel> allChannel() {
         return channelService.list();
     }
 

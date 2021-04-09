@@ -20,7 +20,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
-import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.entitys.authority.AlitaRole;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 
 import java.util.List;
@@ -108,7 +108,7 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
                 "</if>" +
             ")"
             + "</script>")
-    List<SystemRole> selectUserAllRoles(String userId, String appTag);
+    List<AlitaRole> selectUserAllRoles(String userId, String appTag);
 
     /**
      * @author klw(213539@qq.com)

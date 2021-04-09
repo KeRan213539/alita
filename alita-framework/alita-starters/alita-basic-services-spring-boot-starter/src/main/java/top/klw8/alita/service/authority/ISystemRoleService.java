@@ -17,9 +17,9 @@ package top.klw8.alita.service.authority;
 
 import java.util.List;
 import com.baomidou.mybatisplus.extension.service.IService;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
-import top.klw8.alita.entitys.authority.SystemDataSecured;
-import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysMenu;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysResource;
+import top.klw8.alita.entitys.authority.AlitaRole;
 
 /**
  * @ClassName: ISystemRoleService
@@ -27,7 +27,7 @@ import top.klw8.alita.entitys.authority.SystemRole;
  * @author klw
  * @date 2018年11月28日 下午3:48:49
  */
-public interface ISystemRoleService extends IService<SystemRole> {
+public interface ISystemRoleService extends IService<AlitaRole> {
 
     /**
      * @author klw(213539@qq.com)
@@ -44,7 +44,7 @@ public interface ISystemRoleService extends IService<SystemRole> {
      * @param au
      * @return
      */
-    int addAuthority2Role(String roleId, SystemAuthoritys au);
+    int addAuthority2Role(String roleId, AlitaAuthoritysMenu au);
     
     /**
      * @Title: removeAuthorityFromRole
@@ -54,7 +54,7 @@ public interface ISystemRoleService extends IService<SystemRole> {
      * @param au
      * @return
      */
-    int removeAuthorityFromRole(String roleId, SystemAuthoritys au);
+    int removeAuthorityFromRole(String roleId, AlitaAuthoritysMenu au);
     
     /**
      * @Title: updateAuthority2Role
@@ -83,7 +83,7 @@ public interface ISystemRoleService extends IService<SystemRole> {
      * @param: roleId
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
      **/
-    List<SystemAuthoritys> getRoleAllAuthoritys(String roleId);
+    List<AlitaAuthoritysMenu> getRoleAllAuthoritys(String roleId);
 
     /**
      * @author klw(213539@qq.com)
@@ -92,13 +92,13 @@ public interface ISystemRoleService extends IService<SystemRole> {
      * @param: roleId
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
      */
-    List<SystemAuthoritys> selectSystemAuthoritysWithCatlogByRoleId(String roleId);
+    List<AlitaAuthoritysMenu> selectSystemAuthoritysWithCatlogByRoleId(String roleId);
 
     /**
      * @author klw(213539@qq.com)
      * @Description: 查询角色拥有的数据权限
      */
-    List<SystemDataSecured> getRoleAllDataSecureds(String roleId);
+    List<AlitaAuthoritysResource> getRoleAllDataSecureds(String roleId);
 
     /**
      * @author klw
@@ -107,7 +107,7 @@ public interface ISystemRoleService extends IService<SystemRole> {
      * @param ds
      * @return
      */
-    int addDataSecured2Role(String roleId, SystemDataSecured ds);
+    int addDataSecured2Role(String roleId, AlitaAuthoritysResource ds);
 
     /**
      * @author klw
@@ -116,7 +116,7 @@ public interface ISystemRoleService extends IService<SystemRole> {
      * @param ds
      * @return
      */
-    int removeDataSecuredFromRole(String roleId, SystemDataSecured ds);
+    int removeDataSecuredFromRole(String roleId, AlitaAuthoritysResource ds);
 
     /**
      * @author klw

@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import top.klw8.alita.entitys.authority.SystemDataSecured;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysResource;
 import top.klw8.alita.service.authority.ISystemDataSecuredService;
 import top.klw8.alita.service.authority.mapper.ISystemDataSecuredMapper;
 
@@ -36,12 +36,12 @@ import java.util.List;
 @Slf4j
 @Service
 public class SystemDataSecuredServiceImpl extends ServiceImpl<ISystemDataSecuredMapper,
-        SystemDataSecured> implements ISystemDataSecuredService {
+        AlitaAuthoritysResource> implements ISystemDataSecuredService {
 
 
     @Override
-    public SystemDataSecured findByResourceAndAuId(String resource, String auId) {
-        QueryWrapper<SystemDataSecured> query = new QueryWrapper();
+    public AlitaAuthoritysResource findByResourceAndAuId(String resource, String auId) {
+        QueryWrapper<AlitaAuthoritysResource> query = new QueryWrapper();
         if(StringUtils.isBlank(auId)){
             query.isNull("authoritys_id");
         } else {
@@ -52,8 +52,8 @@ public class SystemDataSecuredServiceImpl extends ServiceImpl<ISystemDataSecured
     }
 
     @Override
-    public List<SystemDataSecured> findByAuId(String auId, String appTag) {
-        QueryWrapper<SystemDataSecured> query = new QueryWrapper();
+    public List<AlitaAuthoritysResource> findByAuId(String auId, String appTag) {
+        QueryWrapper<AlitaAuthoritysResource> query = new QueryWrapper();
         if(StringUtils.isBlank(auId)){
             query.isNull("authoritys_id");
         } else {
@@ -65,7 +65,7 @@ public class SystemDataSecuredServiceImpl extends ServiceImpl<ISystemDataSecured
         return this.list(query);
     }
 
-    public List<SystemDataSecured> findByRoleIdAndAuId(String roleId, String auId){
+    public List<AlitaAuthoritysResource> findByRoleIdAndAuId(String roleId, String auId){
         Assert.hasText(roleId, "roleId 不能为空");
         return this.baseMapper.findByRoleIdAndAuId(roleId, auId);
     }

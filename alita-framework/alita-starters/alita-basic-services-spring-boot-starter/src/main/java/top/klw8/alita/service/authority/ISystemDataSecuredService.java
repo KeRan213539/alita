@@ -16,7 +16,7 @@
 package top.klw8.alita.service.authority;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import top.klw8.alita.entitys.authority.SystemDataSecured;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysResource;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import java.util.List;
  * @Description: 数据权限表 Service
  * @date 2020/5/13 16:45
  */
-public interface ISystemDataSecuredService extends IService<SystemDataSecured> {
+public interface ISystemDataSecuredService extends IService<AlitaAuthoritysResource> {
 
     /**
      * @author klw(213539@qq.com)
@@ -36,7 +36,7 @@ public interface ISystemDataSecuredService extends IService<SystemDataSecured> {
      * @param: auId
      * @return top.klw8.alita.entitys.authority.SystemDataSecured
      */
-    SystemDataSecured findByResourceAndAuId(String resource, String auId);
+    AlitaAuthoritysResource findByResourceAndAuId(String resource, String auId);
 
     /**
      * @author klw(213539@qq.com)
@@ -46,7 +46,7 @@ public interface ISystemDataSecuredService extends IService<SystemDataSecured> {
      * @param: appTag
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemDataSecured>
      */
-    List<SystemDataSecured> findByAuId(String auId, String appTag);
+    List<AlitaAuthoritysResource> findByAuId(String auId, String appTag);
 
     /**
      * @author klw(213539@qq.com)
@@ -56,7 +56,7 @@ public interface ISystemDataSecuredService extends IService<SystemDataSecured> {
      * @param: auId 可选
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemDataSecured>
      */
-    List<SystemDataSecured> findByRoleIdAndAuId(String roleId, String auId);
+    List<AlitaAuthoritysResource> findByRoleIdAndAuId(String roleId, String auId);
 
     /**
      * @author klw(213539@qq.com)

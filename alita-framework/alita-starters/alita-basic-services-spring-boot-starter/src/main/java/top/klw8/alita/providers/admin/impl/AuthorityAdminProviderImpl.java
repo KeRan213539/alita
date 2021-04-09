@@ -95,9 +95,9 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     private UserCacheHelper userCacheHelper;
 
     @Override
-    public CompletableFuture<JsonResult> addAuthority(SystemAuthoritys au) {
+    public CompletableFuture<JsonResult> addAuthority(AlitaAuthoritysMenu au) {
         return CompletableFuture.supplyAsync(() -> {
-            SystemAuthoritysCatlog catlog = catlogService.getById(au.getCatlogId());
+            AlitaAuthoritysCatlog catlog = catlogService.getById(au.getCatlogId());
             if (catlog == null) {
                 return JsonResult.failed(AuthorityResultCodeEnum.CATLOG_NOT_EXIST, "权限目录不存在【" + au.getCatlogId() + "】");
             }
@@ -113,7 +113,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> addCatlog(SystemAuthoritysCatlog catlog) {
+    public CompletableFuture<JsonResult> addCatlog(AlitaAuthoritysCatlog catlog) {
         return CompletableFuture.supplyAsync(() -> {
             if (catlogService.save(catlog)) {
                 return JsonResult.successfu();
@@ -124,7 +124,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> addSysRole(SystemRole role) {
+    public CompletableFuture<JsonResult> addSysRole(AlitaRole role) {
         return CompletableFuture.supplyAsync(() -> {
             if (roleService.save(role)) {
                 return JsonResult.successfu();
@@ -137,12 +137,12 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     @Override
     public CompletableFuture<JsonResult> addRoleAu(String roleId, String auId) {
         return CompletableFuture.supplyAsync(() -> {
-            SystemRole role = roleService.getById(roleId);
+            AlitaRole role = roleService.getById(roleId);
 
             if (EntityUtil.isEntityNoId(role)) {
                 return JsonResult.failed(AuthorityResultCodeEnum.ROLE_NOT_EXIST);
             }
-            SystemAuthoritys au = auService.getById(auId);
+            AlitaAuthoritysMenu au = auService.getById(auId);
             if (EntityUtil.isEntityNoId(au)) {
                 return JsonResult.failed(AuthorityResultCodeEnum.AUTHORITY_NOT_EXIST);
             }
@@ -162,7 +162,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             if (EntityUtil.isEntityNoId(user)) {
                 return JsonResult.failed(AuthorityResultCodeEnum.USER_NOT_EXIST);
             }
-            SystemRole role = roleService.getById(roleId);
+            AlitaRole role = roleService.getById(roleId);
             if (EntityUtil.isEntityNoId(role)) {
                 return JsonResult.failed(AuthorityResultCodeEnum.ROLE_NOT_EXIST);
             }
@@ -186,15 +186,15 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
                 return JsonResult.failed(AuthorityResultCodeEnum.USER_NOT_EXIST);
             } else {
                 // 根据用户ID查询用户角色
-                List<SystemRole> userRoles = userService.getUserAllRoles(userId, null);
+                List<AlitaRole> userRoles = userService.getUserAllRoles(userId, null);
 
-                for (SystemRole role : userRoles) {
+                for (AlitaRole role : userRoles) {
                     // 根据用户角色查询角色对应的权限并更新到SystemRole实体中
-                    List<SystemAuthoritys> authoritys = roleService.getRoleAllAuthoritys(role.getId());
+                    List<AlitaAuthoritysMenu> authoritys = roleService.getRoleAllAuthoritys(role.getId());
                     role.setAuthorityList(authoritys);
 
                     // 根据用户角色查询角色对应的数据权限并更新到SystemRole实体中
-                    List<SystemDataSecured> dataSecureds = roleService.getRoleAllDataSecureds(role.getId());
+                    List<AlitaAuthoritysResource> dataSecureds = roleService.getRoleAllDataSecureds(role.getId());
                     role.setDataSecuredList(dataSecureds);
                 }
                 // 更新用户角色权限到用户实体中
@@ -208,8 +208,8 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> roleList(String roleName, String appTag, Page<SystemRole> page) {
-        QueryWrapper<SystemRole> query = new QueryWrapper();
+    public CompletableFuture<JsonResult> roleList(String roleName, String appTag, Page<AlitaRole> page) {
+        QueryWrapper<AlitaRole> query = new QueryWrapper();
         if(StringUtils.isNotBlank(roleName)){
             query.like("role_name", roleName);
         }
@@ -225,7 +225,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
 
     @Override
     public CompletableFuture<JsonResult> roleAll(String appTag) {
-        QueryWrapper<SystemRole> query = new QueryWrapper();
+        QueryWrapper<AlitaRole> query = new QueryWrapper();
         if(StringUtils.isBlank(appTag)){
             query.orderByAsc("app_tag", "role_name");
         } else {
@@ -237,10 +237,10 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
 
     @Override
     public CompletableFuture<JsonResult> markRoleAuthoritys(String roleId, String appTag) {
-        List<SystemAuthoritys> roleAuList = new LinkedList<>();
-        List<SystemDataSecured> roleDsList = new LinkedList<>();
+        List<AlitaAuthoritysMenu> roleAuList = new LinkedList<>();
+        List<AlitaAuthoritysResource> roleDsList = new LinkedList<>();
         if (StringUtils.isNotBlank(roleId)) {
-            SystemRole role = roleService.getById(roleId);
+            AlitaRole role = roleService.getById(roleId);
             Assert.notNull(role, "该角色不存在!");
             //该角色拥有的权限
             roleAuList.addAll(roleService.getRoleAllAuthoritys(role.getId()));
@@ -249,8 +249,8 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         }
 
         // 构造查询条件
-        QueryWrapper<SystemAuthoritys> auQuery = new QueryWrapper();
-        QueryWrapper<SystemDataSecured> dsQuery = new QueryWrapper();
+        QueryWrapper<AlitaAuthoritysMenu> auQuery = new QueryWrapper();
+        QueryWrapper<AlitaAuthoritysResource> dsQuery = new QueryWrapper();
         auQuery.orderByAsc("show_index");
         dsQuery.orderByAsc("authoritys_id");
         if(StringUtils.isNotBlank(appTag)){
@@ -259,9 +259,9 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         }
 
         // 查询权限
-        List<SystemAuthoritys> allAuList = auService.list(auQuery);
+        List<AlitaAuthoritysMenu> allAuList = auService.list(auQuery);
         // 查询数据权限
-        List<SystemDataSecured> allDsList = dsService.list(dsQuery);
+        List<AlitaAuthoritysResource> allDsList = dsService.list(dsQuery);
 
         // 根据权限分组的非全局数据权限Map<权限ID: List<SystemDataSecuredPojo>
         Map<String, List<SystemDataSecuredPojo>> dsListGroupByAu = new HashMap<>(16);
@@ -271,7 +271,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         Map<String, SystemDataSecuredPojo> allDsMap = new HashMap<>(16);
 
         if(CollectionUtils.isNotEmpty(allDsList)){
-            for(SystemDataSecured ds : allDsList){
+            for(AlitaAuthoritysResource ds : allDsList){
                 SystemDataSecuredPojo dsPojo = new SystemDataSecuredPojo();
                 BeanUtils.copyProperties(ds, dsPojo);
                 // 数据权限加个特殊标记
@@ -294,9 +294,9 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
 
         // 处理角色拥有的数据权限
         if(CollectionUtils.isNotEmpty(roleDsList)) {
-            Iterator<SystemDataSecured> roleDsIt = roleDsList.iterator();
+            Iterator<AlitaAuthoritysResource> roleDsIt = roleDsList.iterator();
             while (roleDsIt.hasNext()) {
-                SystemDataSecured roleDs = roleDsIt.next();
+                AlitaAuthoritysResource roleDs = roleDsIt.next();
                 SystemDataSecuredPojo dsPojo = allDsMap.get(roleDs.getId());
                 if(null != dsPojo){
                     dsPojo.setCurrUserHas(true);
@@ -325,10 +325,10 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         // 临时存放 menuItem
         Map<String, SystemAuthorityPojo> auMenuItemMap = new HashMap<>(50);
         // 遍历权限和权限下的数据权限转为视图bean,并标记传入的角色是否拥有该权限
-        for(SystemAuthoritys sysAu : allAuList){
+        for(AlitaAuthoritysMenu sysAu : allAuList){
             SystemAuthorityCatlogPojo catlogPojo = catlogMap.get(sysAu.getCatlogId());
             if (catlogPojo == null) {
-                SystemAuthoritysCatlog catlog = catlogService.getById(sysAu.getCatlogId());
+                AlitaAuthoritysCatlog catlog = catlogService.getById(sysAu.getCatlogId());
                 catlogPojo = new SystemAuthorityCatlogPojo();
                 BeanUtils.copyProperties(catlog, catlogPojo);
                 catlogPojo.setAuthorityList(new ArrayList<>(16));
@@ -338,9 +338,9 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             BeanUtils.copyProperties(sysAu, auPojo);
             // 查找当前角色是否有该权限
             if(CollectionUtils.isNotEmpty(roleAuList)) {
-                Iterator<SystemAuthoritys> roleAuIt = roleAuList.iterator();
+                Iterator<AlitaAuthoritysMenu> roleAuIt = roleAuList.iterator();
                 while (roleAuIt.hasNext()) {
-                    SystemAuthoritys roleAu = roleAuIt.next();
+                    AlitaAuthoritysMenu roleAu = roleAuIt.next();
                     if (roleAu.getId().equals(auPojo.getId())) {
                         auPojo.setCurrUserHas(true);
                     }
@@ -373,7 +373,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
 
     @Override
     public CompletableFuture<JsonResult> saveRoleAuthoritys(String roleId, List<String> auIds, String appTag) {
-        SystemRole role = roleService.getById(roleId);
+        AlitaRole role = roleService.getById(roleId);
         if(role == null){
             return ServiceUtil.buildFuture(JsonResult.badParameter("角色不存在"));
         }
@@ -399,10 +399,10 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public CompletableFuture<JsonResult> saveRole(SystemRole role, String copyAuFromRoleId) {
+    public CompletableFuture<JsonResult> saveRole(AlitaRole role, String copyAuFromRoleId) {
         Assert.notNull(role, "要保存的角色不能为 null !!!");
 
-        SystemAuthoritysApp app = appService.getById(role.getAppTag());
+        AlitaAuthoritysApp app = appService.getById(role.getAppTag());
         if(null == app){
             return ServiceUtil.buildFuture(JsonResult.failed("appTag 对应的应用不存在"));
         }
@@ -426,7 +426,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             // 保存角色中的权限
             int dsSize = CollectionUtils.isEmpty(role.getDataSecuredList()) ? 0 : role.getDataSecuredList().size();
             List<String> auIdList = new ArrayList<>(role.getAuthorityList().size() + dsSize);
-            for(SystemAuthoritys au : role.getAuthorityList()){
+            for(AlitaAuthoritysMenu au : role.getAuthorityList()){
                 if(!isCopy && auService.getById(au.getId()) == null){
                     TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                     return ServiceUtil.buildFuture(JsonResult.badParameter("权限不存在"));
@@ -434,7 +434,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
                 auIdList.add(au.getId());
             }
             if(dsSize > 0){
-                for(SystemDataSecured ds : role.getDataSecuredList()){
+                for(AlitaAuthoritysResource ds : role.getDataSecuredList()){
                     auIdList.add(ISystemRoleService.DS_ID_PREFIX + ds.getId());
                 }
             }
@@ -459,33 +459,33 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     @Override
     public CompletableFuture<JsonResult> roleInfo(String roleId){
         Assert.hasText(roleId, "角色ID不能为空!");
-        SystemRole role = roleService.getById(roleId);
+        AlitaRole role = roleService.getById(roleId);
 
 
-        List<SystemAuthoritys> roleAuList = roleService.selectSystemAuthoritysWithCatlogByRoleId(role.getId());
+        List<AlitaAuthoritysMenu> roleAuList = roleService.selectSystemAuthoritysWithCatlogByRoleId(role.getId());
         Map<String, Object> tempResult = new HashMap<>(BeanUtil.beanToMap(role));
         tempResult.entrySet().removeIf(entry -> entry.getValue() == null);
         Map<String, Map<String, Object>> catlogListMap = new HashMap<>(16);
-        Map<String, SystemAuthoritys> auListMap = new HashMap<>(16);
-        for(SystemAuthoritys auInRole : roleAuList) {
+        Map<String, AlitaAuthoritysMenu> auListMap = new HashMap<>(16);
+        for(AlitaAuthoritysMenu auInRole : roleAuList) {
             Map<String, Object> catlogMap = catlogListMap.get(auInRole.getCatlogId());
             if (catlogMap == null) {
                 catlogMap = new HashMap<>(3);
                 catlogListMap.put(auInRole.getCatlogId(), catlogMap);
                 catlogMap.put("id", auInRole.getCatlogId());
                 catlogMap.put("catlogName", auInRole.getCatlogName());
-                catlogMap.put("auList", new ArrayList<SystemAuthoritys>(16));
+                catlogMap.put("auList", new ArrayList<AlitaAuthoritysMenu>(16));
             }
-            ((List<SystemAuthoritys>) catlogMap.get("auList")).add(auInRole);
+            ((List<AlitaAuthoritysMenu>) catlogMap.get("auList")).add(auInRole);
             auListMap.put(auInRole.getId(), auInRole);
         }
         tempResult.put("catlogList", catlogListMap.values().stream().collect(Collectors.toList()));
 
-        List<SystemDataSecured> roleDsList = roleService.getRoleAllDataSecureds(role.getId());
-        for(SystemDataSecured dsInRole : roleDsList) {
-            SystemAuthoritys au = auListMap.get(dsInRole.getAuthoritysId());
+        List<AlitaAuthoritysResource> roleDsList = roleService.getRoleAllDataSecureds(role.getId());
+        for(AlitaAuthoritysResource dsInRole : roleDsList) {
+            AlitaAuthoritysMenu au = auListMap.get(dsInRole.getAuthoritysId());
             if(au != null){
-                List<SystemDataSecured> dsInAuList = au.getDataSecuredList();
+                List<AlitaAuthoritysResource> dsInAuList = au.getDataSecuredList();
                 if(dsInAuList == null){
                     dsInAuList = new ArrayList<>(16);
                     au.setDataSecuredList(dsInAuList);
@@ -498,8 +498,8 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> catlogList(String catlogName, String appTag, Page<SystemAuthoritysCatlog> page) {
-        QueryWrapper<SystemAuthoritysCatlog> query = new QueryWrapper();
+    public CompletableFuture<JsonResult> catlogList(String catlogName, String appTag, Page<AlitaAuthoritysCatlog> page) {
+        QueryWrapper<AlitaAuthoritysCatlog> query = new QueryWrapper();
         if(StringUtils.isNotBlank(catlogName)){
             query.like("catlog_name", catlogName);
         }
@@ -515,7 +515,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
 
     @Override
     public CompletableFuture<JsonResult> catlogAll(String appTag) {
-        QueryWrapper<SystemAuthoritysCatlog> query = new QueryWrapper();
+        QueryWrapper<AlitaAuthoritysCatlog> query = new QueryWrapper();
         if(StringUtils.isNotBlank(appTag)){
             query.eq("app_tag", appTag);
         }
@@ -525,9 +525,9 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> saveCatlog(SystemAuthoritysCatlog catlog) {
+    public CompletableFuture<JsonResult> saveCatlog(AlitaAuthoritysCatlog catlog) {
         Assert.notNull(catlog, "要保存的权限目录不能为 null !!!");
-        SystemAuthoritysApp app = appService.getById(catlog.getAppTag());
+        AlitaAuthoritysApp app = appService.getById(catlog.getAppTag());
         if(null == app){
             return ServiceUtil.buildFuture(JsonResult.failed("appTag 对应的应用不存在"));
         }
@@ -542,7 +542,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     @Override
     public CompletableFuture<JsonResult> delCatlog(String catlogId) {
         Assert.hasText(catlogId, "权限目录ID不能为空!");
-        QueryWrapper<SystemAuthoritys> auQuery = new QueryWrapper();
+        QueryWrapper<AlitaAuthoritysMenu> auQuery = new QueryWrapper();
         auQuery.eq("catlog_id", catlogId);
         int auCountByCatlogId = auService.count(auQuery);
         if(auCountByCatlogId > 0){
@@ -560,7 +560,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
 
     @Override
     public CompletableFuture<JsonResult> authoritysList(String auName, AuthorityTypeEnum auType,
-                                                        Page<SystemAuthoritys> page, String authorityAction,
+                                                        Page<AlitaAuthoritysMenu> page, String authorityAction,
                                                         String catlogName, String appTag) {
         return ServiceUtil.buildFuture(JsonResult.successfu(
                 auService.selectSystemAuthoritysList(page,auName, auType == null ? null : auType.name(),
@@ -568,11 +568,11 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> saveAuthority(SystemAuthoritys au, String httpMethod) {
+    public CompletableFuture<JsonResult> saveAuthority(AlitaAuthoritysMenu au, String httpMethod) {
         Assert.notNull(au, "要保存的权限不能为 null !!!");
         Assert.hasText(au.getCatlogId(), "所属权限目录ID不能为空!");
 
-        SystemAuthoritysCatlog catlog = catlogService.getById(au.getCatlogId());
+        AlitaAuthoritysCatlog catlog = catlogService.getById(au.getCatlogId());
         if(null == catlog){
             return ServiceUtil.buildFuture(JsonResult.failed("所属权限目录不存在 !!!"));
         }
@@ -582,7 +582,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
                 return ServiceUtil.buildFuture(JsonResult.failed("httpMethod 不能为空"));
             }
             if(StringUtils.isNotBlank(au.getMenuId())) {
-                SystemAuthoritys menuAu = auService.getById(au.getMenuId());
+                AlitaAuthoritysMenu menuAu = auService.getById(au.getMenuId());
                 if (EntityUtil.isEntityNoId(menuAu)) {
                     return ServiceUtil.buildFuture(JsonResult.failed("指定的权限所属MENU不存在"));
                 }
@@ -637,7 +637,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         if(auAction.startsWith("http")){
             return ServiceUtil.buildFuture(JsonResult.badParameter("权限action格式不正确,请传入服务端返回的!"));
         }
-        SystemAuthoritys au;
+        AlitaAuthoritysMenu au;
         if(StringUtils.isBlank(httpMethod)){
             au = auService.findByAuActionAndAppTag(auAction, appTag);
         } else {
@@ -648,37 +648,37 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         }
 
 
-        List<SystemDataSecured> resultList = new LinkedList<>();
+        List<AlitaAuthoritysResource> resultList = new LinkedList<>();
         if(StringUtils.isNotBlank(userId)){
-            List<SystemRole> userRoles = userService.getUserAllRoles(userId, appTag);
-            for(SystemRole role : userRoles){
-                List<SystemDataSecured> auDsList = dsService.findByRoleIdAndAuId(role.getId(), au.getId());
+            List<AlitaRole> userRoles = userService.getUserAllRoles(userId, appTag);
+            for(AlitaRole role : userRoles){
+                List<AlitaAuthoritysResource> auDsList = dsService.findByRoleIdAndAuId(role.getId(), au.getId());
                 resultList.addAll(auDsList);
-                List<SystemDataSecured> publicDsList = dsService.findByRoleIdAndAuId(role.getId(), null);
+                List<AlitaAuthoritysResource> publicDsList = dsService.findByRoleIdAndAuId(role.getId(), null);
                 resultList.addAll(publicDsList);
             }
         } else {
-            List<SystemDataSecured> auDsList = dsService.findByAuId(au.getId(), appTag);
+            List<AlitaAuthoritysResource> auDsList = dsService.findByAuId(au.getId(), appTag);
             resultList.addAll(auDsList);
-            List<SystemDataSecured> publicDsList = dsService.findByAuId(null, appTag);
+            List<AlitaAuthoritysResource> publicDsList = dsService.findByAuId(null, appTag);
             resultList.addAll(publicDsList);
         }
         return ServiceUtil.buildFuture(JsonResult.successfu(resultList));
     }
 
     public CompletableFuture<JsonResult> allAuthoritysWithCatlog(String appTag){
-        List<SystemAuthoritys> allAuList = auService.selectAllSystemAuthoritysWithCatlog(appTag);
+        List<AlitaAuthoritysMenu> allAuList = auService.selectAllSystemAuthoritysWithCatlog(appTag);
         Map<String, Map<String, Object>> tempResult = new HashMap<>(16);
-        for(SystemAuthoritys au : allAuList){
+        for(AlitaAuthoritysMenu au : allAuList){
             Map<String, Object> catlogMap = tempResult.get(au.getCatlogId());
             if(catlogMap == null){
                 catlogMap = new HashMap<>(3);
                 tempResult.put(au.getCatlogId(), catlogMap);
                 catlogMap.put("id", au.getCatlogId());
                 catlogMap.put("catlogName", au.getCatlogName());
-                catlogMap.put("auList", new ArrayList<SystemAuthoritys>(16));
+                catlogMap.put("auList", new ArrayList<AlitaAuthoritysMenu>(16));
             }
-            ((List<SystemAuthoritys>) catlogMap.get("auList")).add(au);
+            ((List<AlitaAuthoritysMenu>) catlogMap.get("auList")).add(au);
         }
         List<Map<String, Object>> result = new ArrayList<>(tempResult.size() + 1);
 
@@ -688,7 +688,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
         publicCatlogMap.put("id", ID_PUBLIC_DATA_SECURED_CATLOG);
         publicCatlogMap.put("catlogName", "全局数据权限");
 
-        SystemAuthoritys publicDsAu = new SystemAuthoritys();
+        AlitaAuthoritysMenu publicDsAu = new AlitaAuthoritysMenu();
         publicDsAu.setId(ID_PUBLIC_DATA_SECURED_AUTHORITY);
         publicDsAu.setAuthorityName("全局数据权限");
         publicCatlogMap.put("auList", Lists.newArrayList(publicDsAu));
@@ -698,8 +698,8 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> dataSecuredList(String resource, String appTag, Page<SystemDataSecured> page) {
-        QueryWrapper<SystemDataSecured> query = new QueryWrapper();
+    public CompletableFuture<JsonResult> dataSecuredList(String resource, String appTag, Page<AlitaAuthoritysResource> page) {
+        QueryWrapper<AlitaAuthoritysResource> query = new QueryWrapper();
         if(StringUtils.isNotBlank(resource)){
             query.like("resource", resource);
         }
@@ -714,7 +714,7 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> saveDataSecured(SystemDataSecured ds){
+    public CompletableFuture<JsonResult> saveDataSecured(AlitaAuthoritysResource ds){
         Assert.notNull(ds, "要保存的数据权限不能为空!!!");
 
         // 如果所属权限ID是全局的ID,设为null
@@ -722,14 +722,14 @@ public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
             ds.setAuthoritysId(null);
             // 全局数据权限,检查app是否存在
             Assert.notNull(ds.getAppTag(), "全局数据权限需要 appTag !");
-            SystemAuthoritysApp app = appService.getById(ds.getAppTag());
+            AlitaAuthoritysApp app = appService.getById(ds.getAppTag());
             if(null == app){
                 return ServiceUtil.buildFuture(JsonResult.failed("appTag 对应的应用不存在"));
             }
         }
         // 如果所属权限ID不为空,检查权限是否存在
         if(StringUtils.isNotBlank(ds.getAuthoritysId())){
-            SystemAuthoritys au = auService.getById(ds.getAuthoritysId());
+            AlitaAuthoritysMenu au = auService.getById(ds.getAuthoritysId());
             if(null == au){
                 return ServiceUtil.buildFuture(JsonResult.failed(AuthorityResultCodeEnum.AUTHORITY_NOT_EXIST, "权限不存在【" + ds.getAuthoritysId() + "】"));
             }

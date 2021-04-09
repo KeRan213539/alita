@@ -21,19 +21,20 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import top.klw8.alita.entitys.authority.enums.ResourceType;
 import top.klw8.alita.entitys.base.BaseEntity;
 
 /**
  * @author klw(213539 @ qq.com)
- * @ClassName: SystemDataSecured
- * @Description: 数据权限表实体
+ * @ClassName: AlitaAuthoritysResource
+ * @Description: 资源权限表实体
  * @date 2020/4/30 11:47
  */
-@TableName("alita_resource_secured")
+@TableName("alita_authoritys_resource")
 @Getter
 @Setter
 @ToString
-public class SystemDataSecured extends BaseEntity implements IAssociatedApp {
+public class AlitaAuthoritysResource extends BaseEntity implements IAssociatedApp {
 
     private static final long serialVersionUID = 4226666111547632645L;
 
@@ -57,6 +58,12 @@ public class SystemDataSecured extends BaseEntity implements IAssociatedApp {
      */
     @TableField("resource")
     private String resource;
+
+    /**
+     * 资源类型: 按钮/数据权限等.
+     */
+    @TableField("res_type")
+    private ResourceType resType;
 
     /**
      * @author klw(213539@qq.com)

@@ -16,7 +16,7 @@
 package top.klw8.alita.service.authority.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import top.klw8.alita.entitys.authority.SystemAuthoritysApp;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysApp;
 
 /**
  * @author zhaozheng
@@ -24,5 +24,5 @@ import top.klw8.alita.entitys.authority.SystemAuthoritysApp;
  * @date: 2020-07-16
  */
 
-public interface IAuthorityAppMapper extends BaseMapper<SystemAuthoritysApp> {
+public interface IAuthorityAppMapper extends BaseMapper<AlitaAuthoritysApp> {
 }

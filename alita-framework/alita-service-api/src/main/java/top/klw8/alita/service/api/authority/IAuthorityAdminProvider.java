@@ -16,10 +16,10 @@
 package top.klw8.alita.service.api.authority;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
-import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
-import top.klw8.alita.entitys.authority.SystemDataSecured;
-import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysMenu;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysResource;
+import top.klw8.alita.entitys.authority.AlitaRole;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.service.result.JsonResult;
 
@@ -41,7 +41,7 @@ public interface IAuthorityAdminProvider {
      * @param: au
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> addAuthority(SystemAuthoritys au);
+    CompletableFuture<JsonResult> addAuthority(AlitaAuthoritysMenu au);
 
     /**
      * @author klw(213539@qq.com)
@@ -50,7 +50,7 @@ public interface IAuthorityAdminProvider {
      * @param: catlog
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> addCatlog(SystemAuthoritysCatlog catlog);
+    CompletableFuture<JsonResult> addCatlog(AlitaAuthoritysCatlog catlog);
 
 
     /**
@@ -90,7 +90,7 @@ public interface IAuthorityAdminProvider {
      * @param: role
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> addSysRole(SystemRole role);
+    CompletableFuture<JsonResult> addSysRole(AlitaRole role);
 
     /**
      * @author klw(213539@qq.com)
@@ -101,7 +101,7 @@ public interface IAuthorityAdminProvider {
      * @param: page
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> roleList(String roleName, String appTag, Page<SystemRole> page);
+    CompletableFuture<JsonResult> roleList(String roleName, String appTag, Page<AlitaRole> page);
 
     /**
      * @author klw(213539@qq.com)
@@ -143,7 +143,7 @@ public interface IAuthorityAdminProvider {
      * @param: copyAuFromRoleId 角色ID,如果有值,并且目标角色存在,会复制该角色的权限并保存到新角色中
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> saveRole(SystemRole role, String copyAuFromRoleId);
+    CompletableFuture<JsonResult> saveRole(AlitaRole role, String copyAuFromRoleId);
 
     /**
      * @author klw(213539@qq.com)
@@ -172,7 +172,7 @@ public interface IAuthorityAdminProvider {
      * @param: page
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> catlogList(String catlogName, String appTag, Page<SystemAuthoritysCatlog> page);
+    CompletableFuture<JsonResult> catlogList(String catlogName, String appTag, Page<AlitaAuthoritysCatlog> page);
 
     /**
      * @author klw(213539@qq.com)
@@ -190,7 +190,7 @@ public interface IAuthorityAdminProvider {
      * @param: catlog
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> saveCatlog(SystemAuthoritysCatlog catlog);
+    CompletableFuture<JsonResult> saveCatlog(AlitaAuthoritysCatlog catlog);
 
     /**
      * @author klw(213539@qq.com)
@@ -220,7 +220,7 @@ public interface IAuthorityAdminProvider {
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
     CompletableFuture<JsonResult> authoritysList(String auName, AuthorityTypeEnum auType,
-                                                 Page<SystemAuthoritys> page, String authorityAction,
+                                                 Page<AlitaAuthoritysMenu> page, String authorityAction,
                                                  String catlogName, String appTag);
 
     /**
@@ -230,7 +230,7 @@ public interface IAuthorityAdminProvider {
      * @param: catlog
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> saveAuthority(SystemAuthoritys au, String httpMethod);
+    CompletableFuture<JsonResult> saveAuthority(AlitaAuthoritysMenu au, String httpMethod);
 
     /**
      * @author klw(213539@qq.com)
@@ -280,7 +280,7 @@ public interface IAuthorityAdminProvider {
      * @param: page
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> dataSecuredList(String resource, String appTag, Page<SystemDataSecured> page);
+    CompletableFuture<JsonResult> dataSecuredList(String resource, String appTag, Page<AlitaAuthoritysResource> page);
 
     /**
      * @author klw(213539@qq.com)
@@ -289,7 +289,7 @@ public interface IAuthorityAdminProvider {
      * @param: catlog
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> saveDataSecured(SystemDataSecured ds);
+    CompletableFuture<JsonResult> saveDataSecured(AlitaAuthoritysResource ds);
 
     /**
      * @author klw(213539@qq.com)

@@ -19,9 +19,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -32,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
-import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.entitys.authority.AlitaRole;
 import top.klw8.alita.entitys.base.BaseEntity;
 
 /**
@@ -115,7 +113,7 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
      * @Fields userRoles : 用户拥有的角色和权限
      */
     @TableField(exist=false)
-    private List<SystemRole> userRoles;
+    private List<AlitaRole> userRoles;
 
     public AlitaUserAccount() {
         // 序列化用的构造方法

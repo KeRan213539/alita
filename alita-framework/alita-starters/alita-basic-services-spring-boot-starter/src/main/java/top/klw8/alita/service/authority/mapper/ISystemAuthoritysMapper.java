@@ -21,7 +21,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Select;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysMenu;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ import java.util.List;
  * @author klw
  * @date 2018年11月28日 下午3:39:48
  */
-public interface ISystemAuthoritysMapper extends BaseMapper<SystemAuthoritys> {
+public interface ISystemAuthoritysMapper extends BaseMapper<AlitaAuthoritysMenu> {
 
     /**
      * @author klw(213539@qq.com)
@@ -53,7 +53,7 @@ public interface ISystemAuthoritysMapper extends BaseMapper<SystemAuthoritys> {
      * @return com.baomidou.mybatisplus.core.metadata.IPage<top.klw8.alita.entitys.authority.SystemAuthoritys>
      */
     @Select("<script> " +
-            "select a.*,c.catlog_name from alita_authoritys a left join alita_authoritys_catlog c on a.catlog_id=c.id " +
+            "select a.*,c.catlog_name from alita_authoritys_menu a left join alita_authoritys_catlog c on a.catlog_id=c.id " +
             " where 1 = 1 " +
             "<if test=\"authorityType != null and authorityType != '' \">" +
             "    and a.authority_type =#{authorityType}" +
@@ -72,9 +72,9 @@ public interface ISystemAuthoritysMapper extends BaseMapper<SystemAuthoritys> {
             "</if>" +
             "order by show_index asc" +
             "</script>")
-    IPage<SystemAuthoritys> selectSystemAuthoritysList(Page page, String authorityName,
-                                                       String authorityType, String authorityAction,
-                                                       String catlogName, String appTag);
+    IPage<AlitaAuthoritysMenu> selectSystemAuthoritysList(Page page, String authorityName,
+                                                          String authorityType, String authorityAction,
+                                                          String catlogName, String appTag);
 
     /**
      * @author klw(213539@qq.com)
@@ -84,12 +84,12 @@ public interface ISystemAuthoritysMapper extends BaseMapper<SystemAuthoritys> {
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
      */
     @Select("<script> " +
-            "select a.*,c.catlog_name from alita_authoritys a left join alita_authoritys_catlog c on a.catlog_id=c.id where 1 = 1" +
+            "select a.*,c.catlog_name from alita_authoritys_menu a left join alita_authoritys_catlog c on a.catlog_id=c.id where 1 = 1" +
             "<if test=\"appTag != null and appTag != '' \">" +
             "    and a.app_tag = #{appTag} " +
             "</if>" +
             "order by show_index asc" +
             "</script>")
-    List<SystemAuthoritys> selectAllSystemAuthoritysWithCatlog(String appTag);
+    List<AlitaAuthoritysMenu> selectAllSystemAuthoritysWithCatlog(String appTag);
 
 }

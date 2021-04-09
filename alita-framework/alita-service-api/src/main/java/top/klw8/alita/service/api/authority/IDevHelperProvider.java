@@ -15,9 +15,9 @@
  */
 package top.klw8.alita.service.api.authority;
 
-import top.klw8.alita.entitys.authority.SystemAuthoritysApp;
-import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
-import top.klw8.alita.entitys.authority.SystemDataSecured;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysApp;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysResource;
 import top.klw8.alita.service.result.JsonResult;
 
 import java.util.List;
@@ -38,9 +38,9 @@ public interface IDevHelperProvider {
      * @param: catlogList
      * @return boolean
      */
-    CompletableFuture<JsonResult> batchAddAuthoritysAndCatlogs(List<SystemAuthoritysCatlog> catlogList,
-                                                               List<SystemDataSecured> publicDataSecuredList,
-                                                               boolean isAdd2SuperAdmin, SystemAuthoritysApp app);
+    CompletableFuture<JsonResult> batchAddAuthoritysAndCatlogs(List<AlitaAuthoritysCatlog> catlogList,
+                                                               List<AlitaAuthoritysResource> publicDataSecuredList,
+                                                               boolean isAdd2SuperAdmin, AlitaAuthoritysApp app);
 
     /**
      * @author klw(213539@qq.com)
@@ -49,6 +49,6 @@ public interface IDevHelperProvider {
      * @param: app
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> addAllAuthoritys2AdminRole(SystemAuthoritysApp app);
+    CompletableFuture<JsonResult> addAllAuthoritys2AdminRole(AlitaAuthoritysApp app);
 
 }

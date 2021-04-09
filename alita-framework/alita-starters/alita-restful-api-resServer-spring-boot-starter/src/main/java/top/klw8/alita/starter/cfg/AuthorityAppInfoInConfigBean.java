@@ -1,7 +1,7 @@
 package top.klw8.alita.starter.cfg;
 
 import lombok.Getter;
-import top.klw8.alita.entitys.authority.SystemAuthoritysApp;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysApp;
 
 /**
  * @author klw(213539 @ qq.com)
@@ -18,13 +18,13 @@ public class AuthorityAppInfoInConfigBean {
 
     private String remark;
 
-    private SystemAuthoritysApp appEntity;
+    private AlitaAuthoritysApp appEntity;
 
     public AuthorityAppInfoInConfigBean(String appTag, String appName, String remark){
         this.appTag = appTag;
         this.appName = appName;
         this.remark = remark;
-        this.appEntity = new SystemAuthoritysApp();
+        this.appEntity = new AlitaAuthoritysApp();
         this.appEntity.setAppTag(appTag);
         this.appEntity.setAppName(appName);
         this.appEntity.setRemark(remark);

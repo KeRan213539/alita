@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
-import top.klw8.alita.entitys.authority.SystemAuthoritysApp;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysApp;
 import top.klw8.alita.service.api.authority.IAuthorityAppProvider;
 import top.klw8.alita.service.authority.IAuthorityAppService;
 import top.klw8.alita.service.result.JsonResult;
@@ -47,12 +47,12 @@ public class AuthorityAppProviderImpl implements IAuthorityAppProvider {
 
 
     @Override
-    public CompletableFuture<JsonResult> addAuthorityApp(SystemAuthoritysApp authorityApp) {
+    public CompletableFuture<JsonResult> addAuthorityApp(AlitaAuthoritysApp authorityApp) {
         return ServiceUtil.buildFuture(appService.addAuthorityApp(authorityApp));
     }
 
     @Override
-    public CompletableFuture<JsonResult> updateAuthorityApp(SystemAuthoritysApp authorityApp) {
+    public CompletableFuture<JsonResult> updateAuthorityApp(AlitaAuthoritysApp authorityApp) {
         return ServiceUtil.buildFuture(appService.updateAuthorityApp(authorityApp));
     }
 
@@ -63,21 +63,21 @@ public class AuthorityAppProviderImpl implements IAuthorityAppProvider {
 
     @Override
     public CompletableFuture<JsonResult> authorityApp(String appTag) {
-        SystemAuthoritysApp authorityApp = new SystemAuthoritysApp();
+        AlitaAuthoritysApp authorityApp = new AlitaAuthoritysApp();
         authorityApp.setAppTag(appTag);
         return ServiceUtil.buildFuture(appService.findAuthorityApp(authorityApp));
     }
 
     @Override
-    public CompletableFuture<JsonResult> authorityAppPage(String appTag, String appName, String remark, Page<SystemAuthoritysApp> page) {
+    public CompletableFuture<JsonResult> authorityAppPage(String appTag, String appName, String remark, Page<AlitaAuthoritysApp> page) {
         List<OrderItem> orders = new ArrayList<>(1);
         orders.add(OrderItem.desc("app_tag"));
         page.setOrders(orders);
         return ServiceUtil.buildFuture(JsonResult.successfu(
-                appService.page(page, new QueryWrapper<SystemAuthoritysApp>().lambda().
-                        eq(StringUtils.isNotBlank(appTag), SystemAuthoritysApp::getRemark, appTag).
-                        like(StringUtils.isNotBlank(remark), SystemAuthoritysApp::getRemark, remark).
-                        like(StringUtils.isNotBlank(appName), SystemAuthoritysApp::getAppName, appName))));
+                appService.page(page, new QueryWrapper<AlitaAuthoritysApp>().lambda().
+                        eq(StringUtils.isNotBlank(appTag), AlitaAuthoritysApp::getRemark, appTag).
+                        like(StringUtils.isNotBlank(remark), AlitaAuthoritysApp::getRemark, remark).
+                        like(StringUtils.isNotBlank(appName), AlitaAuthoritysApp::getAppName, appName))));
     }
 
     @Override
