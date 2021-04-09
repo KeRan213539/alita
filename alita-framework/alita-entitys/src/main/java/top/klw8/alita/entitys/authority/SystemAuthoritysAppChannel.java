@@ -32,7 +32,7 @@ import java.io.Serializable;
  * @ClassName: SystemAuthoritysAppChannel
  * @date 2020/9/9 16:51
  */
-@TableName(value = "sys_authoritys_app_channel")
+@TableName(value = "alita_authoritys_app_channel")
 @Getter
 @Setter
 @ToString

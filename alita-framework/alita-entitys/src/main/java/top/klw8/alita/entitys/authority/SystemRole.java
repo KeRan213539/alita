@@ -31,7 +31,7 @@ import top.klw8.alita.entitys.base.BaseEntity;
  * @author klw
  * @date 2018年11月28日 上午11:54:15
  */
-@TableName("sys_role")
+@TableName("alita_role")
 @Getter
 @Setter
 //@EqualsAndHashCode(callSuper = false, exclude = {"authorityList"})

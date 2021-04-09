@@ -31,7 +31,7 @@ import java.io.Serializable;
  * @Description: 权限应用信息表实体
  * @date 2020/7/16 15:23
  */
-@TableName(value = "sys_authoritys_app")
+@TableName(value = "alita_authoritys_app")
 @Getter
 @Setter
 @ToString

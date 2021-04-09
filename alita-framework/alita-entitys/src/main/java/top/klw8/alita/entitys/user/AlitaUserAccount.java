@@ -41,7 +41,7 @@ import top.klw8.alita.entitys.base.BaseEntity;
  * @Description: 用户信息表
  * @date 2018年11月9日 下午4:18:46
  */
-@TableName("sys_user_account")
+@TableName("alita_user_account")
 @Getter
 @Setter
 //@EqualsAndHashCode(callSuper = false, exclude = {"userRoles"})

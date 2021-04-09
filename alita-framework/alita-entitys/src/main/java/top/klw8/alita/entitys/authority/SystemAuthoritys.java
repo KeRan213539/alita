@@ -34,7 +34,7 @@ import java.util.List;
  * @author klw
  * @date 2018年11月28日 上午11:52:04
  */
-@TableName(value = "sys_authoritys")
+@TableName(value = "alita_authoritys")
 @Getter
 @Setter
 @ToString

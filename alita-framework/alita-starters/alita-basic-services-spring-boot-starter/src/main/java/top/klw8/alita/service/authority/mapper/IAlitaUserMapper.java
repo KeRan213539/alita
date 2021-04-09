@@ -49,10 +49,10 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
      * @param: roleId
      * @return int
      */
-    @Insert("INSERT INTO sys_user_has_role(user_id, role_id, app_tag) " +
+    @Insert("INSERT INTO alita_user_has_role(user_id, role_id, app_tag) " +
             "VALUES(" +
             "#{userId}, #{roleId}, " +
-            "(SELECT app_tag FROM sys_role WHERE id = #{roleId})" +
+            "(SELECT app_tag FROM alita_role WHERE id = #{roleId})" +
             ")")
     int addRole2User(String userId, String roleId);
 
@@ -64,7 +64,7 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
      * @param: roleId
      * @return int
      */
-    @Delete("DELETE FROM sys_user_has_role WHERE user_id = #{userId} AND role_id = #{roleId}")
+    @Delete("DELETE FROM alita_user_has_role WHERE user_id = #{userId} AND role_id = #{roleId}")
     int removeRoleFromUser(String userId, String roleId);
 
     /**
@@ -74,7 +74,7 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
      * @param: userId
      * @return int
      */
-    @Delete("DELETE FROM sys_user_has_role WHERE user_id = #{userId}")
+    @Delete("DELETE FROM alita_user_has_role WHERE user_id = #{userId}")
     int removeRolesFromUser(String userId);
 
     /**
@@ -85,7 +85,7 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
      * @return int
      */
     @Insert("<script>" +
-            "INSERT INTO sys_user_has_role(user_id, role_id, app_tag) VALUES" +
+            "INSERT INTO alita_user_has_role(user_id, role_id, app_tag) VALUES" +
             "<foreach collection =\"list\" item=\"item\" index= \"index\" separator =\",\"> " +
             "(#{item.userId}, #{item.roleId}, #{item.appTag})" +
             "</foreach >" +
@@ -101,8 +101,8 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
      * @return java.util.List<java.lang.String>
      **/
     @Select("<script> " +
-            "select * from sys_role where id in (" +
-                "SELECT role_id from sys_user_has_role WHERE user_id = #{userId}" +
+            "select * from alita_role where id in (" +
+                "SELECT role_id from alita_user_has_role WHERE user_id = #{userId}" +
                 "<if test=\"appTag != null and appTag != '' \">" +
                 "    and app_tag = #{appTag} " +
                 "</if>" +
@@ -117,7 +117,7 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
      * @param: roleId
      * @return java.util.List<top.klw8.alita.entitys.user.AlitaUserAccount>
      */
-    @Select("select * from sys_user_account where id in (SELECT user_id from sys_user_has_role WHERE role_id = #{roleId})")
+    @Select("select * from alita_user_account where id in (SELECT user_id from alita_user_has_role WHERE role_id = #{roleId})")
     List<AlitaUserAccount> selectUserByRoleId(String roleId);
 
 }

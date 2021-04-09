@@ -29,7 +29,7 @@ import top.klw8.alita.entitys.base.BaseEntity;
  * @Description: 数据权限表实体
  * @date 2020/4/30 11:47
  */
-@TableName("sys_data_secured")
+@TableName("alita_resource_secured")
 @Getter
 @Setter
 @ToString

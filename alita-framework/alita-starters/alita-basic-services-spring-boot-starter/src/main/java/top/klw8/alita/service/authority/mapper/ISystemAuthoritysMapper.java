@@ -40,7 +40,7 @@ public interface ISystemAuthoritysMapper extends BaseMapper<SystemAuthoritys> {
      * @param: auId
      * @return int
      */
-    @Delete("DELETE FROM sys_role_has_authoritys WHERE authoritys_id = #{auId}")
+    @Delete("DELETE FROM alita_role_has_authoritys WHERE authoritys_id = #{auId}")
     int removeAuthorityFromRole(String auId);
 
     /**
@@ -53,7 +53,7 @@ public interface ISystemAuthoritysMapper extends BaseMapper<SystemAuthoritys> {
      * @return com.baomidou.mybatisplus.core.metadata.IPage<top.klw8.alita.entitys.authority.SystemAuthoritys>
      */
     @Select("<script> " +
-            "select a.*,c.catlog_name from sys_authoritys a left join sys_authoritys_catlog c on a.catlog_id=c.id " +
+            "select a.*,c.catlog_name from alita_authoritys a left join alita_authoritys_catlog c on a.catlog_id=c.id " +
             " where 1 = 1 " +
             "<if test=\"authorityType != null and authorityType != '' \">" +
             "    and a.authority_type =#{authorityType}" +
@@ -84,7 +84,7 @@ public interface ISystemAuthoritysMapper extends BaseMapper<SystemAuthoritys> {
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
      */
     @Select("<script> " +
-            "select a.*,c.catlog_name from sys_authoritys a left join sys_authoritys_catlog c on a.catlog_id=c.id where 1 = 1" +
+            "select a.*,c.catlog_name from alita_authoritys a left join alita_authoritys_catlog c on a.catlog_id=c.id where 1 = 1" +
             "<if test=\"appTag != null and appTag != '' \">" +
             "    and a.app_tag = #{appTag} " +
             "</if>" +

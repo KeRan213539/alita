@@ -36,12 +36,12 @@ public interface ISystemDataSecuredMapper extends BaseMapper<SystemDataSecured> 
      * @param: auId
      * @return int
      */
-    @Select("select count(1) from sys_data_secured WHERE authoritys_id = #{auId}")
+    @Select("select count(1) from alita_resource_secured WHERE authoritys_id = #{auId}")
     int countByAuId(String auId);
 
     @Select("<script> " +
-            "SELECT * FROM sys_role_has_data_secured rhds " +
-            "LEFT JOIN sys_data_secured ds " +
+            "SELECT * FROM alita_role_has_resource_secured rhds " +
+            "LEFT JOIN alita_resource_secured ds " +
             "on ds.id = rhds.data_secured_id " +
             "where rhds.role_id = #{roleId} " +
             "<choose>" +

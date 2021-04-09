@@ -42,7 +42,7 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
      * @param: roleId
      * @return int
      */
-    @Insert("INSERT INTO sys_role_has_authoritys(role_id, authoritys_id) VALUES(#{roleId}, #{auId})")
+    @Insert("INSERT INTO alita_role_has_authoritys(role_id, authoritys_id) VALUES(#{roleId}, #{auId})")
     int addAuthority2Role(String auId, String roleId);
 
     /**
@@ -53,7 +53,7 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
      * @param: roleId
      * @return int
      */
-    @Delete("DELETE FROM sys_role_has_authoritys WHERE role_id = #{roleId} AND authoritys_id = #{auId}")
+    @Delete("DELETE FROM alita_role_has_authoritys WHERE role_id = #{roleId} AND authoritys_id = #{auId}")
     int removeAuthorityFromRole(String auId, String roleId);
 
     /**
@@ -63,7 +63,7 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
      * @param: roleId
      * @return int
      */
-    @Delete("DELETE FROM sys_role_has_authoritys WHERE role_id = #{roleId}")
+    @Delete("DELETE FROM alita_role_has_authoritys WHERE role_id = #{roleId}")
     int removeAuthoritysFromRole(String roleId);
 
     /**
@@ -74,7 +74,7 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
      * @return int
      */
     @Insert("<script>" +
-            "INSERT INTO sys_role_has_authoritys(role_id, authoritys_id) VALUES" +
+            "INSERT INTO alita_role_has_authoritys(role_id, authoritys_id) VALUES" +
             "<foreach collection =\"list\" item=\"item\" index= \"index\" separator =\",\"> " +
             "(#{item.roleId}, #{item.auId})" +
             "</foreach >" +
@@ -89,7 +89,7 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
      * @param: roleId
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
      **/
-    @Select("select * from sys_authoritys where id in (select authoritys_id from sys_role_has_authoritys where role_id = #{roleId})")
+    @Select("select * from alita_authoritys where id in (select authoritys_id from alita_role_has_authoritys where role_id = #{roleId})")
     List<SystemAuthoritys> selectRoleAuthoritys(String roleId);
 
     /**
@@ -100,10 +100,10 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemDataSecured>
      */
     @Select("select ds.*, au.authority_action as authority_url " +
-            " from sys_data_secured ds" +
-            " left join sys_authoritys au" +
+            " from alita_resource_secured ds" +
+            " left join alita_authoritys au" +
             " on au.id = ds.authoritys_id" +
-            " where ds.id in (select data_secured_id from sys_role_has_data_secured where role_id = #{roleId})")
+            " where ds.id in (select data_secured_id from alita_role_has_resource_secured where role_id = #{roleId})")
     List<SystemDataSecured> selectRoleDataSecureds(String roleId);
 
     /**
@@ -114,7 +114,7 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
      * @param: roleId
      * @return int
      */
-    @Insert("INSERT INTO sys_role_has_data_secured(role_id, data_secured_id) VALUES(#{roleId}, #{dsId})")
+    @Insert("INSERT INTO alita_role_has_resource_secured(role_id, data_secured_id) VALUES(#{roleId}, #{dsId})")
     int addDataSecured2Role(String dsId, String roleId);
 
     /**
@@ -125,7 +125,7 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
      * @param: roleId
      * @return int
      */
-    @Delete("DELETE FROM sys_role_has_data_secured WHERE role_id = #{roleId} AND data_secured_id = #{dsId}")
+    @Delete("DELETE FROM alita_role_has_resource_secured WHERE role_id = #{roleId} AND data_secured_id = #{dsId}")
     int removeDataSecuredFromRole(String dsId, String roleId);
 
     /**
@@ -135,7 +135,7 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
      * @param: roleId
      * @return int
      */
-    @Delete("DELETE FROM sys_role_has_data_secured WHERE role_id = #{roleId}")
+    @Delete("DELETE FROM alita_role_has_resource_secured WHERE role_id = #{roleId}")
     int removeDataSecuredsFromRole(String roleId);
 
     /**
@@ -146,7 +146,7 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
      * @return int
      */
     @Insert("<script>" +
-            "INSERT INTO sys_role_has_data_secured(role_id, data_secured_id) VALUES" +
+            "INSERT INTO alita_role_has_resource_secured(role_id, data_secured_id) VALUES" +
             "<foreach collection =\"list\" item=\"item\" index= \"index\" separator =\",\"> " +
             "(#{item.roleId}, #{item.dsId})" +
             "</foreach >" +
@@ -161,7 +161,7 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
      * @param: dsId
      * @return int
      */
-    @Select("select count(1) from sys_role_has_data_secured WHERE data_secured_id = #{dsId}")
+    @Select("select count(1) from alita_role_has_resource_secured WHERE data_secured_id = #{dsId}")
     int countByDsId(String dsId);
 
     /**
@@ -172,7 +172,7 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
      * @param: dsId
      * @return int
      */
-    @Select("select count(1) from sys_role_has_authoritys WHERE authoritys_id = #{auId}")
+    @Select("select count(1) from alita_role_has_authoritys WHERE authoritys_id = #{auId}")
     int countByAuId(String auId);
 
 
@@ -183,8 +183,8 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
      * @param:
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
      */
-    @Select("select a.*,c.catlog_name from sys_authoritys a left join sys_authoritys_catlog c on a.catlog_id=c.id " +
-            "where a.id in (select authoritys_id from sys_role_has_authoritys where role_id=#{roleId})")
+    @Select("select a.*,c.catlog_name from alita_authoritys a left join alita_authoritys_catlog c on a.catlog_id=c.id " +
+            "where a.id in (select authoritys_id from alita_role_has_authoritys where role_id=#{roleId})")
     List<SystemAuthoritys> selectSystemAuthoritysWithCatlogByRoleId(String roleId);
 
 }

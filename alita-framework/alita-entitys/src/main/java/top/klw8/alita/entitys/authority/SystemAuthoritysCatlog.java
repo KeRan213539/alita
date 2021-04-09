@@ -31,7 +31,7 @@ import java.util.List;
  * @author klw
  * @date 2018年11月28日 上午11:53:50
  */
-@TableName("sys_authoritys_catlog")
+@TableName("alita_authoritys_catlog")
 @Getter
 @Setter
 //@EqualsAndHashCode(callSuper = false, exclude = {"authorityList"})
