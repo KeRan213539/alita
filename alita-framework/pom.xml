@@ -96,6 +96,7 @@
         <!--        <nacos-config-spring.version>0.2.8</nacos-config-spring.version>-->
         <nacos-config-spring.version>0.2.7</nacos-config-spring.version>
         <commonOkHttp.version>0.4.3</commonOkHttp.version>
+        <lombok.version>1.18.20</lombok.version>
     </properties>
 
     <dependencyManagement>
@@ -564,6 +565,12 @@
                 <version>${aliyun-sdk-oss.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>
@@ -803,7 +810,7 @@
             <plugin>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
-                <version>1.18.6.0</version>
+                <version>1.18.20.0</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
