@@ -54,10 +54,8 @@ import static top.klw8.alita.web.common.CatlogsConstant.CATLOG_NAME_AU_ADMIN;
 import static top.klw8.alita.web.common.CatlogsConstant.CATLOG_INDEX_AU_ADMIN;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: AuthorityAdminController
- * @Description: 权限管理相关(角色管理,权限目录管理,权限管理)
- * @date 2019/10/15 14:13
+ * 权限管理相关(角色管理,权限目录管理,权限管理)
+ * 2019/10/15 14:13
  */
 @Api(tags = {"alita-restful-API--权限管理"})
 @RestController

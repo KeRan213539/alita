@@ -55,10 +55,8 @@ import static top.klw8.alita.web.common.CatlogsConstant.CATLOG_NAME_USER_ADMIN;
 import static top.klw8.alita.web.common.CatlogsConstant.CATLOG_INDEX_USER_ADMIN;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: SysUserAdminController
- * @Description: 用户管理
- * @date 2019/10/15 14:08
+ * 用户管理
+ * 2019/10/15 14:08
  */
 @Api(tags = {"alita-restful-API--用户管理"})
 @RestController
