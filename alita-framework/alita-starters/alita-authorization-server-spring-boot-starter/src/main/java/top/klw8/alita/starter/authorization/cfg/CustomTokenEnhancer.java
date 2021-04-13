@@ -28,10 +28,8 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
- * @author klw
- * @ClassName: CustomTokenEnhancer
- * @Description: token中的附加数据
- * @date 2018年11月2日 下午4:43:03
+ * token中的附加数据
+ * 2018年11月2日 下午4:43:03
  */
 public class CustomTokenEnhancer implements TokenEnhancer {
 

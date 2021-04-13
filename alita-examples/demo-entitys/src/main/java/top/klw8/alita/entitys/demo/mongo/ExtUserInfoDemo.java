@@ -29,10 +29,8 @@ import top.klw8.alita.utils.AnalyzerUtil;
 import java.time.LocalDateTime;
 
 /**
- * @ClassName: ExtUserInfoDemo
- * @Description: 扩展用户信息Demo
- * @author klw
- * @date 2019-03-12 10:32:42
+ * 扩展用户信息Demo
+ * 2019-03-12 10:32:42
  */
 @Document(collection = "ext_user_info_demo")
 @Getter
@@ -42,40 +40,34 @@ public class ExtUserInfoDemo extends MongoBaseEntity implements ITextIndexedCust
     private static final long serialVersionUID = 6774327869246437799L;
     
     /**
-     * @author klw
-     * @Fields accountInfo : 账户信息
+     * accountInfo : 账户信息
      */
     @NotPersistence
     private AlitaUserAccount accountInfo;
     
     /**
-     * @author klw
-     * @Fields nickName : 昵称
+     * nickName : 昵称
      */
     private String nickName;
     
     /**
-     * @author klw
-     * @Fields realName : 姓名
+     * realName : 姓名
      */
     private String realName;
     
     /**
-     * @author klw
-     * @Fields phoneNumber : 联系电话
+     * phoneNumber : 联系电话
      */
     private String phoneNumber;
     
     /**
-     * @author klw
-     * @Fields birthday : 生日
+     * birthday : 生日
      */
     private LocalDateTime birthday;
     
     
     /**
-     * @author klw
-     * @Fields textIndexedField : 全文搜索字段
+     * textIndexedField : 全文搜索字段
      */
     @TextIndexed
     private String textIndexedField;
@@ -83,7 +75,6 @@ public class ExtUserInfoDemo extends MongoBaseEntity implements ITextIndexedCust
 
     /*
      * <p>Title: buildTextIndexedField</p>
-     * @author klw
      * <p>Description: </p>
      * @see top.klw8.alita.service.base.entitys.ITextIndexedCustomSupport#buildTextIndexedField()
      */

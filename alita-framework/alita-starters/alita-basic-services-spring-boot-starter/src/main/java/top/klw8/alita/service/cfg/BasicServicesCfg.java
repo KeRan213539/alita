@@ -35,10 +35,8 @@ import top.klw8.alita.service.authority.service.impl.SystemAuthoritysServiceImpl
 import top.klw8.alita.service.authority.service.impl.SystemRoleServiceImpl;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: BasicServicesCfg
- * @Description: basic-services配制
- * @date 2019/9/17 14:08
+ * basic-services配制
+ * 2019/9/17 14:08
  */
 @Configuration
 @MapperScan("top.klw8.alita.service.authority.mapper")

@@ -27,10 +27,8 @@ import top.klw8.alita.entitys.demo.mongo.PgTest;
 import top.klw8.alita.service.demo.service.demo.IPgTestService;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: PgTestJUnit
- * @Description: pgTest的JUnit测试
- * @date 2019/8/8 14:25
+ * pgTest的JUnit测试
+ * 2019/8/8 14:25
  */
 @RunWith(JUnitPlatform.class)
 @ExtendWith(SpringExtension.class)

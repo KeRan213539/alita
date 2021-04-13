@@ -28,10 +28,8 @@ import top.klw8.alita.starter.datasecured.ResourceParserResult;
 import java.util.List;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: AppTagParser
- * @Description: 从参数中解析appTag的数据权限解析器
- * @date 2020/7/27 14:47
+ * 从参数中解析appTag的数据权限解析器
+ * 2020/7/27 14:47
  */
 @Component
 public class AppTagParser extends DsBaseParser implements IResourceParser {

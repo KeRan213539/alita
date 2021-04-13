@@ -20,10 +20,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.logging.LoggingSystem;
 
 /**
- * @ClassName: JobExecutorApplication
- * @Description: 定时任务执行器 demo
- * @author klw
- * @date 2018年10月23日 下午3:08:05
+ * 定时任务执行器 demo
+ * 2018年10月23日 下午3:08:05
  */
 @SpringBootApplication
 public class JobExecutorDemoApplication {

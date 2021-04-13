@@ -41,9 +41,8 @@
 //
 ///**
 // * @ClassName: ElasticSearchRestClientUtil
-// * @Description: ElasticSearchRest 客户端工具类
-// * @author klw
-// * @date 2018年4月13日 上午11:37:19
+// * ElasticSearchRest 客户端工具类
+// * 2018年4月13日 上午11:37:19
 // */
 //public class ElasticSearchRestClient {
 //
@@ -115,7 +114,7 @@
 //
 //    /**
 //     * @Title: isIndexExist
-//     * @Description: 检查索引是否存在
+//     * 检查索引是否存在
 //     * @param indexName 索引名称
 //     * @return
 //     */
@@ -131,7 +130,7 @@
 //
 //    /**
 //     * @Title: createIndex
-//     * @Description: 创建索引
+//     * 创建索引
 //     * @param indexName 索引名称
 //     * @param typeName4Mapping 要做mapping的类型名称
 //     * @param mappingJson mapping Json
@@ -165,8 +164,7 @@
 //
 //    /**
 //     * @Title: putMapping
-//     * @author klw
-//     * @Description: 向索引里添加某类型的 mapping
+//     * 向索引里添加某类型的 mapping
 //     * @param indexName
 //     * @param typeName4Mapping
 //     * @param mappingJson
@@ -187,7 +185,7 @@
 //
 //    /**
 //     * @Title: addData2Index
-//     * @Description: 添加数据到索引
+//     * 添加数据到索引
 //     * @param indexName 索引名称
 //     * @param typeName  type名称
 //     * @param dataJson  JSON格式的数据
@@ -213,7 +211,7 @@
 //
 //    /**
 //     * @Title: addData2Index4Log
-//     * @Description: 添加日志数据
+//     * 添加日志数据
 //     * @param logStr
 //     * @return
 //     */

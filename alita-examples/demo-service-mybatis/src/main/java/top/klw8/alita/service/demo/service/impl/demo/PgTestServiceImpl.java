@@ -23,10 +23,8 @@ import top.klw8.alita.service.demo.mapper.demo.PgTestMapper;
 import top.klw8.alita.service.demo.service.demo.IPgTestService;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: postgresql demo service 实现
- * @Description:
- * @date 2019/8/8 14:12
+ * 
+ * 2019/8/8 14:12
  */
 @Slf4j
 @Service

@@ -27,10 +27,8 @@ import top.klw8.alita.entitys.base.BaseEntity;
 import java.util.List;
 
 /**
- * @ClassName: SystemAuthoritysMenu
- * @Description: 权限菜单表(url, 菜单)
- * @author klw
- * @date 2018年11月28日 上午11:52:04
+ * 权限菜单表(url, 菜单)
+ * 2018年11月28日 上午11:52:04
  */
 @TableName(value = "alita_authoritys_menu")
 @Getter
@@ -41,78 +39,67 @@ public class AlitaAuthoritysMenu extends BaseEntity implements IAssociatedApp {
     private static final long serialVersionUID = 4226666111547632644L;
 
     /**
-     * @author klw
-     * @Fields authorityName : 所属应用的应用标识
+     * authorityName : 所属应用的应用标识
      */
     @TableField("app_tag")
     private String appTag;
 
     /**
-     * @author klw
-     * @Fields catlog : 权限所属权限目录
+     * catlog : 权限所属权限目录
      */
     @TableField(exist=false)
     private AlitaAuthoritysCatlog catlog;
 
     /**
-     * @author klw
-     * @Fields authorityName : 权限名称
+     * authorityName : 权限名称
      */
     @TableField("authority_name")
     private String authorityName;
 
-    /*
-     * @author klw(213539@qq.com)
-     * @Description: 权限所属目录的ID
+    /**
+     * 权限所属目录的ID
      */
     @TableField("catlog_id")
     private String catlogId;
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: URL类型权限所属MENU类型权限的ID
+     * URL类型权限所属MENU类型权限的ID
      */
     @TableField("menu_id")
     private String menuId;
 
     /**
-     * @author xp
-     * @Description: 权限组名称，冗余字段
+     * 权限组名称，冗余字段
      */
     @TableField(value="catlog_name",exist=false)
     private String catlogName;
 
     /**
-     * @author klw
-     * @Fields authorityUrl : 权限动作,根据类型来,如果是url那就放url,如果是菜单就放前端识别的视图标识(相对路径)
+     * authorityUrl : 权限动作,根据类型来,如果是url那就放url,如果是菜单就放前端识别的视图标识(相对路径)
      */
     @TableField("authority_action")
     private String authorityAction;
     
     /**
-     * @author klw
-     * @Fields authorityType : 权限类型
+     * authorityType : 权限类型
      */
     @TableField("authority_type")
     private AuthorityTypeEnum authorityType;
     
     /**
-     * @author klw
-     * @Fields showIndex : 作为菜单的显示顺序,非菜单为0
+     * showIndex : 作为菜单的显示顺序,非菜单为0
      */
     @TableField("show_index")
     private Integer showIndex;
     
     /**
-     * @author klw
-     * @Fields remark : 备注
+     * remark : 备注
      */
     @TableField("remark")
     private String remark;
 
     /**
-     * @author klw
-     * @Fields authorityList : 权限下的数据权限
+     * authorityList : 权限下的数据权限
      */
     @TableField(exist=false)
     private List<AlitaAuthoritysResource> dataSecuredList;

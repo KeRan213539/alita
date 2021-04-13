@@ -17,10 +17,8 @@ package top.klw8.alita.service.demo.service.impl.test;
 
 
 /**
- * @author klw
- * @ClassName: ExtUserInfoDemoServiceImpl
- * @Description: 用户扩展信息demo 的 Service
- * @date 2019-01-30 11:39:45
+ * 用户扩展信息demo 的 Service
+ * 2019-01-30 11:39:45
  */
 //@Slf4j
 //@DubboService(async = true)

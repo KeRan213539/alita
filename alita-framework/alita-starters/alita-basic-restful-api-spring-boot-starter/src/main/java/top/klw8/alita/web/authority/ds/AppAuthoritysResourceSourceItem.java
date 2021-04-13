@@ -20,10 +20,8 @@ import top.klw8.alita.entitys.authority.enums.ResourceType;
 import top.klw8.alita.starter.auscan.IAuthoritysResourceSourceItem;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: AppDataSecuredSourceItem
- * @Description: 数据权限来源中的 APP 元素
- * @date 2020/5/12 16:50
+ * 数据权限来源中的 APP 元素
+ * 2020/5/12 16:50
  */
 public class AppAuthoritysResourceSourceItem implements IAuthoritysResourceSourceItem {
 

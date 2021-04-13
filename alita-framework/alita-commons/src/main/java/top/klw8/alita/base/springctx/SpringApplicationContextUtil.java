@@ -26,10 +26,8 @@ import org.springframework.context.annotation.Lazy;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @ClassName: SpringApplicationContextUtil
- * @Description: Spring的ApplicationContext工具类,用于启动时获取 ApplicationContext 并 hold 住 引用
- * @author klw
- * @date 2018年9月17日 下午1:18:57
+ * Spring的ApplicationContext工具类,用于启动时获取 ApplicationContext 并 hold 住 引用
+ * 2018年9月17日 下午1:18:57
  */
 @Lazy(false)
 @Slf4j
@@ -54,9 +52,7 @@ public class SpringApplicationContextUtil implements ApplicationContextAware {
     }
     
     /**
-     * @Title: getBean
-     * @author klw
-     * @Description: 通过class获取Bean <br />
+     * 通过class获取Bean <br />
      * 不能获取dubbo service,因为dubbo service是在第一次调用的时候才放入spring容器中的,这里获取的时候dubbo service很可能还没被初始化
      * @param clazz
      * @return
@@ -66,9 +62,7 @@ public class SpringApplicationContextUtil implements ApplicationContextAware {
     }
 
     /**
-     * @Title: getBean
-     * @author klw
-     * @Description: 通过bean id,以及Clazz返回指定的Bean <br />
+     * 通过bean id,以及Clazz返回指定的Bean <br />
      * 不能获取dubbo service,因为dubbo service是在第一次调用的时候才放入spring容器中的,这里获取的时候dubbo service很可能还没被初始化
      * @param name
      * @param clazz
@@ -79,9 +73,7 @@ public class SpringApplicationContextUtil implements ApplicationContextAware {
     }
     
     /**
-     * @Title: getBean
-     * @author klw
-     * @Description: 通过bean id返回指定的Bean <br />
+     * 通过bean id返回指定的Bean <br />
      * 不能获取dubbo service,因为dubbo service是在第一次调用的时候才放入spring容器中的,这里获取的时候dubbo service很可能还没被初始化
      * @param name
      * @return

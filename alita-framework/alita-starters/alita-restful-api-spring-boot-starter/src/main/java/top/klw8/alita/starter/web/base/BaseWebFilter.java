@@ -31,9 +31,7 @@ import java.nio.charset.Charset;
 /**
  * 拦截器基类.
  *
- * @author klw(213539 @ qq.com)
- * @ClassName: BaseWebFilter
- * @date 2020/9/10 15:47
+ * 2020/9/10 15:47
  */
 public abstract class BaseWebFilter implements WebFilter {
     

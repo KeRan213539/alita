@@ -22,10 +22,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @ClassName: NotPersistence
- * @Description: 不保存到数据库的字段
- * @author klw
- * @date 2018年10月11日 下午4:08:55
+ * 不保存到数据库的字段
+ * 2018年10月11日 下午4:08:55
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})

@@ -25,10 +25,8 @@ import top.klw8.alita.entitys.demo.mongo.MongoDBTest;
 import top.klw8.alita.starter.web.base.vo.ListPrarmVo;
 
 /**
- * @author klw
- * @ClassName: MongoDBTestListVo
- * @Description: demo 获取列表的VO
- * @date 2019年1月26日 下午5:25:19
+ * demo 获取列表的VO
+ * 2019年1月26日 下午5:25:19
  */
 @Getter
 @Setter

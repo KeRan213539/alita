@@ -13,9 +13,7 @@ import java.util.Map;
 /**
  * 启动时设一些固定配制.
  *
- * @author klw(213539 @ qq.com)
- * @ClassName: ConfigApplicationContextInitializer
- * @date 2020/9/14 17:43
+ * 2020/9/14 17:43
  */
 public class ConfigApplicationContextInitializer
         implements ApplicationContextInitializer<ConfigurableApplicationContext> {

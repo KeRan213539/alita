@@ -35,11 +35,8 @@ import java.util.Map;
 import static top.klw8.alita.helper.ServiceApiContext.*;
 
 /**
- * @author freedom
- * @version 1.0
- * @ClassName UserCacheHelper
- * @Description 用户缓存帮助类
- * @date 2019-08-14 16:51
+ * 用户缓存帮助类
+ * 2019-08-14 16:51
  */
 @Slf4j
 @Component
@@ -47,9 +44,7 @@ public class UserCacheHelper {
 
     /**
      * @param user
-     * @Title: putUserInfo2Cache
-     * @author klw
-     * @Description: 把必要的用户相关数据放入缓存(目前只放入了权限)
+     * 把必要的用户相关数据放入缓存(目前只放入了权限)
      */
     public void putUserInfo2Cache(AlitaUserAccount user) {
         // 用APP区分权限

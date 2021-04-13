@@ -35,10 +35,8 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 
 /**
- * @ClassName: JacksonCfg
- * @Description: 
- * @author klw
- * @date 2018年12月11日 17:49:59
+ *
+ * 2018年12月11日 17:49:59
  */
 @Configuration
 public class JacksonCfg {

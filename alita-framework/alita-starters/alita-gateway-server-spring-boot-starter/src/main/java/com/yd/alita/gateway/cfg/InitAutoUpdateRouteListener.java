@@ -27,10 +27,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: InitAutoUpdateRouteListener
- * @Description: 初始化自动更新路由的监听
- * @date 2020/5/8 17:27
+ * 初始化自动更新路由的监听
+ * 2020/5/8 17:27
  */
 public class InitAutoUpdateRouteListener implements ApplicationListener<ApplicationReadyEvent> {
 

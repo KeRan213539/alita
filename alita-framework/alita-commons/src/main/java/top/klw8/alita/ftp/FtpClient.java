@@ -28,87 +28,73 @@ import org.apache.commons.net.ftp.*;
 import org.springframework.util.Assert;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: FtpClient
- * @Description: FTP客户端工具
- * @date 2020/6/4 16:00
+ * FTP客户端工具
+ * 2020/6/4 16:00
  */
 @Slf4j
 public class FtpClient {
 
-    /**
-     * @author klw(213539 @ qq.com)
-     * @Description: 字符集编码
+    /**(213539 @ qq.com)
+     * 字符集编码
      */
     private String charSet = "UTF-8";
 
-    /**
-     * @author klw(213539 @ qq.com)
-     * @Description: 远端文件编码
+    /**(213539 @ qq.com)
+     * 远端文件编码
      */
     private String remoteCharSet = "iso-8859-1";
 
-    /**
-     * @author klw(213539 @ qq.com)
-     * @Description: 字节数组长度
+    /**(213539 @ qq.com)
+     * 字节数组长度
      */
     private int byteSize = 1024;
 
 
-    /**
-     * @author klw(213539 @ qq.com)
-     * @Description: 缓冲区大小
+    /**(213539 @ qq.com)
+     * 缓冲区大小
      */
     public static final int IO_BUFFERED = 1024;
 
-    /**
-     * @author klw(213539 @ qq.com)
-     * @Description: 路径中的分隔符 /
+    /**(213539 @ qq.com)
+     * 路径中的分隔符 /
      */
     private String separated = "/";
 
 
-    /**
-     * @author klw(213539 @ qq.com)
-     * @Description: FTP服务端IP
+    /**(213539 @ qq.com)
+     * FTP服务端IP
      */
     private String host;
 
-    /**
-     * @author klw(213539 @ qq.com)
-     * @Description: FTP服务端端口
+    /**(213539 @ qq.com)
+     * FTP服务端端口
      */
     private int port;
 
-    /**
-     * @author klw(213539 @ qq.com)
-     * @Description: FTP服务端用户名
+    /**(213539 @ qq.com)
+     * FTP服务端用户名
      */
     private String username;
 
-    /**
-     * @author klw(213539 @ qq.com)
-     * @Description: FTP服务端用户密码
+    /**(213539 @ qq.com)
+     * FTP服务端用户密码
      */
     private String password;
 
-    /**
-     * @author klw(213539 @ qq.com)
-     * @Description: 连接FTP服务端时使用的代理IP
+    /**(213539 @ qq.com)
+     * 连接FTP服务端时使用的代理IP
      */
     private String proxyHost;
 
-    /**
-     * @author klw(213539 @ qq.com)
-     * @Description: 连接FTP服务端时使用的代理端口
+    /**(213539 @ qq.com)
+     * 连接FTP服务端时使用的代理端口
      */
     private int porxyPort;
 
     /**
      * @return void
-     * @author klw(213539 @ qq.com)
-     * @Description: 设置客户端字符编码
-     * @Date 2020/6/5 16:15
+     * 设置客户端字符编码
+     * 2020/6/5 16:15
      * @param: charSet
      */
     public void setCharSet(String charSet) {
@@ -117,9 +103,8 @@ public class FtpClient {
 
     /**
      * @return java.lang.String
-     * @author klw(213539 @ qq.com)
-     * @Description: 获取客户端字符编码
-     * @Date 2020/6/5 16:15
+     * 获取客户端字符编码
+     * 2020/6/5 16:15
      * @param:
      */
     public String getCharSet() {
@@ -128,9 +113,8 @@ public class FtpClient {
 
     /**
      * @return void
-     * @author klw(213539 @ qq.com)
-     * @Description: 设置FTP服务端字符编码
-     * @Date 2020/6/5 16:15
+     * 设置FTP服务端字符编码
+     * 2020/6/5 16:15
      * @param: serverCharSet
      */
     public void setServerCharSet(String serverCharSet) {
@@ -139,9 +123,8 @@ public class FtpClient {
 
     /**
      * @return java.lang.String
-     * @author klw(213539 @ qq.com)
-     * @Description: 获取FTP服务端字符编码
-     * @Date 2020/6/5 16:16
+     * 获取FTP服务端字符编码
+     * 2020/6/5 16:16
      * @param:
      */
     public String getServerCharSet() {
@@ -151,9 +134,8 @@ public class FtpClient {
 
     /**
      * @return top.klw8.alita.ftp.FtpClient
-     * @author klw(213539 @ qq.com)
-     * @Description: 连接并获得一个ftp客户端
-     * @Date 2020/6/5 9:15
+     * 连接并获得一个ftp客户端
+     * 2020/6/5 9:15
      * @param: host
      * @param: port
      * @param: username
@@ -173,9 +155,8 @@ public class FtpClient {
      * @param port     端口
      * @param username 用户名
      * @param password 密码
-     * @author klw(213539 @ qq.com)
-     * @Description: 无参构造
-     * @Date 2020/6/5 9:20
+     * 无参构造
+     * 2020/6/5 9:20
      */
     private FtpClient(String host, String port, String username, String password) {
         this.host = host;
@@ -186,9 +167,8 @@ public class FtpClient {
 
     /**
      * @return void
-     * @author klw(213539 @ qq.com)
-     * @Description: 设置代理
-     * @Date 2020/6/5 16:12
+     * 设置代理
+     * 2020/6/5 16:12
      * @param: proxyHost
      * @param: porxyPort
      */
@@ -199,9 +179,8 @@ public class FtpClient {
 
     /**
      * @return org.apache.commons.net.ftp.FTPClient
-     * @author klw(213539 @ qq.com)
-     * @Description: 初始化一个Apache FtpClient 并创建连接
-     * @Date 2020/6/5 16:16
+     * 初始化一个Apache FtpClient 并创建连接
+     * 2020/6/5 16:16
      * @param:
      */
     private FTPClient initApacheFtpClient() {
@@ -235,9 +214,8 @@ public class FtpClient {
 
     /**
      * @return void
-     * @author klw(213539 @ qq.com)
-     * @Description: 断开与远程服务器的连接
-     * @Date 2020/6/5 9:53
+     * 断开与远程服务器的连接
+     * 2020/6/5 9:53
      * @param:
      */
     private void disconnect(FTPClient client) throws IOException {
@@ -246,10 +224,9 @@ public class FtpClient {
         }
     }
 
-    /**
-     * @author klw(213539 @ qq.com)
-     * @Description: 上传文件到FTP服务器，支持断点续传
-     * @Date 2020/6/5 9:53
+    /**(213539 @ qq.com)
+     * 上传文件到FTP服务器，支持断点续传
+     * 2020/6/5 9:53
      * @param: local 本地文件名称/绝对路径
      * @param: remote 远程文件路径
      * @return 上传是否成功
@@ -300,9 +277,8 @@ public class FtpClient {
 
     /**
      * @return java.lang.String
-     * @author klw(213539 @ qq.com)
-     * @Description: 如果断点续传没有成功，则删除服务器上文件，重新上传
-     * @Date 2020/6/5 9:56
+     * 如果断点续传没有成功，则删除服务器上文件，重新上传
+     * 2020/6/5 9:56
      * @param: result
      * @param: remoteFileName
      * @param: f
@@ -321,9 +297,8 @@ public class FtpClient {
      * @param remote 远程文件路径
      * @param local  本地文件路径
      * @return 下载是否成功
-     * @author klw(213539 @ qq.com)
-     * @Description: 从FTP服务器上下载文件, 支持断点续传，下载百分比汇报
-     * @Date 2020/6/5 9:56
+     * 从FTP服务器上下载文件, 支持断点续传，下载百分比汇报
+     * 2020/6/5 9:56
      */
     public boolean download(String remote, String local) throws IOException {
         FTPClient ftpClient = this.initApacheFtpClient();
@@ -350,9 +325,8 @@ public class FtpClient {
      * @param local  本地路径
      * @param remote 远程路径
      * @return 结果
-     * @author klw(213539 @ qq.com)
-     * @Description: 下载文件
-     * @Date 2020/6/5 9:56
+     * 下载文件
+     * 2020/6/5 9:56
      */
     private boolean download(FTPClient ftpClient, FTPFile[] files, String local, String remote) throws IOException {
         boolean result;
@@ -387,9 +361,8 @@ public class FtpClient {
      * @param remote      远程目录
      * @param lRemoteSize 远程文件尺寸
      * @return 结果
-     * @author klw(213539 @ qq.com)
-     * @Description: 下载
-     * @Date 2020/6/5 9:57
+     * 下载
+     * 2020/6/5 9:57
      */
     private boolean downloaddd(FTPClient ftpClient, long localSize, File f, String remote, long lRemoteSize) throws IOException {
         BufferedInputStream bis = null;
@@ -433,9 +406,8 @@ public class FtpClient {
      * @param remote      远程路径
      * @param lRemoteSize 远程文件尺寸
      * @return 结果
-     * @author klw(213539 @ qq.com)
-     * @Description: 下载
-     * @Date 2020/6/5 9:57
+     * 下载
+     * 2020/6/5 9:57
      */
     private boolean downloadCreate(FTPClient ftpClient, File f, String remote, long lRemoteSize) throws IOException {
         BufferedInputStream bis = null;
@@ -472,9 +444,8 @@ public class FtpClient {
 
     /**
      * @return org.apache.commons.net.ftp.FTPFile[]
-     * @author klw(213539 @ qq.com)
-     * @Description: 返回远程文件列表
-     * @Date 2020/6/5 9:58
+     * 返回远程文件列表
+     * 2020/6/5 9:58
      * @param: remotePath
      */
     public FTPFile[] getremoteFiles(String remotePath) throws IOException {
@@ -487,9 +458,8 @@ public class FtpClient {
 
     /**
      * @return boolean
-     * @author klw(213539 @ qq.com)
-     * @Description: 删除ftp上的文件
-     * @Date 2020/6/5 9:58
+     * 删除ftp上的文件
+     * 2020/6/5 9:58
      * @param: remotePath
      */
     public boolean removeFile(String remotePath) throws IOException {
@@ -511,9 +481,8 @@ public class FtpClient {
      * @param localFile  本地文件File句柄，绝对路径
      * @param fc         FTPClient引用
      * @return 上传是否成功
-     * @author klw(213539 @ qq.com)
-     * @Description: 上传文件到服务器, 新上传和断点续传
-     * @Date 2020/6/5 9:59
+     * 上传文件到服务器, 新上传和断点续传
+     * 2020/6/5 9:59
      */
     private boolean uploadFile(String remoteFile, File localFile, FTPClient fc, long remoteSize) throws IOException {
         RandomAccessFile raf = null;
@@ -558,9 +527,8 @@ public class FtpClient {
      * @param remote 远程服务器文件绝对路径
      * @param fc     FTPClient对象
      * @return 目录创建是否成功
-     * @author klw(213539 @ qq.com)
-     * @Description: 递归创建远程服务器目录
-     * @Date 2020/6/5 9:59
+     * 递归创建远程服务器目录
+     * 2020/6/5 9:59
      */
     private boolean createDirecroty(String remote, FTPClient fc) throws IOException {
         boolean status = true;
@@ -575,9 +543,8 @@ public class FtpClient {
 
     /**
      * @return java.lang.String
-     * @author klw(213539 @ qq.com)
-     * @Description: 创建目录
-     * @Date 2020/6/5 10:00
+     * 创建目录
+     * 2020/6/5 10:00
      * @param: directory
      * @param: fc
      * @param: remote

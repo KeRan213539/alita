@@ -18,10 +18,8 @@ package top.klw8.alita.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 /**
- * @ClassName: MD5Util
- * @Description: MD5工具
- * @author klw
- * @date 2019-01-31 17:44:15
+ * MD5工具
+ * 2019-01-31 17:44:15
  */
 public class MD5Util {
     /** 

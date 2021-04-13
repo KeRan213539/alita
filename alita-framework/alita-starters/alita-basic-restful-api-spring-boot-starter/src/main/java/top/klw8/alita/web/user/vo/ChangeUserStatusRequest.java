@@ -22,10 +22,8 @@ import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: ChangeUserStatusRequest
- * @Description: 禁用/启用用户接口请求
- * @date 2019/11/1 15:32
+ * 禁用/启用用户接口请求
+ * 2019/11/1 15:32
  */
 @Getter
 @Setter

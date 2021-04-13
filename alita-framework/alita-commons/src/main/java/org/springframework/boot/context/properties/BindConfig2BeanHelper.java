@@ -19,10 +19,8 @@ import org.springframework.context.ApplicationContext;
 
 
 /**
- * @author klw
- * @ClassName: BindConfig2BeanHelper
- * @Description: 从spring中读取配制(包括配制文件中和zookeeper中的或者其他通过spring读取的配制)并转换为对应的Bean
- * @date 2018年11月1日 上午11:01:37
+ * 从spring中读取配制(包括配制文件中和zookeeper中的或者其他通过spring读取的配制)并转换为对应的Bean
+ * 2018年11月1日 上午11:01:37
  */
 public class BindConfig2BeanHelper {
 

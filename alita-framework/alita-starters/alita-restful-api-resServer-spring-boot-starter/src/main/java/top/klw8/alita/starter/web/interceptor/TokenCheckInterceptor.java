@@ -36,9 +36,7 @@ import top.klw8.alita.utils.redis.TokenRedisUtil;
 /**
  * token验证拦截器.
  *
- * @author klw(213539 @ qq.com)
- * @ClassName: TokenCheckInterceptor
- * @date 2020/9/10 15:35
+ * 2020/9/10 15:35
  */
 @Slf4j
 @Order(1)

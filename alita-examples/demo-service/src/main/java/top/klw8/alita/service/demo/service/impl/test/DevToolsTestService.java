@@ -16,10 +16,8 @@
 package top.klw8.alita.service.demo.service.impl.test;
 
 /**
- * @ClassName: DevToolsTestService
- * @Description: 代码生成器测试用 的 Service实现
- * @author dev-tools
- * @date 2019年03月05日 11:44:29
+ * 代码生成器测试用 的 Service实现
+ * 2019年03月05日 11:44:29
  */
 //@Slf4j
 //@DubboService(async=true)

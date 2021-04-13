@@ -18,10 +18,8 @@ package top.klw8.alita.mq.messages;
 import java.math.BigDecimal;
 
 /**
- * @ClassName: DemoMsgBean
- * @Description: 消息bean Demo
- * @author klw
- * @date 2018年9月12日 下午3:42:56
+ * 消息bean Demo
+ * 2018年9月12日 下午3:42:56
  */
 public class DemoMsgBean implements java.io.Serializable {
 

@@ -25,10 +25,8 @@ import top.klw8.alita.BaseServiceApplication;
 
 
 /**
- * @author klw
- * @ClassName: DemoServiceApplication
- * @Description: 订单服务启动器
- * @date 2018年9月29日 上午11:43:34
+ * 订单服务启动器
+ * 2018年9月29日 上午11:43:34
  */
 @EnableDubbo(scanBasePackages = {"top.klw8.alita.service.mybatisdemo.providers"})
 @MapperScan("top.klw8.alita.service.mybatisdemo.services.user.mapper")

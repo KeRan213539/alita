@@ -21,10 +21,8 @@ import top.klw8.alita.starter.datasecured.IResourceParserData;
 import top.klw8.alita.starter.datasecured.ResourceParserResult;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: DemoResourceParser
- * @Description: DemoResourceParser
- * @date 2020/4/30 10:57
+ * DemoResourceParser
+ * 2020/4/30 10:57
  */
 @Component
 public class DemoResourceParser implements IResourceParser {

@@ -28,10 +28,8 @@ import org.springframework.web.reactive.result.view.freemarker.FreeMarkerConfigu
 
 
 /**
- * @author klw
- * @ClassName: WebFluxConfiguration
- * @Description: web 配制
- * @date 2018年12月6日 下午2:49:39
+ * web 配制
+ * 2018年12月6日 下午2:49:39
  */
 @Configuration
 @EnableWebFlux

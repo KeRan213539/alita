@@ -23,10 +23,8 @@ import top.klw8.alita.validator.annotations.Password;
 import top.klw8.alita.validator.annotations.Required;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: ChangeUserPasswordByUserIdRequest
- * @Description: 根据ID修改用户密码接口请求
- * @date 2019/10/30 10:56
+ * 根据ID修改用户密码接口请求
+ * 2019/10/30 10:56
  */
 @Getter
 @Setter

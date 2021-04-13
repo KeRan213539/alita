@@ -19,10 +19,8 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * @ClassName: IdentifyingCodeGenerator
- * @Description: 验证码生成器
- * @author klw
- * @date 2018-11-21 11:06:06
+ * 验证码生成器
+ * 2018-11-21 11:06:06
  */
 public class SecurityCodeGenerator {
 
@@ -34,8 +32,7 @@ public class SecurityCodeGenerator {
     };
 
     /**
-     * @Title: numberCode6
-     * @Description: 纯数字验证码 长度6
+     * 纯数字验证码 长度6
      * @return
      */
     public static String numberCode6() {
@@ -43,8 +40,7 @@ public class SecurityCodeGenerator {
     }
 
     /**
-     * @Title: mixCode4
-     * @Description: 生成数字字母混合验证码 长度4
+     * 生成数字字母混合验证码 长度4
      * @return
      */
     public static String mixCode4() {
@@ -52,8 +48,7 @@ public class SecurityCodeGenerator {
     }
     
     /**
-     * @Title: mixCode
-     * @Description: 生成指定长度的数字字母混合随机字符串
+     * 生成指定长度的数字字母混合随机字符串
      * @param length
      * @return
      */
@@ -62,8 +57,7 @@ public class SecurityCodeGenerator {
     }
     
     /**
-     * @Title: mixCodeRandomLength
-     * @Description: 生成10到32位之间长度的随机字符串
+     * 生成10到32位之间长度的随机字符串
      * @return
      */
     public static String mixCodeRandomLength() {

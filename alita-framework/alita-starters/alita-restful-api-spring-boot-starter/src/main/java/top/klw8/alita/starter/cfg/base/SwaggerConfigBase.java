@@ -33,10 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author klw
- * @ClassName: SwaggerConfigBase
- * @Description: SwaggerConfig 的父类,每个项目自己配制 Swagger, 继承这个base
- * @date 2018年12月6日 上午10:01:31
+ * SwaggerConfig 的父类,每个项目自己配制 Swagger, 继承这个base
+ * 2018年12月6日 上午10:01:31
  */
 public class SwaggerConfigBase {
 

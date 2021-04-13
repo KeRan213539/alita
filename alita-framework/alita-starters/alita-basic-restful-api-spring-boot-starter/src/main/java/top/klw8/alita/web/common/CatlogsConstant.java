@@ -16,10 +16,8 @@
 package top.klw8.alita.web.common;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: CatlogsConstant
- * @Description: 权限目录常量
- * @date 2019/10/30 9:44
+ * 权限目录常量
+ * 2019/10/30 9:44
  */
 public class CatlogsConstant {
 

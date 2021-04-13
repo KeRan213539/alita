@@ -26,10 +26,8 @@ import top.klw8.alita.validator.annotations.Required;
 import top.klw8.alita.web.authority.vo.enums.HttpMethodPrarm;
 
 /**
- * @ClassName: SaveAuthoritysRequest
- * @Description: 权限保存的的请求
- * @author klw
- * @date 2018年11月28日 下午6:22:37
+ * 权限保存的的请求
+ * 2018年11月28日 下午6:22:37
  */
 @Getter
 @Setter
@@ -38,8 +36,7 @@ import top.klw8.alita.web.authority.vo.enums.HttpMethodPrarm;
 public class SaveAuthoritysRequest {
 
     /**
-     * @author xp
-     * @Description: id
+     * id
      */
     @ApiParam(value = "ID", required=true)
     private String id;

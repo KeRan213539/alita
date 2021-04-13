@@ -21,10 +21,8 @@ import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
 
 /**
- * @ClassName: SaveCatlogRequest
- * @Description: 保存权限目录的请求
- * @author klw
- * @date 2018年12月5日 下午3:01:02
+ * 保存权限目录的请求
+ * 2018年12月5日 下午3:01:02
  */
 @Getter
 @Setter

@@ -19,9 +19,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import top.klw8.alita.entitys.authority.AlitaAuthoritysApp;
 
 /**
- * @author zhaozheng
- * @description:
- * @date: 2020-07-16
+ * 
+ * 2020-07-16
  */
 
 public interface IAuthorityAppMapper extends BaseMapper<AlitaAuthoritysApp> {

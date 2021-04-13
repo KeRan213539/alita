@@ -22,17 +22,14 @@ import top.klw8.alita.entitys.authority.AlitaAuthoritysResource;
 import java.util.List;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: ISystemDataSecuredMapper
- * @Description: 数据权限表 mapper
- * @date 2020/5/13 16:45
+ * 数据权限表 mapper
+ * 2020/5/13 16:45
  */
 public interface ISystemDataSecuredMapper extends BaseMapper<AlitaAuthoritysResource> {
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 根据权限ID查询数量
-     * @Date 2020/5/20 15:33
+     * 根据权限ID查询数量
+     * 2020/5/20 15:33
      * @param: auId
      * @return int
      */

@@ -26,10 +26,8 @@ import top.klw8.alita.validator.annotations.GeoLatitude;
 import top.klw8.alita.validator.annotations.GeoLongitude;
 
 /**
- * @ClassName: ListPrarmVo
- * @Description: 分页参数Vo
- * @author klw
- * @date 2018年10月10日 下午1:43:34
+ * 分页参数Vo
+ * 2018年10月10日 下午1:43:34
  */
 @ApiModel(value = "ListPrarmVo", description = "列表查询参数")
 @Getter

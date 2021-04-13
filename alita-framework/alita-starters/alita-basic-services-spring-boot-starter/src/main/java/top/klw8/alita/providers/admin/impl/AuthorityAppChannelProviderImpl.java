@@ -28,9 +28,7 @@ import java.util.List;
 /**
  * 应用渠道表 provider 实现.
  *
- * @author klw(213539 @ qq.com)
- * @ClassName: AuthorityAppChannelProviderImpl
- * @date 2020/9/9 17:43
+ * 2020/9/9 17:43
  */
 @Slf4j
 @DubboService

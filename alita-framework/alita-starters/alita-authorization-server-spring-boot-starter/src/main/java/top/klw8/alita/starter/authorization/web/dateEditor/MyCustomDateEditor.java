@@ -26,10 +26,8 @@ import java.util.Date;
 import java.util.regex.Pattern;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: MybatisDemoController
- * @Description: mybatis demo
- * @date 2019/8/8 15:47
+ * mybatis demo
+ * 2019/8/8 15:47
  */
 public class MyCustomDateEditor extends PropertyEditorSupport {
 

@@ -19,10 +19,8 @@ import top.klw8.alita.service.result.IResultCode;
 import top.klw8.alita.service.result.ISubResultCode;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: AuthorityResultCodeEnum
- * @Description: 权限相关
- * @date 2019/8/15 16:52
+ * 权限相关
+ * 2019/8/15 16:52
  */
 public enum AuthorityResultCodeEnum implements ISubResultCode {
 
@@ -38,24 +36,21 @@ public enum AuthorityResultCodeEnum implements ISubResultCode {
 
     ;
     /**
-     * @author klw
-     * @Description: 所属分类, 写死
-     * @Date 2019/6/6 17:41
+     * 所属分类, 写死
+     * 2019/6/6 17:41
      * @Param
      * @return
      */
     private IResultCode classify = ResultCodeEnum.AUTHORITY;
 
     /**
-     * @author klw
-     * @Description: 业务code(3位)
+     * 业务code(3位)
      */
     private String subCode;
 
 
     /**
-     * @author klw
-     * @Description: code 对应的消息
+     * code 对应的消息
      */
     private String codeMsg;
 

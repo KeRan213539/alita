@@ -24,10 +24,8 @@ import java.lang.annotation.RetentionPolicy;
 import org.springframework.context.annotation.Import;
 
 /**
- * @ClassName: EnableSpringApplicationContextUtil
- * @Description: 开启 EnableSpringApplicationContextUtil
- * @author klw
- * @date 2018年9月17日 下午1:57:41
+ * 开启 EnableSpringApplicationContextUtil
+ * 2018年9月17日 下午1:57:41
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

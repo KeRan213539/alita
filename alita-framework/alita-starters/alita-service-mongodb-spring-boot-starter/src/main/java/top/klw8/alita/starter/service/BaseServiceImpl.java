@@ -39,10 +39,8 @@ import org.springframework.util.Assert;
 import java.util.List;
 
 /**
- * @author klw
- * @ClassName: BaseServiceImpl
- * @Description: service 用的 有各种常用操作
- * @date 2018年10月9日 下午1:23:40
+ * service 用的 有各种常用操作
+ * 2018年10月9日 下午1:23:40
  */
 @Slf4j
 public class BaseServiceImpl<T extends MongoBaseEntity> implements IMongoBaseService<T> {
@@ -309,9 +307,7 @@ public class BaseServiceImpl<T extends MongoBaseEntity> implements IMongoBaseSer
     /**
      * @param ids
      * @return
-     * @Title: convertIdsString2PKArray
-     * @author klw
-     * @Description: 将使用逗号(, )隔开的多个ID的字符串转换为PK类型的数组
+     * 将使用逗号(, )隔开的多个ID的字符串转换为PK类型的数组
      */
     private ObjectId[] convertIdsString2PKArray(String ids) {
         Assert.hasText(ids, "ids不能为空!");

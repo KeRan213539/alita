@@ -24,17 +24,14 @@ import java.util.Date;
 
 
 /**
- * @author klw
- * @ClassName: LocalDateTimeUtil
- * @Description: LocalDateTime的日期时间工具类
- * @date 2019-01-29 11:23:26
+ * LocalDateTime的日期时间工具类
+ * 2019-01-29 11:23:26
  */
 public class LocalDateTimeUtil {
 
     /**
-     * @author xp
-     * @Description: 判断日期是否在范围内，以当前日期为参照往前多少天，往后多少天<BR/>支持Date,LocalDate,LocalDateTime
-     * @Date 2019/11/19 14:12
+     * 判断日期是否在范围内，以当前日期为参照往前多少天，往后多少天<BR/>支持Date,LocalDate,LocalDateTime
+     * 2019/11/19 14:12
      * @param: object (Date|LocalDate|LocalDateTime)
      * @param: before
      * @param: after
@@ -67,9 +64,8 @@ public class LocalDateTimeUtil {
     }
     
     /**
-     * @author xp
-     * @Description: 判断LocalDateTime是否在指定日期范围之内
-     * @Date 2019/11/19 10:51
+     * 判断LocalDateTime是否在指定日期范围之内
+     * 2019/11/19 10:51
      * @param: formatStr
      * @param: dateStr
      * @param: beginDateStr
@@ -84,9 +80,8 @@ public class LocalDateTimeUtil {
     }
     
     /**
-     * @author xp
-     * @Description: 判断LocalDateTime是否在指定日期范围之内
-     * @Date 2019/11/19 10:50
+     * 判断LocalDateTime是否在指定日期范围之内
+     * 2019/11/19 10:50
      * @param: targetDate
      * @param: beginDate
      * @param: endDate
@@ -103,9 +98,8 @@ public class LocalDateTimeUtil {
     }
 
     /**
-     * @author xp
-     * @Description: 判断LocalDate是否在指定日期范围之内
-     * @Date 2019/11/19 10:47
+     * 判断LocalDate是否在指定日期范围之内
+     * 2019/11/19 10:47
      * @param: formatStr
      * @param: dateStr
      * @param: beginDateStr
@@ -120,9 +114,8 @@ public class LocalDateTimeUtil {
     }
     
     /**
-     * @author xp
-     * @Description: 判断LocalDate是否在指定日期范围之内
-     * @Date 2019/11/19 10:32
+     * 判断LocalDate是否在指定日期范围之内
+     * 2019/11/19 10:32
      * @param: date
      * @param: beginDate
      * @param: endDate
@@ -401,9 +394,7 @@ public class LocalDateTimeUtil {
     /**
      * @param time
      * @return
-     * @Title: getMilliByTime
-     * @author klw
-     * @Description: 获取指定日期的毫秒
+     * 获取指定日期的毫秒
      */
     public static Long getMilliByTime(LocalDateTime time) {
         return time.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
@@ -412,9 +403,7 @@ public class LocalDateTimeUtil {
     /**
      * @param date
      * @return
-     * @Title: convertDateToLDT
-     * @author klw
-     * @Description: Date转换为LocalDateTime
+     * Date转换为LocalDateTime
      */
     public static LocalDateTime convertDateToLDT(Date date) {
         return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
@@ -423,9 +412,7 @@ public class LocalDateTimeUtil {
     /**
      * @param time
      * @return
-     * @Title: convertLDTToDate
-     * @author klw
-     * @Description: LocalDateTime转换为Date
+     * LocalDateTime转换为Date
      */
     public static Date convertLDTToDate(LocalDateTime time) {
         return Date.from(time.atZone(ZoneId.systemDefault()).toInstant());
@@ -434,9 +421,7 @@ public class LocalDateTimeUtil {
     /**
      * @param time
      * @return
-     * @Title: getSecondsByTime
-     * @author klw
-     * @Description: 获取指定日期的秒
+     * 获取指定日期的秒
      */
     public static Long getSecondsByTime(LocalDateTime time) {
         return time.atZone(ZoneId.systemDefault()).toInstant().getEpochSecond();
@@ -446,18 +431,15 @@ public class LocalDateTimeUtil {
      * @param time
      * @param pattern
      * @return
-     * @Title: formatTime
-     * @author klw
-     * @Description: 获取指定时间的指定格式
+     * 获取指定时间的指定格式
      */
     public static String formatTime(LocalDateTime time, String pattern) {
         return time.format(DateTimeFormatter.ofPattern(pattern));
     }
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 获取指定时间的yyyy-MM-dd HH:mm:ss格式
-     * @Date 2019/11/1 17:12
+     * 获取指定时间的yyyy-MM-dd HH:mm:ss格式
+     * 2019/11/1 17:12
      * @param: time
      * @return java.lang.String
      */
@@ -469,18 +451,15 @@ public class LocalDateTimeUtil {
      * @param date
      * @param pattern
      * @return
-     * @Title: formatTime
-     * @author klw
-     * @Description: 获取指定时间的指定格式
+     * 获取指定时间的指定格式
      */
     public static String formatDate(LocalDate date, String pattern) {
         return date.format(DateTimeFormatter.ofPattern(pattern));
     }
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 获取指定时间的yyyy-MM-dd格式
-     * @Date 2019/11/1 17:12
+     * 获取指定时间的yyyy-MM-dd格式
+     * 2019/11/1 17:12
      * @param: date
      * @return java.lang.String
      */
@@ -491,9 +470,7 @@ public class LocalDateTimeUtil {
     /**
      * @param pattern
      * @return
-     * @Title: formatNow
-     * @author klw
-     * @Description: 获取当前时间的指定格式
+     * 获取当前时间的指定格式
      */
     public static String formatNow(String pattern) {
         return formatTime(LocalDateTime.now(), pattern);
@@ -504,9 +481,7 @@ public class LocalDateTimeUtil {
      * @param number
      * @param field
      * @return
-     * @Title: plus
-     * @author klw
-     * @Description: 日期加上一个数, 根据field不同加不同值, field为ChronoUnit.*
+     * 日期加上一个数, 根据field不同加不同值, field为ChronoUnit.*
      */
     public static LocalDateTime plus(LocalDateTime time, long number, TemporalUnit field) {
         return time.plus(number, field);
@@ -517,9 +492,7 @@ public class LocalDateTimeUtil {
      * @param number
      * @param field
      * @return
-     * @Title: minu
-     * @author klw
-     * @Description: 日期减去一个数, 根据field不同减不同值, field参数为ChronoUnit.*
+     * 日期减去一个数, 根据field不同减不同值, field参数为ChronoUnit.*
      */
     public static LocalDateTime minu(LocalDateTime time, long number, TemporalUnit field) {
         return time.minus(number, field);
@@ -530,9 +503,7 @@ public class LocalDateTimeUtil {
      * @param endTime
      * @param field
      * @return
-     * @Title: betweenTwoTime
-     * @author klw
-     * @Description: 获取两个日期的差  field参数为ChronoUnit.*
+     * 获取两个日期的差  field参数为ChronoUnit.*
      */
     public static long betweenTwoTime(LocalDateTime startTime, LocalDateTime endTime, ChronoUnit field) {
         Period period = Period.between(LocalDate.from(startTime), LocalDate.from(endTime));
@@ -544,9 +515,7 @@ public class LocalDateTimeUtil {
     /**
      * @param time
      * @return
-     * @Title: getDayStart
-     * @author klw
-     * @Description: 获取一天的开始时间，2017,7,22 00:00
+     * 获取一天的开始时间，2017,7,22 00:00
      */
     public static LocalDateTime getDayStart(LocalDateTime time) {
         return time.withHour(0)
@@ -558,9 +527,7 @@ public class LocalDateTimeUtil {
     /**
      * @param time
      * @return
-     * @Title: getDayEnd
-     * @author klw
-     * @Description: 获取一天的结束时间，2017,7,22 23:59:59.999999999
+     * 获取一天的结束时间，2017,7,22 23:59:59.999999999
      */
     public static LocalDateTime getDayEnd(LocalDateTime time) {
         return time.withHour(23)
@@ -572,9 +539,7 @@ public class LocalDateTimeUtil {
     /**
      * @param startTime
      * @return -1 晚于当前时间  0 与当前时间相等  1 早于当前时间
-     * @Title: compareTime
-     * @author klw
-     * @Description: 比较传入的时间(yyyy - MM - dd)与当前时间先后(仅比较年月日, 忽略时分秒)
+     * 比较传入的时间(yyyy - MM - dd)与当前时间先后(仅比较年月日, 忽略时分秒)
      */
     public static int compareTime(String startTime) {
         return compareTime(formatToLDT(startTime, "yyyy-MM-dd"));
@@ -583,9 +548,7 @@ public class LocalDateTimeUtil {
     /**
      * @param startTime
      * @return -1 晚于当前时间  0 与当前时间相等  1 早于当前时间
-     * @Title: compareTime
-     * @author klw
-     * @Description: 比较传入的时间与当前时间先后(仅比较年月日, 忽略时分秒)
+     * 比较传入的时间与当前时间先后(仅比较年月日, 忽略时分秒)
      */
     public static int compareTime(LocalDateTime startTime) {
         String today = getTodayChar8En();
@@ -607,9 +570,7 @@ public class LocalDateTimeUtil {
      * @param dateStr
      * @param dateFormatter
      * @return
-     * @Title: formatToLDT
-     * @author klw
-     * @Description: 根据传入的字符串日期和对应的格式, 创建 LocalDateTime
+     * 根据传入的字符串日期和对应的格式, 创建 LocalDateTime
      */
     public static LocalDateTime formatToLDT(String dateStr, String dateFormatter) {
         //yyyy-MM-dd HH:mm:ss
@@ -619,9 +580,7 @@ public class LocalDateTimeUtil {
     /**
      * @param dateStr
      * @return
-     * @Title: formatToLDT
-     * @author klw
-     * @Description: 根据 yyyy-MM-dd HH:mm:ss 格式的字符串创建 LocalDateTime
+     * 根据 yyyy-MM-dd HH:mm:ss 格式的字符串创建 LocalDateTime
      */
     public static LocalDateTime formatToLDT(String dateStr) {
         return formatToLDT(dateStr, "yyyy-MM-dd HH:mm:ss");
@@ -631,9 +590,7 @@ public class LocalDateTimeUtil {
      * @param dateStr
      * @param dateFormatter
      * @return
-     * @Title: formatToLDT
-     * @author klw
-     * @Description: 根据传入的字符串日期和对应的格式, 创建 LocalDate
+     * 根据传入的字符串日期和对应的格式, 创建 LocalDate
      */
     public static LocalDate formatToLD(String dateStr, String dateFormatter) {
         return LocalDate.parse(dateStr, DateTimeFormatter.ofPattern(dateFormatter));
@@ -642,18 +599,15 @@ public class LocalDateTimeUtil {
     /**
      * @param dateStr
      * @return
-     * @Title: formatToLDT
-     * @author klw
-     * @Description: 根据 yyyy-MM-dd 格式的字符串创建 LocalDate
+     * 根据 yyyy-MM-dd 格式的字符串创建 LocalDate
      */
     public static LocalDate formatToLD(String dateStr) {
         return formatToLD(dateStr, "yyyy-MM-dd");
     }
 
-    /*
-     * @author klw(213539@qq.com)
-     * @Description: 获取指定时间的那一天的开始时间(0时0秒0分)
-     * @Date 2019/10/15 16:35
+    /**
+     * 获取指定时间的那一天的开始时间(0时0秒0分)
+     * 2019/10/15 16:35
      * @param: dateTime
      * @return java.time.LocalDateTime
      */
@@ -662,9 +616,8 @@ public class LocalDateTimeUtil {
     }
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 获取指定时间的那一天的结束时间(23时59秒59分)
-     * @Date 2019/10/15 16:39
+     * 获取指定时间的那一天的结束时间(23时59秒59分)
+     * 2019/10/15 16:39
      * @param: dateTime
      * @return java.time.LocalDateTime
      */
@@ -672,10 +625,9 @@ public class LocalDateTimeUtil {
         return LocalDateTime.of(dateTime.toLocalDate(), LocalTime.MAX);
     }
 
-    /*
-     * @author klw(213539@qq.com)
-     * @Description: 获取指定时间的那一天的开始时间(0时0秒0分)
-     * @Date 2019/10/15 16:35
+    /**
+     * 获取指定时间的那一天的开始时间(0时0秒0分)
+     * 2019/10/15 16:35
      * @param: dateTime
      * @return java.time.LocalDateTime
      */
@@ -684,9 +636,8 @@ public class LocalDateTimeUtil {
     }
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 获取指定时间的那一天的结束时间(23时59秒59分)
-     * @Date 2019/10/15 16:39
+     * 获取指定时间的那一天的结束时间(23时59秒59分)
+     * 2019/10/15 16:39
      * @param: dateTime
      * @return java.time.LocalDateTime
      */
@@ -694,10 +645,9 @@ public class LocalDateTimeUtil {
         return LocalDateTime.of(date, LocalTime.MAX);
     }
 
-    /*
-     * @author klw(213539@qq.com)
-     * @Description: 获取今天的开始时间(0时0秒0分)
-     * @Date 2019/10/15 16:35
+    /**
+     * 获取今天的开始时间(0时0秒0分)
+     * 2019/10/15 16:35
      * @param: dateTime
      * @return java.time.LocalDateTime
      */
@@ -706,9 +656,8 @@ public class LocalDateTimeUtil {
     }
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 获取今天的结束时间(23时59秒59分)
-     * @Date 2019/10/15 16:39
+     * 获取今天的结束时间(23时59秒59分)
+     * 2019/10/15 16:39
      * @param: dateTime
      * @return java.time.LocalDateTime
      */

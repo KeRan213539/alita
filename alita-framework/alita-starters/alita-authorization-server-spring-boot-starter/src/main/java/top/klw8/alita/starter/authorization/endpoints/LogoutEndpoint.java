@@ -26,9 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 登出.
  *
- * @author klw(213539 @ qq.com)
- * @ClassName: LogoutEndpoint
- * @date 2020/9/10 18:11
+ * 2020/9/10 18:11
  */
 @RestController
 public class LogoutEndpoint {

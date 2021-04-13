@@ -24,10 +24,8 @@ import java.util.Map;
 
 
 /**
- * @author klw
- * @ClassName: DemoWebApiApplication
- * @Description: demo restful接口服务启动器
- * @date 2018年9月29日 下午4:12:17
+ * demo restful接口服务启动器
+ * 2018年9月29日 下午4:12:17
  */
 public class DemoWebApiApplication extends BaseWebApiApplication {
 

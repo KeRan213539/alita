@@ -31,10 +31,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author klw
- * @ClassName: AlitaUserServiceImpl
- * @Description: 用户服务
- * @date 2018年11月9日 下午5:32:24
+ * 用户服务
+ * 2018年11月9日 下午5:32:24
  */
 @Slf4j
 @Service

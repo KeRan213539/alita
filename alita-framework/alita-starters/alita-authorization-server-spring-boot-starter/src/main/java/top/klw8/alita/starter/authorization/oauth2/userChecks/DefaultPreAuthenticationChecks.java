@@ -22,10 +22,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
 
 /**
- * @author klw
- * @ClassName: DefaultPreAuthenticationChecks
- * @Description: 检查用户状态
- * @date 2018年11月22日 上午11:05:54
+ * 检查用户状态
+ * 2018年11月22日 上午11:05:54
  */
 public class DefaultPreAuthenticationChecks implements UserDetailsChecker {
 

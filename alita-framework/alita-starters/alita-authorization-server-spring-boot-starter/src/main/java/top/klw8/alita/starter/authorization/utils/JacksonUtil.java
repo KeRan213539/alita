@@ -23,10 +23,8 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import java.text.SimpleDateFormat;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: JacksonUtil
- * @Description: Jackson工具类
- * @date 2019/9/24 20:09
+ * Jackson工具类
+ * 2019/9/24 20:09
  */
 public class JacksonUtil {
 

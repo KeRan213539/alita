@@ -68,10 +68,8 @@ import java.util.*;
 import java.util.Map.Entry;
 
 /**
- * @author klw
- * @ClassName: DevHelperController
- * @Description: 开发辅助工具
- * @date 2018年12月7日 下午3:55:04
+ * 开发辅助工具
+ * 2018年12月7日 下午3:55:04
  */
 @Api(tags = {"alita-restful-API--开发辅助工具"})
 @RestController

@@ -39,10 +39,8 @@ import top.klw8.alita.starter.web.base.WebapiBaseController;
 import java.util.concurrent.ExecutionException;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: MybatisDemoController
- * @Description: mybatis demo
- * @date 2019/8/8 15:47
+ * mybatis demo
+ * 2019/8/8 15:47
  */
 @Api(tags = {"alita-restful-API--demoAPI"})
 @RestController

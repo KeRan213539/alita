@@ -24,10 +24,8 @@ import top.klw8.alita.validator.annotations.Required;
 import java.util.List;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: SaveUserRolesRequest
- * @Description: 保存用户拥有的角色(替换原有角色)接口请求
- * @date 2019/10/29 16:36
+ * 保存用户拥有的角色(替换原有角色)接口请求
+ * 2019/10/29 16:36
  */
 @Getter
 @Setter

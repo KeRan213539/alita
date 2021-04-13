@@ -28,10 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author klw
- * @ClassName: SwaggerProvider
- * @Description: 聚合swagger
- * @date 2019/7/12 16:44
+ * 聚合swagger
+ * 2019/7/12 16:44
  */
 @Component
 @Primary

@@ -18,10 +18,8 @@ package top.klw8.alita.demo.web.demo.vo;
 import io.swagger.annotations.ApiParam;
 
 /**
- * @ClassName: DemoRequest
- * @Description: demo 请求
- * @author klw
- * @date 2018年9月29日 下午5:10:20
+ * demo 请求
+ * 2018年9月29日 下午5:10:20
  */
 public class DemoRequest {
 

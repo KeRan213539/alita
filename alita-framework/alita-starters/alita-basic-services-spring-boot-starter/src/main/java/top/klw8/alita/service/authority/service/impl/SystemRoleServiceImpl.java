@@ -32,10 +32,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author klw
- * @ClassName: SystemRoleServiceImpl
- * @Description: 系统角色Service_实现
- * @date 2018年11月28日 下午3:53:01
+ * 系统角色Service_实现
+ * 2018年11月28日 下午3:53:01
  */
 @Slf4j
 @Service

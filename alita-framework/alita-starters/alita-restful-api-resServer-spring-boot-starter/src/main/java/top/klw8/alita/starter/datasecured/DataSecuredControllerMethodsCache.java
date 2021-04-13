@@ -27,10 +27,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: ControllerMethodsCache
- * @Description: 需要数据权限的Controller方法缓存
- * @date 2020/4/24 16:01
+ * 需要数据权限的Controller方法缓存
+ * 2020/4/24 16:01
  */
 public class DataSecuredControllerMethodsCache {
 

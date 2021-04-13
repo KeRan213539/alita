@@ -25,10 +25,8 @@ import top.klw8.alita.entitys.authority.enums.ResourceType;
 import top.klw8.alita.entitys.base.BaseEntity;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: AlitaAuthoritysResource
- * @Description: 资源权限表实体
- * @date 2020/4/30 11:47
+ * 资源权限表实体
+ * 2020/4/30 11:47
  */
 @TableName("alita_authoritys_resource")
 @Getter
@@ -39,22 +37,19 @@ public class AlitaAuthoritysResource extends BaseEntity implements IAssociatedAp
     private static final long serialVersionUID = 4226666111547632645L;
 
     /**
-     * @author klw
-     * @Fields authorityName : 所属应用的应用标识
+     * authorityName : 所属应用的应用标识
      */
     @TableField("app_tag")
     private String appTag;
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 所属权限ID
+     * 所属权限ID
      */
     @TableField(value = "authoritys_id", updateStrategy = FieldStrategy.IGNORED)
     private String authoritysId;
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 资源标识
+     * 资源标识
      */
     @TableField("resource")
     private String resource;
@@ -66,15 +61,13 @@ public class AlitaAuthoritysResource extends BaseEntity implements IAssociatedAp
     private ResourceType resType;
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 备注/名称
+     * 备注/名称
      */
     @TableField("remark")
     private String remark;
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 所属权限的权限url,冗余数据,非数据库字段
+     * 所属权限的权限url,冗余数据,非数据库字段
      */
     @TableField(value = "authority_url", exist = false)
     private String authorityUrl;

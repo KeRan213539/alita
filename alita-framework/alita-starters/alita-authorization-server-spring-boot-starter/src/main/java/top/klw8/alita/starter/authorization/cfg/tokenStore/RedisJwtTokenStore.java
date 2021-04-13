@@ -26,10 +26,8 @@ import top.klw8.alita.utils.TokenUtil;
 import top.klw8.alita.utils.redis.TokenRedisUtil;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: RedisJwtTokenStore
- * @Description: RedisJwtTokenStore
- * @date 2020/8/13 10:56
+ * RedisJwtTokenStore
+ * 2020/8/13 10:56
  */
 public class RedisJwtTokenStore extends JwtTokenStore {
 
@@ -38,10 +36,9 @@ public class RedisJwtTokenStore extends JwtTokenStore {
     }
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 存储请求token,登录和刷新都会走这里,OAuth2AccessToken中包含刷新token
+     * 存储请求token,登录和刷新都会走这里,OAuth2AccessToken中包含刷新token
      * 刷新时不会走 storeRefreshToken ,但是OAuth2AccessToken中包含刷新token,所以刷新时生成的新的刷新token在这里放入redis
-     * @Date 2020/8/14 17:32
+     * 2020/8/14 17:32
      * @param: token
      * @param: authentication
      * @return void
@@ -71,9 +68,8 @@ public class RedisJwtTokenStore extends JwtTokenStore {
     }
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 存储刷新token,只有登录时才会走这里,刷新不会走
-     * @Date 2020/8/14 17:31
+     * 存储刷新token,只有登录时才会走这里,刷新不会走
+     * 2020/8/14 17:31
      * @param: refreshToken
      * @param: authentication
      * @return void
@@ -88,9 +84,8 @@ public class RedisJwtTokenStore extends JwtTokenStore {
     }
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 这里验证redis中是否有该刷新token,有才允许刷新
-     * @Date 2020/8/14 17:31
+     * 这里验证redis中是否有该刷新token,有才允许刷新
+     * 2020/8/14 17:31
      * @param: tokenValue
      * @return org.springframework.security.oauth2.common.OAuth2RefreshToken
      */

@@ -19,10 +19,7 @@ import top.klw8.alita.test.log4j2Test.test1.Test1;
 import top.klw8.alita.test.log4j2Test.test2.Test2;
 
 /**
- * @ClassName: TestMain
- * @Description: 
- * @author klw
- * @date 2018年3月15日 下午2:27:39
+ * 2018年3月15日 下午2:27:39
  */
 public class TestMain {
     

@@ -20,11 +20,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * @author freedom
- * @version 1.0
- * @ClassName ExtUserInfoVo
- * @Description 提供Controller使用的VO
- * @date 2019-08-19 21:51
+ * 提供Controller使用的VO
+ * 2019-08-19 21:51
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

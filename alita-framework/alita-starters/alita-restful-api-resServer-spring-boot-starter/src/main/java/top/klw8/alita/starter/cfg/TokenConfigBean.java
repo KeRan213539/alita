@@ -12,9 +12,7 @@ import java.util.List;
 /**
  * alita.oauth2.token 配制.
  *
- * @author klw(213539 @ qq.com)
- * @ClassName: TokenConfigBean
- * @date 2020/9/11 11:10
+ * 2020/9/11 11:10
  */
 @ConfigurationProperties(prefix="alita.oauth2.token")
 public class TokenConfigBean {

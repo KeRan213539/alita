@@ -30,10 +30,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 import top.klw8.alita.starter.cfg.base.SwaggerConfigBase;
 
 /**
- * @ClassName: SwaggerConfig
- * @Description: SwaggerConfig
- * @author klw
- * @date 2018年9月14日 09:54:14
+ * SwaggerConfig
+ * 2018年9月14日 09:54:14
  */
 @Configuration  
 @Profile("dev")  // 仅在dev模式(application.yml中的spring.profiles.active=dev时)下才会执行该配制

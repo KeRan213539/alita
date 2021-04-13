@@ -24,9 +24,8 @@ import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
 
 /**
- * @author zhaozheng
- * @description:
- * @date: 2020-07-17
+ * 
+ * 2020-07-17
  */
 @Getter
 @Setter

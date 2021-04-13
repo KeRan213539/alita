@@ -20,10 +20,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
 
 /**
- * @author klw
- * @ClassName: DefaultPostAuthenticationChecks
- * @Description: 检查用户密码是否过期
- * @date 2018年11月22日 上午11:09:58
+ * 检查用户密码是否过期
+ * 2018年11月22日 上午11:09:58
  */
 public class DefaultPostAuthenticationChecks implements UserDetailsChecker {
 

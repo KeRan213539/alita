@@ -20,10 +20,8 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: TokenConfigBean
- * @Description: token配制bean
- * @date 2020/8/17 11:20
+ * token配制bean
+ * 2020/8/17 11:20
  */
 @Getter
 @Setter

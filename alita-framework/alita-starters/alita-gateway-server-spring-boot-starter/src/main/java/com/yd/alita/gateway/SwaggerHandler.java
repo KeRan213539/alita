@@ -34,10 +34,8 @@ import springfox.documentation.swagger.web.*;
 import java.util.Optional;
 
 /**
- * @author klw
- * @ClassName: SwaggerHandler
- * @Description: swagger的端点
- * @date 2019/7/12 16:53
+ * swagger的端点
+ * 2019/7/12 16:53
  */
 @RestController
 @RequestMapping("/swagger-resources")

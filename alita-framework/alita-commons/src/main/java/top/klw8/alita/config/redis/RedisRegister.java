@@ -48,10 +48,8 @@ import java.util.Set;
 
 
 /**
- * @author klw
- * @ClassName: RedisConfig
- * @Description: Redis 配制
- * @date 2018年10月30日 下午5:31:36
+ * Redis 配制
+ * 2018年10月30日 下午5:31:36
  */
 @Slf4j
 public class RedisRegister implements ApplicationContextAware {

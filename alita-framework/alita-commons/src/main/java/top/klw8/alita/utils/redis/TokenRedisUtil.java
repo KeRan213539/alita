@@ -18,10 +18,8 @@ package top.klw8.alita.utils.redis;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: TokenRedisUtil
- * @Description: token 放redis的相关操作工具
- * @date 2020/8/14 15:32
+ * token 放redis的相关操作工具
+ * 2020/8/14 15:32
  */
 public class TokenRedisUtil {
 

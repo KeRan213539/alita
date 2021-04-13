@@ -28,10 +28,8 @@ import top.klw8.alita.starter.service.BaseServiceImpl;
 import java.util.List;
 
 /**
- * @author klw
- * @ClassName: SpringCloudProviderDemoController
- * @Description: SpringCloud提供者演示
- * @date 2018年9月13日 下午5:13:33
+ * SpringCloud提供者演示
+ * 2018年9月13日 下午5:13:33
  */
 @Slf4j
 @DubboService(async = true)

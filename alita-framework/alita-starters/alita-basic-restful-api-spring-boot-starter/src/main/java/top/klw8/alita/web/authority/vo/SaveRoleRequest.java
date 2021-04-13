@@ -25,10 +25,8 @@ import top.klw8.alita.validator.annotations.Required;
 import java.util.List;
 
 /**
- * @ClassName: SaveRoleRequest
- * @Description: 保存角色的请求
- * @author klw
- * @date 2018年12月4日 下午5:18:42
+ * 保存角色的请求
+ * 2018年12月4日 下午5:18:42
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

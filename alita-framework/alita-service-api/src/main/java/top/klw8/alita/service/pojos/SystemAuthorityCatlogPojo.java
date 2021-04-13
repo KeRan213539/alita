@@ -22,10 +22,8 @@ import lombok.ToString;
 import java.util.List;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: SystemAuthorityCatlogPojo
- * @Description: 返回给视图的菜单目录
- * @date 2019/10/18 10:25
+ * 返回给视图的菜单目录
+ * 2019/10/18 10:25
  */
 @Getter
 @Setter
@@ -34,38 +32,32 @@ public class SystemAuthorityCatlogPojo implements java.io.Serializable, Comparab
 
     private static final long serialVersionUID = 3822658664344722701L;
     /**
-     * @author klw
-     * @Fields id : 主键ID
+     * id : 主键ID
      */
     private String id;
 
     /**
-     * @author klw
-     * @Fields authorityName : 所属应用的应用标识
+     * authorityName : 所属应用的应用标识
      */
     private String appTag;
 
     /**
-     * @author klw
-     * @Fields roleName : 角色名称
+     * roleName : 角色名称
      */
     private String catlogName;
 
     /**
-     * @author klw
-     * @Fields showIndex : 显示顺序
+     * showIndex : 显示顺序
      */
     private Integer showIndex;
 
     /**
-     * @author klw
-     * @Fields remark : 备注
+     * remark : 备注
      */
     private String remark;
 
     /**
-     * @author klw
-     * @Fields authorityList : 角色下的权限
+     * authorityList : 角色下的权限
      */
     private List<SystemAuthorityPojo> authorityList;
 

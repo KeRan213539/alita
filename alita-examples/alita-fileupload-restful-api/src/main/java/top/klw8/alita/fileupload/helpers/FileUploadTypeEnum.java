@@ -16,16 +16,13 @@
 package top.klw8.alita.fileupload.helpers;
 
 /**
- * @ClassName: FileUploadTypeEnum
- * @Description: 上传的文件类型和对应文件夹
- * @author klw
- * @date 2018年11月19日 下午3:14:50
+ * 上传的文件类型和对应文件夹
+ * 2018年11月19日 下午3:14:50
  */
 public enum FileUploadTypeEnum {
     
     /**
-     * @author klw
-     * @Fields OSS_BUCKET_NAME : OSS BUCKET 的名称
+     * OSS_BUCKET_NAME : OSS BUCKET 的名称
      */
     OSS_BUCKET_NAME("alita-test"),
 

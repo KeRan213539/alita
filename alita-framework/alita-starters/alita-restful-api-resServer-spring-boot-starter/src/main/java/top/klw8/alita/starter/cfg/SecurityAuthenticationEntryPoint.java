@@ -22,10 +22,8 @@ import top.klw8.alita.service.result.code.CommonResultCodeEnum;
 
 
 /**
- * @author klw
- * @ClassName: SecurityAuthenticationEntryPoint
- * @Description: 缺少 token 的异常返回消息转换器
- * @date 2018年12月7日 下午2:46:55
+ * 缺少 token 的异常返回消息转换器
+ * 2018年12月7日 下午2:46:55
  */
 public class SecurityAuthenticationEntryPoint implements ServerAuthenticationEntryPoint, ServerAccessDeniedHandler {
 

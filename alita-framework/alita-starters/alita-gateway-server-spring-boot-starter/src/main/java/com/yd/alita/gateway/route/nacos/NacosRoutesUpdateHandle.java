@@ -33,10 +33,8 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: NacosRoutesUpdateHandle
- * @Description: 从Nacos中更新路由
- * @date 2019/11/18 11:19
+ * 从Nacos中更新路由
+ * 2019/11/18 11:19
  */
 @Slf4j
 public class NacosRoutesUpdateHandle implements IRoutesUpdateHandle {
@@ -53,9 +51,8 @@ public class NacosRoutesUpdateHandle implements IRoutesUpdateHandle {
     private Map<String, RouteDefinition> cachedRouteMap = new HashMap<>();
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 从nacos中获取服务并更新路由
-     * @Date 2019/11/18 9:11
+     * 从nacos中获取服务并更新路由
+     * 2019/11/18 9:11
      * @param:
      * @return void
      */

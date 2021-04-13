@@ -26,10 +26,8 @@ import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 
 /**
- * @ClassName: DynamicRouteService
- * @Description: 动态路由服务
- * @author klw
- * @date 2018年12月16日 下午8:27:02
+ * 动态路由服务
+ * 2018年12月16日 下午8:27:02
  */
 public class DynamicRouteService implements ApplicationEventPublisherAware {
 
@@ -41,9 +39,7 @@ public class DynamicRouteService implements ApplicationEventPublisherAware {
     /**
      * @param definition
      * @return 添加数量
-     * @Title: addRoute
-     * @author klw
-     * @Description: 增加路由
+     * 增加路由
      */
     public int addRoute(RouteDefinition definition) {
         routeDefinitionWriter.save(Mono.just(definition)).subscribe();
@@ -54,9 +50,7 @@ public class DynamicRouteService implements ApplicationEventPublisherAware {
     /**
      * @param definition
      * @return 更新数量
-     * @Title: updateRoute
-     * @author klw
-     * @Description: 更新路由
+     * 更新路由
      */
     public int updateRoute(RouteDefinition definition) {
         try {
@@ -76,9 +70,7 @@ public class DynamicRouteService implements ApplicationEventPublisherAware {
     /**
      * @param id
      * @return
-     * @Title: deleteRoute
-     * @author klw
-     * @Description: 删除路由
+     * 删除路由
      */
     public Mono<ResponseEntity<Object>> deleteRoute(String id) {
         return routeDefinitionWriter.delete(Mono.just(id))

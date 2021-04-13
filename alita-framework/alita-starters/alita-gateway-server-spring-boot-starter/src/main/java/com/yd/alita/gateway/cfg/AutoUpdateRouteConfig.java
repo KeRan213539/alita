@@ -22,10 +22,8 @@ import org.springframework.context.annotation.Import;
 
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: AutoUpdateRouteConfig
- * @Description: 自动更新路由的配制
- * @date 2019/11/16 16:37
+ * 自动更新路由的配制
+ * 2019/11/16 16:37
  */
 @Configuration
 @Import({DynamicRouteService.class, NacosRoutesUpdateHandle.class, InitAutoUpdateRouteListener.class})

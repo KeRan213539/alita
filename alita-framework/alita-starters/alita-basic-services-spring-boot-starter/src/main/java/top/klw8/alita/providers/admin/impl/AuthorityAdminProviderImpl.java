@@ -52,24 +52,20 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: AuthorityAdminProviderImpl
- * @Description: 权限相关dubbo服务提供者
- * @date 2019/8/14 9:33
+ * 权限相关dubbo服务提供者
+ * 2019/8/14 9:33
  */
 @Slf4j
 @DubboService(async = true)
 public class AuthorityAdminProviderImpl implements IAuthorityAdminProvider {
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 全局数据权限用的catlog id
+     * 全局数据权限用的catlog id
      */
     private static final String ID_PUBLIC_DATA_SECURED_CATLOG = "PUBLIC_DATA_SECURED_CATLOG";
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 全局数据权限用的权限ID
+     * 全局数据权限用的权限ID
      */
     private static final String ID_PUBLIC_DATA_SECURED_AUTHORITY = "PUBLIC_DATA_SECURED_AUTHORITY";
 

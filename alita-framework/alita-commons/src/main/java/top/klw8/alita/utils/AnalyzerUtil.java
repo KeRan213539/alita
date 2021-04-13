@@ -24,16 +24,13 @@ import org.wltea.analyzer.core.IKSegmenter;
 import org.wltea.analyzer.core.Lexeme;
 
 /**
- * @ClassName: AnalyzerUtil
- * @Description: 分词器工具类(目前使用IK)
- * @author klw
- * @date 2017年11月17日 下午12:23:04
+ * 分词器工具类(目前使用IK)
+ * 2017年11月17日 下午12:23:04
  */
 public class AnalyzerUtil {
 
     /**
-     * @Title: strAnalyzerReturnsWithSpace
-     * @Description: 字符串分词【智能分词】,返回一个分词结果字符串,每个分词中间以空格隔开
+     * 字符串分词【智能分词】,返回一个分词结果字符串,每个分词中间以空格隔开
      * @param str  
      * @return  分词结果字符串,每个分词中间以空格隔开
      */
@@ -64,8 +61,7 @@ public class AnalyzerUtil {
     }
     
     /**
-     * @Title: strAnalyzerReturnsWithSpaceNoSmart
-     * @Description: 字符串分词【非智能分词】,返回一个分词结果字符串,每个分词中间以空格隔开
+     * 字符串分词【非智能分词】,返回一个分词结果字符串,每个分词中间以空格隔开
      * @param str
      * @return 分词结果字符串,每个分词中间以空格隔开
      */
@@ -96,8 +92,7 @@ public class AnalyzerUtil {
     }
     
     /**
-     * @Title: strAnalyzerInnerSpace
-     * @Description: 把字符串中每个字都拆分,每个拆分中间以空格隔开
+     * 把字符串中每个字都拆分,每个拆分中间以空格隔开
      * @param str
      * @return
      */

@@ -25,10 +25,8 @@ import lombok.Setter;
 import top.klw8.alita.entitys.base.BaseEntity;
 
 /**
- * @ClassName: SystemRole
- * @Description: 系统角色
- * @author klw
- * @date 2018年11月28日 上午11:54:15
+ * 系统角色
+ * 2018年11月28日 上午11:54:15
  */
 @TableName("alita_role")
 @Getter
@@ -40,36 +38,31 @@ public class AlitaRole extends BaseEntity implements IAssociatedApp {
     private static final long serialVersionUID = -2919173399468066019L;
 
     /**
-     * @author klw
-     * @Fields authorityName : 所属应用的应用标识
+     * authorityName : 所属应用的应用标识
      */
     @TableField("app_tag")
     private String appTag;
     
     /**
-     * @author klw
-     * @Fields roleName : 角色名称
+     * roleName : 角色名称
      */
     @TableField("role_name")
     private String roleName;
     
     /**
-     * @author klw
-     * @Fields remark : 备注
+     * remark : 备注
      */
     @TableField("remark")
     private String remark;
     
     /**
-     * @author klw
-     * @Fields authorityList : 角色下的权限(冗余数据)
+     * authorityList : 角色下的权限(冗余数据)
      */
     @TableField(exist=false)
     private List<AlitaAuthoritysMenu> authorityList;
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 角色拥有的数据权限
+     * 角色拥有的数据权限
      */
     @TableField(exist=false)
     private List<AlitaAuthoritysResource> dataSecuredList;

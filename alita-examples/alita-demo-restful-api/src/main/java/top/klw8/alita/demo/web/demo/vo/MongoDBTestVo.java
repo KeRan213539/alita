@@ -28,10 +28,8 @@ import top.klw8.alita.validator.annotations.GeoLatitude;
 import top.klw8.alita.validator.annotations.GeoLongitude;
 
 /**
- * @author klw
- * @ClassName: MongoDBTestVo
- * @Description: MongoDBTest 的 VO
- * @date 2019年1月25日 下午1:51:09
+ * MongoDBTest 的 VO
+ * 2019年1月25日 下午1:51:09
  */
 @Getter
 @Setter
@@ -56,7 +54,6 @@ public class MongoDBTestVo implements IBaseCrudVo<MongoDBTest> {
 
     /*
      * <p>Title: buildEntity</p>
-     * @author klw
      * <p>Description: </p>
      * @return
      * @see top.klw8.alita.starter.web.base.vo.IBaseCrudVo#buildEntity()

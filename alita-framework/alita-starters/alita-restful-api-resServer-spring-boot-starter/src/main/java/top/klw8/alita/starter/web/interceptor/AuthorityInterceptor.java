@@ -68,10 +68,8 @@ import top.klw8.alita.starter.web.base.SynchronossFormFieldPart;
 import top.klw8.alita.utils.AuthorityUtil;
 
 /**
- * @author klw
- * @ClassName: AuthorityInterceptor
- * @Description: 权限拦截器
- * @date 2018年12月6日 下午2:48:28
+ * 权限拦截器
+ * 2018年12月6日 下午2:48:28
  */
 @Slf4j
 @Order(2)

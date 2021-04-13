@@ -19,10 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @ClassName: Test2
- * @Description: 
- * @author klw
- * @date 2018年3月15日 下午2:11:45
+ * 2018年3月15日 下午2:11:45
  */
 public class Test2 {
 

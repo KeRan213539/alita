@@ -28,9 +28,7 @@ import java.io.IOException;
 /**
  * test.
  *
- * @author klw(213539 @ qq.com)
- * @ClassName: TestTokenFilter
- * @date 2020/9/8 16:56
+ * 2020/9/8 16:56
  */
 @Component
 public class TestTokenFilter implements TokenEndpointFilter {

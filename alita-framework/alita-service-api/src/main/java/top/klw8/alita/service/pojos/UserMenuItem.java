@@ -21,10 +21,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: UserMenuItem
- * @Description: 用户菜单项pojo
- * @date 2019/10/9 15:20
+ * 用户菜单项pojo
+ * 2019/10/9 15:20
  */
 @Getter
 @Setter

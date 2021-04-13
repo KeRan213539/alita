@@ -34,10 +34,8 @@ import top.klw8.alita.entitys.authority.AlitaRole;
 import top.klw8.alita.entitys.base.BaseEntity;
 
 /**
- * @author klw
- * @ClassName: AlitaUserAccount
- * @Description: 用户信息表
- * @date 2018年11月9日 下午4:18:46
+ * 用户信息表
+ * 2018年11月9日 下午4:18:46
  */
 @TableName("alita_user_account")
 @Getter
@@ -49,68 +47,59 @@ public class AlitaUserAccount extends BaseEntity implements UserDetails {
     private static final long serialVersionUID = 5844035690295299775L;
 
     /**
-     * @author klw
-     * @Fields userName : 用户名(登录帐号)
+     * userName : 用户名(登录帐号)
      */
     @TableField("user_name")
     private String userName;
 
     /**
-     * @author klw
-     * @Fields userPhoneNum : 用户手机号
+     * userPhoneNum : 用户手机号
      */
     @TableField("user_phone_num")
     private String userPhoneNum;
 
     /**
-     * @author klw
-     * @Fields userPwd : 用户密码
+     * userPwd : 用户密码
      */
     @TableField(value = "user_pwd")
     private String userPwd;
 
     /**
-     * @author klw
-     * @Fields createDate : 创建/注册时间
+     * createDate : 创建/注册时间
      */
     @TableField("create_date")
     private LocalDateTime createDate;
 
     /**
-     * @author klw
-     * @Fields accountNonExpired : 账户是否未过期(true 是未过期)
+     * accountNonExpired : 账户是否未过期(true 是未过期)
      */
     @TableField("account_non_expired")
     @JsonIgnore
     private Boolean accountNonExpired1;
 
     /**
-     * @author klw
-     * @Fields accountNonLocked : 账户是否未锁定 (true 是未锁定)
+     * accountNonLocked : 账户是否未锁定 (true 是未锁定)
      */
     @TableField("account_non_locked")
     @JsonIgnore
     private Boolean accountNonLocked1;
 
     /**
-     * @author klw
-     * @Fields credentialsNonExpired : 用户密码是否未过期(true 是未过期), 密码过期了会登录失败(需要强制用户修改密码)
+     * credentialsNonExpired : 用户密码是否未过期(true 是未过期), 密码过期了会登录失败(需要强制用户修改密码)
      */
     @TableField("credentials_non_expired")
     @JsonIgnore
     private Boolean credentialsNonExpired1;
 
     /**
-     * @author klw
-     * @Fields enabled : 账户是否启用(true 是启用)
+     * enabled : 账户是否启用(true 是启用)
      */
     @TableField("enabled")
     @JsonIgnore
     private Boolean enabled1;
 
     /**
-     * @author klw
-     * @Fields userRoles : 用户拥有的角色和权限
+     * userRoles : 用户拥有的角色和权限
      */
     @TableField(exist=false)
     private List<AlitaRole> userRoles;

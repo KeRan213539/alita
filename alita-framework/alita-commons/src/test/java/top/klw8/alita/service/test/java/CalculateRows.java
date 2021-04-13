@@ -22,10 +22,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * @ClassName: CalculateRows
- * @Description: 统计java代码行数
- * @author klw
- * @date 2019年1月29日 下午6:13:42
+ * 统计java代码行数
+ * 2019年1月29日 下午6:13:42
  */
 public class CalculateRows {
 

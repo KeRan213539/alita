@@ -28,10 +28,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
- * @author klw
- * @ClassName: BaseController
- * @Description: web api 用的 无操作BaseController
- * @date 2018年10月26日 下午3:32:04
+ * web api 用的 无操作BaseController
+ * 2018年10月26日 下午3:32:04
  */
 public class WebapiBaseController {
     @InitBinder

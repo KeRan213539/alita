@@ -19,10 +19,8 @@ package com.yd.alita.gateway.route;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: AutoUpdateRouteTask
- * @Description: 自动更新路由的任务
- * @date 2019/11/16 16:36
+ * 自动更新路由的任务
+ * 2019/11/16 16:36
  */
 @Slf4j
 public class AutoUpdateRouteTask implements Runnable {

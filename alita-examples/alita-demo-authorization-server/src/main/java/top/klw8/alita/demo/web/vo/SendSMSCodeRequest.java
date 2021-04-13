@@ -21,10 +21,8 @@ import top.klw8.alita.validator.annotations.MobilePhoneNumber;
 import top.klw8.alita.validator.annotations.NotEmpty;
 
 /**
- * @ClassName: SendSMSCodeRequest
- * @Description: 发送短信验证码接口请求类
- * @author klw
- * @date 2018年11月22日 下午4:33:41
+ * 发送短信验证码接口请求类
+ * 2018年11月22日 下午4:33:41
  */
 @Data
 public class SendSMSCodeRequest {
@@ -39,9 +37,8 @@ public class SendSMSCodeRequest {
     private String userName;
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 获取用户标识,优先获取userName,如果userName为空,则获取userMobileNo
-     * @Date 2019/10/21 14:47
+     * 获取用户标识,优先获取userName,如果userName为空,则获取userMobileNo
+     * 2019/10/21 14:47
      * @param:
      * @return java.lang.String
      */

@@ -26,10 +26,8 @@ import top.klw8.alita.service.authority.*;
 import java.util.List;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: AuthorityAdminDataSecuredProviderImpl
- * @Description: 权限管理数据权限相关 实现
- * @date 2020/7/27 15:33
+ * 权限管理数据权限相关 实现
+ * 2020/7/27 15:33
  */
 @Slf4j
 @DubboService

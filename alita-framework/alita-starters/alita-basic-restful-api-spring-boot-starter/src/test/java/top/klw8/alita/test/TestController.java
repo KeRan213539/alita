@@ -26,10 +26,8 @@ import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.datasecured.DataSecured;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: TestController
- * @Description: 测试
- * @date 2020/7/28 10:36
+ * 测试
+ * 2020/7/28 10:36
  */
 @Api(tags = {"alita-restful-API--测试"})
 @RestController

@@ -30,10 +30,8 @@ import java.util.List;
 
 
 /**
- * @ClassName: SystemAuthoritysServiceImpl
- * @Description: 系统权限Service_实现
- * @author klw
- * @date 2018年11月28日 下午3:51:25
+ * 系统权限Service_实现
+ * 2018年11月28日 下午3:51:25
  */
 @Slf4j
 @Service

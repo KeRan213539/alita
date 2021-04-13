@@ -30,10 +30,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 import top.klw8.alita.starter.cfg.base.SwaggerConfigBase;
 
 /**
- * @ClassName: BasicWebApisSwaggerConfig
- * @Description: 基础服务web接口的swagger配制,使用基础服务的webapi的swagger直接继承该类
- * @author klw(213539@qq.com)
- * @date 2019/11/4 15:08
+ * 基础服务web接口的swagger配制,使用基础服务的webapi的swagger直接继承该类
+ * 2019/11/4 15:08
  */
 public class BasicWebApisSwaggerConfig extends SwaggerConfigBase {
 

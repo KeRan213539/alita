@@ -23,10 +23,8 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * @ClassName: GeoPoint
- * @Description: 位置数据pojo,用于mongodb实体中存放位置数据
- * @author klw
- * @date 2019-01-24 11:21:31
+ * 位置数据pojo,用于mongodb实体中存放位置数据
+ * 2019-01-24 11:21:31
  */
 public class GeoPoint implements java.io.Serializable {
 
@@ -40,9 +38,7 @@ public class GeoPoint implements java.io.Serializable {
     }
 
     /**
-     * @Title: GeoPoint
-     * @author klw
-     * @Description: 构造方法
+     * 构造方法
      * @param latitude
      *            纬度(x)
      * @param longitude

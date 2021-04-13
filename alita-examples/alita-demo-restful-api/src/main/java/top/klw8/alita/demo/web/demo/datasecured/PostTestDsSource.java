@@ -23,10 +23,8 @@ import top.klw8.alita.starter.auscan.IAuthoritysResourceSource;
 import java.util.List;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: PostTestDsSource
- * @Description: postTest 的 数据权限源
- * @date 2020/5/15 15:25
+ * postTest 的 数据权限源
+ * 2020/5/15 15:25
  */
 @Component
 public class PostTestDsSource implements IAuthoritysResourceSource {

@@ -22,10 +22,8 @@ import java.time.format.DateTimeFormatter;
 import top.klw8.alita.utils.LocalDateTimeUtil;
 
 /**
- * @author klw
- * @ClassName: CustomLocalDateTimeEditor
- * @Description: 自定义 LocalDateTime 编辑器
- * @date 2019年1月31日 下午6:41:58
+ * 自定义 LocalDateTime 编辑器
+ * 2019年1月31日 下午6:41:58
  */
 public class CustomLocalDateTimeEditor extends PropertyEditorSupport {
 

@@ -20,10 +20,8 @@ import top.klw8.alita.entitys.demo.mongo.ExtUserInfoDemo;
 import top.klw8.alita.starter.mongodb.base.MongoSpringDataBaseDao;
 
 /**
- * @ClassName: ExtUserInfoDemoDao
- * @Description: 用户扩展信息Demo 的 DAO
- * @author klw
- * @date 2019年1月30日 上午11:29:04
+ * 用户扩展信息Demo 的 DAO
+ * 2019年1月30日 上午11:29:04
  */
 @Repository
 public class ExtUserInfoDemoDao extends MongoSpringDataBaseDao<ExtUserInfoDemo> {

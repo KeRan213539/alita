@@ -27,10 +27,8 @@ import top.klw8.alita.validator.annotations.GeoLongitude;
 import top.klw8.alita.validator.annotations.IntegerRange;
 
 /**
- * @ClassName: PagePrarmVo
- * @Description: 分页参数VO
- * @author klw
- * @date 2018年10月10日 下午1:43:34
+ * 分页参数VO
+ * 2018年10月10日 下午1:43:34
  */
 @ApiModel(value = "PagePrarmVo", description = "skip分页参数")
 @Getter

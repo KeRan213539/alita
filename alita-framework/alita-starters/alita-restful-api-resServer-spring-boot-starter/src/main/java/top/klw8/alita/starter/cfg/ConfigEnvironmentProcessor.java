@@ -8,9 +8,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 /**
  * 配置环境处理器.
  *
- * @author klw(213539 @ qq.com)
- * @ClassName: ConfigEnvironmentProcessor
- * @date 2020/9/14 17:56
+ * 2020/9/14 17:56
  */
 public class ConfigEnvironmentProcessor implements EnvironmentPostProcessor, Ordered {
     

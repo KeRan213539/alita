@@ -17,17 +17,13 @@ package top.klw8.alita.utils;
 
 
 /**
- * @ClassName: StringChars2NumberUtil
- * @Description: 字母字符串转数字工具类
- * @author klw
- * @date 2018年12月25日 下午3:51:03
+ * 字母字符串转数字工具类
+ * 2018年12月25日 下午3:51:03
  */
 public class StringChars2NumberUtil {
 
     /**
-     * @Title: stringChars2Number
-     * @author klw
-     * @Description: 将一个任意字符串转换为数字
+     * 将一个任意字符串转换为数字
      * @param str
      * @return
      */

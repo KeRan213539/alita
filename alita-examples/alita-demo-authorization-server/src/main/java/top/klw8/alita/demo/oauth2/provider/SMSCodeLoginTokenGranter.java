@@ -39,10 +39,8 @@ import java.util.concurrent.ExecutionException;
 import static top.klw8.alita.demo.cfg.SysContext.SMS_CODE_CACHE_PREFIX;
 
 /**
- * @author klw
- * @ClassName: SMSCodeLoginTokenGranter
- * @Description: 短信验证码登录的 TokenGranter
- * @date 2018年11月20日 下午4:36:16
+ * 短信验证码登录的 TokenGranter
+ * 2018年11月20日 下午4:36:16
  */
 @Slf4j
 public class SMSCodeLoginTokenGranter extends AbstractTokenGranter {

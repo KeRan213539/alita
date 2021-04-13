@@ -81,10 +81,8 @@ import javax.servlet.ServletResponse;
 
 
 /**
- * @ClassName: OAuth2AuthorizationServerConfig
- * @Description: spring-security OAuth2 配制,使用 jwt
- * @author klw
- * @date 2018年11月1日 下午3:52:48
+ * spring-security OAuth2 配制,使用 jwt
+ * 2018年11月1日 下午3:52:48
  */
 @Configuration
 @EnableAuthorizationServer

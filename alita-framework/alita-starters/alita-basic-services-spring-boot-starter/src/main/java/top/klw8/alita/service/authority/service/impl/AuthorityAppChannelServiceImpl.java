@@ -25,9 +25,7 @@ import top.klw8.alita.service.authority.mapper.IAuthorityAppChannelMapper;
 /**
  * 应用渠道表 service 实现.
  *
- * @author klw(213539 @ qq.com)
- * @ClassName: AuthorityAppChannelServiceImpl
- * @date 2020/9/9 16:58
+ * 2020/9/9 16:58
  */
 @Slf4j
 @Service

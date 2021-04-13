@@ -16,10 +16,8 @@
 package top.klw8.alita.utils.redis;
 
 /**
- * @ClassName: PipelineRedisBean
- * @Description: redis 批量插入的bean
- * @author klw
- * @date 2018年6月11日 上午11:28:28
+ * redis 批量插入的bean
+ * 2018年6月11日 上午11:28:28
  */
 public class PipelineRedisBean {
     
@@ -30,20 +28,17 @@ public class PipelineRedisBean {
     }
 
     /**
-     * @author klw
-     * @Fields key : 缓存的key
+     * key : 缓存的key
      */
     private String key;
     
     /**
-     * @author klw
-     * @Fields value : 要被缓存的对象
+     * value : 要被缓存的对象
      */
     private Object value;
     
     /**
-     * @author klw
-     * @Fields seconds : 缓存时长(秒),传null则永久缓存
+     * seconds : 缓存时长(秒),传null则永久缓存
      */
     private Long seconds;
 

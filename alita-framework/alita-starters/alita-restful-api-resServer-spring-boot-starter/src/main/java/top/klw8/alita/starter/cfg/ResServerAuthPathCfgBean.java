@@ -7,10 +7,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import lombok.Data;
 
 /**
- * @ClassName: ResServerAuthPathCfgBean
- * @Description: oauth2 资源服务需要认证的路径配制bean
- * @author klw
- * @date 2018年12月6日 上午10:35:19
+ * oauth2 资源服务需要认证的路径配制bean
+ * 2018年12月6日 上午10:35:19
  */
 @Data
 @ConfigurationProperties(prefix="alita.oauth2.res-server")

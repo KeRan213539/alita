@@ -49,10 +49,8 @@ import top.klw8.alita.starter.web.base.WebapiBaseController;
 import top.klw8.alita.utils.DateTimeUtil;
 
 /**
- * @author klw
- * @ClassName: AliyunOSSController
- * @Description: 文件上传
- * @date 2018年11月19日 下午12:02:25
+ * 文件上传
+ * 2018年11月19日 下午12:02:25
  */
 @RestController
 @RequestMapping("/oss")

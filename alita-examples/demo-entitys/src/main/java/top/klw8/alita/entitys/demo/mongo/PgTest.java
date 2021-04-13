@@ -23,10 +23,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: PgTest
- * @Description: postgresql demo实体
- * @date 2019/8/8 14:05
+ * postgresql demo实体
+ * 2019/8/8 14:05
  */
 @Getter
 @Setter

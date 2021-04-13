@@ -24,9 +24,7 @@ import java.io.IOException;
 /**
  * 登录和刷新token的拦截器.
  *
- * @author klw(213539 @ qq.com)
- * @ClassName: TokenEndpointFilter
- * @date 2020/9/8 17:17
+ * 2020/9/8 17:17
  */
 public interface TokenEndpointFilter {
     

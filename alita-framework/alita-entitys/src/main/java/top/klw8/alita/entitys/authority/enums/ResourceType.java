@@ -7,8 +7,7 @@ import java.io.Serializable;
 /**
  * 资源类型枚举.
  *
- * @author klw(213539 @ qq.com)
- * @date 2021/4/9 14:35
+ * 2021/4/9 14:35
  */
 public enum ResourceType implements IEnum {
 

@@ -21,10 +21,8 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: FTPUtilTest
- * @Description: 测试FTP工具
- * @date 2020/6/4 11:32
+ * 测试FTP工具
+ * 2020/6/4 11:32
  */
 public class FTPUtilTest {
 

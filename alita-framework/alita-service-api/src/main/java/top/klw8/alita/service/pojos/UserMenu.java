@@ -25,10 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: UserMenu
- * @Description: 用户菜单目录pojo
- * @date 2019/10/9 15:20
+ * 用户菜单目录pojo
+ * 2019/10/9 15:20
  */
 @Getter
 @Setter

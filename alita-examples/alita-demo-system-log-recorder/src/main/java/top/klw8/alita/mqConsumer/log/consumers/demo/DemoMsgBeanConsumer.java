@@ -24,10 +24,8 @@ import top.klw8.alita.mq.messages.DemoMsgBean;
 
 
 /**
- * @ClassName: StringTopicConsumer
- * @Description: DemoMsgBean 消费者演示
- * @author klw
- * @date 2018-10-25 11:38:30
+ * DemoMsgBean 消费者演示
+ * 2018-10-25 11:38:30
  */
 @Service
 @RocketMQMessageListener(topic = "bean-topic", consumerGroup = "${spring.application.name}-bean-topic")

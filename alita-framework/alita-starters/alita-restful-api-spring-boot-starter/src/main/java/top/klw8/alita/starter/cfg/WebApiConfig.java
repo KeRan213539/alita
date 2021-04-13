@@ -23,10 +23,8 @@ import org.springframework.context.annotation.Import;
 import top.klw8.alita.config.redis.RedisRegister;
 
 /**
- * @ClassName: WebApiConfig
- * @Description: 
- * @author klw
- * @date 2018年12月4日 上午11:58:05
+ * 
+ * 2018年12月4日 上午11:58:05
  */
 @Configuration
 @RefreshScope

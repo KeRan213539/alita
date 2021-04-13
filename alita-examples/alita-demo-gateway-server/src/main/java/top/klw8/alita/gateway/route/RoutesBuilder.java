@@ -16,11 +16,8 @@
 package top.klw8.alita.gateway.route;
 
 /**
- * @ClassName RoutesBuilder
- * @Description route动态构建，route从nacos中获取
- * @Author zhanglei
- * @Date 2019/8/27 13:44
- * @Version 1.0
+ * route动态构建，route从nacos中获取
+ * 2019/8/27 13:44
  */
 public class RoutesBuilder {
 

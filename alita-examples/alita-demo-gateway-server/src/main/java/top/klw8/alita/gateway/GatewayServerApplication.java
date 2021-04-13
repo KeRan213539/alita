@@ -32,10 +32,8 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 /**
- * @author klw
- * @ClassName: GatewayServerApplication
- * @Description: 启动 spring cloud gateway (路由网关)
- * @date 2018-11-14 15:42:54
+ * 启动 spring cloud gateway (路由网关)
+ * 2018-11-14 15:42:54
  */
 @SpringBootApplication
 @EnableDiscoveryClient

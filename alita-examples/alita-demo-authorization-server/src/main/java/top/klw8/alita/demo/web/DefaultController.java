@@ -42,10 +42,8 @@ import static top.klw8.alita.demo.cfg.SysContext.SMS_CODE_TIMEOUT_SECOND;
 
 
 /**
- * @ClassName: DefaultController
- * @Description: 扩展认证中心
- * @author klw
- * @date 2018年11月21日 上午11:03:31
+ * 扩展认证中心
+ * 2018年11月21日 上午11:03:31
  */
 @Api(tags = {"alita-restful-API--认证中心API"})
 @RestController

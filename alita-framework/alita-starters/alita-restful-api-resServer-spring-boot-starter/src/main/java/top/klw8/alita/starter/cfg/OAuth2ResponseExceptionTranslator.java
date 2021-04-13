@@ -10,10 +10,8 @@ import top.klw8.alita.service.result.code.CommonResultCodeEnum;
 
 
 /**
- * @author klw
- * @ClassName: OAuth2ResponseExceptionTranslator
- * @Description: token返回消息转换器
- * @date 2018年12月7日 下午2:34:34
+ * token返回消息转换器
+ * 2018年12月7日 下午2:34:34
  */
 public class OAuth2ResponseExceptionTranslator implements WebResponseExceptionTranslator<JsonResult> {
 

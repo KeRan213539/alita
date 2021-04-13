@@ -23,10 +23,8 @@ import top.klw8.alita.base.springctx.EnableSpringApplicationContextUtil;
 
 
 /**
- * @author klw
- * @ClassName: AuthorizationWebApiApplication
- * @Description: 认证 接口服务启动器
- * @date 2018-11-01 17:08:20
+ * 认证 接口服务启动器
+ * 2018-11-01 17:08:20
  */
 
 @SpringBootApplication

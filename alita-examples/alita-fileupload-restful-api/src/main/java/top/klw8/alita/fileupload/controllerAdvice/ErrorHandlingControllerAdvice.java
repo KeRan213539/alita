@@ -20,10 +20,8 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * @ClassName: ErrorHandlingControllerAdvice
- * @Description: 处理所有Controller异常
- * @author klw
- * @date 2018年3月23日 下午1:30:05
+ * 处理所有Controller异常
+ * 2018年3月23日 下午1:30:05
  */
 //@ControllerAdvice(basePackages = "com.rrl.sdd.web.appApi.actions")
 public class ErrorHandlingControllerAdvice {
@@ -31,8 +29,7 @@ public class ErrorHandlingControllerAdvice {
     private static Logger logger = LoggerFactory.getLogger(ErrorHandlingControllerAdvice.class);
     
     /**
-     * @Title: handleValidationError
-     * @Description: 处理表单验证,业务异常
+     * 处理表单验证,业务异常
      * @param ex
      * @return
      */
@@ -51,7 +48,7 @@ public class ErrorHandlingControllerAdvice {
 //    
 //    /**
 //     * @Title: handleValidationError
-//     * @Description: 处理其他异常
+//     * 处理其他异常
 //     * @param ex
 //     * @return
 //     */

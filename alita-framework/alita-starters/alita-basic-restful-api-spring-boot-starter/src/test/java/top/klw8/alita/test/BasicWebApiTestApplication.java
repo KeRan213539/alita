@@ -21,10 +21,8 @@ import top.klw8.alita.starter.BaseWebApiApplication;
 
 
 /**
- * @ClassName: BasicWebApiTestApplication
- * @Description: 基础服务web api服务测试用启动器
- * @author klw
- * @date 2018年9月29日 下午4:12:17
+ * 基础服务web api服务测试用启动器
+ * 2018年9月29日 下午4:12:17
  */
 public class BasicWebApiTestApplication extends BaseWebApiApplication {
 

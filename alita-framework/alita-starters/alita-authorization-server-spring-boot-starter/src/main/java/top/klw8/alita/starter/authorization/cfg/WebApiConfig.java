@@ -24,10 +24,8 @@ import top.klw8.alita.starter.authorization.validator.AlitaResponseGenerator;
 import top.klw8.alita.validator.EnableValidator;
 
 /**
- * @ClassName: WebApiConfig
- * @Description: 
- * @author klw
- * @date 2018年12月4日 上午11:58:05
+ * 
+ * 2018年12月4日 上午11:58:05
  */
 @Configuration
 @RefreshScope

@@ -27,10 +27,8 @@ import top.klw8.alita.test.spitest.SPITest2;
 //import top.klw8.alita.utils.redis.RedisUtil;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: BasicServiceTestApplication
- * @Description: basic service 测试
- * @date 2019/10/16 17:16
+ * basic service 测试
+ * 2019/10/16 17:16
  */
 @EnableDubbo
 public class BasicServiceTestApplication extends BaseServiceApplication {

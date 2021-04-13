@@ -19,10 +19,8 @@ import top.klw8.alita.service.result.IResultCode;
 import top.klw8.alita.service.result.ISubResultCode;
 
 /**
- * @author klw
- * @ClassName: CommonResultCodeEnum
- * @Description: 通用返回码
- * @date 2019/6/10 16:13
+ * 通用返回码
+ * 2019/6/10 16:13
  */
 public enum CommonResultCodeEnum implements ISubResultCode {
 
@@ -51,24 +49,21 @@ public enum CommonResultCodeEnum implements ISubResultCode {
 
 
     /**
-     * @author klw
-     * @Description: 所属分类, 写死
-     * @Date 2019/6/6 17:41
+     * 所属分类, 写死
+     * 2019/6/6 17:41
      * @Param
      * @return
      */
     private IResultCode classify = ResultCodeEnum.COMMON;
 
     /**
-     * @author klw
-     * @Description: 业务code(3位)
+     * 业务code(3位)
      */
     private String subCode;
 
 
     /**
-     * @author klw
-     * @Description: code 对应的消息
+     * code 对应的消息
      */
     private String codeMsg;
 

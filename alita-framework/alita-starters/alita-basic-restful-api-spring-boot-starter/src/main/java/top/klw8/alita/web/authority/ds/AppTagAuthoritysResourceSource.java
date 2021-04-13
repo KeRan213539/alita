@@ -27,10 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: AppTagDataSecuredSource
- * @Description: appTag的数据权限资源数据源
- * @date 2020/7/27 15:19
+ * appTag的数据权限资源数据源
+ * 2020/7/27 15:19
  */
 @Component
 @PublicDataSecuredRegister

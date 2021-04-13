@@ -51,10 +51,8 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: AlitaUserProvider
- * @Description: 用户相关dubbo提供者
- * @date 2019/8/14 14:16
+ * 用户相关dubbo提供者
+ * 2019/8/14 14:16
  */
 @Slf4j
 @DubboService(async = true)

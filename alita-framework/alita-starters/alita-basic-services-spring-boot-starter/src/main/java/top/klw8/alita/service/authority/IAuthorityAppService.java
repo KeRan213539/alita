@@ -20,9 +20,8 @@ import top.klw8.alita.entitys.authority.AlitaAuthoritysApp;
 import top.klw8.alita.service.result.JsonResult;
 
 /**
- * @author zhaozheng
- * @description:
- * @date: 2020-07-16
+ * 
+ * 2020-07-16
  */
 
 public interface IAuthorityAppService extends IService<AlitaAuthoritysApp> {

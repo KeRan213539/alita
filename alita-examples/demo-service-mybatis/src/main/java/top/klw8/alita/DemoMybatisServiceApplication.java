@@ -24,10 +24,8 @@ import org.springframework.boot.logging.LoggingSystem;
 
 
 /**
- * @ClassName: DemoServiceApplication
- * @Description: demo服务启动器
- * @author klw
- * @date 2018年9月29日 上午11:43:34
+ * demo服务启动器
+ * 2018年9月29日 上午11:43:34
  */
 @EnableDubbo(scanBasePackages = {"top.klw8.alita.service.demo.service.impl","top.klw8.alita.service.demo.providers.impl"})
 @MapperScan("top.klw8.alita.service.demo.mapper")

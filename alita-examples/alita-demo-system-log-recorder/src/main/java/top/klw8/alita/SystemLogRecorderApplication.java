@@ -24,10 +24,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 
 /**
- * @ClassName: SystemLogRecorderApplication
- * @Description: 系统日志纪录-启动程序
- * @author klw
- * @date 2018年4月16日 上午10:44:40
+ * 系统日志纪录-启动程序
+ * 2018年4月16日 上午10:44:40
  */
 @SpringBootApplication
 public class SystemLogRecorderApplication {

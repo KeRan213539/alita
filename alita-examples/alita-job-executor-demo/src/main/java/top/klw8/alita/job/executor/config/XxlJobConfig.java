@@ -27,7 +27,6 @@ import org.springframework.context.annotation.Configuration;
 /**
  * xxl-job config
  *
- * @author xuxueli 2017-04-28
  */
 @Configuration
 @ComponentScan(basePackages = "top.klw8.alita.job.executor.jobhandler")

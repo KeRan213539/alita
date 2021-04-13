@@ -24,10 +24,8 @@ import top.klw8.alita.validator.annotations.Password;
 import top.klw8.alita.validator.annotations.Required;
 
 /**
- * @author klw
- * @ClassName: AlitaUserAccountVo
- * @Description: 用户信息
- * @date 2019-01-25 16:26:07
+ * 用户信息
+ * 2019-01-25 16:26:07
  */
 @Getter
 @Setter

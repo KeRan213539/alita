@@ -19,10 +19,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import top.klw8.alita.entitys.authority.AlitaAuthoritysCatlog;
 
 /**
- * @ClassName: ISystemAuthoritysCatlogMapper
- * @Description: 权限的目录DAO
- * @author klw
- * @date 2018年11月28日 下午3:40:05
+ * 权限的目录DAO
+ * 2018年11月28日 下午3:40:05
  */
 public interface ISystemAuthoritysCatlogMapper extends BaseMapper<AlitaAuthoritysCatlog> {
 

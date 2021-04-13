@@ -22,10 +22,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: BeanUtil
- * @Description: bean 工具
- * @date 2020/2/25 20:09
+ * bean 工具
+ * 2020/2/25 20:09
  * <p>
  * code is far away from bugs with the god animal protecting
  * I love animals. They taste delicious.

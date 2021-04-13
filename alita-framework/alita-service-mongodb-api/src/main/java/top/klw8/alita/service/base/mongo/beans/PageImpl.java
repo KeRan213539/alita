@@ -29,11 +29,9 @@ import lombok.Setter;
 
 
 /**
- * @ClassName: PageImpl
- * @Description: org.springframework.data.domain.Page 的实现, 解决spring自带实现在 Hession 反序列化时的问题
+ * org.springframework.data.domain.Page 的实现, 解决spring自带实现在 Hession 反序列化时的问题
  * 部分接口未实现也不需要实现
- * @author klw
- * @date 2018年12月27日 上午11:56:03
+ * 2018年12月27日 上午11:56:03
  */
 @Getter
 @Setter
@@ -42,26 +40,22 @@ public class PageImpl<T> implements Page<T>, Serializable, Cloneable {
     private static final long serialVersionUID = 7566446708228465292L;
 
     /**
-     * @author klw
-     * @Fields page : 当前页码
+     * page : 当前页码
      */
     private int page;
     
     /**
-     * @author klw
-     * @Fields limit : 每页条数
+     * limit : 每页条数
      */
     private int limit;
     
     /**
-     * @author klw
-     * @Fields total : 数据总量
+     * total : 数据总量
      */
     private long total;
     
     /**
-     * @author klw
-     * @Fields content : 当前页数据
+     * content : 当前页数据
      */
     private List<T> content;
     
@@ -73,7 +67,6 @@ public class PageImpl<T> implements Page<T>, Serializable, Cloneable {
     }
     /*
      * <p>Title: getNumber</p>
-     * @author klw
      * <p>Description: </p>
      * @return
      * @see org.springframework.data.domain.Slice#getNumber()
@@ -85,7 +78,6 @@ public class PageImpl<T> implements Page<T>, Serializable, Cloneable {
 
     /*
      * <p>Title: getSize</p>
-     * @author klw
      * <p>Description: </p>
      * @return
      * @see org.springframework.data.domain.Slice#getSize()
@@ -97,7 +89,6 @@ public class PageImpl<T> implements Page<T>, Serializable, Cloneable {
 
     /*
      * <p>Title: getNumberOfElements</p>
-     * @author klw
      * <p>Description: </p>
      * @return
      * @see org.springframework.data.domain.Slice#getNumberOfElements()
@@ -109,7 +100,6 @@ public class PageImpl<T> implements Page<T>, Serializable, Cloneable {
 
     /*
      * <p>Title: getContent</p>
-     * @author klw
      * <p>Description: </p>
      * @return
      * @see org.springframework.data.domain.Slice#getContent()
@@ -121,7 +111,6 @@ public class PageImpl<T> implements Page<T>, Serializable, Cloneable {
 
     /*
      * <p>Title: hasContent</p>
-     * @author klw
      * <p>Description: </p>
      * @return
      * @see org.springframework.data.domain.Slice#hasContent()
@@ -133,7 +122,6 @@ public class PageImpl<T> implements Page<T>, Serializable, Cloneable {
 
     /*
      * <p>Title: getSort</p>
-     * @author klw
      * <p>Description: </p>
      * @return
      * @see org.springframework.data.domain.Slice#getSort()
@@ -145,7 +133,6 @@ public class PageImpl<T> implements Page<T>, Serializable, Cloneable {
 
     /*
      * <p>Title: isFirst</p>
-     * @author klw
      * <p>Description: </p>
      * @return
      * @see org.springframework.data.domain.Slice#isFirst()
@@ -157,7 +144,6 @@ public class PageImpl<T> implements Page<T>, Serializable, Cloneable {
 
     /*
      * <p>Title: isLast</p>
-     * @author klw
      * <p>Description: </p>
      * @return
      * @see org.springframework.data.domain.Slice#isLast()
@@ -169,7 +155,6 @@ public class PageImpl<T> implements Page<T>, Serializable, Cloneable {
 
     /*
      * <p>Title: hasNext</p>
-     * @author klw
      * <p>Description: </p>
      * @return
      * @see org.springframework.data.domain.Slice#hasNext()
@@ -181,7 +166,6 @@ public class PageImpl<T> implements Page<T>, Serializable, Cloneable {
 
     /*
      * <p>Title: hasPrevious</p>
-     * @author klw
      * <p>Description: </p>
      * @return
      * @see org.springframework.data.domain.Slice#hasPrevious()
@@ -193,7 +177,6 @@ public class PageImpl<T> implements Page<T>, Serializable, Cloneable {
 
     /*
      * <p>Title: nextPageable</p>
-     * @author klw
      * <p>Description: </p>
      * @return
      * @see org.springframework.data.domain.Slice#nextPageable()
@@ -205,7 +188,6 @@ public class PageImpl<T> implements Page<T>, Serializable, Cloneable {
 
     /*
      * <p>Title: previousPageable</p>
-     * @author klw
      * <p>Description: </p>
      * @return
      * @see org.springframework.data.domain.Slice#previousPageable()
@@ -217,7 +199,6 @@ public class PageImpl<T> implements Page<T>, Serializable, Cloneable {
 
     /*
      * <p>Title: iterator</p>
-     * @author klw
      * <p>Description: </p>
      * @return
      * @see java.lang.Iterable#iterator()
@@ -229,7 +210,6 @@ public class PageImpl<T> implements Page<T>, Serializable, Cloneable {
 
     /*
      * <p>Title: getTotalPages</p>
-     * @author klw
      * <p>Description: </p>
      * @return
      * @see org.springframework.data.domain.Page#getTotalPages()
@@ -241,7 +221,6 @@ public class PageImpl<T> implements Page<T>, Serializable, Cloneable {
 
     /*
      * <p>Title: getTotalElements</p>
-     * @author klw
      * <p>Description: </p>
      * @return
      * @see org.springframework.data.domain.Page#getTotalElements()
@@ -253,7 +232,6 @@ public class PageImpl<T> implements Page<T>, Serializable, Cloneable {
 
     /*
      * <p>Title: map</p>
-     * @author klw
      * <p>Description: </p>
      * @param converter
      * @return

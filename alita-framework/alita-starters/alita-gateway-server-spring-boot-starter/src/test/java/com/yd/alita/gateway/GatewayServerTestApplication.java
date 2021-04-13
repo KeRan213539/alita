@@ -20,10 +20,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
- * @author klw
- * @ClassName: GatewayServerTestApplication
- * @Description: 测试 spring cloud gateway (路由网关)
- * @date 2018-11-14 15:42:54
+ * 测试 spring cloud gateway (路由网关)
+ * 2018-11-14 15:42:54
  */
 @SpringBootApplication
 @EnableDiscoveryClient

@@ -23,10 +23,8 @@ import java.util.Base64;
 import java.util.Map;
 
 /**
- * @author klw
- * @ClassName: TokenUtil
- * @Description: token 工具
- * @date 2018年11月30日 上午11:58:27
+ * token 工具
+ * 2018年11月30日 上午11:58:27
  */
 @Slf4j
 public class TokenUtil {
@@ -35,9 +33,7 @@ public class TokenUtil {
 
     /**
      * @return
-     * @Title: getUserId
-     * @author klw
-     * @Description: 获取token中的userId
+     * 获取token中的userId
      */
     public static String getUserId(String jwtToken) {
         return (String) getTokenAdditionalData(jwtToken, "userId");
@@ -58,9 +54,7 @@ public class TokenUtil {
     /**
      * @param key
      * @return
-     * @Title: getTokenAdditionalInfo
-     * @author klw
-     * @Description: 根据key获取token中的额外数据
+     * 根据key获取token中的额外数据
      */
     public static Object getTokenAdditionalData(String jwtToken, String key) {
         Map<String, Object> allTokenData = getAllTokenData(jwtToken);
@@ -72,9 +66,7 @@ public class TokenUtil {
 
     /**
      * @return
-     * @Title: getAllTokenData
-     * @author klw
-     * @Description: 获取token中的所有数据
+     * 获取token中的所有数据
      */
     public static Map<String, Object> getAllTokenData(String jwtToken) {
         if (jwtToken.startsWith("Bearer ")) {

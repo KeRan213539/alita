@@ -21,46 +21,38 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: ResourceParserData
- * @Description: 资源解析器参数,不包含文件上传中的文件. 线程安全.不支持序列化传输
- * @date 2020/4/24 14:05
+ * 资源解析器参数,不包含文件上传中的文件. 线程安全.不支持序列化传输
+ * 2020/4/24 14:05
  */
 public class ResourceParserData implements IResourceParserData {
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 请求的url,可以根据此参数实现一个解析器多用
+     * 请求的url,可以根据此参数实现一个解析器多用
      */
     private String requestUrl;
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: url地址参数
+     * url地址参数
      */
     private Map<String, String> pathPrarms;
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: url参数
+     * url参数
      */
     private Map<String, List<String>> queryPrarms;
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: post 的表单参数
+     * post 的表单参数
      */
     private Map<String, List<String>> formData;
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: post 的 json 字符串
+     * post 的 json 字符串
      */
     private String jsonString;
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: post 的 xml 字符串
+     * post 的 xml 字符串
      */
     private String xmlString;
 

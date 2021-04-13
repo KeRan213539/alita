@@ -36,10 +36,8 @@ import top.klw8.alita.service.demo.mapper.demo.IMongoDBTestDao;
 
 
 /**
- * @ClassName: TestDemo
- * @Description: 测试
- * @author klw
- * @date 2018年10月4日 下午7:04:19
+ * 测试
+ * 2018年10月4日 下午7:04:19
  */
 @RunWith(JUnitPlatform.class)
 @ExtendWith(SpringExtension.class)

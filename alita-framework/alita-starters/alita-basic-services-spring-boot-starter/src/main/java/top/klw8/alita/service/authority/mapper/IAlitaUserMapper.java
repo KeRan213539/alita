@@ -28,10 +28,8 @@ import java.util.Map;
 
 
 /**
- * @ClassName: IAlitaUserMapper
- * @Description: 用户 dao
- * @author klw
- * @date 2018年11月9日 下午5:27:40
+ * 用户 dao
+ * 2018年11月9日 下午5:27:40
  */
 public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
 
@@ -42,9 +40,8 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
 //    List<DemoEntity> selectByFullName(String fullName);
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 添加用户与角色的关联
-     * @Date 2019/8/12 17:07
+     * 添加用户与角色的关联
+     * 2019/8/12 17:07
      * @param: userId
      * @param: roleId
      * @return int
@@ -57,9 +54,8 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
     int addRole2User(String userId, String roleId);
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 移除用户与角色的关联
-     * @Date 2019/8/12 17:08
+     * 移除用户与角色的关联
+     * 2019/8/12 17:08
      * @param: userId
      * @param: roleId
      * @return int
@@ -68,9 +64,8 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
     int removeRoleFromUser(String userId, String roleId);
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 删除指定用户下的所有角色
-     * @Date 2019/8/13 8:49
+     * 删除指定用户下的所有角色
+     * 2019/8/13 8:49
      * @param: userId
      * @return int
      */
@@ -78,9 +73,8 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
     int removeRolesFromUser(String userId);
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 批量关联多个角色到指定用户
-     * @Date 2019/8/13 9:37
+     * 批量关联多个角色到指定用户
+     * 2019/8/13 9:37
      * @param: list
      * @return int
      */
@@ -94,9 +88,8 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
 
     /**
      *
-     * @Author zhanglei
-     * @Description 查询用户的所有角色
-     * @Date 15:27 2019-08-15
+     * 查询用户的所有角色
+     * 15:27 2019-08-15
      * @param: userId
      * @return java.util.List<java.lang.String>
      **/
@@ -111,9 +104,8 @@ public interface IAlitaUserMapper extends BaseMapper<AlitaUserAccount> {
     List<AlitaRole> selectUserAllRoles(String userId, String appTag);
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 根据传入的roleId查找拥有这个角色的用户
-     * @Date 2019/10/19 16:41
+     * 根据传入的roleId查找拥有这个角色的用户
+     * 2019/10/19 16:41
      * @param: roleId
      * @return java.util.List<top.klw8.alita.entitys.user.AlitaUserAccount>
      */

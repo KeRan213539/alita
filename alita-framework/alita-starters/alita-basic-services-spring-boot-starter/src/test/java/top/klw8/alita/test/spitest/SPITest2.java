@@ -7,8 +7,7 @@ import java.util.List;
 /**
  * .
  *
- * @author klw(213539 @ qq.com)
- * @date 2021/4/8 11:38
+ * 2021/4/8 11:38
  */
 public class SPITest2 {
 

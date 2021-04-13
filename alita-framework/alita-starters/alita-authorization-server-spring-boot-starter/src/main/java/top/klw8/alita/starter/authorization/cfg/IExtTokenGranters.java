@@ -24,10 +24,8 @@ import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import java.util.List;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: ExtTokenGranterBean
- * @Description: 扩展的登录方式配制
- * @date 2019/8/20 10:59
+ * 扩展的登录方式配制
+ * 2019/8/20 10:59
  */
 public interface IExtTokenGranters {
 

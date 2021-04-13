@@ -35,10 +35,8 @@ import top.klw8.alita.starter.authorization.filter.BaseFilter;
 import java.util.Map;
 
 /**
- * @author klw
- * @ClassName: SecurityConfiguration
- * @Description: Security 配制
- * @date 2018年11月1日 下午5:49:06
+ * Security 配制
+ * 2018年11月1日 下午5:49:06
  */
 @Configuration
 @EnableWebSecurity

@@ -28,10 +28,8 @@ import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
 
 /**
- * @author klw
- * @ClassName: ModifyNormalUserInfoVo
- * @Description: 修改前台用户(客户)信息
- * @date 2019年1月31日 上午11:19:51
+ * 修改前台用户(客户)信息
+ * 2019年1月31日 上午11:19:51
  */
 @Getter
 @Setter

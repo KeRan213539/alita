@@ -36,10 +36,8 @@ import top.klw8.alita.starter.web.interceptor.TokenCheckInterceptor;
 import top.klw8.alita.validator.EnableValidator;
 
 /**
- * @author klw
- * @ClassName: OAuth2ResourceServerConfig
- * @Description: spring-security OAuth2 配制,使用 jwt
- * @date 2018年11月1日 下午3:52:48
+ * spring-security OAuth2 配制,使用 jwt
+ * 2018年11月1日 下午3:52:48
  */
 @Slf4j
 @Configuration

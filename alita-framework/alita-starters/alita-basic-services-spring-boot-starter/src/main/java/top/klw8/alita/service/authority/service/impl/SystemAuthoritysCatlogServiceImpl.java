@@ -24,10 +24,8 @@ import top.klw8.alita.service.authority.ISystemAuthoritysCatlogService;
 import top.klw8.alita.service.authority.mapper.ISystemAuthoritysCatlogMapper;
 
 /**
- * @author klw
- * @ClassName: SystemAuthoritysCatlogServiceImpl
- * @Description: 权限的目录Service_实现
- * @date 2018年11月28日 下午3:52:21
+ * 权限的目录Service_实现
+ * 2018年11月28日 下午3:52:21
  */
 @Slf4j
 @Service

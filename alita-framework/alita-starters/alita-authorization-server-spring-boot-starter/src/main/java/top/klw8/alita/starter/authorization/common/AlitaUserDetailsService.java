@@ -27,10 +27,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 /**
- * @author klw
- * @ClassName: AlitaUserDetailsService
- * @Description: org.springframework.security.core.userdetails.UserDetailsService 的实现,根据用户名查找用户, 提供给 spring-security 使用
- * @date 2018年11月12日 下午5:20:38
+ * org.springframework.security.core.userdetails.UserDetailsService 的实现,根据用户名查找用户, 提供给 spring-security 使用
+ * 2018年11月12日 下午5:20:38
  */
 @Slf4j
 public class AlitaUserDetailsService implements UserDetailsService {

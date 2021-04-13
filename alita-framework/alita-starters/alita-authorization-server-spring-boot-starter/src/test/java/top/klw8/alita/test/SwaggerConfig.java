@@ -30,10 +30,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 
 /**
- * @ClassName: SwaggerConfig
- * @Description: SwaggerConfig
- * @author klw(213539@qq.com)
- * @date 2019/11/4 15:08
+ * SwaggerConfig
+ * 2019/11/4 15:08
  */
 @Configuration
 @Profile("dev")  // 仅在dev模式(application.yml中的spring.profiles.active=dev时)下才会执行该配制

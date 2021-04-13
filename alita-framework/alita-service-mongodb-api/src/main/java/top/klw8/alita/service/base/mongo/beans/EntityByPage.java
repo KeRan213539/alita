@@ -32,10 +32,8 @@ import java.util.Map;
  * Created by Administrator on 2018/7/3.
  */
 /**
- * @ClassName: EntityByPage
- * @Description: 分页bean
- * @author klw
- * @date 2018年12月20日 下午2:57:16
+ * 分页bean
+ * 2018年12月20日 下午2:57:16
  */
 @ApiModel(value = "分页bean", description = "分页bean")
 @Data
@@ -47,44 +45,37 @@ public class EntityByPage<T extends MongoBaseEntity> implements Serializable, Cl
     private T baseBean;
 
     /**
-     * @author klw
-     * @Fields keywords : 搜索关键字
+     * keywords : 搜索关键字
      */
     private String keywords;
     
     /**
-     * @author klw
-     * @Fields keywordsField : 搜索关键字所在字段
+     * keywordsField : 搜索关键字所在字段
      */
     private String keywordsField;
     
     /**
-     * @author klw
-     * @Fields page : 页码
+     * page : 页码
      */
     private int page;
     
     /**
-     * @author klw
-     * @Fields limit : 每页条数
+     * limit : 每页条数
      */
     private int limit;
     
     /**
-     * @author klw
-     * @Fields total : 数据总量
+     * total : 数据总量
      */
     private long total;
     
     /**
-     * @author klw
-     * @Fields pages : 总页数
+     * pages : 总页数
      */
     private int pages;
     
     /**
-     * @author klw
-     * @Fields startPage : 从第几条开始查
+     * startPage : 从第几条开始查
      */
     private int startPage;
 

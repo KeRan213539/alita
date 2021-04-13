@@ -19,10 +19,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @ClassName: NacosRouteConfigBean
- * @Description: 从nacos中读取路由配制的配制Bean
- * @author klw
- * @date 2018年12月16日 下午9:14:10
+ * 从nacos中读取路由配制的配制Bean
+ * 2018年12月16日 下午9:14:10
  */
 @Getter
 @Setter
@@ -36,20 +34,17 @@ import lombok.Setter;
 public class NacosRouteConfigBean {
 
     /**
-     * @author klw
-     * @Fields nacosServerAddr : nacos 服务器地址
+     * nacosServerAddr : nacos 服务器地址
      */
     private String nacosServerAddr;
     
     /**
-     * @author klw
-     * @Fields group : nacos配制中心的group
+     * group : nacos配制中心的group
      */
     private String group = "DEFAULT_GROUP";
     
     /**
-     * @author klw
-     * @Fields dataid : nacos配制中心的 dataid
+     * dataid : nacos配制中心的 dataid
      */
     private String dataid;
     

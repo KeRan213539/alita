@@ -34,9 +34,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * @author zhaozheng
- * @description:
- * @date: 2020-07-16
+ * 
+ * 2020-07-16
  */
 @Slf4j
 @DubboService(async = true)

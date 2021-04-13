@@ -28,10 +28,8 @@ import top.klw8.alita.validator.annotations.Required;
 import java.time.LocalDate;
 
 /**
- * @author klw
- * @ClassName: NormalUserInfo
- * @Description: 新增前台用户(客户)信息 VO
- * @date 2019-01-25 16:26:01
+ * 新增前台用户(客户)信息 VO
+ * 2019-01-25 16:26:01
  */
 @Getter
 @Setter

@@ -30,11 +30,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * @author freedom
- * @version 1.0
- * @ClassName ExtUserProvider
- * @Description 用户扩展信息dubbo提供者实现
- * @date 2019-08-19 14:50
+ * 用户扩展信息dubbo提供者实现
+ * 2019-08-19 14:50
  */
 @Slf4j
 @DubboService(async = true)

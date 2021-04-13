@@ -19,10 +19,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.Base64Utils;
 
 /**
- * @ClassName: DecodeJwtTest
- * @Description: 解析 JWT 测试
- * @author klw
- * @date 2018年11月2日 上午10:00:27
+ * 解析 JWT 测试
+ * 2018年11月2日 上午10:00:27
  */
 public class DecodeJwtTest {
     public static void main(String[] args) {

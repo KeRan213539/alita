@@ -28,23 +28,18 @@ import top.klw8.alita.service.base.mongo.common.MongoBaseEntity;
 import top.klw8.alita.service.base.mongo.dao.prarm.ForPageMode.Mode;
 
 /**
- * @ClassName: IMongoBaseDao
- * @Description: IMongoBaseDao
- * @author klw
- * @date 2018年10月1日 下午2:05:44
+ * IMongoBaseDao
+ * 2018年10月1日 下午2:05:44
  */
 public interface IMongoBaseDao<T extends MongoBaseEntity> {
     
     /**
-     * @author klw
-     * @Fields RADIAN2KM : 公里转换为弧度要除以的数,地理位置查询的时候用
+     * RADIAN2KM : 公里转换为弧度要除以的数,地理位置查询的时候用
      */
     public static final double KM2RADIAN = 6378.137;
     
     /**
-     * @Title: getEntityClazz
-     * @author klw
-     * @Description: 获取DAO对应的实体的 Clazz
+     * 获取DAO对应的实体的 Clazz
      * @return
      */
     Class<T> getEntityClazz();
@@ -130,9 +125,7 @@ public interface IMongoBaseDao<T extends MongoBaseEntity> {
     Mono<List<T>> findByEntity(T baseBean, Sort sort, String... excludeFields);
     
     /**
-     * @Title: findByEntity
-     * @author klw
-     * @Description: 根据条件和地理位置查询圆形范围内的
+     * 根据条件和地理位置查询圆形范围内的
      * @param baseBean
      * @param sort
      * @param pointFieldName
@@ -144,9 +137,7 @@ public interface IMongoBaseDao<T extends MongoBaseEntity> {
     Mono<List<T>> findByEntity(T baseBean, Sort sort, String pointFieldName, Point point, double rangeKm, String... excludeFields);
     
     /**
-     * @Title: findByEntity
-     * @author klw
-     * @Description: 根据条件和全文搜索关键字查询
+     * 根据条件和全文搜索关键字查询
      * @param baseBean
      * @param sort
      * @param matchingText  全文搜索关键字
@@ -164,9 +155,7 @@ public interface IMongoBaseDao<T extends MongoBaseEntity> {
     Mono<Long> countByEntityForPage(EntityByPage<T> entityByPage);
 
     /**
-     * @Title: searchByEntityForPage
-     * @author klw
-     * @Description: 根据对象查询数据并分页
+     * 根据对象查询数据并分页
      * @param entityByPage  查询条件
      * @param sort 排序
      * @param forPageMode  分页方式,如果使用 COMPARATIVE_UNIQUE_FIELD 方式,那么 forPageMode中的 fieldName 和 fieldValue 必有值
@@ -176,9 +165,7 @@ public interface IMongoBaseDao<T extends MongoBaseEntity> {
     Mono<Page<T>> searchByEntityForPage(EntityByPage<T> entityByPage, Sort sort,Mode forPageMode, String... excludeFields);
     
     /**
-     * @Title: searchByEntityForPage
-     * @author klw
-     * @Description: 根据条件和地理位置查询圆形范围内的并分页
+     * 根据条件和地理位置查询圆形范围内的并分页
      * @param entityByPage  查询条件
      * @param sort 排序
      * @param pointFieldName  存放位置的字段名
@@ -191,9 +178,7 @@ public interface IMongoBaseDao<T extends MongoBaseEntity> {
     Mono<Page<T>> searchByEntityForPage(EntityByPage<T> entityByPage, Sort sort, String pointFieldName, Point point, double rangeKm, Mode forPageMode, String... excludeFields);
     
     /**
-     * @Title: searchByEntityForPage
-     * @author klw
-     * @Description: 根据条件和全文搜索关键字查询圆形范围内的并分页
+     * 根据条件和全文搜索关键字查询圆形范围内的并分页
      * @param entityByPage  查询条件
      * @param sort 排序
      * @param matchingText  全文搜索的关键字
@@ -204,44 +189,34 @@ public interface IMongoBaseDao<T extends MongoBaseEntity> {
     Mono<Page<T>> searchByEntityForPage(EntityByPage<T> entityByPage, Sort sort, String matchingText, Mode forPageMode, String... excludeFields);
     
     /**
-     * @Title: findByIdsWithRefQuery
-     * @author klw
-     * @Description: 根据多个ID查询数据并处理 @DBRef (因为 @DBRef 效率低,所以单独一个方法)
+     * 根据多个ID查询数据并处理 @DBRef (因为 @DBRef 效率低,所以单独一个方法)
      * @param ids
      * @return
      */
     Mono<List<T>> findByIdsWithRefQuery(ObjectId[] ids, String... excludeFields);
     
     /**
-     * @Title: findByIdWithRefQuery
-     * @author klw
-     * @Description: 根据ID查询一条数据并处理 @DBRef (因为 @DBRef 效率低,所以单独一个方法)
+     * 根据ID查询一条数据并处理 @DBRef (因为 @DBRef 效率低,所以单独一个方法)
      * @param id
      * @return
      */
     Mono<T> findByIdWithRefQuery(ObjectId id, String... excludeFields);
     
     /**
-     * @Title: findAllWithRefQuery
-     * @author klw
-     * @Description: 查询所有数据并处理 @DBRef (因为 @DBRef 效率低,所以单独一个方法)
+     * 查询所有数据并处理 @DBRef (因为 @DBRef 效率低,所以单独一个方法)
      * @return
      */
     Mono<List<T>> findAllWithRefQuery(String... excludeFields);
     
     /**
-     * @Title: findByEntityWithRefQuery
-     * @author klw
-     * @Description: 根据条件查询数据并处理 @DBRef (因为 @DBRef 效率低,所以单独一个方法)
+     * 根据条件查询数据并处理 @DBRef (因为 @DBRef 效率低,所以单独一个方法)
      * @param baseBean
      * @return
      */
     Mono<List<T>> findByEntityWithRefQuery(T baseBean, Sort sort, String... excludeFields);
     
     /**
-     * @Title: findByEntity
-     * @author klw
-     * @Description: 根据条件和地理位置查询圆形范围内的并处理 @DBRef (因为 @DBRef 效率低,所以单独一个方法)
+     * 根据条件和地理位置查询圆形范围内的并处理 @DBRef (因为 @DBRef 效率低,所以单独一个方法)
      * @param baseBean
      * @param sort
      * @param pointFieldName
@@ -253,9 +228,7 @@ public interface IMongoBaseDao<T extends MongoBaseEntity> {
     Mono<List<T>> findByEntityWithRefQuery(T baseBean, Sort sort, String pointFieldName, Point point, double rangeKm, String... excludeFields);
     
     /**
-     * @Title: findByEntity
-     * @author klw
-     * @Description: 根据条件和全文搜索查询并处理 @DBRef (因为 @DBRef 效率低,所以单独一个方法)
+     * 根据条件和全文搜索查询并处理 @DBRef (因为 @DBRef 效率低,所以单独一个方法)
      * @param baseBean
      * @param sort
      * @param matchingText
@@ -265,9 +238,7 @@ public interface IMongoBaseDao<T extends MongoBaseEntity> {
     Mono<List<T>> findByEntityWithRefQuery(T baseBean, Sort sort, String matchingText, String... excludeFields);
     
     /**
-     * @Title: searchByEntityForPageWithRefQuery
-     * @author klw
-     * @Description: 根据对象查询数据并分页 @DBRef (因为 @DBRef 效率低,所以单独一个方法)
+     * 根据对象查询数据并分页 @DBRef (因为 @DBRef 效率低,所以单独一个方法)
      * @param entityByPage  查询条件
      * @param sort 排序
      * @param forPageMode  分页方式,如果使用 COMPARATIVE_UNIQUE_FIELD 方式,那么 forPageMode中的 fieldName , fieldValue 必有值,否则将会走skip方式
@@ -277,9 +248,7 @@ public interface IMongoBaseDao<T extends MongoBaseEntity> {
     Mono<Page<T>> searchByEntityForPageWithRefQuery(EntityByPage<T> entityByPage, Sort sort, Mode forPageMode, String... excludeFields);
     
     /**
-     * @Title: searchByEntityForPageWithRefQuery
-     * @author klw
-     * @Description: 根据条件和地理位置查询圆形范围内的并分页 @DBRef (因为 @DBRef 效率低,所以单独一个方法)
+     * 根据条件和地理位置查询圆形范围内的并分页 @DBRef (因为 @DBRef 效率低,所以单独一个方法)
      * @param entityByPage  查询条件
      * @param sort 排序
      * @param pointFieldName  存放位置的字段名
@@ -292,9 +261,7 @@ public interface IMongoBaseDao<T extends MongoBaseEntity> {
     Mono<Page<T>> searchByEntityForPageWithRefQuery(EntityByPage<T> entityByPage, Sort sort, String pointFieldName, Point point, double rangeKm, Mode forPageMode, String... excludeFields);
     
     /**
-     * @Title: searchByEntityForPageWithRefQuery
-     * @author klw
-     * @Description: 根据条件和全文索引关键字查询并分页 @DBRef (因为 @DBRef 效率低,所以单独一个方法)
+     * 根据条件和全文索引关键字查询并分页 @DBRef (因为 @DBRef 效率低,所以单独一个方法)
      * @param entityByPage  查询条件
      * @param sort 排序
      * @param matchingText  全文搜索的关键字
@@ -305,9 +272,7 @@ public interface IMongoBaseDao<T extends MongoBaseEntity> {
     Mono<Page<T>> searchByEntityForPageWithRefQuery(EntityByPage<T> entityByPage, Sort sort, String matchingText, Mode forPageMode, String... excludeFields);
     
     /**
-     * @Title: findAndModify
-     * @author klw
-     * @Description: 原子操作,不会有并发问题: 查找并更新,只会更新一条数据(如果查询条件结果为多个数据,也只会更新一个,建议查询条件尽量精确到一个结果)
+     * 原子操作,不会有并发问题: 查找并更新,只会更新一条数据(如果查询条件结果为多个数据,也只会更新一个,建议查询条件尽量精确到一个结果)
      * @param findEntity
      * @param updateEntity
      * @return 被更新的数据的ID
@@ -315,9 +280,7 @@ public interface IMongoBaseDao<T extends MongoBaseEntity> {
     Mono<Long> findAndModify(T findEntity, T updateEntity);
     
     /**
-     * @Title: findAndRemove
-     * @author klw
-     * @Description: 原子操作,不会有并发问题: 查找并删除,只会删除一条数据(如果查询条件结果为多个数据,也只会删除一个,建议查询条件尽量精确到一个结果)
+     * 原子操作,不会有并发问题: 查找并删除,只会删除一条数据(如果查询条件结果为多个数据,也只会删除一个,建议查询条件尽量精确到一个结果)
      * @param findEntity
      * @return 被删除的数据的ID
      */

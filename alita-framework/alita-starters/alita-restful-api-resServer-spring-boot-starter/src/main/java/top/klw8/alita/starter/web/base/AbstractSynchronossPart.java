@@ -22,10 +22,8 @@ import org.springframework.util.Assert;
 import org.synchronoss.cloud.nio.multipart.MultipartUtils;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: AbstractSynchronossPart
- * @Description: copy from org.springframework.http.codec.multipart.SynchronossPartHttpMessageReader$AbstractSynchronossPart
- * @date 2020/4/23 17:37
+ * copy from org.springframework.http.codec.multipart.SynchronossPartHttpMessageReader$AbstractSynchronossPart
+ * 2020/4/23 17:37
  */
 public abstract class AbstractSynchronossPart implements Part {
 

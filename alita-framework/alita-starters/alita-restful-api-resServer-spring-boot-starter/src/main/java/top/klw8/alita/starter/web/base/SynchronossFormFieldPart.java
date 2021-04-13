@@ -26,10 +26,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: SynchronossFormFieldPart
- * @Description: copy from org.springframework.http.codec.multipart.SynchronossPartHttpMessageReader$SynchronossFormFieldPart
- * @date 2020/4/23 17:35
+ * copy from org.springframework.http.codec.multipart.SynchronossPartHttpMessageReader$SynchronossFormFieldPart
+ * 2020/4/23 17:35
  */
 public class SynchronossFormFieldPart extends AbstractSynchronossPart implements FormFieldPart {
 

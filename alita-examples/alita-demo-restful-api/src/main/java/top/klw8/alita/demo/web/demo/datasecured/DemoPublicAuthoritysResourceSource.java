@@ -23,10 +23,8 @@ import top.klw8.alita.starter.auscan.IAuthoritysResourceSource;
 import java.util.List;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: DemoPublicDataSecuredSourceStatic
- * @Description: 数据权限全局数据源
- * @date 2020/5/14 11:22
+ * 数据权限全局数据源
+ * 2020/5/14 11:22
  */
 @Component
 @PublicDataSecuredRegister

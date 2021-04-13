@@ -31,10 +31,8 @@ import java.io.File;
 import java.io.InputStream;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: DataAuthorityDemoController
- * @Description: 数据权限
- * @date 2020/4/22 13:57
+ * 数据权限
+ * 2020/4/22 13:57
  */
 @Api(tags = {"alita-restful-API--demoAPI"})
 @RestController

@@ -41,9 +41,8 @@ import static top.klw8.alita.web.common.CatlogsConstant.CATLOG_INDEX_AU_ADMIN;
 import static top.klw8.alita.web.common.CatlogsConstant.CATLOG_NAME_AU_ADMIN;
 
 /**
- * @author zhaozheng
- * @description:
- * @date: 2020-07-16
+ *
+ * 2020-07-16
  */
 @Api(tags = {"alita-restful-API--应用管理"})
 @RestController

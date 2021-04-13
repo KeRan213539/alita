@@ -24,10 +24,8 @@ import top.klw8.alita.validator.annotations.Password;
 import top.klw8.alita.validator.annotations.Required;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: AlitaUserAccountRequest
- * @Description: 账户Bean
- * @date 2019/10/15 15:18
+ * 账户Bean
+ * 2019/10/15 15:18
  */
 @Getter
 @Setter

@@ -26,10 +26,8 @@ import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 
 /**
- * @ClassName: DynamicRouteServiceImpl
- * @Description: 动态路由服务实现
- * @author klw
- * @date 2018年12月16日 下午8:27:02
+ * 动态路由服务实现
+ * 2018年12月16日 下午8:27:02
  */
 //@Service
 /**
@@ -47,9 +45,7 @@ public class DynamicRouteServiceImpl implements ApplicationEventPublisherAware {
     private ApplicationEventPublisher publisher;
 
     /**
-     * @Title: addRoute
-     * @author klw
-     * @Description: 增加路由
+     * 增加路由
      * @param definition
      * @return 添加数量
      */
@@ -60,9 +56,7 @@ public class DynamicRouteServiceImpl implements ApplicationEventPublisherAware {
     }
 
     /**
-     * @Title: updateRoute
-     * @author klw
-     * @Description: 更新路由
+     * 更新路由
      * @param definition
      * @return 更新数量
      */
@@ -82,9 +76,7 @@ public class DynamicRouteServiceImpl implements ApplicationEventPublisherAware {
     }
 
     /**
-     * @Title: deleteRoute
-     * @author klw
-     * @Description: 删除路由
+     * 删除路由
      * @param id
      * @return
      */

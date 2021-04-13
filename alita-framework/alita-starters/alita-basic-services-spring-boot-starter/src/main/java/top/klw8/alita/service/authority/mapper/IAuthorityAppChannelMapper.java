@@ -21,9 +21,7 @@ import top.klw8.alita.entitys.authority.AlitaAuthoritysAppChannel;
 /**
  * 应用渠道表 Mapper.
  *
- * @author klw(213539 @ qq.com)
- * @ClassName: IAuthorityAppChannelMapper
- * @date 2020/9/9 16:55
+ * 2020/9/9 16:55
  */
 public interface IAuthorityAppChannelMapper extends BaseMapper<AlitaAuthoritysAppChannel> {
 

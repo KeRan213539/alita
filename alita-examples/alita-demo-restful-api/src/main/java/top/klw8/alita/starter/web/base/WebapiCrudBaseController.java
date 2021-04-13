@@ -19,74 +19,64 @@ import top.klw8.alita.entitys.base.BaseEntity;
 
 
 /**
- * @author klw
- * @ClassName: WebapiCrudBaseController
- * @Description: web api 用的 带常用操作的BaseController
- * @date 2018年10月26日 下午3:32:04
+ * web api 用的 带常用操作的BaseController
+ * 2018年10月26日 下午3:32:04
  */
 public abstract class WebapiCrudBaseController<E extends BaseEntity> extends WebapiBaseController {
 
 //    /**
 //     * @return
 //     * @Title: getService
-//     * @author klw
-//     * @Description: 该控制器对应的数据服务
+//     * 该控制器对应的数据服务
 //     */
 //    protected abstract IMongoBaseService<E> service();
 
 //    /**
 //     * @return
 //     * @Title: searchType
-//     * @author klw
-//     * @Description: 搜索方式
+//     * 搜索方式
 //     */
 //    protected abstract SearchTypeEnum searchType();
 //
 //    /**
 //     * @return
 //     * @Title: searchField
-//     * @author klw
-//     * @Description: 如果搜索方式是指定字段, 搜索的字段名(全文搜索不需要该参数)
+//     * 如果搜索方式是指定字段, 搜索的字段名(全文搜索不需要该参数)
 //     */
 //    protected abstract String searchField();
 //
 //    /**
 //     * @return
 //     * @Title: sortFiled
-//     * @author klw
-//     * @Description: 排序字段
+//     * 排序字段
 //     */
 //    protected abstract String sortFiled();
 //
 //    /**
 //     * @return
 //     * @Title: comparativeFieldname
-//     * @author klw
-//     * @Description: 比较分页方式时比较的字段名
+//     * 比较分页方式时比较的字段名
 //     */
 //    protected abstract String comparativeFieldname();
 //
 //    /**
 //     * @return
 //     * @Title: comparativeFieldDataType
-//     * @author klw
-//     * @Description: 比较分页方式时的字段类型
+//     * 比较分页方式时的字段类型
 //     */
 //    protected abstract FieldDataType comparativeFieldDataType();
 //
 //    /**
 //     * @return
 //     * @Title: geoPointFieldName
-//     * @author klw
-//     * @Description: 地理位置查询的 位置所在字段名称
+//     * 地理位置查询的 位置所在字段名称
 //     */
 //    protected abstract String geoPointFieldName();
 //
 //    /**
 //     * @return
 //     * @Title: geoRangeKm
-//     * @author klw
-//     * @Description: 地理位置查询的范围(圆形半径), 单位: KM(千米,公里)
+//     * 地理位置查询的范围(圆形半径), 单位: KM(千米,公里)
 //     */
 //    protected abstract double geoRangeKm();
 //
@@ -94,8 +84,7 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 //     * @param vo
 //     * @return
 //     * @Title: addSave
-//     * @author klw
-//     * @Description: 新增保存
+//     * 新增保存
 //     */
 //    protected <V extends IBaseCrudVo<E>> Mono<JsonResult> addSave(V vo) throws Exception {
 //        service().save(vo.buildEntity());
@@ -110,8 +99,7 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 //     * @param vo
 //     * @return
 //     * @Title: modifySave
-//     * @author klw
-//     * @Description: 修改保存
+//     * 修改保存
 //     */
 //    protected <V extends IBaseCrudVo<E>> Mono<JsonResult> modifySave(V vo) throws Exception {
 //        E entity = vo.buildEntity();
@@ -145,8 +133,7 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 //     * @return
 //     * @throws Exception
 //     * @Title: findById
-//     * @author klw
-//     * @Description: 根据ID查找
+//     * 根据ID查找
 //     */
 //    protected <V extends IBaseCrudVo<E>> Mono<JsonResult> findById(String strId) throws Exception {
 //
@@ -178,8 +165,7 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 //     * @param isQueryRef
 //     * @return
 //     * @Title: findByEntity
-//     * @author klw
-//     * @Description: 获取列表(不分页, 支持条件), geo查询不加排序条件时默认由近及远排序
+//     * 获取列表(不分页, 支持条件), geo查询不加排序条件时默认由近及远排序
 //     */
 //    protected <V extends ListPrarmVo<E>> Mono<JsonResult> findByEntity(V vo, boolean isQueryRef)
 //            throws Exception {
@@ -230,8 +216,7 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 //     * @param isQueryRef
 //     * @return
 //     * @Title: queryForPageBySkip
-//     * @author klw
-//     * @Description: 分页查询skip方式, geo查询不加排序条件时默认由近及远排序
+//     * 分页查询skip方式, geo查询不加排序条件时默认由近及远排序
 //     */
 //    protected <V extends PagePrarmVo<E>> Mono<JsonResult> queryForPageBySkip(V vo, boolean isQueryRef) throws Exception {
 //
@@ -279,8 +264,7 @@ public abstract class WebapiCrudBaseController<E extends BaseEntity> extends Web
 //     * @param isQueryRef
 //     * @return
 //     * @Title: queryForPageByComparative
-//     * @author klw
-//     * @Description: 分页查询比较方式, geo查询不加排序条件时默认由近及远排序
+//     * 分页查询比较方式, geo查询不加排序条件时默认由近及远排序
 //     */
 //    protected <V extends ComparativePagePrarmVo<E>> Mono<JsonResult> queryForPageByComparative(V vo, boolean isQueryRef) throws Exception {
 //

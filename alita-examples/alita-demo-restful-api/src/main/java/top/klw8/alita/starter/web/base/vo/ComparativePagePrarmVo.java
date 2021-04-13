@@ -30,10 +30,8 @@ import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
 
 /**
- * @ClassName: ComparativePagePrarmBean
- * @Description: 比较分页方式的 webapi参数
- * @author klw
- * @date 2018年12月26日 下午4:36:44
+ * 比较分页方式的 webapi参数
+ * 2018年12月26日 下午4:36:44
  */
 @ApiModel(value = "ComparativePagePrarmVo", description = "比较分页查询参数")
 @Getter

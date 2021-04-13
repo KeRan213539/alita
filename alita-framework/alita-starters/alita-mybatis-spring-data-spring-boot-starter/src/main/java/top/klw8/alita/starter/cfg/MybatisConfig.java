@@ -6,10 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: MybatisConfig
- * @Description: Mybatis配制
- * @date 2019/8/8 11:27
+ * Mybatis配制
+ * 2019/8/8 11:27
  */
 @EnableTransactionManagement
 @Configuration

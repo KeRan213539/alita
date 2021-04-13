@@ -19,10 +19,8 @@ import top.klw8.alita.entitys.demo.mongo.ExtUserInfoDemo;
 import top.klw8.alita.starter.web.base.vo.PagePrarmVo;
 
 /**
- * @ClassName: NormalUserInfoPageVo
- * @Description: 分页查询客户列表(Skip方式)VO
- * @author klw
- * @date 2019年1月31日 下午2:24:23
+ * 分页查询客户列表(Skip方式)VO
+ * 2019年1月31日 下午2:24:23
  */
 public class NormalUserInfoPageVo extends PagePrarmVo<ExtUserInfoDemo> {
 

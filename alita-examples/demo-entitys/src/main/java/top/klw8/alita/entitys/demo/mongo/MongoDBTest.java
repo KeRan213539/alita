@@ -35,10 +35,8 @@ import top.klw8.alita.utils.AnalyzerUtil;
 
 
 /**
- * @ClassName: MongoDBTest
- * @Description: MongoDBTest
- * @author klw
- * @date 2017年10月27日 下午4:11:52
+ * MongoDBTest
+ * 2017年10月27日 下午4:11:52
  */
 @Document(collection = "demo")  // spring data mongodb 的注解
 @Getter
@@ -51,15 +49,13 @@ public class MongoDBTest extends MongoBaseEntity implements ITextIndexedCustomSu
     private static final long serialVersionUID = 3002834053850347862L;
 
     /**
-     * @author klw
-     * @Fields name : 姓名
+     * name : 姓名
      */
     @QueryLikeField
     private String name;
 
     /**
-     * @author klw
-     * @Fields salary : 工资
+     * salary : 工资
      */
     private BigDecimal salary;
     
@@ -67,8 +63,7 @@ public class MongoDBTest extends MongoBaseEntity implements ITextIndexedCustomSu
     private BigDecimal salary2;
     
     /**
-     * @author klw
-     * @Fields location : 位置(纬度/经度)
+     * location : 位置(纬度/经度)
      */
     @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
     private GeoPoint location;
@@ -76,15 +71,13 @@ public class MongoDBTest extends MongoBaseEntity implements ITextIndexedCustomSu
     private LocalDateTime createDataTime;
     
     /**
-     * @author klw
-     * @Fields textIndexedField : 全文搜索字段
+     * textIndexedField : 全文搜索字段
      */
     @TextIndexed
     private String textIndexedField;
 
     /*
      * <p>Title: buildTextIndexedField</p>
-     * @author klw
      * <p>Description: </p>
      * @see top.klw8.alita.service.base.entitys.ITextIndexedCustomSupport#buildTextIndexedField()
      */

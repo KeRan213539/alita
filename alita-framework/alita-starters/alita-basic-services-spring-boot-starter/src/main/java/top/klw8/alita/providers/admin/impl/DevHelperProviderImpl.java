@@ -39,10 +39,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: DevHelperProviderImpl
- * @Description: 开发辅助工具
- * @date 2019/8/15 8:44
+ * 开发辅助工具
+ * 2019/8/15 8:44
  */
 @Slf4j
 @Profile("dev")

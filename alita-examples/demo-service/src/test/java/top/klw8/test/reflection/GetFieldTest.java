@@ -25,10 +25,8 @@ import java.util.List;
 
 
 /**
- * @author klw
- * @ClassName: GetFiledTest
- * @Description: 获取类的字段测试
- * @date 2018年10月1日 下午4:54:49
+ * 获取类的字段测试
+ * 2018年10月1日 下午4:54:49
  */
 public class GetFieldTest {
 

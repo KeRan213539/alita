@@ -25,10 +25,8 @@ import top.klw8.alita.entitys.demo.mongo.MongoDBTest;
 import top.klw8.alita.starter.web.base.vo.ComparativePagePrarmVo;
 
 /**
- * @author klw
- * @ClassName: MongoDBTestComparativePageVo
- * @Description: demo 比较分页的VO
- * @date 2019年1月26日 下午5:25:38
+ * demo 比较分页的VO
+ * 2019年1月26日 下午5:25:38
  */
 @Getter
 @Setter

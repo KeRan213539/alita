@@ -28,10 +28,8 @@ import java.util.concurrent.ExecutionException;
 import static top.klw8.alita.starter.common.WebApiContext.*;
 
 /**
- * @author klw
- * @ClassName: UserCacheHelper
- * @Description: 用户缓存帮助类
- * @date 2019年1月10日 下午4:46:26
+ * 用户缓存帮助类
+ * 2019年1月10日 下午4:46:26
  */
 @Slf4j
 public class UserCacheHelper {
@@ -84,9 +82,8 @@ public class UserCacheHelper {
     }
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 移除缓存中的用户权限,包括数据权限
-     * @Date 2020/8/17 15:14
+     * 移除缓存中的用户权限,包括数据权限
+     * 2020/8/17 15:14
      * @param:
      * @return void
      */

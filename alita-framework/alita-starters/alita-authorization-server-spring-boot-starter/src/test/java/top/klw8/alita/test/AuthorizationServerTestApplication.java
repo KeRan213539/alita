@@ -23,10 +23,8 @@ import top.klw8.alita.base.springctx.EnableSpringApplicationContextUtil;
 
 
 /**
- * @ClassName: AuthorizationServerTestApplication
- * @Description: 认证服务测试
- * @author klw(213539@qq.com)
- * @date 2020/8/12 16:47
+ * 认证服务测试
+ * 2020/8/12 16:47
  *
  * code is far away from bugs with the god animal protecting
  *     I love animals. They taste delicious.

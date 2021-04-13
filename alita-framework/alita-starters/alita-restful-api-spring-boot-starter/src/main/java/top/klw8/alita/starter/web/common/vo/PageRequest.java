@@ -21,10 +21,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: PageRequest
- * @Description: 分页参数
- * @date 2019/10/23 17:35
+ * 分页参数
+ * 2019/10/23 17:35
  */
 @Getter
 @Setter

@@ -36,10 +36,8 @@ import lombok.extern.slf4j.Slf4j;
 import top.klw8.alita.gateway.route.DynamicRouteServiceImpl;
 
 /**
- * @ClassName: NacosRouteConfig
- * @Description: 从nacos中读取路由配制的配制
- * @author klw
- * @date 2018年12月16日 下午8:53:20
+ * 从nacos中读取路由配制的配制
+ * 2018年12月16日 下午8:53:20
  */
 //@Configuration
 //@EnableConfigurationProperties(NacosRouteConfigBean.class)

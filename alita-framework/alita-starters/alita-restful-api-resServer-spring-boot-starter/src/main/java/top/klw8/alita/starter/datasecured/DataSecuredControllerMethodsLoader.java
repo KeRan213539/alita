@@ -25,10 +25,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: ControllerMethodsLoader
- * @Description: 需要数据权限的Congroller方法加载器
- * @date 2020/4/24 16:01
+ * 需要数据权限的Congroller方法加载器
+ * 2020/4/24 16:01
  */
 @Slf4j
 @Component

@@ -27,10 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: ExtTokenGrantersImpl
- * @Description: 扩展登录方式配制实现
- * @date 2019/8/20 11:17
+ * 扩展登录方式配制实现
+ * 2019/8/20 11:17
  */
 public class ExtTokenGrantersImpl implements IExtTokenGranters {
     @Override

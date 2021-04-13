@@ -26,10 +26,9 @@
 //
 //
 ///**
-// * @author klw
 // * @ClassName: SystemLogConsumer
-// * @Description: 系统日志消费者
-// * @date 2018年9月11日 20:30:39
+// * 系统日志消费者
+// * 2018年9月11日 20:30:39
 // */
 //@Service
 //@RocketMQMessageListener(topic = "alitaLog-new", consumerGroup = "${spring.application.name}-alitaLog-new")

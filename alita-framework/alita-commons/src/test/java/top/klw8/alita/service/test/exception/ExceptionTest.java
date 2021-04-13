@@ -19,10 +19,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /**
- * @ClassName: ExceptionTest
- * @Description: 
- * @author klw
- * @date 2018年11月6日 下午4:45:12
+ * 
+ * 2018年11月6日 下午4:45:12
  */
 public class ExceptionTest {
 

@@ -42,10 +42,8 @@ import static top.klw8.alita.web.common.CatlogsConstant.CATLOG_INDEX_USER_CORREL
 
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: SysUserController
- * @Description: 用户相关
- * @date 2019/9/26 16:50
+ * 用户相关
+ * 2019/9/26 16:50
  */
 @Api(tags = {"alita-restful-API--用户相关"})
 @RestController

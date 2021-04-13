@@ -21,10 +21,8 @@ import org.springframework.core.env.Environment;
 import top.klw8.alita.base.springctx.SpringApplicationContextUtil;
 
 /**
- * @ClassName: PkGeneratorBySnowflake
- * @Description: 使用雪花算法的数据库主键生成器
- * @author klw
- * @date 2018年12月25日 下午3:10:16
+ * 使用雪花算法的数据库主键生成器
+ * 2018年12月25日 下午3:10:16
  */
 public enum PkGeneratorBySnowflake {
 
@@ -33,8 +31,7 @@ public enum PkGeneratorBySnowflake {
     private SnowflakeGenerator generator = null;
     
     /**
-     * @author klw
-     * @Fields isInitFailed : 是否初始化过并失败
+     * isInitFailed : 是否初始化过并失败
      */
     private boolean isInitFailed = false;
     

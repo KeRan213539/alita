@@ -23,10 +23,8 @@ import org.springframework.data.annotation.Id;
 import java.io.Serializable;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: MongoBaseEntity
- * @Description: mongodb base entity
- * @date 2019/8/10 14:25
+ * mongodb base entity
+ * 2019/8/10 14:25
  */
 @Getter
 @Setter

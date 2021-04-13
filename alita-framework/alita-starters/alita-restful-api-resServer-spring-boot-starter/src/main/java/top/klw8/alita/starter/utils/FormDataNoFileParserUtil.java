@@ -23,18 +23,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: FormDataNoFileParserUtil
- * @Description: 解析非文件上传的form data数据工具类
- * @date 2020/4/29 10:19
+ * 解析非文件上传的form data数据工具类
+ * 2020/4/29 10:19
  */
 public class FormDataNoFileParserUtil {
 
     private final static String FORM_DATA_PLACEHOLDER = "Content-Disposition: form-data; name=";
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 解析表单数据字符串,解析类似如下格式的字符串
+     * 解析表单数据字符串,解析类似如下格式的字符串
      ----------------------------233968767889846891411876
      Content-Disposition: form-data; name="data1"
 
@@ -49,7 +46,7 @@ public class FormDataNoFileParserUtil {
      2321ddssd
      ----------------------------233968767889846891411876--
      *
-     * @Date 2020/4/29 10:27
+     * 2020/4/29 10:27
      * @param: dataStr  表单数据字符串
      * @param: boundary  分界符
      * @return java.util.Map<java.lang.String,java.util.List<java.lang.String>>

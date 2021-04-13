@@ -22,10 +22,8 @@ import org.springframework.util.Assert;
 import lombok.Getter;
 
 /**
- * @ClassName: ForPageMode
- * @Description: 分页方式
- * @author klw
- * @date 2018年12月26日 下午4:36:44
+ * 分页方式
+ * 2018年12月26日 下午4:36:44
  */
 public class ForPageMode implements Serializable, Cloneable {
 
@@ -42,38 +40,32 @@ public class ForPageMode implements Serializable, Cloneable {
     public static final String MODE_NAME_COMPARATIVE_UNIQUE_FIELD = "COMPARATIVE_UNIQUE_FIELD";
 
     /**
-     * @author klw
-     * @Fields modeName : 方式名称
+     * modeName : 方式名称
      */
     private String modeName;
 
     /**
-     * @author klw
-     * @Fields fieldName : COMPARATIVE_UNIQUE_FIELD 时必须设置, 比较的字段名
+     * fieldName : COMPARATIVE_UNIQUE_FIELD 时必须设置, 比较的字段名
      */
     private String fieldName;
 
     /**
-     * @author klw
-     * @Fields fieldValue : COMPARATIVE_UNIQUE_FIELD 时必须设置, 比较的字段值
+     * fieldValue : COMPARATIVE_UNIQUE_FIELD 时必须设置, 比较的字段值
      */
     private String fieldValue;
 
     /**
-     * @author klw
-     * @Fields fieldDataType : 比较的字段值的数据类型
+     * fieldDataType : 比较的字段值的数据类型
      */
     private FieldDataType fieldDataType = FieldDataType.STRING;
 
     /**
-     * @author klw
-     * @Fields direction : 比较方式: 大于/小于,默认小于
+     * direction : 比较方式: 大于/小于,默认小于
      */
     private ComparisonMode comparisonMode = ComparisonMode.LESS_THAN;
 
     /**
-     * @author klw
-     * @Fields dataPage : 一次获取多少页的数据
+     * dataPage : 一次获取多少页的数据
      */
     private int dataPage = 1;
 
@@ -91,16 +83,14 @@ public class ForPageMode implements Serializable, Cloneable {
     }
 
     /**
-     * @author klw
-     * @Fields SKIP : 可以跳页,但是跳过的数据越多,性能越差,因为是采用遍历方式跳过
+     * SKIP : 可以跳页,但是跳过的数据越多,性能越差,因为是采用遍历方式跳过
      */
     public static ForPageMode SKIP() {
 	return new ForPageMode(ForPageMode.MODE_NAME_SKIP);
     }
 
     /**
-     * @author klw
-     * @Fields COMPARATIVE_UNIQUE_FIELD : 比较指定的唯一值字段的大小,需要传入上一页的最后一条数据的该字段值 该方式性能好,但是无法跳页,可以参考百度等的方式一次多拿几页数据,在前端分页(前端不提供任意页码的方式,只提供有限的可选页码) 例如每页10条数据,页码显示11页,那就一次拿100条数据,前端自己分10页显示,当选的第11页的时候,拿下一个10页的数据 如果有跳页需求,数据量不大的话,可以使用SKIP方式
+     * COMPARATIVE_UNIQUE_FIELD : 比较指定的唯一值字段的大小,需要传入上一页的最后一条数据的该字段值 该方式性能好,但是无法跳页,可以参考百度等的方式一次多拿几页数据,在前端分页(前端不提供任意页码的方式,只提供有限的可选页码) 例如每页10条数据,页码显示11页,那就一次拿100条数据,前端自己分10页显示,当选的第11页的时候,拿下一个10页的数据 如果有跳页需求,数据量不大的话,可以使用SKIP方式
      */
     public static ForPageMode COMPARATIVE_UNIQUE_FIELD() {
 	return new ForPageMode(ForPageMode.MODE_NAME_COMPARATIVE_UNIQUE_FIELD);
@@ -199,20 +189,16 @@ public class ForPageMode implements Serializable, Cloneable {
     }
 
     /**
-     * @ClassName: FieldType
-     * @Description: 字段对应的类型
-     * @author klw
-     * @date 2018年12月27日 下午2:25:45
+     * 字段对应的类型
+     * 2018年12月27日 下午2:25:45
      */
     public enum FieldDataType {
 	STRING, INTEGER, LONG;
     }
     
     /**
-     * @ClassName: ComparisonMode
-     * @Description: 比较方式
-     * @author klw
-     * @date 2018年12月27日 下午5:56:56
+     * 比较方式
+     * 2018年12月27日 下午5:56:56
      */
     public enum ComparisonMode {
 	GREATER_THAN, LESS_THAN;

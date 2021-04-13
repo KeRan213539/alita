@@ -29,10 +29,8 @@ import top.klw8.alita.starter.BaseWebApiApplication;
 
 
 /**
- * @ClassName: FileUploadWebApiApplication
- * @Description: 文件上传 接口服务启动器
- * @author klw
- * @date 2018-11-19 15:57:49
+ * 文件上传 接口服务启动器
+ * 2018-11-19 15:57:49
  */
 public class FileUploadWebApiApplication extends BaseWebApiApplication {
 

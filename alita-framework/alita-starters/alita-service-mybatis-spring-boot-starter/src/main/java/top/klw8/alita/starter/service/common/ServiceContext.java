@@ -19,10 +19,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: ServiceContext
- * @Description: service 的系统上下文
- * @date 2019/8/10 10:11
+ * service 的系统上下文
+ * 2019/8/10 10:11
  */
 public class ServiceContext {
 

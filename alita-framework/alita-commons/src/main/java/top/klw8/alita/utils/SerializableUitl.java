@@ -26,10 +26,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @ClassName: SerializableUitl
- * @Description: 序列化,反序列化工具类
- * @author klw
- * @date 2016年6月6日 下午1:04:02
+ * 序列化,反序列化工具类
+ * 2016年6月6日 下午1:04:02
  */
 @Slf4j(topic = "serializableUitl")
 public class SerializableUitl {

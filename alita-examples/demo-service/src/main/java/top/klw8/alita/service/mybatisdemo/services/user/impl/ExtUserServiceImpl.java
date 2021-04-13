@@ -27,11 +27,8 @@ import top.klw8.alita.utils.UUIDUtil;
 import java.util.List;
 
 /**
- * @author freedom
- * @version 1.0
- * @ClassName ExtUserServiceImpl
- * @Description 用户扩展信息服务实现
- * @date 2019-08-19 15:30
+ * 用户扩展信息服务实现
+ * 2019-08-19 15:30
  */
 @Slf4j
 @Service

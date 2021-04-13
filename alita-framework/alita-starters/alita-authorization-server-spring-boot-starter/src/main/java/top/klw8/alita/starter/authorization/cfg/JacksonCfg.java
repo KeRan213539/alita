@@ -27,10 +27,8 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import java.text.SimpleDateFormat;
 
 /**
- * @ClassName: JacksonCfg
- * @Description: 
- * @author klw
- * @date 2018年12月11日 17:49:59
+ * 
+ * 2018年12月11日 17:49:59
  */
 @Configuration
 public class JacksonCfg {

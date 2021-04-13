@@ -23,10 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author klw
- * @ClassName: BaseFilter
- * @Description: 拦截器基类
- * @date 2019-09-24 20:20:58
+ * 拦截器基类
+ * 2019-09-24 20:20:58
  */
 public abstract class BaseFilter extends OncePerRequestFilter {
 

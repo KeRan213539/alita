@@ -24,10 +24,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import lombok.Data;
 
 /**
- * @ClassName: RedisConfigBean
- * @Description: redis配制bean
- * @author klw
- * @date 2018年10月31日 上午10:33:40
+ * redis配制bean
+ * 2018年10月31日 上午10:33:40
  */
 @ConfigurationProperties(prefix="alita.redis")
 @Getter
@@ -35,14 +33,12 @@ import lombok.Data;
 public class RedisConfigBean {
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 是否开启 RedisUtils,默认false
+     * 是否开启 RedisUtils,默认false
      */
     private boolean enabled = false;
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 默认的连接是否是集群,默认false
+     * 默认的连接是否是集群,默认false
      */
     private Boolean defaultIsCluster = false;
     
@@ -59,14 +55,12 @@ public class RedisConfigBean {
     private List<String> extendPasss;
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 扩展的连接是否是集群,默认false
+     * 扩展的连接是否是集群,默认false
      */
     private List<Boolean> extendIsCluster;
     
     /**
-     * @author klw
-     * @Fields extendBeanId : 其他的redis服务器的 spring bean id
+     * extendBeanId : 其他的redis服务器的 spring bean id
      */
     private List<String> extendBeanIds;
     

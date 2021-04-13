@@ -27,17 +27,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @ClassName: ISystemRoleMapper
- * @Description: 系统角色DAO
- * @author klw
- * @date 2018年11月28日 下午3:40:27
+ * 系统角色DAO
+ * 2018年11月28日 下午3:40:27
  */
 public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 添加权限与角色的关联
-     * @Date 2019/8/12 17:07
+     * 添加权限与角色的关联
+     * 2019/8/12 17:07
      * @param: auId
      * @param: roleId
      * @return int
@@ -46,9 +43,8 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
     int addAuthority2Role(String auId, String roleId);
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 移除权限与角色的关联
-     * @Date 2019/8/12 17:08
+     * 移除权限与角色的关联
+     * 2019/8/12 17:08
      * @param: auId
      * @param: roleId
      * @return int
@@ -57,9 +53,8 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
     int removeAuthorityFromRole(String auId, String roleId);
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 清空指定角色中的所有权限
-     * @Date 2019/8/13 8:49
+     * 清空指定角色中的所有权限
+     * 2019/8/13 8:49
      * @param: roleId
      * @return int
      */
@@ -67,9 +62,8 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
     int removeAuthoritysFromRole(String roleId);
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 批量关联多个权限到指定角色
-     * @Date 2019/8/13 9:37
+     * 批量关联多个权限到指定角色
+     * 2019/8/13 9:37
      * @param: list
      * @return int
      */
@@ -83,9 +77,8 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
 
     /**
      *
-     * @Author zhanglei
-     * @Description 查询角色拥有的权限信息
-     * @Date 16:07 2019-08-15
+     * 查询角色拥有的权限信息
+     * 16:07 2019-08-15
      * @param: roleId
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
      **/
@@ -93,9 +86,8 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
     List<AlitaAuthoritysMenu> selectRoleAuthoritys(String roleId);
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 查询角色拥有的数据权限
-     * @Date 2020/4/30 15:30
+     * 查询角色拥有的数据权限
+     * 2020/4/30 15:30
      * @param: roleId
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemDataSecured>
      */
@@ -107,9 +99,8 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
     List<AlitaAuthoritysResource> selectRoleDataSecureds(String roleId);
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 添加数据权限与角色的关联
-     * @Date 2020/5/13 15:42
+     * 添加数据权限与角色的关联
+     * 2020/5/13 15:42
      * @param: dsId
      * @param: roleId
      * @return int
@@ -118,9 +109,8 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
     int addDataSecured2Role(String dsId, String roleId);
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 移除数据权限与角色的关联
-     * @Date 2020-05-13 15:41:59
+     * 移除数据权限与角色的关联
+     * 2020-05-13 15:41:59
      * @param: dsId
      * @param: roleId
      * @return int
@@ -129,9 +119,8 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
     int removeDataSecuredFromRole(String dsId, String roleId);
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 清空指定角色中的所有数据权限
-     * @Date 2020-05-13 15:41:59
+     * 清空指定角色中的所有数据权限
+     * 2020-05-13 15:41:59
      * @param: roleId
      * @return int
      */
@@ -139,9 +128,8 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
     int removeDataSecuredsFromRole(String roleId);
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 批量关联多个数据权限到指定角色
-     * @Date 2020-05-13 15:41:59
+     * 批量关联多个数据权限到指定角色
+     * 2020-05-13 15:41:59
      * @param: list
      * @return int
      */
@@ -154,9 +142,8 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
     int batchInsertDataSecuredsFromRole(List<Map<String, String>> list);
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 检查指定【数据权限】是否被角色关联
-     * @Date 2020/5/20 14:54
+     * 检查指定【数据权限】是否被角色关联
+     * 2020/5/20 14:54
      * @param: roleId
      * @param: dsId
      * @return int
@@ -165,9 +152,8 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
     int countByDsId(String dsId);
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 检查指定【权限】是否被角色关联
-     * @Date 2020/5/20 14:54
+     * 检查指定【权限】是否被角色关联
+     * 2020/5/20 14:54
      * @param: roleId
      * @param: dsId
      * @return int
@@ -177,9 +163,8 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
 
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 查询指定角色权限,包含目录信息
-     * @Date 2020/5/19 15:28
+     * 查询指定角色权限,包含目录信息
+     * 2020/5/19 15:28
      * @param:
      * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritys>
      */

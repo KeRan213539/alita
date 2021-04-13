@@ -28,10 +28,8 @@ import top.klw8.alita.service.authority.mapper.ISystemDataSecuredMapper;
 import java.util.List;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: SystemDataSecuredServiceImpl
- * @Description: 数据权限表 service 实现
- * @date 2020/5/13 16:46
+ * 数据权限表 service 实现
+ * 2020/5/13 16:46
  */
 @Slf4j
 @Service
