@@ -32,7 +32,7 @@ public enum AuthorityResultCodeEnum implements ISubResultCode {
 
     USER_NOT_EXIST("004", "用户不存在"),
 
-    SYSTEM_DATA_SECURED_HAS_EXIST("005", "该资数据权限已存在(全局或者同权限中,数据权限资源标识不能相同)"),
+    SYSTEM_AUTHORITYS_RESOURCE_HAS_EXIST("005", "该资资源权限已存在(全局或者同权限中,资源权限资源标识不能相同)"),
 
     ;
     /**

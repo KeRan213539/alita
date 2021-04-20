@@ -30,7 +30,7 @@ import top.klw8.alita.service.api.authority.IAuthorityAppProvider;
 import top.klw8.alita.service.result.JsonResult;
 import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
-import top.klw8.alita.starter.datasecured.DataSecured;
+import top.klw8.alita.starter.aures.AuthoritysResource;
 import top.klw8.alita.starter.web.base.WebapiBaseController;
 import top.klw8.alita.starter.web.common.vo.PageRequest;
 import top.klw8.alita.validator.UseValidator;
@@ -59,7 +59,7 @@ public class AuthorityAppController extends WebapiBaseController {
     @AuthorityRegister(authorityName = "新增应用", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @UseValidator
-    @DataSecured(parser = AppTagParser.class)
+    @AuthoritysResource(parser = AppTagParser.class)
     public Mono<JsonResult> save(@RequestBody AuthorityAppRequest req){
         AlitaAuthoritysApp authorityApp = new AlitaAuthoritysApp();
         BeanUtils.copyProperties(req, authorityApp);
@@ -70,7 +70,7 @@ public class AuthorityAppController extends WebapiBaseController {
     @DeleteMapping("/delete/{appTag}")
     @AuthorityRegister(authorityName = "删除应用", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
-    @DataSecured(parser = AppTagParser.class)
+    @AuthoritysResource(parser = AppTagParser.class)
     public Mono<JsonResult> delete(@PathVariable String appTag){
         return Mono.fromFuture(appProvider.deleteAuthorityApp(appTag));
     }
@@ -80,7 +80,7 @@ public class AuthorityAppController extends WebapiBaseController {
     @AuthorityRegister(authorityName = "修改应用", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @UseValidator
-    @DataSecured(parser = AppTagParser.class)
+    @AuthoritysResource(parser = AppTagParser.class)
     public Mono<JsonResult> update(@RequestBody AuthorityAppRequest req){
         AlitaAuthoritysApp authorityApp = new AlitaAuthoritysApp();
         BeanUtils.copyProperties(req, authorityApp);
@@ -91,7 +91,7 @@ public class AuthorityAppController extends WebapiBaseController {
     @GetMapping("/get/{appTag}")
     @AuthorityRegister(authorityName = "应用详情", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
-    @DataSecured(parser = AppTagParser.class)
+    @AuthoritysResource(parser = AppTagParser.class)
     public Mono<JsonResult> get(@PathVariable String appTag){
         return Mono.fromFuture(appProvider.authorityApp(appTag));
     }
@@ -100,7 +100,7 @@ public class AuthorityAppController extends WebapiBaseController {
     @GetMapping("/list")
     @AuthorityRegister(authorityName = "应用列表(非分页)", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
-    @DataSecured(parser = AppTagParser.class)
+    @AuthoritysResource(parser = AppTagParser.class)
     public Mono<JsonResult> list(){
         return Mono.fromFuture(appProvider.authorityAppList());
     }
@@ -109,7 +109,7 @@ public class AuthorityAppController extends WebapiBaseController {
     @GetMapping("/page")
     @AuthorityRegister(authorityName = "应用列表(分页)", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
-    @DataSecured(parser = AppTagParser.class)
+    @AuthoritysResource(parser = AppTagParser.class)
     public Mono<JsonResult> page(@RequestParam(value = "appTag", required = false) String appTag,
                                  @RequestParam(value = "remark", required = false) String remark,
                                  @RequestParam(value = "appName", required = false) String appName, PageRequest page){

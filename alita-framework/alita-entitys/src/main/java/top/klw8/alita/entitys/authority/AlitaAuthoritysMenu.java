@@ -99,9 +99,9 @@ public class AlitaAuthoritysMenu extends BaseEntity implements IAssociatedApp {
     private String remark;
 
     /**
-     * authorityList : 权限下的数据权限
+     * authorityList : 权限下的资源权限
      */
     @TableField(exist=false)
-    private List<AlitaAuthoritysResource> dataSecuredList;
+    private List<AlitaAuthoritysResource> authoritysResourceList;
     
 }

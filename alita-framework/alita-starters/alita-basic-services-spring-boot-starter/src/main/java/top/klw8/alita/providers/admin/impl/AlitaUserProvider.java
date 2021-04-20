@@ -233,9 +233,9 @@ public class AlitaUserProvider implements IAlitaUserProvider {
         // 根据用户角色查询角色对应的权限并更新到SystemRole实体中
         for (AlitaRole role : userRoles) {
             List<AlitaAuthoritysMenu> authoritys = roleService.getRoleAllAuthoritys(role.getId());
-            List<AlitaAuthoritysResource> dsList = roleService.getRoleAllDataSecureds(role.getId());
+            List<AlitaAuthoritysResource> dsList = roleService.getRoleAllAuthoritysResource(role.getId());
             role.setAuthorityList(authoritys);
-            role.setDataSecuredList(dsList);
+            role.setAuthoritysResourceList(dsList);
         }
         return ServiceUtil.buildFuture(JsonResult.successfu(userRoles));
     }

@@ -16,9 +16,9 @@
 package top.klw8.alita.demo.web.demo.datasecured;
 
 import org.springframework.stereotype.Component;
-import top.klw8.alita.starter.datasecured.IResourceParser;
-import top.klw8.alita.starter.datasecured.IResourceParserData;
-import top.klw8.alita.starter.datasecured.ResourceParserResult;
+import top.klw8.alita.starter.aures.IResourceParser;
+import top.klw8.alita.starter.aures.IResourceParserData;
+import top.klw8.alita.starter.aures.ResourceParserResult;
 
 /**
  * DemoResourceParser

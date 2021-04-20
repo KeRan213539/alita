@@ -60,7 +60,7 @@ import top.klw8.alita.starter.cfg.AuthorityAppInfoInConfigBean;
 import top.klw8.alita.starter.cfg.ResServerAuthPathCfgBean;
 import top.klw8.alita.starter.common.UserCacheHelper;
 import top.klw8.alita.starter.common.WebApiContext;
-import top.klw8.alita.starter.datasecured.*;
+import top.klw8.alita.starter.aures.*;
 import top.klw8.alita.starter.utils.FormDataNoFileParserUtil;
 import top.klw8.alita.starter.utils.ResServerTokenUtil;
 import top.klw8.alita.starter.web.base.BaseWebFilter;
@@ -142,35 +142,35 @@ public class AuthorityInterceptor extends BaseWebFilter {
                             JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.NO_PRIVILEGES)));
                 }
                 
-                // 处理未配制到 alita.oauth2.resServer.authPath 中的路径(仅限制数据权限,不做url权限的)
+                // 处理未配制到 alita.oauth2.resServer.authPath 中的路径(仅限制资源权限,不做url权限的)
                 if (StringUtils.isBlank(authorityAction)) {
                     authorityAction = AuthorityUtil.composeWithSeparator(request.getMethod(), reqPath);
                 }
-                // 判断是否需要验证数据权限
-                DataSecured dataSecuredAnnotation = DataSecuredControllerMethodsCache.getMethod(authorityAction);
-                if (dataSecuredAnnotation == null) {
-                    //没有数据权限注解,继续执行下一个拦截器
+                // 判断是否需要验证资源权限
+                AuthoritysResource authoritysResourceAnnotation = AuthoritysResourceControllerMethodsCache.getMethod(authorityAction);
+                if (authoritysResourceAnnotation == null) {
+                    //没有资源权限注解,继续执行下一个拦截器
                     return chain.filter(exchange.mutate().request(request).build());
                 }
                 
-                // 需要验证数据权限
-                Map<String, List<String>> dataSecuredMap = userCacheHelper
-                        .getUserDataSecured(userId, currectApp.getAppTag());
+                // 需要验证资源权限
+                Map<String, List<String>> authoritysResourceMap = userCacheHelper
+                        .getUserAuthoritysResource(userId, currectApp.getAppTag());
                 
-                // 判断是否需要走解析器,不需要的话直接验证数据权限
-                if (dataSecuredAnnotation.parser() == IResourceParser.class) {
+                // 判断是否需要走解析器,不需要的话直接验证资源权限
+                if (authoritysResourceAnnotation.parser() == IResourceParser.class) {
                     // 解析器是默认的,说明没有配制解析器,拿资源标识
-                    String[] resTags = dataSecuredAnnotation.resource();
+                    String[] resTags = authoritysResourceAnnotation.resource();
                     if (resTags.length == 0) {
                         //没有配制解析器,也没有配制资源标识
                         return sendJsonStr(response,
-                                JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.DATA_SECURED_NO_RES)));
+                                JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.AUTHORITYS_RESOURCE_NO_RES)));
                     }
-                    if (checkDataSecured(authorityAction, resTags, dataSecuredMap)) {
-                        // 有数据权限,继续下一个拦截器
+                    if (checkAuthoritysResource(authorityAction, resTags, authoritysResourceMap)) {
+                        // 有资源权限,继续下一个拦截器
                         return chain.filter(exchange);
                     } else {
-                        // 没有数据权限
+                        // 没有资源权限
                         return sendJsonStr(response,
                                 JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.NO_PRIVILEGES)));
                     }
@@ -201,7 +201,7 @@ public class AuthorityInterceptor extends BaseWebFilter {
                             return rpdata;
                         });
                     } else {
-                        if (dataSecuredAnnotation.fileUpload()) {
+                        if (authoritysResourceAnnotation.fileUpload()) {
                             // 处理 ====contentType====multipart/form-data 有文件上传的
                             result = exchange.getMultipartData().map(valueMap -> {
                                 valueMap.forEach((k, v) -> {
@@ -294,14 +294,14 @@ public class AuthorityInterceptor extends BaseWebFilter {
                 String finalAuthorityAction = authorityAction;
                 return result.map(rpd -> {
                     // 调用资源解析器,并把解析器返回的资源给下一步
-                    IResourceParser resourceParser = applicationContext.getBean(dataSecuredAnnotation.parser());
-                    Assert.notNull(resourceParser, "【" + reqPath + "】没有找到数据权限资源解析器,解析器需要放入spring容器中,请检查");
+                    IResourceParser resourceParser = applicationContext.getBean(authoritysResourceAnnotation.parser());
+                    Assert.notNull(resourceParser, "【" + reqPath + "】没有找到资源权限资源解析器,解析器需要放入spring容器中,请检查");
                     ResourceParserResult parserResult = resourceParser.parseResource(rpd);
                     return parserResult;
                 }).flatMap(parserResult -> {
-                    // 验证数据权限,并做相应处理
-                    if (checkDataSecured(finalAuthorityAction, parserResult, dataSecuredMap)) {
-                        // 有数据权限,继续下一个拦截器
+                    // 验证资源权限,并做相应处理
+                    if (checkAuthoritysResource(finalAuthorityAction, parserResult, authoritysResourceMap)) {
+                        // 有资源权限,继续下一个拦截器
                         ServerHttpRequest newRequest = (ServerHttpRequest) monoDataMap.get(MONO_DATA_KEY_NEW_REQUEST);
                         if (newRequest == null) {
                             return chain.filter(exchange);
@@ -309,7 +309,7 @@ public class AuthorityInterceptor extends BaseWebFilter {
                             return chain.filter(exchange.mutate().request(newRequest).build());
                         }
                     }
-                    // 没有数据权限
+                    // 没有资源权限
                     return sendJsonStr(response,
                             JSON.toJSONString(JsonResult.failed(CommonResultCodeEnum.NO_PRIVILEGES)));
                 });
@@ -318,12 +318,12 @@ public class AuthorityInterceptor extends BaseWebFilter {
         return chain.filter(exchange);
     }
     
-    private boolean checkDataSecured(String reqUrl, String[] resTags, Map<String, List<String>> dataSecuredMap) {
-        return checkDataSecured(reqUrl, new ResourceParserResult(resTags), dataSecuredMap);
+    private boolean checkAuthoritysResource(String reqUrl, String[] resTags, Map<String, List<String>> authoritysResourceMap) {
+        return checkAuthoritysResource(reqUrl, new ResourceParserResult(resTags), authoritysResourceMap);
     }
     
-    private boolean checkDataSecured(String reqUrl, ResourceParserResult parserResult,
-            Map<String, List<String>> dataSecuredMap) {
+    private boolean checkAuthoritysResource(String reqUrl, ResourceParserResult parserResult,
+            Map<String, List<String>> authoritysResourceMap) {
         if (parserResult.isMasterKey()) {
             return parserResult.isMasterKey();
         }
@@ -333,14 +333,14 @@ public class AuthorityInterceptor extends BaseWebFilter {
             return false;
         }
         
-        if (dataSecuredMap == null) {
-            log.debug("需要验证数据权限,但是该角色没有任何数据权限!");
+        if (authoritysResourceMap == null) {
+            log.debug("需要验证资源权限,但是该角色没有任何资源权限!");
             return false;
         }
         
         int passCount = 0;
-        // 先在当前请求的权限下的数据权限中找
-        List<String> sdList = dataSecuredMap.get(reqUrl);
+        // 先在当前请求的权限下的资源权限中找
+        List<String> sdList = authoritysResourceMap.get(reqUrl);
         if (sdList != null) {
             for (String resTag : resTags) {
                 if (sdList.contains(resTag)) {
@@ -355,7 +355,7 @@ public class AuthorityInterceptor extends BaseWebFilter {
         }
         
         // 再找全局
-        List<String> publicSDList = dataSecuredMap.get(WebApiContext.CACHE_KEY_USER_PUBLIC_DATA_SECUREDS);
+        List<String> publicSDList = authoritysResourceMap.get(WebApiContext.CACHE_KEY_USER_PUBLIC_AUTHORITYS_RESOURCE);
         if (publicSDList != null) {
             for (String resTag : resTags) {
                 if (publicSDList.contains(resTag)) {

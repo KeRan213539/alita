@@ -23,13 +23,13 @@ import top.klw8.alita.starter.auscan.IAuthoritysResourceSource;
 import java.util.List;
 
 /**
- * getTest 的 数据权限源
+ * getTest 的 资源权限源
  * 2020/5/15 15:23
  */
 @Component
 public class GetTestDsSource implements IAuthoritysResourceSource {
     @Override
-    public List<DemoAuthoritysResourceSourceItem> getDataSecuredSourceList() {
+    public List<DemoAuthoritysResourceSourceItem> getAuthoritysResourceSourceList() {
         return Lists.newArrayList(new DemoAuthoritysResourceSourceItem("getTest", "getTest", ResourceType.DATA));
     }
 }

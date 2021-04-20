@@ -44,7 +44,7 @@ public class AuthorityAppServiceImpl extends ServiceImpl<IAuthorityAppMapper, Al
     private ISystemAuthoritysCatlogService catLogService;
 
     @Autowired
-    private ISystemDataSecuredService dataSecuredService;
+    private ISystemAuthoritysResourceService authoritysResourceService;
 
     @Autowired
     private ISystemRoleService roleService;
@@ -75,13 +75,13 @@ public class AuthorityAppServiceImpl extends ServiceImpl<IAuthorityAppMapper, Al
         //查询是否有权限目录关联app
         List<AlitaAuthoritysCatlog> catLogList = catLogService.list(new QueryWrapper<AlitaAuthoritysCatlog>().lambda().
                 eq(StringUtils.isNotBlank(appTag), AlitaAuthoritysCatlog::getAppTag, appTag));
-        //查询是否有数据权限目录关联app
-        List<AlitaAuthoritysResource> dataSecuredList = dataSecuredService.list(new QueryWrapper<AlitaAuthoritysResource>().lambda().
+        //查询是否有资源权限目录关联app
+        List<AlitaAuthoritysResource> authoritysResourceList = authoritysResourceService.list(new QueryWrapper<AlitaAuthoritysResource>().lambda().
                 eq(StringUtils.isNotBlank(appTag), AlitaAuthoritysResource::getAppTag, appTag));
         List<AlitaRole> roleList = roleService.list(new QueryWrapper<AlitaRole>().lambda().
                 eq(StringUtils.isNotBlank(appTag), AlitaRole::getAppTag, appTag));
 
-        if(!authList.isEmpty() || !catLogList.isEmpty() || !dataSecuredList.isEmpty() || !roleList.isEmpty()){
+        if(!authList.isEmpty() || !catLogList.isEmpty() || !authoritysResourceList.isEmpty() || !roleList.isEmpty()){
             return JsonResult.failed(String.format("当前 app_tag 【%S】 存在权限、角色相关关联，不可删除", appTag));
         }
         if(removeById(appTag)){

@@ -92,7 +92,7 @@ public class SwaggerConfig extends SwaggerConfigBase  {
 
 
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("【数据权限demo】")
+                .groupName("【资源权限demo】")
                 .select()
                 .paths(PathSelectors.ant("/*/dataau/**"))
 //                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))

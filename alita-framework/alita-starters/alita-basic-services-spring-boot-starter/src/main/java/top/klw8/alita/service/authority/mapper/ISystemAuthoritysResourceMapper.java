@@ -22,10 +22,10 @@ import top.klw8.alita.entitys.authority.AlitaAuthoritysResource;
 import java.util.List;
 
 /**
- * 数据权限表 mapper
+ * 资源权限表 mapper
  * 2020/5/13 16:45
  */
-public interface ISystemDataSecuredMapper extends BaseMapper<AlitaAuthoritysResource> {
+public interface ISystemAuthoritysResourceMapper extends BaseMapper<AlitaAuthoritysResource> {
 
     /**
      * 根据权限ID查询数量
@@ -37,9 +37,9 @@ public interface ISystemDataSecuredMapper extends BaseMapper<AlitaAuthoritysReso
     int countByAuId(String auId);
 
     @Select("<script> " +
-            "SELECT * FROM alita_role_has_resource_secured rhds " +
+            "SELECT * FROM alita_role_has_authoritys_resource rhds " +
             "LEFT JOIN alita_authoritys_resource ds " +
-            "on ds.id = rhds.data_secured_id " +
+            "on ds.id = rhds.authoritys_resource_id " +
             "where rhds.role_id = #{roleId} " +
             "<choose>" +
             "<when test=\"auId != null and auId != '' \">" +

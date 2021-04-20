@@ -27,14 +27,14 @@ public class WebApiContext {
     public static final String CACHE_PREFIX_USER_AUS = "USER_AUS_";
 
     /**
-     * 用户的数据权限缓存前缀
+     * 用户的资源权限缓存前缀
      */
-    public static final String CACHE_PREFIX_USER_DATA_SECUREDS = "USER_DATA_SECUREDS_";
+    public static final String CACHE_PREFIX_USER_AUTHORITYS_RESOURCE = "USER_AUTHORITYS_RESOURCE_";
 
     /**
-     * 用户数据权限缓存中的全局数据权限的KEY
+     * 用户资源权限缓存中的全局资源权限的KEY
      */
-    public static final String CACHE_KEY_USER_PUBLIC_DATA_SECUREDS = "USER_PUBLIC_DATA_SECUREDS";
+    public static final String CACHE_KEY_USER_PUBLIC_AUTHORITYS_RESOURCE = "USER_PUBLIC_AUTHORITYS_RESOURCE";
     
     /**
      * USER_AUS_TIME_OUT_SECOND : 用户的权限缓存时长(秒)

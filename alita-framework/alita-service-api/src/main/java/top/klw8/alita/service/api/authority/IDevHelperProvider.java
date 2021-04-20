@@ -36,7 +36,7 @@ public interface IDevHelperProvider {
      * @return boolean
      */
     CompletableFuture<JsonResult> batchAddAuthoritysAndCatlogs(List<AlitaAuthoritysCatlog> catlogList,
-                                                               List<AlitaAuthoritysResource> publicDataSecuredList,
+                                                               List<AlitaAuthoritysResource> publicAuthoritysResourceList,
                                                                boolean isAdd2SuperAdmin, AlitaAuthoritysApp app);
 
     /**

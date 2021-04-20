@@ -35,7 +35,7 @@ import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.cfg.AuthorityAppInfoInConfigBean;
 import top.klw8.alita.starter.common.UserCacheHelper;
-import top.klw8.alita.starter.datasecured.DataSecured;
+import top.klw8.alita.starter.aures.AuthoritysResource;
 import top.klw8.alita.starter.utils.ResServerTokenUtil;
 import top.klw8.alita.starter.web.base.WebapiBaseController;
 import top.klw8.alita.utils.redis.TokenRedisUtil;
@@ -91,7 +91,7 @@ public class SysUserAdminController extends WebapiBaseController {
                     dataType = "java.time.LocalDate", example = "2019-10-25"),
             @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
-    @DataSecured(parser = AppTagParser.class)
+    @AuthoritysResource(parser = AppTagParser.class)
     public Mono<JsonResult> userList(String userName, Boolean enabled, @RequestParam(required = false) LocalDate createDateBegin,
                                      @RequestParam(required = false) LocalDate createDateEnd, String appTag, PageRequest page){
         AlitaUserAccount user = new AlitaUserAccount();
@@ -113,7 +113,7 @@ public class SysUserAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
     @UseValidator
-    @DataSecured(parser = AppTagParser.class)
+    @AuthoritysResource(parser = AppTagParser.class)
     public Mono<JsonResult> userAllRoles(
             @Required(validatFailMessage = "用户ID不能为空")
             @NotEmpty(validatFailMessage = "用户ID不能为空")
@@ -128,7 +128,7 @@ public class SysUserAdminController extends WebapiBaseController {
     @AuthorityRegister(authorityName = "保存用户拥有的角色(替换原有角色)", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @UseValidator
-    @DataSecured(parser = AppTagParser.class)
+    @AuthoritysResource(parser = AppTagParser.class)
     public Mono<JsonResult> saveUserRoles(@RequestBody SaveUserRolesRequest req){
         return Mono.fromFuture(userProvider.saveUserRoles(req.getUserId(), req.getRoleIds(), req.getAppTag()));
     }

@@ -65,14 +65,14 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
     private IAlitaUserService userService;
 
     @Autowired
-    private ISystemDataSecuredService dsService;
+    private ISystemAuthoritysResourceService dsService;
 
     @Autowired
     private IAuthorityAppService appService;
 
     @Override
     public CompletableFuture<JsonResult> batchAddAuthoritysAndCatlogs(List<AlitaAuthoritysCatlog> catlogList,
-                                                                      List<AlitaAuthoritysResource> publicDataSecuredList,
+                                                                      List<AlitaAuthoritysResource> publicAuthoritysResourceList,
                                                                       boolean isAdd2SuperAdmin, AlitaAuthoritysApp app) {
         return CompletableFuture.supplyAsync(() -> {
 
@@ -127,10 +127,10 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                                 roleService.addAuthority2Role(ADMIN_ROLE_ID, auFinded);
                             }
 
-                            // 处理数据权限
-                            List<AlitaAuthoritysResource> dataSecuredList = au.getDataSecuredList();
-                            if(CollectionUtils.isNotEmpty(dataSecuredList)){
-                                for(AlitaAuthoritysResource ds : dataSecuredList){
+                            // 处理资源权限
+                            List<AlitaAuthoritysResource> authoritysResourceList = au.getAuthoritysResourceList();
+                            if(CollectionUtils.isNotEmpty(authoritysResourceList)){
+                                for(AlitaAuthoritysResource ds : authoritysResourceList){
                                     AlitaAuthoritysResource dsFinded = dsService.findByResourceAndAuId(ds.getResource(), auFinded.getId());
                                     if (EntityUtil.isEntityNoId(dsFinded)) {
                                         ds.setId(UUIDUtil.getRandomUUIDString());
@@ -142,7 +142,7 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                                     if (isAdd2SuperAdmin) {
                                         // 添加到超级管理员角色和用户中
                                         checkAdminUserRoleAndAddIfNotExist(app);
-                                        roleService.addDataSecured2Role(ADMIN_ROLE_ID, dsFinded);
+                                        roleService.addAuthoritysResource2Role(ADMIN_ROLE_ID, dsFinded);
                                     }
                                 }
                             }
@@ -152,8 +152,8 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                 }
                 processFlag = true;
             }
-            if (CollectionUtils.isNotEmpty(publicDataSecuredList)) {
-                for(AlitaAuthoritysResource ds : publicDataSecuredList){
+            if (CollectionUtils.isNotEmpty(publicAuthoritysResourceList)) {
+                for(AlitaAuthoritysResource ds : publicAuthoritysResourceList){
                     AlitaAuthoritysResource dsFinded = dsService.findByResourceAndAuId(ds.getResource(), null);
                     if (EntityUtil.isEntityNoId(dsFinded)) {
                         ds.setId(UUIDUtil.getRandomUUIDString());
@@ -164,7 +164,7 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                     if (isAdd2SuperAdmin) {
                         // 添加到超级管理员角色和用户中
                         checkAdminUserRoleAndAddIfNotExist(app);
-                        roleService.addDataSecured2Role(ADMIN_ROLE_ID, dsFinded);
+                        roleService.addAuthoritysResource2Role(ADMIN_ROLE_ID, dsFinded);
                     }
                 }
                 processFlag = true;

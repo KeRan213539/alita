@@ -20,18 +20,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import top.klw8.alita.entitys.authority.*;
-import top.klw8.alita.service.api.authority.IAuthorityAdminDataSecuredProvider;
+import top.klw8.alita.service.api.authority.IAuthorityAdminAuthoritysResourceProvider;
 import top.klw8.alita.service.authority.*;
 
 import java.util.List;
 
 /**
- * 权限管理数据权限相关 实现
+ * 权限管理资源权限相关 实现
  * 2020/7/27 15:33
  */
 @Slf4j
 @DubboService
-public class AuthorityAdminDataSecuredProviderImpl implements IAuthorityAdminDataSecuredProvider {
+public class AuthorityAdminAuthoritysResourceProviderImpl implements IAuthorityAdminAuthoritysResourceProvider {
 
     @Autowired
     private IAuthorityAppService appService;
@@ -46,7 +46,7 @@ public class AuthorityAdminDataSecuredProviderImpl implements IAuthorityAdminDat
     private ISystemAuthoritysService authoritysService;
 
     @Autowired
-    private ISystemDataSecuredService dataSecuredService;
+    private ISystemAuthoritysResourceService authoritysResourceService;
 
     @Override
     public List<AlitaAuthoritysApp> allApp() {
@@ -70,7 +70,7 @@ public class AuthorityAdminDataSecuredProviderImpl implements IAuthorityAdminDat
 
     @Override
     public AlitaAuthoritysResource dsById(String id) {
-        return dataSecuredService.getById(id);
+        return authoritysResourceService.getById(id);
     }
 
 

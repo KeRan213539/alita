@@ -20,7 +20,7 @@ import top.klw8.alita.entitys.authority.enums.ResourceType;
 import top.klw8.alita.starter.auscan.IAuthoritysResourceSourceItem;
 
 /**
- * 数据权限来源中的元素
+ * 资源权限来源中的元素
  * 2020/5/12 16:50
  */
 @Setter

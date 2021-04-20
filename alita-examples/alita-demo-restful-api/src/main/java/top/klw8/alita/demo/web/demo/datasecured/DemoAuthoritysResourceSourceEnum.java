@@ -19,16 +19,16 @@ import top.klw8.alita.entitys.authority.enums.ResourceType;
 import top.klw8.alita.starter.auscan.IAuthoritysResourceSourceItem;
 
 /**
- * 数据权限来源枚举
+ * 资源权限来源枚举
  * 2020/5/12 17:02
  */
 public enum DemoAuthoritysResourceSourceEnum implements IAuthoritysResourceSourceItem {
 
-    SECURED_SOURCE_1("securedSource1", "数据权限来源枚举1", ResourceType.DATA),
-    SECURED_SOURCE_2("securedSource2", "数据权限来源枚举2", ResourceType.DATA),
-    SECURED_SOURCE_3("securedSource3", "数据权限来源枚举3", ResourceType.DATA),
-    SECURED_SOURCE_4("securedSource4", "数据权限来源枚举4", ResourceType.DATA),
-    SECURED_SOURCE_5("securedSource5", "数据权限来源枚举5", ResourceType.DATA),
+    SECURED_SOURCE_1("securedSource1", "资源权限来源枚举1", ResourceType.DATA),
+    SECURED_SOURCE_2("securedSource2", "资源权限来源枚举2", ResourceType.DATA),
+    SECURED_SOURCE_3("securedSource3", "资源权限来源枚举3", ResourceType.DATA),
+    SECURED_SOURCE_4("securedSource4", "资源权限来源枚举4", ResourceType.DATA),
+    SECURED_SOURCE_5("securedSource5", "资源权限来源枚举5", ResourceType.DATA),
     ;
 
     DemoAuthoritysResourceSourceEnum(String resource, String resName, ResourceType resType){

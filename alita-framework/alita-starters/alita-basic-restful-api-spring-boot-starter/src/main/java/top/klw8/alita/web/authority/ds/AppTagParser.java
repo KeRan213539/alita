@@ -21,20 +21,20 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import top.klw8.alita.starter.datasecured.IResourceParser;
-import top.klw8.alita.starter.datasecured.IResourceParserData;
-import top.klw8.alita.starter.datasecured.ResourceParserResult;
+import top.klw8.alita.starter.aures.IResourceParser;
+import top.klw8.alita.starter.aures.IResourceParserData;
+import top.klw8.alita.starter.aures.ResourceParserResult;
 
 import java.util.List;
 
 /**
- * 从参数中解析appTag的数据权限解析器
+ * 从参数中解析appTag的资源权限解析器
  * 2020/7/27 14:47
  */
 @Component
 public class AppTagParser extends DsBaseParser implements IResourceParser {
 
-    @Value("${alita.authority.dataSecured.enable:false}")
+    @Value("${alita.authority.authoritysResource.enable:false}")
     private boolean auDsEnable;
 
     private final String APP_TAG_KEY = "appTag";

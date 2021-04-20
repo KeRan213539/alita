@@ -86,69 +86,69 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
     List<AlitaAuthoritysMenu> selectRoleAuthoritys(String roleId);
 
     /**
-     * 查询角色拥有的数据权限
+     * 查询角色拥有的资源权限
      * 2020/4/30 15:30
      * @param: roleId
-     * @return java.util.List<top.klw8.alita.entitys.authority.SystemDataSecured>
+     * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritysResource>
      */
     @Select("select ds.*, au.authority_action as authority_url " +
             " from alita_authoritys_resource ds" +
             " left join alita_authoritys_menu au" +
             " on au.id = ds.authoritys_id" +
-            " where ds.id in (select data_secured_id from alita_role_has_resource_secured where role_id = #{roleId})")
-    List<AlitaAuthoritysResource> selectRoleDataSecureds(String roleId);
+            " where ds.id in (select authoritys_resource_id from alita_role_has_authoritys_resource where role_id = #{roleId})")
+    List<AlitaAuthoritysResource> selectRoleAuthoritysResources(String roleId);
 
     /**
-     * 添加数据权限与角色的关联
+     * 添加资源权限与角色的关联
      * 2020/5/13 15:42
      * @param: dsId
      * @param: roleId
      * @return int
      */
-    @Insert("INSERT INTO alita_role_has_resource_secured(role_id, data_secured_id) VALUES(#{roleId}, #{dsId})")
-    int addDataSecured2Role(String dsId, String roleId);
+    @Insert("INSERT INTO alita_role_has_authoritys_resource(role_id, authoritys_resource_id) VALUES(#{roleId}, #{dsId})")
+    int addAuthoritysResource2Role(String dsId, String roleId);
 
     /**
-     * 移除数据权限与角色的关联
+     * 移除资源权限与角色的关联
      * 2020-05-13 15:41:59
      * @param: dsId
      * @param: roleId
      * @return int
      */
-    @Delete("DELETE FROM alita_role_has_resource_secured WHERE role_id = #{roleId} AND data_secured_id = #{dsId}")
-    int removeDataSecuredFromRole(String dsId, String roleId);
+    @Delete("DELETE FROM alita_role_has_authoritys_resource WHERE role_id = #{roleId} AND authoritys_resource_id = #{dsId}")
+    int removeAuthoritysResourceFromRole(String dsId, String roleId);
 
     /**
-     * 清空指定角色中的所有数据权限
+     * 清空指定角色中的所有资源权限
      * 2020-05-13 15:41:59
      * @param: roleId
      * @return int
      */
-    @Delete("DELETE FROM alita_role_has_resource_secured WHERE role_id = #{roleId}")
-    int removeDataSecuredsFromRole(String roleId);
+    @Delete("DELETE FROM alita_role_has_authoritys_resource WHERE role_id = #{roleId}")
+    int removeAuthoritysResourcesFromRole(String roleId);
 
     /**
-     * 批量关联多个数据权限到指定角色
+     * 批量关联多个资源权限到指定角色
      * 2020-05-13 15:41:59
      * @param: list
      * @return int
      */
     @Insert("<script>" +
-            "INSERT INTO alita_role_has_resource_secured(role_id, data_secured_id) VALUES" +
+            "INSERT INTO alita_role_has_authoritys_resource(role_id, authoritys_resource_id) VALUES" +
             "<foreach collection =\"list\" item=\"item\" index= \"index\" separator =\",\"> " +
             "(#{item.roleId}, #{item.dsId})" +
             "</foreach >" +
             "</script>")
-    int batchInsertDataSecuredsFromRole(List<Map<String, String>> list);
+    int batchInsertAuthoritysResourcesFromRole(List<Map<String, String>> list);
 
     /**
-     * 检查指定【数据权限】是否被角色关联
+     * 检查指定【资源权限】是否被角色关联
      * 2020/5/20 14:54
      * @param: roleId
      * @param: dsId
      * @return int
      */
-    @Select("select count(1) from alita_role_has_resource_secured WHERE data_secured_id = #{dsId}")
+    @Select("select count(1) from alita_role_has_authoritys_resource WHERE authoritys_resource_id = #{dsId}")
     int countByDsId(String dsId);
 
     /**

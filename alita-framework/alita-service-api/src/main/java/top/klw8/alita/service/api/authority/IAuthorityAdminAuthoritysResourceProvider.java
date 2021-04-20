@@ -20,10 +20,10 @@ import top.klw8.alita.entitys.authority.*;
 import java.util.List;
 
 /**
- * 权限管理数据权限相关
+ * 权限管理资源权限相关
  * 2020/7/27 15:32
  */
-public interface IAuthorityAdminDataSecuredProvider {
+public interface IAuthorityAdminAuthoritysResourceProvider {
 
     List<AlitaAuthoritysApp> allApp();
 

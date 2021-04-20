@@ -61,35 +61,35 @@ public class UserCacheHelper {
         return authorityMap;
     }
 
-    public Map<String, List<String>> getUserDataSecured(String userId, String appTag) {
+    public Map<String, List<String>> getUserAuthoritysResource(String userId, String appTag) {
         long cacheTimeout;
         if (EnvHelper.isDev()) {
             cacheTimeout = USER_AUS_TIME_OUT_SECOND_DEV;
         } else {
             cacheTimeout = USER_AUS_TIME_OUT_SECOND;
         }
-        Map<String, List<String>> dataSecuredsMap  = (Map<String, List<String>>) RedisUtil.getAndUpdateExpire(CACHE_PREFIX_USER_DATA_SECUREDS + appTag + "_"  + userId, cacheTimeout, RedisTagEnum.REDIS_TAG_DEFAULT);
+        Map<String, List<String>> authoritysResourceMap  = (Map<String, List<String>>) RedisUtil.getAndUpdateExpire(CACHE_PREFIX_USER_AUTHORITYS_RESOURCE + appTag + "_"  + userId, cacheTimeout, RedisTagEnum.REDIS_TAG_DEFAULT);
         // 如果缓存中的权限是null,重新查一次
-        if (dataSecuredsMap == null) {
+        if (authoritysResourceMap == null) {
             try {
                 adminProvider.refreshUserAuthoritys(userId).get();
             } catch (InterruptedException | ExecutionException e) {
                 log.error("", e);
             }
-            return (Map<String, List<String>>) RedisUtil.getAndUpdateExpire(CACHE_PREFIX_USER_DATA_SECUREDS + appTag + "_"  + userId, cacheTimeout, RedisTagEnum.REDIS_TAG_DEFAULT);
+            return (Map<String, List<String>>) RedisUtil.getAndUpdateExpire(CACHE_PREFIX_USER_AUTHORITYS_RESOURCE + appTag + "_"  + userId, cacheTimeout, RedisTagEnum.REDIS_TAG_DEFAULT);
         }
-        return dataSecuredsMap;
+        return authoritysResourceMap;
     }
 
     /**
-     * 移除缓存中的用户权限,包括数据权限
+     * 移除缓存中的用户权限,包括资源权限
      * 2020/8/17 15:14
      * @param:
      * @return void
      */
     public void removeUserAuthoritysInCache(String userId, String appTag){
         RedisUtil.del(CACHE_PREFIX_USER_AUS + appTag + "_" + userId, RedisTagEnum.REDIS_TAG_DEFAULT);
-        RedisUtil.del(CACHE_PREFIX_USER_DATA_SECUREDS + appTag + "_"  + userId, RedisTagEnum.REDIS_TAG_DEFAULT);
+        RedisUtil.del(CACHE_PREFIX_USER_AUTHORITYS_RESOURCE + appTag + "_"  + userId, RedisTagEnum.REDIS_TAG_DEFAULT);
     }
 
 }

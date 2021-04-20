@@ -31,9 +31,9 @@ public class SystemAuthoritysAdditionalData implements java.io.Serializable {
 
     public enum Type{
         /**
-         * 数据权限动态源
+         * 资源权限动态源
          */
-        DATA_SECURED_SOURCE_DYNAMIC
+        AUTHORITYS_RESOURCE_SOURCE_DYNAMIC
         ;
     }
 

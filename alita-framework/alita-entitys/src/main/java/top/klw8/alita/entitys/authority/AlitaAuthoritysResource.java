@@ -55,7 +55,7 @@ public class AlitaAuthoritysResource extends BaseEntity implements IAssociatedAp
     private String resource;
 
     /**
-     * 资源类型: 按钮/数据权限等.
+     * 资源类型: 按钮/资源权限等.
      */
     @TableField("res_type")
     private ResourceType resType;

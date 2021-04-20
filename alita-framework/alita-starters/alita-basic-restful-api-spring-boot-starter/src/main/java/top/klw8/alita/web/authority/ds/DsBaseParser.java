@@ -17,7 +17,7 @@ package top.klw8.alita.web.authority.ds;
 
 
 /**
- * 权限管理数据权限解析器的基类
+ * 权限管理资源权限解析器的基类
  * 2020/7/27 16:16
  */
 public class DsBaseParser {

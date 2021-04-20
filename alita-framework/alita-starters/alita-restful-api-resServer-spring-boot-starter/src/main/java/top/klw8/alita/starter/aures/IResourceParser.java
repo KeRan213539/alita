@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package top.klw8.alita.starter.datasecured;
+package top.klw8.alita.starter.aures;
 
 /**
  *  资源解析器接口
@@ -22,7 +22,7 @@ package top.klw8.alita.starter.datasecured;
 public interface IResourceParser {
 
     /**
-     * 根据传入的数据解析出数据权限的资源名称, 支持多资源名称.
+     * 根据传入的数据解析出资源权限的资源名称, 支持多资源名称.
      * 如果返回多个资源名称,那么当前请求用户必须多个资源权限都必须拥有
      */
     default ResourceParserResult parseResource(IResourceParserData parserPojo){

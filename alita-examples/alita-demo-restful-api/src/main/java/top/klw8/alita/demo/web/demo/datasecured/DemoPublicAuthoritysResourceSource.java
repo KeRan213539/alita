@@ -17,21 +17,21 @@ package top.klw8.alita.demo.web.demo.datasecured;
 
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Component;
-import top.klw8.alita.starter.annotations.PublicDataSecuredRegister;
+import top.klw8.alita.starter.annotations.PublicAuthoritysResourceRegister;
 import top.klw8.alita.starter.auscan.IAuthoritysResourceSource;
 
 import java.util.List;
 
 /**
- * 数据权限全局数据源
+ * 资源权限全局数据源
  * 2020/5/14 11:22
  */
 @Component
-@PublicDataSecuredRegister
+@PublicAuthoritysResourceRegister
 public class DemoPublicAuthoritysResourceSource implements IAuthoritysResourceSource {
 
     @Override
-    public List<DemoAuthoritysResourceSourceEnum> getDataSecuredSourceList() {
+    public List<DemoAuthoritysResourceSourceEnum> getAuthoritysResourceSourceList() {
         return Lists.newArrayList(DemoAuthoritysResourceSourceEnum.values());
     }
 

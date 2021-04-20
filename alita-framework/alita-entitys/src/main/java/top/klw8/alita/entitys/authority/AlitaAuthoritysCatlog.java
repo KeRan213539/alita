@@ -39,12 +39,6 @@ public class AlitaAuthoritysCatlog extends BaseEntity implements IAssociatedApp 
     private static final long serialVersionUID = -8415317762418810314L;
 
     /**
-     * 上级ID,为空表式顶级.
-     */
-    @TableField("parent_id")
-    private String parentId;
-
-    /**
      * authorityName : 所属应用的应用标识
      */
     @TableField("app_tag")

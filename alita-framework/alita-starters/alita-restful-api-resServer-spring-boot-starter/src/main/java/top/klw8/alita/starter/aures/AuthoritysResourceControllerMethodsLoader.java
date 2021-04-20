@@ -1,4 +1,4 @@
-package top.klw8.alita.starter.datasecured;
+package top.klw8.alita.starter.aures;
 
 /*
  * Copyright 2018-2021, ranke (213539@qq.com).
@@ -25,12 +25,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping;
 
 /**
- * 需要数据权限的Congroller方法加载器
+ * 需要资源权限的Congroller方法加载器
  * 2020/4/24 16:01
  */
 @Slf4j
 @Component
-public class DataSecuredControllerMethodsLoader implements ApplicationListener<ApplicationReadyEvent> {
+public class AuthoritysResourceControllerMethodsLoader implements ApplicationListener<ApplicationReadyEvent> {
 
     @Autowired
     private Environment env;
@@ -41,7 +41,8 @@ public class DataSecuredControllerMethodsLoader implements ApplicationListener<A
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         log.info("================= initControllerMethod begin... ================");
-        DataSecuredControllerMethodsCache.initControllerMethod(applicationContext.getBean(RequestMappingHandlerMapping.class), env);
+        AuthoritysResourceControllerMethodsCache
+                .initControllerMethod(applicationContext.getBean(RequestMappingHandlerMapping.class), env);
         log.info("================= initControllerMethod end ================");
     }
 }

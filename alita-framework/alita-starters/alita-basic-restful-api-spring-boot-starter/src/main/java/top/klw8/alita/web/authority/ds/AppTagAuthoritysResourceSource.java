@@ -19,27 +19,27 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Component;
 import top.klw8.alita.entitys.authority.AlitaAuthoritysApp;
 import top.klw8.alita.entitys.authority.enums.ResourceType;
-import top.klw8.alita.service.api.authority.IAuthorityAdminDataSecuredProvider;
-import top.klw8.alita.starter.annotations.PublicDataSecuredRegister;
+import top.klw8.alita.service.api.authority.IAuthorityAdminAuthoritysResourceProvider;
+import top.klw8.alita.starter.annotations.PublicAuthoritysResourceRegister;
 import top.klw8.alita.starter.auscan.IAuthoritysResourceSource;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * appTag的数据权限资源数据源
+ * appTag的资源权限资源数据源
  * 2020/7/27 15:19
  */
 @Component
-@PublicDataSecuredRegister
+@PublicAuthoritysResourceRegister
 public class AppTagAuthoritysResourceSource implements IAuthoritysResourceSource {
 
     @DubboReference
-    private IAuthorityAdminDataSecuredProvider adminDataSecuredProvider;
+    private IAuthorityAdminAuthoritysResourceProvider adminAuthoritysResourceProvider;
 
     @Override
-    public List<AppAuthoritysResourceSourceItem> getDataSecuredSourceList() {
-        List<AlitaAuthoritysApp> allApp = adminDataSecuredProvider.allApp();
+    public List<AppAuthoritysResourceSourceItem> getAuthoritysResourceSourceList() {
+        List<AlitaAuthoritysApp> allApp = adminAuthoritysResourceProvider.allApp();
         if(null != allApp) {
             List<AppAuthoritysResourceSourceItem> result = new ArrayList<>(allApp.size());
             for (AlitaAuthoritysApp app : allApp) {

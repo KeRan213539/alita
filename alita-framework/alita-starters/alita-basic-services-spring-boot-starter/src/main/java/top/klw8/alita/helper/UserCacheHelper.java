@@ -49,8 +49,8 @@ public class UserCacheHelper {
     public void putUserInfo2Cache(AlitaUserAccount user) {
         // 用APP区分权限
         Map<String, Map<String, String>> appAuthorityMap = new HashMap<>(16);
-        // 用APP区分数据权限
-        Map<String, Map<String, List<String>>> appDataSecuredsMap = new HashMap<>(16);
+        // 用APP区分资源权限
+        Map<String, Map<String, List<String>>> appAuthoritysResourceMap = new HashMap<>(16);
 
         List<AlitaRole> userRoles = user.getUserRoles();
         if (!CollectionUtils.isEmpty(userRoles)) {
@@ -72,32 +72,32 @@ public class UserCacheHelper {
                     }
                 }
 
-                // 数据权限入缓存
-                List<AlitaAuthoritysResource> dataSecuredList = userRole.getDataSecuredList();
-                if (!CollectionUtils.isEmpty(dataSecuredList)) {
-                    for (AlitaAuthoritysResource dataSecured : dataSecuredList) {
-                        String dataSecuredsMapKey;
-                        if(StringUtils.isBlank(dataSecured.getAuthoritysId())){
-                            // 全局数据权限
-                            dataSecuredsMapKey = CACHE_KEY_USER_PUBLIC_DATA_SECUREDS;
+                // 资源权限入缓存
+                List<AlitaAuthoritysResource> authoritysResourceList = userRole.getAuthoritysResourceList();
+                if (!CollectionUtils.isEmpty(authoritysResourceList)) {
+                    for (AlitaAuthoritysResource authoritysResource : authoritysResourceList) {
+                        String authoritysResourceMapKey;
+                        if(StringUtils.isBlank(authoritysResource.getAuthoritysId())){
+                            // 全局资源权限
+                            authoritysResourceMapKey = CACHE_KEY_USER_PUBLIC_AUTHORITYS_RESOURCE;
                         } else {
-                            // 权限中的数据权限
-                            dataSecuredsMapKey = dataSecured.getAuthorityUrl();
+                            // 权限中的资源权限
+                            authoritysResourceMapKey = authoritysResource.getAuthorityUrl();
                         }
 
-                        // 获取指定APP下的数据权限缓存   Map<权限url, List<资源标识>>
-                        Map<String, List<String>> dataSecuredsMap = appDataSecuredsMap.get(dataSecured.getAppTag());
-                        if(null == dataSecuredsMap){
-                            dataSecuredsMap = new HashMap<>(16);
-                            appDataSecuredsMap.put(dataSecured.getAppTag(), dataSecuredsMap);
+                        // 获取指定APP下的资源权限缓存   Map<权限url, List<资源标识>>
+                        Map<String, List<String>> authoritysResourceMap = appAuthoritysResourceMap.get(authoritysResource.getAppTag());
+                        if(null == authoritysResourceMap){
+                            authoritysResourceMap = new HashMap<>(16);
+                            appAuthoritysResourceMap.put(authoritysResource.getAppTag(), authoritysResourceMap);
                         }
 
-                        List<String> dataSecuredListInAu = dataSecuredsMap.get(dataSecuredsMapKey);
-                        if(null == dataSecuredListInAu){
-                            dataSecuredListInAu = new ArrayList<>(16);
-                            dataSecuredsMap.put(dataSecuredsMapKey, dataSecuredListInAu);
+                        List<String> authoritysResourceListInAu = authoritysResourceMap.get(authoritysResourceMapKey);
+                        if(null == authoritysResourceListInAu){
+                            authoritysResourceListInAu = new ArrayList<>(16);
+                            authoritysResourceMap.put(authoritysResourceMapKey, authoritysResourceListInAu);
                         }
-                        dataSecuredListInAu.add(dataSecured.getResource());
+                        authoritysResourceListInAu.add(authoritysResource.getResource());
                     }
                 }
             }
@@ -116,8 +116,8 @@ public class UserCacheHelper {
                 RedisUtil.set(CACHE_PREFIX_USER_AUS + key + "_" + user.getId(), value, userAusTimeoutSecond, RedisTagEnum.REDIS_TAG_DEFAULT)
         );
 
-        appDataSecuredsMap.forEach((key, value) ->
-                RedisUtil.set(CACHE_PREFIX_USER_DATA_SECUREDS + key + "_" + user.getId(), value, userAusTimeoutSecond, RedisTagEnum.REDIS_TAG_DEFAULT));
+        appAuthoritysResourceMap.forEach((key, value) ->
+                RedisUtil.set(CACHE_PREFIX_USER_AUTHORITYS_RESOURCE + key + "_" + user.getId(), value, userAusTimeoutSecond, RedisTagEnum.REDIS_TAG_DEFAULT));
     }
 
 }

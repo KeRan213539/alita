@@ -227,7 +227,7 @@ public interface IAuthorityAdminProvider {
     CompletableFuture<JsonResult> auInfo(String auId);
 
     /**
-     * 根据权限路径获取该权限下的数据权限(包括全局数据权限)
+     * 根据权限路径获取该权限下的资源权限(包括全局资源权限)
      * 2020/8/4 15:31
      * @param: httpMethod
      * @param: auAction
@@ -235,7 +235,7 @@ public interface IAuthorityAdminProvider {
      * @param: userId  有值查指定用户权限中的,没值查全部
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> dataSecuredsByAuthorityAction(String httpMethod, String auAction, String appTag, String userId);
+    CompletableFuture<JsonResult> authoritysResourceByAuthorityAction(String httpMethod, String auAction, String appTag, String userId);
 
     /**
      * 获取全部权限,包含目录信息,并按目录分组
@@ -247,36 +247,36 @@ public interface IAuthorityAdminProvider {
 
 
     /**
-     * 数据权限列表,分页,可根据资源名称查询
+     * 资源权限列表,分页,可根据资源名称查询
      * 2020/5/20 11:21
      * @param: resource
      * @param: page
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> dataSecuredList(String resource, String appTag, Page<AlitaAuthoritysResource> page);
+    CompletableFuture<JsonResult> authoritysResourceList(String resource, String appTag, Page<AlitaAuthoritysResource> page);
 
     /**
-     * 新增/修改数据权限的保存
+     * 新增/修改资源权限的保存
      * 2020/5/20 11:22
      * @param: catlog
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> saveDataSecured(AlitaAuthoritysResource ds);
+    CompletableFuture<JsonResult> saveAuthoritysResource(AlitaAuthoritysResource ds);
 
     /**
-     * 删除数据权限(没有角色关联它才能删除)
+     * 删除资源权限(没有角色关联它才能删除)
      * 2020/5/20 11:23
      * @param: dsId
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> delDataSecured(String dsId);
+    CompletableFuture<JsonResult> delAuthoritysResource(String dsId);
 
     /**
-     * 数据权限详情
+     * 资源权限详情
      * 2020/5/20 11:23
      * @param: dsId
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
-    CompletableFuture<JsonResult> dataSecuredInfo(String dsId);
+    CompletableFuture<JsonResult> authoritysResourceInfo(String dsId);
 
 }

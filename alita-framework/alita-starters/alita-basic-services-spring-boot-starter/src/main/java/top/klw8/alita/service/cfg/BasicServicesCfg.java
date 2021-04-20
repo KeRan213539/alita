@@ -46,7 +46,7 @@ import top.klw8.alita.service.authority.service.impl.SystemRoleServiceImpl;
         , DevHelperProviderImpl.class, AuthorityAdminProviderImpl.class,
         AuthorityAppChannelServiceImpl.class,
         AlitaUserProvider.class, AuthorityAppProviderImpl.class,
-        AuthorityAdminDataSecuredProviderImpl.class, AuthorityAppChannelProviderImpl.class})
+        AuthorityAdminAuthoritysResourceProviderImpl.class, AuthorityAppChannelProviderImpl.class})
 public class BasicServicesCfg {
 
     @Autowired
@@ -66,7 +66,7 @@ public class BasicServicesCfg {
                                     @Autowired IAuthorityAdminProvider authorityAdminProvider,
                                     @Autowired IAlitaUserProvider alitaUserProvider,
                                     @Autowired IAuthorityAppProvider authorityAppProvider,
-                                    @Autowired IAuthorityAdminDataSecuredProvider authorityAdminDataSecuredProvider,
+                                    @Autowired IAuthorityAdminAuthoritysResourceProvider authorityAdminAuthoritysResourceProvider,
                                     @Autowired IAuthorityAppChannelProvider appChannelProvider) {
         String[] activeprofiles = env.getActiveProfiles();
         for (String activeprofile : activeprofiles) {
@@ -77,7 +77,7 @@ public class BasicServicesCfg {
         exportDubboService(IAlitaUserProvider.class, alitaUserProvider, true);
         exportDubboService(IAuthorityAdminProvider.class, authorityAdminProvider, true);
         exportDubboService(IAuthorityAppProvider.class, authorityAppProvider, true);
-        exportDubboService(IAuthorityAdminDataSecuredProvider.class, authorityAdminDataSecuredProvider, false);
+        exportDubboService(IAuthorityAdminAuthoritysResourceProvider.class, authorityAdminAuthoritysResourceProvider, false);
         exportDubboService(IAuthorityAppChannelProvider.class, appChannelProvider, false);
 
 

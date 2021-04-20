@@ -20,13 +20,13 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 给视图用的数据权限pojo, 可以标识用户是否拥有该权限
+ * 给视图用的资源权限pojo, 可以标识用户是否拥有该权限
  * 2020-05-15 10:47:43
  */
 @Getter
 @Setter
 @ToString
-public class SystemDataSecuredPojo implements java.io.Serializable {
+public class SystemAuthoritysResourcePojo implements java.io.Serializable {
 
     private static final long serialVersionUID = 4226666111547632645L;
 

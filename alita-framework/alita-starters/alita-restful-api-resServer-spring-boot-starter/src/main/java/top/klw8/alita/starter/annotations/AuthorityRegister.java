@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.starter.annotations;
 
 import java.lang.annotation.Documented;
@@ -29,7 +44,7 @@ public @interface AuthorityRegister {
      * @return
      */
     String catlogName() default "";
-
+    
     /**
      * 菜单的显示顺序
      * @return
@@ -67,15 +82,15 @@ public @interface AuthorityRegister {
     String authorityRemark() default "";
 
     /**
-     * 静态数据权限来源, 实现该接口的来源结果在权限扫描时存入数据库.
-     * 与 {@link #dataSecuredSourceEnum()} 不冲突, 两者都处理
+     * 静态资源权限来源, 实现该接口的来源结果在权限扫描时存入数据库.
+     * 与 {@link #authoritysResourceSourceEnum()} 不冲突, 两者都处理
      */
-    Class<? extends IAuthoritysResourceSource> dataSecuredSource() default IAuthoritysResourceSource.class;
+    Class<? extends IAuthoritysResourceSource> authoritysResourceSource() default IAuthoritysResourceSource.class;
 
     /**
      * 枚举类型的静态数据来源, 实现该接口的枚举在权限扫描时存入数据库.
-     * 与 {@link #dataSecuredSource()} 不冲突, 两者都处理
+     * 与 {@link #authoritysResourceSource()} 不冲突, 两者都处理
      */
-    Class<? extends IAuthoritysResourceSourceItem> dataSecuredSourceEnum() default IAuthoritysResourceSourceItem.class;
+    Class<? extends IAuthoritysResourceSourceItem> authoritysResourceSourceEnum() default IAuthoritysResourceSourceItem.class;
 
 }

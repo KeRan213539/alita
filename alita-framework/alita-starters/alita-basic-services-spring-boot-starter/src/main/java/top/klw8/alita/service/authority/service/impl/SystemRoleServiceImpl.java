@@ -66,12 +66,12 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, AlitaR
             return 0;
         }
         this.baseMapper.removeAuthoritysFromRole(roleId);
-        this.baseMapper.removeDataSecuredsFromRole(roleId);
+        this.baseMapper.removeAuthoritysResourcesFromRole(roleId);
         List<Map<String, String>> auList = new ArrayList<>();
         List<Map<String, String>> dsList = new ArrayList<>();
         for (String auId : auIds) {
             if(auId.startsWith(DS_ID_PREFIX)){
-                // 数据权限
+                // 资源权限
                 Map<String, String> dsItem = new HashMap<>(2);
                 dsItem.put("roleId", roleId);
                 dsItem.put("dsId", auId.replace(DS_ID_PREFIX, ""));
@@ -86,7 +86,7 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, AlitaR
 
         }
         if(CollectionUtils.isNotEmpty(dsList)) {
-            this.baseMapper.batchInsertDataSecuredsFromRole(dsList);
+            this.baseMapper.batchInsertAuthoritysResourcesFromRole(dsList);
         }
         if(CollectionUtils.isNotEmpty(auList)) {
             this.baseMapper.batchInsertAuthoritysFromRole(auList);
@@ -110,36 +110,36 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, AlitaR
     }
 
     @Override
-    public List<AlitaAuthoritysResource> getRoleAllDataSecureds(String roleId) {
-        return this.baseMapper.selectRoleDataSecureds(roleId);
+    public List<AlitaAuthoritysResource> getRoleAllAuthoritysResource(String roleId) {
+        return this.baseMapper.selectRoleAuthoritysResources(roleId);
     }
 
     @Override
-    public int addDataSecured2Role(String roleId, AlitaAuthoritysResource ds) {
+    public int addAuthoritysResource2Role(String roleId, AlitaAuthoritysResource ds) {
         try {
             if (null == roleId || null == ds || null == ds.getId()) {
                 return 0;
             }
-            return this.baseMapper.addDataSecured2Role(ds.getId(), roleId);
+            return this.baseMapper.addAuthoritysResource2Role(ds.getId(), roleId);
         }catch (Exception e){
             return 0;
         }
     }
 
     @Override
-    public int removeDataSecuredFromRole(String roleId, AlitaAuthoritysResource ds) {
+    public int removeAuthoritysResourceFromRole(String roleId, AlitaAuthoritysResource ds) {
         if (null == roleId || null == ds || null == ds.getId()) {
             return 0;
         }
-        return this.baseMapper.removeDataSecuredFromRole(ds.getId(), roleId);
+        return this.baseMapper.removeAuthoritysResourceFromRole(ds.getId(), roleId);
     }
 
     @Override
-    public int replaceDataSecured2Role(String roleId, List<String> dsIds) {
+    public int replaceAuthoritysResource2Role(String roleId, List<String> dsIds) {
         if (null == roleId || CollectionUtils.isEmpty(dsIds)) {
             return 0;
         }
-        this.baseMapper.removeDataSecuredsFromRole(roleId);
+        this.baseMapper.removeAuthoritysResourcesFromRole(roleId);
         List<Map<String, String>> dataList = new ArrayList<>();
         for (String dsId : dsIds) {
             Map<String, String> item = new HashMap<>(2);
@@ -147,12 +147,12 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, AlitaR
             item.put("dsId", dsId);
             dataList.add(item);
         }
-        return this.baseMapper.batchInsertDataSecuredsFromRole(dataList);
+        return this.baseMapper.batchInsertAuthoritysResourcesFromRole(dataList);
     }
 
     @Override
-    public int cleanDataSecuredsFromRole(String roleId) {
-        return  this.baseMapper.removeDataSecuredsFromRole(roleId);
+    public int cleanAuthoritysResourcesFromRole(String roleId) {
+        return  this.baseMapper.removeAuthoritysResourcesFromRole(roleId);
     }
 
     @Override

@@ -22,19 +22,19 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import top.klw8.alita.entitys.authority.AlitaAuthoritysResource;
-import top.klw8.alita.service.authority.ISystemDataSecuredService;
-import top.klw8.alita.service.authority.mapper.ISystemDataSecuredMapper;
+import top.klw8.alita.service.authority.ISystemAuthoritysResourceService;
+import top.klw8.alita.service.authority.mapper.ISystemAuthoritysResourceMapper;
 
 import java.util.List;
 
 /**
- * 数据权限表 service 实现
+ * 资源权限表 service 实现
  * 2020/5/13 16:46
  */
 @Slf4j
 @Service
-public class SystemDataSecuredServiceImpl extends ServiceImpl<ISystemDataSecuredMapper,
-        AlitaAuthoritysResource> implements ISystemDataSecuredService {
+public class SystemAuthoritysResourceServiceImpl extends ServiceImpl<ISystemAuthoritysResourceMapper,
+        AlitaAuthoritysResource> implements ISystemAuthoritysResourceService {
 
 
     @Override

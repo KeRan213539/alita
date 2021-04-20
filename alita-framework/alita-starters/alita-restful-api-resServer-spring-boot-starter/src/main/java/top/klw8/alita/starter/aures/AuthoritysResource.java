@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package top.klw8.alita.starter.datasecured;
+package top.klw8.alita.starter.aures;
 
 import java.lang.annotation.*;
 
 /**
- * 数据权限注解, 数据权限与url权限相对独立,只要使用了该注解就会验证,不管在 alita.oauth2.resServer.authPath 中是否配制了url
+ * 资源权限注解, 资源权限与url权限相对独立,只要使用了该注解就会验证,不管在 alita.oauth2.resServer.authPath 中是否配制了url
  * 2020/4/24 14:28
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 @Documented
-public @interface DataSecured {
+public @interface AuthoritysResource {
 
     /**
      * 资源名称

@@ -28,7 +28,7 @@ import top.klw8.alita.entitys.authority.AlitaRole;
 public interface ISystemRoleService extends IService<AlitaRole> {
 
     /**
-     * 数据权限ID的前缀,用于保存权限时区分权限和数据权限
+     * 资源权限ID的前缀,用于保存权限时区分权限和资源权限
      */
     String DS_ID_PREFIX = "@THIS_IS_DS@";
 
@@ -83,44 +83,44 @@ public interface ISystemRoleService extends IService<AlitaRole> {
     List<AlitaAuthoritysMenu> selectSystemAuthoritysWithCatlogByRoleId(String roleId);
 
     /**
-     * 查询角色拥有的数据权限
+     * 查询角色拥有的资源权限
      */
-    List<AlitaAuthoritysResource> getRoleAllDataSecureds(String roleId);
+    List<AlitaAuthoritysResource> getRoleAllAuthoritysResource(String roleId);
 
     /**
-     * 添加数据权限到角色中
+     * 添加资源权限到角色中
      * @param roleId
      * @param ds
      * @return
      */
-    int addDataSecured2Role(String roleId, AlitaAuthoritysResource ds);
+    int addAuthoritysResource2Role(String roleId, AlitaAuthoritysResource ds);
 
     /**
-     * 从角色中删除指定数据权限
+     * 从角色中删除指定资源权限
      * @param roleId
      * @param ds
      * @return
      */
-    int removeDataSecuredFromRole(String roleId, AlitaAuthoritysResource ds);
+    int removeAuthoritysResourceFromRole(String roleId, AlitaAuthoritysResource ds);
 
     /**
-     * 使用传入的数据权限List替换角色中的权限
+     * 使用传入的资源权限List替换角色中的权限
      * @param roleId
      * @param dsIds
      * @return
      */
-    int replaceDataSecured2Role(String roleId, List<String> dsIds);
+    int replaceAuthoritysResource2Role(String roleId, List<String> dsIds);
 
     /**
-     * 清空指定角色中的数据权限
+     * 清空指定角色中的资源权限
      * 2019/10/19 17:15
      * @param: roleId
      * @return int
      */
-    int cleanDataSecuredsFromRole(String roleId);
+    int cleanAuthoritysResourcesFromRole(String roleId);
 
     /**
-     * 检查指定【数据权限】是否被角色关联
+     * 检查指定【资源权限】是否被角色关联
      * 2020/5/20 14:54
      * @param: roleId
      * @param: dsId

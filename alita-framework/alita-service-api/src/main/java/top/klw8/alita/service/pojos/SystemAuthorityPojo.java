@@ -79,9 +79,9 @@ public class SystemAuthorityPojo implements java.io.Serializable, Comparable<Sys
     private String remark;
 
     /**
-     * 该权限中的数据权限
+     * 该权限中的资源权限
      */
-    private List<SystemDataSecuredPojo> dsList;
+    private List<SystemAuthoritysResourcePojo> dsList;
 
     /**
      * 该权限中的按钮权限

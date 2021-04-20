@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package top.klw8.alita.starter.datasecured;
+package top.klw8.alita.starter.aures;
 
 import lombok.Getter;
 
@@ -30,7 +30,7 @@ public class ResourceParserResult {
     private final String[] parsedResources;
 
     /**
-     * 是否万能钥匙,如果是则直接通过数据权限验证
+     * 是否万能钥匙,如果是则直接通过资源权限验证
      */
     private final boolean masterKey;
 

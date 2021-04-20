@@ -22,14 +22,14 @@ import top.klw8.alita.starter.auscan.IAuthoritysResourceSource;
 import java.util.List;
 
 /**
- * 数据权限数据源
+ * 资源权限数据源
  * 2020/5/12 16:48
  */
 @Component
 public class DemoAuthoritysResourceSource implements IAuthoritysResourceSource {
 
     @Override
-    public List<DemoAuthoritysResourceSourceEnum> getDataSecuredSourceList() {
+    public List<DemoAuthoritysResourceSourceEnum> getAuthoritysResourceSourceList() {
         return Lists.newArrayList(DemoAuthoritysResourceSourceEnum.values());
     }
 }

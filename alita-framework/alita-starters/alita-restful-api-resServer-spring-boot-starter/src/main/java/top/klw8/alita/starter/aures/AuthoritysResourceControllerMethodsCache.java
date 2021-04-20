@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package top.klw8.alita.starter.datasecured;
+package top.klw8.alita.starter.aures;
 
 import org.springframework.core.env.Environment;
 import org.springframework.web.method.HandlerMethod;
@@ -27,14 +27,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * 需要数据权限的Controller方法缓存
+ * 需要资源权限的Controller方法缓存
  * 2020/4/24 16:01
  */
-public class DataSecuredControllerMethodsCache {
+public class AuthoritysResourceControllerMethodsCache {
 
-    private static ConcurrentMap<String, DataSecured> methods = new ConcurrentHashMap<>();
+    private static ConcurrentMap<String, AuthoritysResource> methods = new ConcurrentHashMap<>();
 
-    public static DataSecured getMethod(String httpMethodAndpath) {
+    public static AuthoritysResource getMethod(String httpMethodAndpath) {
         return methods.get(httpMethodAndpath);
     }
 
@@ -44,11 +44,11 @@ public class DataSecuredControllerMethodsCache {
         for (Map.Entry<RequestMappingInfo, HandlerMethod> methodEntry : methodMap.entrySet()) {
             HandlerMethod v = methodEntry.getValue();
             Method method = v.getMethod();
-            if(!method.isAnnotationPresent(DataSecured.class)){
+            if(!method.isAnnotationPresent(AuthoritysResource.class)){
                 continue;
             }
             String key = env.resolvePlaceholders(AuthorityUtil.getCompleteMappingUrl(v));
-            methods.put(key, method.getAnnotation(DataSecured.class));
+            methods.put(key, method.getAnnotation(AuthoritysResource.class));
         }
 
     }

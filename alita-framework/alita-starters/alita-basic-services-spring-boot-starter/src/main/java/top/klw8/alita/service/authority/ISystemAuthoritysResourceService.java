@@ -21,40 +21,40 @@ import top.klw8.alita.entitys.authority.AlitaAuthoritysResource;
 import java.util.List;
 
 /**
- * 数据权限表 Service
+ * 资源权限表 Service
  * 2020/5/13 16:45
  */
-public interface ISystemDataSecuredService extends IService<AlitaAuthoritysResource> {
+public interface ISystemAuthoritysResourceService extends IService<AlitaAuthoritysResource> {
 
     /**
-     * 根据资源标识和所属权限ID查找数据权限
+     * 根据资源标识和所属权限ID查找资源权限
      * 2020/5/13 17:24
      * @param: resource
      * @param: auId
-     * @return top.klw8.alita.entitys.authority.SystemDataSecured
+     * @return top.klw8.alita.entitys.authority.SystemAuthoritysResource
      */
     AlitaAuthoritysResource findByResourceAndAuId(String resource, String auId);
 
     /**
-     * 根据所属权限ID查找数据权限, 传空查全局数据权限
+     * 根据所属权限ID查找资源权限, 传空查全局资源权限
      * 2020/8/4 16:01
      * @param: auId
      * @param: appTag
-     * @return java.util.List<top.klw8.alita.entitys.authority.SystemDataSecured>
+     * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritysResource>
      */
     List<AlitaAuthoritysResource> findByAuId(String auId, String appTag);
 
     /**
-     * 根据角色ID和所属权限ID查找数据权限, 权限ID传空查全局数据权限
+     * 根据角色ID和所属权限ID查找资源权限, 权限ID传空查全局资源权限
      * 2020/8/4 16:31
      * @param: roleId 必传
      * @param: auId 可选
-     * @return java.util.List<top.klw8.alita.entitys.authority.SystemDataSecured>
+     * @return java.util.List<top.klw8.alita.entitys.authority.SystemAuthoritysResource>
      */
     List<AlitaAuthoritysResource> findByRoleIdAndAuId(String roleId, String auId);
 
     /**
-     * 检查数据权限中是否有属于指定权限的
+     * 检查资源权限中是否有属于指定权限的
      */
     int countByAuId(String auId);
 

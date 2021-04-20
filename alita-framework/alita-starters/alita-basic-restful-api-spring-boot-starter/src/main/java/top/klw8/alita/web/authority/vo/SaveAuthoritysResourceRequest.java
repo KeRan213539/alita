@@ -24,14 +24,14 @@ import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
 
 /**
- * 数据权限保存请求参数
+ * 资源权限保存请求参数
  * 2020/5/20 17:32
  */
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode(callSuper = false)
-public class SaveDataSecuredRequest {
+public class SaveAuthoritysResourceRequest {
 
     @NotEmpty(validatFailMessage = "id不能为空")
     @ApiParam(value = "id")
@@ -43,11 +43,11 @@ public class SaveDataSecuredRequest {
      */
     @Required(validatFailMessage = "所属权限ID不能为空")
     @NotEmpty(validatFailMessage = "所属权限ID不能为空")
-    @ApiParam(value = "所属权限ID(全局数据权限传: PUBLIC_DATA_SECURED_AUTHORITY)", required=true)
+    @ApiParam(value = "所属权限ID(全局资源权限传: PUBLIC_RESOURCE_AUTHORITY)", required=true)
     private String authoritysId;
 
     @NotEmpty(validatFailMessage = "所属应用标识不能为空")
-    @ApiParam(value = "所属应用标识(全局数据权限必传,普通数据权限不传)")
+    @ApiParam(value = "所属应用标识(全局资源权限必传,普通资源权限不传)")
     private String appTag;
 
     /**

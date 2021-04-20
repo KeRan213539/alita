@@ -62,9 +62,9 @@ public class AlitaRole extends BaseEntity implements IAssociatedApp {
     private List<AlitaAuthoritysMenu> authorityList;
 
     /**
-     * 角色拥有的数据权限
+     * 角色拥有的资源权限
      */
     @TableField(exist=false)
-    private List<AlitaAuthoritysResource> dataSecuredList;
+    private List<AlitaAuthoritysResource> authoritysResourceList;
     
 }
