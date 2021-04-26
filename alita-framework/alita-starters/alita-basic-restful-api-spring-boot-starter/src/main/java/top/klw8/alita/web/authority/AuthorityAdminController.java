@@ -93,21 +93,6 @@ public class AuthorityAdminController extends WebapiBaseController {
         return Mono.fromFuture(auProvider.roleAll(appTag));
     }
 
-    @ApiOperation(value = "获取全部权限,并根据传入的角色ID标识出该角色拥有的权限", notes = "获取全部权限,并根据传入的角色ID标识出该角色拥有的权限", httpMethod = "GET", produces = "application/json")
-    @GetMapping("/markRoleAuthoritys")
-    @AuthorityRegister(authorityName = "获取全部权限,并根据传入的角色ID标识出该角色拥有的权限", authorityType = AuthorityTypeEnum.URL,
-            authorityShowIndex = 0)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", required = true),
-            @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
-    })
-    @UseValidator
-    @AuthoritysResource(parser = AppTagParser.class)
-    public Mono<JsonResult> markRoleAuthoritys(@Required("角色ID不能为空") @NotEmpty("角色ID不能为空") String roleId,
-                                               String appTag) {
-        return Mono.fromFuture(auProvider.markRoleAuthoritys(roleId, appTag));
-    }
-
     @ApiOperation(value = "保存角色的权限(替换原有权限)", notes = "保存角色的权限(替换原有权限)", httpMethod = "POST", produces = "application/json")
     @PostMapping("/saveRoleAuthoritys")
     @AuthorityRegister(authorityName = "保存角色的权限(替换原有权限)", authorityType = AuthorityTypeEnum.URL,
@@ -311,6 +296,21 @@ public class AuthorityAdminController extends WebapiBaseController {
                     String auId
     ) {
         return Mono.fromFuture(auProvider.auInfo(auId));
+    }
+
+    @ApiOperation(value = "获取全部权限,并根据传入的角色ID标识出该角色拥有的权限", notes = "获取全部权限,并根据传入的角色ID标识出该角色拥有的权限", httpMethod = "GET", produces = "application/json")
+    @GetMapping("/markRoleAuthoritys")
+    @AuthorityRegister(authorityName = "获取全部权限,并根据传入的角色ID标识出该角色拥有的权限", authorityType = AuthorityTypeEnum.URL,
+            authorityShowIndex = 0)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", required = true),
+            @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
+    })
+    @UseValidator
+    @AuthoritysResource(parser = AppTagParser.class)
+    public Mono<JsonResult> markRoleAuthoritys(@Required("角色ID不能为空") @NotEmpty("角色ID不能为空") String roleId,
+                                               String appTag) {
+        return Mono.fromFuture(auProvider.markRoleAuthoritys(roleId, appTag));
     }
 
     @ApiOperation(value = "获取全部权限(按目录分组)", notes = "获取全部权限(按目录分组),用于新增/编辑资源权限时选择所属分组", httpMethod = "GET", produces = "application/json")

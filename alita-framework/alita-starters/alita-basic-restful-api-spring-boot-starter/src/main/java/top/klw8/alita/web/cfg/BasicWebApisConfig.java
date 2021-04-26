@@ -18,6 +18,7 @@ package top.klw8.alita.web.cfg;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import top.klw8.alita.web.authority.AuthorityAdminController;
+import top.klw8.alita.web.authority.AuthorityAppChannelController;
 import top.klw8.alita.web.authority.AuthorityAppController;
 import top.klw8.alita.web.authority.ds.AppTagByIdParser;
 import top.klw8.alita.web.authority.ds.AppTagAuthoritysResourceSource;
@@ -31,7 +32,7 @@ import top.klw8.alita.web.user.SysUserController;
  */
 @Configuration
 @Import({AuthorityAdminController.class, SysUserAdminController.class, SysUserController.class,
-        AuthorityAppController.class,
+        AuthorityAppController.class, AuthorityAppChannelController.class,
         AppTagAuthoritysResourceSource.class, AppTagParser.class, AppTagByIdParser.class})
 public class BasicWebApisConfig {
 }

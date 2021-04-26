@@ -24,24 +24,52 @@ import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
 
 /**
- * 
- * 2020-07-17
+ * 应用渠道vo.
+ *
+ * 2020/9/9 16:51
  */
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode(callSuper = false)
-public class AuthorityAppRequest {
-
+public class AuthoritysAppChannelRequest {
+    
+    /**
+     * 渠道标识(主键)
+     */
+    @NotEmpty(validatFailMessage = "channelTag不能为空")
+    @Required(validatFailMessage = "channelTag不能为空")
+    @ApiParam(value = "channelTag")
+    private String channelTag;
+    
+    /**
+     * 渠道所属应用的标识
+     */
     @NotEmpty(validatFailMessage = "appTag不能为空")
     @Required(validatFailMessage = "appTag不能为空")
     @ApiParam(value = "appTag")
     private String appTag;
-
-
-    @ApiParam(value = "appName")
-    private String appName;
-
-    @ApiParam(value = "remark")
+    
+    /**
+     * 渠道密码(明文)
+     */
+    @NotEmpty(validatFailMessage = "渠道密码不能为空")
+    @Required(validatFailMessage = "渠道密码不能为空")
+    @ApiParam(value = "渠道密码")
+    private String channelPwd;
+    
+    /**
+     * 渠道支持的登录方式,多种方式用逗号隔开
+     */
+    @NotEmpty(validatFailMessage = "渠道支持的登录方式不能为空")
+    @Required(validatFailMessage = "渠道支持的登录方式不能为空")
+    @ApiParam(value = "渠道支持的登录方式,多种方式用逗号隔开")
+    private String channelLoginType;
+    
+    /**
+     * 备注
+     */
+    @ApiParam(value = "备注")
     private String remark;
+
 }

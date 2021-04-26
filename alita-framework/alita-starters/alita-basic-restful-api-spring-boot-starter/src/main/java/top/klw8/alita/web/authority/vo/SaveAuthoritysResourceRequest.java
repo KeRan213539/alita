@@ -15,11 +15,13 @@
  */
 package top.klw8.alita.web.authority.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiParam;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import top.klw8.alita.entitys.authority.enums.ResourceType;
 import top.klw8.alita.validator.annotations.NotEmpty;
 import top.klw8.alita.validator.annotations.Required;
 
@@ -46,9 +48,19 @@ public class SaveAuthoritysResourceRequest {
     @ApiParam(value = "所属权限ID(全局资源权限传: PUBLIC_RESOURCE_AUTHORITY)", required=true)
     private String authoritysId;
 
+    /**
+     * 所属应用的应用标识
+     */
     @NotEmpty(validatFailMessage = "所属应用标识不能为空")
     @ApiParam(value = "所属应用标识(全局资源权限必传,普通资源权限不传)")
     private String appTag;
+
+    /**
+     * 资源类型: 按钮/资源权限等.
+     */
+    @NotEmpty(validatFailMessage = "资源类型不能为空")
+    @ApiParam(value = "资源类型: 按钮/资源权限等: <br /> BUTTON <br /> DATA")
+    private ResourceType resType;
 
     /**
      * 资源标识

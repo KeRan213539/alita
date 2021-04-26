@@ -17,6 +17,7 @@ package top.klw8.alita.service.api.authority;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import top.klw8.alita.entitys.authority.AlitaAuthoritysApp;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysAppChannel;
 import top.klw8.alita.service.result.JsonResult;
 
 import java.util.concurrent.CompletableFuture;
@@ -75,4 +76,49 @@ public interface IAuthorityAppProvider {
      * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
      */
     CompletableFuture<JsonResult> authorityAppList();
+
+    /**
+     * 新增应用渠道.
+     * @param authorityAppChannel
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> addAuthorityAppChannel(AlitaAuthoritysAppChannel authorityAppChannel);
+
+    /**
+     * 修改应用渠道 应用标识不可修改.
+     * @param authorityAppChannel
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> updateAuthorityAppChannel(AlitaAuthoritysAppChannel authorityAppChannel);
+
+    /**
+     * 删除应用渠道.
+     * @param channelTag
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> deleteAuthorityAppChannel(String channelTag);
+
+    /**
+     * 应用渠道详情.
+     * @param channelTag
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> authorityAppChannelInfo(String channelTag);
+
+    /**
+     * 应用渠道 分页列表.
+     * @param appTag 应用标识
+     * @param channelTag 渠道标识
+     * @param remark 备注
+     * @param page 分页参数
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> authorityAppChannelPage(String appTag, String channelTag, String remark, Page<AlitaAuthoritysAppChannel> page);
+
+    /**
+     * 应用渠道列表 不分页.
+     * @param
+     * @return java.util.concurrent.CompletableFuture<top.klw8.alita.service.result.JsonResult>
+     */
+    CompletableFuture<JsonResult> authorityAppChannelList(String appTag);
 }

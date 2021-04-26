@@ -51,6 +51,8 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
 
     private static final String ADMIN_ROLE_ID = "d84c6b4ed9134d468e5a43d467036c47";
 
+    private static final String APP_CHANNEL_TAG = "alita-test";
+
 
     @Autowired
     private ISystemAuthoritysService auService;
@@ -69,6 +71,9 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
 
     @Autowired
     private IAuthorityAppService appService;
+
+    @Autowired
+    private IAuthorityAppChannelService channelService;
 
     @Override
     public CompletableFuture<JsonResult> batchAddAuthoritysAndCatlogs(List<AlitaAuthoritysCatlog> catlogList,
@@ -93,6 +98,12 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                     app4Save.setRemark(app.getRemark());
                 }
                 appService.save(app4Save);
+                // 生成 app channel
+                AlitaAuthoritysAppChannel channel4Save = buildAppChannel4Test(app);
+                if (null == channelService.getById(channel4Save.getChannelTag())) {
+                    channelService.save(channel4Save);
+                }
+
             }
 
             boolean processFlag = false;
@@ -192,6 +203,10 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
         boolean isNeedAddRole2User = false;
         if (null == appService.getById(app.getAppTag())) {
             appService.save(buildAdminApp(app));
+            AlitaAuthoritysAppChannel channel4Save = buildAppChannel4Test(app);
+            if (null == channelService.getById(channel4Save.getChannelTag())) {
+                channelService.save(channel4Save);
+            }
         }
         if (EntityUtil.isEntityNoId(userService.getById(ADMIN_USER_ID))) {
             isNeedAddRole2User = true;
@@ -204,6 +219,7 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
         if (isNeedAddRole2User) {
             userService.addRole2User(ADMIN_USER_ID, ADMIN_ROLE_ID);
         }
+
     }
 
     private AlitaUserAccount buildAdminUser(){
@@ -229,6 +245,16 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
         superAdminApp.setAppName("超级管理应用");
         superAdminApp.setRemark("超级管理应用");
         return superAdminApp;
+    }
+
+    private AlitaAuthoritysAppChannel buildAppChannel4Test(AlitaAuthoritysApp app){
+        AlitaAuthoritysAppChannel channel = new AlitaAuthoritysAppChannel();
+        channel.setChannelTag(APP_CHANNEL_TAG);
+        channel.setAppTag(app.getAppTag());
+        channel.setChannelPwd("123");
+        channel.setChannelLoginType("password");
+        channel.setRemark("测试");
+        return channel;
     }
 
 }

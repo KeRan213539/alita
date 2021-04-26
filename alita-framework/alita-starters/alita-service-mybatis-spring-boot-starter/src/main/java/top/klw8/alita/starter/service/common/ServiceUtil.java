@@ -18,6 +18,7 @@ package top.klw8.alita.starter.service.common;
 import top.klw8.alita.service.result.JsonResult;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 
 /**
  * 工具类
@@ -25,8 +26,12 @@ import java.util.concurrent.CompletableFuture;
  */
 public class ServiceUtil {
 
-    public static CompletableFuture buildFuture(JsonResult result){
+    public static CompletableFuture buildFuture(JsonResult result) {
         return CompletableFuture.supplyAsync(() -> result, ServiceContext.executor);
+    }
+
+    public static CompletableFuture buildFuture(Supplier<JsonResult> supplier) {
+        return CompletableFuture.supplyAsync(() -> supplier.get(), ServiceContext.executor);
     }
 
 }
