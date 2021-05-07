@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.utils;
 
 import java.io.IOException;
@@ -9,16 +24,13 @@ import org.wltea.analyzer.core.IKSegmenter;
 import org.wltea.analyzer.core.Lexeme;
 
 /**
- * @ClassName: AnalyzerUtil
- * @Description: 分词器工具类(目前使用IK)
- * @author klw
- * @date 2017年11月17日 下午12:23:04
+ * 分词器工具类(目前使用IK)
+ * 2017年11月17日 下午12:23:04
  */
 public class AnalyzerUtil {
 
     /**
-     * @Title: strAnalyzerReturnsWithSpace
-     * @Description: 字符串分词【智能分词】,返回一个分词结果字符串,每个分词中间以空格隔开
+     * 字符串分词【智能分词】,返回一个分词结果字符串,每个分词中间以空格隔开
      * @param str  
      * @return  分词结果字符串,每个分词中间以空格隔开
      */
@@ -49,8 +61,7 @@ public class AnalyzerUtil {
     }
     
     /**
-     * @Title: strAnalyzerReturnsWithSpaceNoSmart
-     * @Description: 字符串分词【非智能分词】,返回一个分词结果字符串,每个分词中间以空格隔开
+     * 字符串分词【非智能分词】,返回一个分词结果字符串,每个分词中间以空格隔开
      * @param str
      * @return 分词结果字符串,每个分词中间以空格隔开
      */
@@ -81,8 +92,7 @@ public class AnalyzerUtil {
     }
     
     /**
-     * @Title: strAnalyzerInnerSpace
-     * @Description: 把字符串中每个字都拆分,每个拆分中间以空格隔开
+     * 把字符串中每个字都拆分,每个拆分中间以空格隔开
      * @param str
      * @return
      */

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.entitys.demo.mongo;
 
 import org.springframework.lang.Nullable;
@@ -8,10 +23,8 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * @ClassName: GeoPoint
- * @Description: 位置数据pojo,用于mongodb实体中存放位置数据
- * @author klw
- * @date 2019-01-24 11:21:31
+ * 位置数据pojo,用于mongodb实体中存放位置数据
+ * 2019-01-24 11:21:31
  */
 public class GeoPoint implements java.io.Serializable {
 
@@ -25,9 +38,7 @@ public class GeoPoint implements java.io.Serializable {
     }
 
     /**
-     * @Title: GeoPoint
-     * @author klw
-     * @Description: 构造方法
+     * 构造方法
      * @param latitude
      *            纬度(x)
      * @param longitude

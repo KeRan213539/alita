@@ -1,13 +1,26 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.service.result.code;
 
 import top.klw8.alita.service.result.IResultCode;
 import top.klw8.alita.service.result.ISubResultCode;
 
 /**
- * @author klw
- * @ClassName: CommonResultCodeEnum
- * @Description: 通用返回码
- * @date 2019/6/10 16:13
+ * 通用返回码
+ * 2019/6/10 16:13
  */
 public enum CommonResultCodeEnum implements ISubResultCode {
 
@@ -27,7 +40,7 @@ public enum CommonResultCodeEnum implements ISubResultCode {
 
     LOGIN_TIMEOUT("5003", "登录超时"),
 
-    DATA_SECURED_NO_RES("5004", "数据权限注解没有配制资源和解析器"),
+    AUTHORITYS_RESOURCE_NO_RES("5004", "资源权限注解没有配制资源和解析器"),
 
     APP_TAG_NOT_EXIST("5005", "【alita.authority.app.tag】 未配制"),
 
@@ -36,24 +49,21 @@ public enum CommonResultCodeEnum implements ISubResultCode {
 
 
     /**
-     * @author klw
-     * @Description: 所属分类, 写死
-     * @Date 2019/6/6 17:41
+     * 所属分类, 写死
+     * 2019/6/6 17:41
      * @Param
      * @return
      */
     private IResultCode classify = ResultCodeEnum.COMMON;
 
     /**
-     * @author klw
-     * @Description: 业务code(3位)
+     * 业务code(3位)
      */
     private String subCode;
 
 
     /**
-     * @author klw
-     * @Description: code 对应的消息
+     * code 对应的消息
      */
     private String codeMsg;
 

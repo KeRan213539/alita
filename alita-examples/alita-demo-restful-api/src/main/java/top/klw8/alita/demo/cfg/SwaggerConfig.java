@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.demo.cfg;
 
 
@@ -14,10 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @ClassName: SwaggerConfig
- * @Description: SwaggerConfig
- * @author klw
- * @date 2018年9月14日 09:54:14
+ * SwaggerConfig
+ * 2018年9月14日 09:54:14
  */
 @Configuration  
 @Profile("dev")  // 仅在dev模式(application.yml中的spring.profiles.active=dev时)下才会执行该配制
@@ -79,7 +92,7 @@ public class SwaggerConfig extends SwaggerConfigBase  {
 
 
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("【数据权限demo】")
+                .groupName("【资源权限demo】")
                 .select()
                 .paths(PathSelectors.ant("/*/dataau/**"))
 //                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))

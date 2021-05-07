@@ -48,10 +48,8 @@ import top.klw8.alita.service.base.mongo.dao.prarm.ForPageMode.Mode;
 import top.klw8.alita.utils.AnalyzerUtil;
 
 /**
- * @author klw
- * @ClassName: MongoSpringDataBaseDao
- * @Description: 基于spring-data-mongodb的BaseDao
- * @date 2018年12月21日 16:51:06
+ * 基于spring-data-mongodb的BaseDao
+ * 2018年12月21日 16:51:06
  */
 public class MongoSpringDataBaseDao<T extends MongoBaseEntity> implements IMongoBasePlusDao<T> {
 
@@ -246,9 +244,7 @@ public class MongoSpringDataBaseDao<T extends MongoBaseEntity> implements IMongo
      * @param isExcludeRef   是否排除关联查询字段
      * @param excludeFields  返回结果中排除的字段
      * @return
-     * @Title: findByEntity
-     * @author klw
-     * @Description: 根据实体查询(地理位置和全文搜索不能一起查)
+     * 根据实体查询(地理位置和全文搜索不能一起查)
      */
     private Mono<List<T>> findByEntity(T baseBean, Sort sort, String pointFieldName, Point point, double rangeKm, String matchingText, boolean isExcludeRef, String... excludeFields) {
         if (StringUtils.isNotBlank(pointFieldName) && StringUtils.isNotBlank(matchingText)) {
@@ -312,9 +308,7 @@ public class MongoSpringDataBaseDao<T extends MongoBaseEntity> implements IMongo
      * @param isExcludeRef   是否排除关联查询字段
      * @param excludeFields  查询结果数据中不需要的字段
      * @return
-     * @Title: searchByEntityForPage
-     * @author klw
-     * @Description: 根据对象查询数据并分页
+     * 根据对象查询数据并分页
      */
     private Mono<Page<T>> searchByEntityForPage(EntityByPage<T> entityByPage, Sort sort, String pointFieldName, Point point, double rangeKm, String matchingText, Mode forPageMode, boolean isExcludeRef, String... excludeFields) {
 
@@ -502,9 +496,7 @@ public class MongoSpringDataBaseDao<T extends MongoBaseEntity> implements IMongo
 
     /**
      * @param t
-     * @Title: processTextIndexField
-     * @author klw
-     * @Description: 处理全文索引
+     * 处理全文索引
      */
     private void processTextIndexField(T t) {
         if (ITextIndexedSupport.class.isAssignableFrom(this.entityClazz)) {
@@ -517,9 +509,7 @@ public class MongoSpringDataBaseDao<T extends MongoBaseEntity> implements IMongo
 
     /**
      * @param list
-     * @Title: processTextIndexField
-     * @author klw
-     * @Description: 处理全文索引
+     * 处理全文索引
      */
     private void processTextIndexField(List<T> list) {
         if (ITextIndexedSupport.class.isAssignableFrom(this.entityClazz)) {
@@ -537,9 +527,7 @@ public class MongoSpringDataBaseDao<T extends MongoBaseEntity> implements IMongo
     /**
      * @param page
      * @return
-     * @Title: processPage4Mongo
-     * @author klw
-     * @Description: 把页码处理为spring data MongoDB 的页码(它的第一页是0)
+     * 把页码处理为spring data MongoDB 的页码(它的第一页是0)
      */
     private int processPage4Mongo(int page) {
         if (page <= 0) {
@@ -550,9 +538,7 @@ public class MongoSpringDataBaseDao<T extends MongoBaseEntity> implements IMongo
     }
 
     /**
-     * @Title: generateLookupOperation4RefQuery
-     * @author klw
-     * @Description: 为 @RefQuery 注解生成 LookupOperation
+     * 为 @RefQuery 注解生成 LookupOperation
      * @return
      */
 //    private List<AggregationOperation> generateLookupOperation4RefQuery() {
@@ -639,9 +625,7 @@ public class MongoSpringDataBaseDao<T extends MongoBaseEntity> implements IMongo
 //    }
 
     /**
-     * @Title: processRefQuery
-     * @author klw
-     * @Description: 处理 RefQuery 注解
+     * 处理 RefQuery 注解
      * @param entitys
      */
 //    private void processRefQuery(List<T> entitys) {
@@ -711,9 +695,7 @@ public class MongoSpringDataBaseDao<T extends MongoBaseEntity> implements IMongo
     /**
      * @param entity
      * @return
-     * @Title: generateUpdateByEntity
-     * @author klw
-     * @Description: 根据实体中不为null的字段生成 Update
+     * 根据实体中不为null的字段生成 Update
      */
     private Update generateUpdateByEntity(T entity) {
         Assert.notNull(entity, "要更新的实体不能为空!");
@@ -750,9 +732,7 @@ public class MongoSpringDataBaseDao<T extends MongoBaseEntity> implements IMongo
      * @param entity
      * @param isExcludeRef 是否排除标注了 @DBRef 的字段
      * @return
-     * @Title: generateQueryByEntity
-     * @author klw
-     * @Description: 根据实体中不为null的字段生成 Query, 如果字段标注了 QueryLikeField 则为模糊查询
+     * 根据实体中不为null的字段生成 Query, 如果字段标注了 QueryLikeField 则为模糊查询
      */
     private Query generateQueryByEntity(T entity, boolean isExcludeRef, String[] excludeFields) {
         if (entity == null) {
@@ -803,9 +783,7 @@ public class MongoSpringDataBaseDao<T extends MongoBaseEntity> implements IMongo
 
     /**
      * @return
-     * @Title: findDBRefFields
-     * @author klw
-     * @Description: 从query排除当前DAO对应的实体中的标注了 @DBRef 的字段
+     * 从query排除当前DAO对应的实体中的标注了 @DBRef 的字段
      */
     private void excludeDBRefFields(Query query, String[] excludeFields) {
         List<Field> fieldList = Arrays.asList(this.entityClazz.getDeclaredFields());
@@ -836,9 +814,7 @@ public class MongoSpringDataBaseDao<T extends MongoBaseEntity> implements IMongo
 
     /**
      * @param list
-     * @Title: processNotPersistence4Save
-     * @author klw
-     * @Description: 新增保存的时候, 发现有 @NotPersistence 注解的字段设置为null
+     * 新增保存的时候, 发现有 @NotPersistence 注解的字段设置为null
      */
     private void processNotPersistence4Save(List<T> list) {
         Assert.notEmpty(list, "要处理的的实体list不能为空!");

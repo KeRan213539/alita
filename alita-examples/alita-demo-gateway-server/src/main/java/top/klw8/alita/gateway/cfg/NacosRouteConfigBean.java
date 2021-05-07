@@ -1,13 +1,26 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.gateway.cfg;
 
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @ClassName: NacosRouteConfigBean
- * @Description: 从nacos中读取路由配制的配制Bean
- * @author klw
- * @date 2018年12月16日 下午9:14:10
+ * 从nacos中读取路由配制的配制Bean
+ * 2018年12月16日 下午9:14:10
  */
 @Getter
 @Setter
@@ -21,20 +34,17 @@ import lombok.Setter;
 public class NacosRouteConfigBean {
 
     /**
-     * @author klw
-     * @Fields nacosServerAddr : nacos 服务器地址
+     * nacosServerAddr : nacos 服务器地址
      */
     private String nacosServerAddr;
     
     /**
-     * @author klw
-     * @Fields group : nacos配制中心的group
+     * group : nacos配制中心的group
      */
     private String group = "DEFAULT_GROUP";
     
     /**
-     * @author klw
-     * @Fields dataid : nacos配制中心的 dataid
+     * dataid : nacos配制中心的 dataid
      */
     private String dataid;
     

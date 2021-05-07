@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.utils.redis;
 
 import java.util.Collection;
@@ -15,18 +30,15 @@ import top.klw8.alita.base.springctx.SpringApplicationContextUtil;
 import top.klw8.alita.utils.SerializableUitl;
 
 /**
- * @author klw
- * @ClassName: RedisUtil
- * @Description: Redis工具类
- * @date 2016年6月6日 下午1:10:55
+ * Redis工具类
+ * 2016年6月6日 下午1:10:55
  */
 public class RedisUtil {
 
     /**
      * @param redisTag
      * @return
-     * @Title: getRedisTemplateSpringByRedisTag
-     * @Description: 根据redis标识获取对应的redis模板的springId
+     * 根据redis标识获取对应的redis模板的springId
      */
     private static <T extends Enum & IRedisTag> String getRedisTemplateSpringByRedisTag(T redisTag) {
         if (redisTag == null) return null;
@@ -47,8 +59,7 @@ public class RedisUtil {
      * @param key     缓存的key
      * @param value   要被缓存的对象
      * @param seconds 缓存时长(秒),传null则永久缓存
-     * @Title: set
-     * @Description: 设置要缓存的数据到redis
+     * 设置要缓存的数据到redis
      */
     public static <T extends Enum & IRedisTag> void set(String key, Object value, Long seconds, T redisTag) {
         String redisTemplateSpringId = getRedisTemplateSpringByRedisTag(redisTag);
@@ -69,9 +80,7 @@ public class RedisUtil {
      * @param seconds  缓存时长(秒),传null则永久缓存
      * @param redisTag redis实例标识
      * @return 如果key不存在才会设置成功并返回true, 如果key存在则设置失败返回false, 异常情况(例如redisTag对应的实例不存在)返回null
-     * @Title: setnx
-     * @author klw
-     * @Description: 设置要缓存的数据到redis, 只在键 key 不存在的情况下， 将键 key 的值设置为 value 。若键 key 已经存在， 则 SETNX 命令不做任何动作。
+     * 设置要缓存的数据到redis, 只在键 key 不存在的情况下， 将键 key 的值设置为 value 。若键 key 已经存在， 则 SETNX 命令不做任何动作。
      */
     public static <T extends Enum & IRedisTag> Boolean setnx(String key, Object value, Long seconds, T redisTag) {
         String redisTemplateSpringId = getRedisTemplateSpringByRedisTag(redisTag);
@@ -96,9 +105,7 @@ public class RedisUtil {
     /**
      * @param pipelineRedisBeanList
      * @param redisTag
-     * @Title: setInPipeline
-     * @author klw
-     * @Description: 利用 reids的pipeline批量插入数据
+     * 利用 reids的pipeline批量插入数据
      */
     public static <T extends Enum & IRedisTag> void setInPipeline(final List<PipelineRedisBean> pipelineRedisBeanList, T redisTag) {
         String redisTemplateSpringId = getRedisTemplateSpringByRedisTag(redisTag);
@@ -127,8 +134,7 @@ public class RedisUtil {
      * @param key      缓存的key的byte[]
      * @param redisTag 此参数指对应的Spring配置的redis缓存库
      * @return
-     * @Title: get
-     * @Description: 根据缓存key获取被缓存的对象
+     * 根据缓存key获取被缓存的对象
      */
     public static <T extends Enum & IRedisTag> Object get(String key, T redisTag) {
         String redisTemplateSpringId = getRedisTemplateSpringByRedisTag(redisTag);
@@ -142,8 +148,7 @@ public class RedisUtil {
     /**
      * @param key
      * @return
-     * @Title: getAndUpdateExpire
-     * @Description: 从redis缓存取出并延迟失效时间
+     * 从redis缓存取出并延迟失效时间
      */
     public static <T extends Enum & IRedisTag> Object getAndUpdateExpire(String key, Long seconds, T redisTag) {
         String redisTemplateSpringId = getRedisTemplateSpringByRedisTag(redisTag);
@@ -159,8 +164,7 @@ public class RedisUtil {
      * @param key
      * @param seconds
      * @param redisTag
-     * @Title: updateExpire
-     * @Description: 延迟失效时间
+     * 延迟失效时间
      */
     public static <T extends Enum & IRedisTag> void updateExpire(String key, Long seconds, T redisTag) {
         String redisTemplateSpringId = getRedisTemplateSpringByRedisTag(redisTag);
@@ -173,8 +177,7 @@ public class RedisUtil {
     /**
      * @param key
      * @return
-     * @Title: containsKey
-     * @Description: 是否包含传入的key
+     * 是否包含传入的key
      */
     public static <T extends Enum & IRedisTag> boolean containsKey(String key, T redisTag) {
         String redisTemplateSpringId = getRedisTemplateSpringByRedisTag(redisTag);
@@ -187,8 +190,7 @@ public class RedisUtil {
     /**
      * @param keyPattern
      * @return
-     * @Title: keys
-     * @Description: 查找key, 如查找以 XXX_开头的key,则传入  XXX_*
+     * 查找key, 如查找以 XXX_开头的key,则传入  XXX_*
      */
     public static <T extends Enum & IRedisTag> Set<String> keys(String keyPattern, T redisTag) {
         String redisTemplateSpringId = getRedisTemplateSpringByRedisTag(redisTag);
@@ -201,9 +203,7 @@ public class RedisUtil {
     /**
      * @param redisTag
      * @return
-     * @Title: del
-     * @author klw
-     * @Description: 根据多个缓存key删除
+     * 根据多个缓存key删除
      */
     public static <T extends Enum & IRedisTag> Long del(T redisTag, Collection<String> keys) {
         String redisTemplateSpringId = getRedisTemplateSpringByRedisTag(redisTag);
@@ -215,8 +215,7 @@ public class RedisUtil {
 
     /**
      * @param key 缓存的key
-     * @Title: del
-     * @Description: 根据缓存key删除被缓存的对象
+     * 根据缓存key删除被缓存的对象
      */
     public static <T extends Enum & IRedisTag> Boolean del(String key, T redisTag) {
         String redisTemplateSpringId = getRedisTemplateSpringByRedisTag(redisTag);
@@ -230,8 +229,7 @@ public class RedisUtil {
      * @param key      队列名 key
      * @param value    要插入的value
      * @param redisTag
-     * @Title: lpush
-     * @Description: 将一个 value 插入到key 对应的队列列表  的表头
+     * 将一个 value 插入到key 对应的队列列表  的表头
      */
     public static <T extends Enum & IRedisTag> void lpush(final String key, final Object value, T redisTag) {
         String redisTemplateSpringId = getRedisTemplateSpringByRedisTag(redisTag);
@@ -253,8 +251,7 @@ public class RedisUtil {
      * @param key
      * @param redisTag
      * @return
-     * @Title: rpop
-     * @Description: 移除并返回key对应的队列列表的尾元素。
+     * 移除并返回key对应的队列列表的尾元素。
      */
     public static <T extends Enum & IRedisTag> Object rpop(final String key, T redisTag) {
         String redisTemplateSpringId = getRedisTemplateSpringByRedisTag(redisTag);

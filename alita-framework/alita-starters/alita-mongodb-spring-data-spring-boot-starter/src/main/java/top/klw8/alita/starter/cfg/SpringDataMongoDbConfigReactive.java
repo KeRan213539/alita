@@ -19,10 +19,9 @@
 //import java.util.List;
 //
 ///**
-// * @author klw
 // * @ClassName: SpringDataMongoDbConfigReactive
-// * @Description: spring-data-mongodb Reactive 的配制
-// * @date 2018-12-21 16:33:12
+// * spring-data-mongodb Reactive 的配制
+// * 2018-12-21 16:33:12
 // */
 //@Configuration
 //@EnableConfigurationProperties(MongoConfigBean.class)

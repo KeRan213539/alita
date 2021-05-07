@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.demo.web.vo;
 
 import io.swagger.annotations.ApiParam;
@@ -6,10 +21,8 @@ import top.klw8.alita.validator.annotations.MobilePhoneNumber;
 import top.klw8.alita.validator.annotations.NotEmpty;
 
 /**
- * @ClassName: SendSMSCodeRequest
- * @Description: 发送短信验证码接口请求类
- * @author klw
- * @date 2018年11月22日 下午4:33:41
+ * 发送短信验证码接口请求类
+ * 2018年11月22日 下午4:33:41
  */
 @Data
 public class SendSMSCodeRequest {
@@ -24,9 +37,8 @@ public class SendSMSCodeRequest {
     private String userName;
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 获取用户标识,优先获取userName,如果userName为空,则获取userMobileNo
-     * @Date 2019/10/21 14:47
+     * 获取用户标识,优先获取userName,如果userName为空,则获取userMobileNo
+     * 2019/10/21 14:47
      * @param:
      * @return java.lang.String
      */

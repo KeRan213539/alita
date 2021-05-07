@@ -1,10 +1,26 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.web.user;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.config.annotation.Reference;
+
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +35,7 @@ import top.klw8.alita.starter.annotations.AuthorityCatlogRegister;
 import top.klw8.alita.starter.annotations.AuthorityRegister;
 import top.klw8.alita.starter.cfg.AuthorityAppInfoInConfigBean;
 import top.klw8.alita.starter.common.UserCacheHelper;
-import top.klw8.alita.starter.datasecured.DataSecured;
+import top.klw8.alita.starter.aures.AuthoritysResource;
 import top.klw8.alita.starter.utils.ResServerTokenUtil;
 import top.klw8.alita.starter.web.base.WebapiBaseController;
 import top.klw8.alita.utils.redis.TokenRedisUtil;
@@ -39,10 +55,8 @@ import static top.klw8.alita.web.common.CatlogsConstant.CATLOG_NAME_USER_ADMIN;
 import static top.klw8.alita.web.common.CatlogsConstant.CATLOG_INDEX_USER_ADMIN;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: SysUserAdminController
- * @Description: 用户管理
- * @date 2019/10/15 14:08
+ * 用户管理
+ * 2019/10/15 14:08
  */
 @Api(tags = {"alita-restful-API--用户管理"})
 @RestController
@@ -51,7 +65,7 @@ import static top.klw8.alita.web.common.CatlogsConstant.CATLOG_INDEX_USER_ADMIN;
 @AuthorityCatlogRegister(name = CATLOG_NAME_USER_ADMIN, showIndex = CATLOG_INDEX_USER_ADMIN)
 public class SysUserAdminController extends WebapiBaseController {
 
-    @Reference(async = true)
+    @DubboReference(async = true)
     private IAlitaUserProvider userProvider;
 
     @Autowired
@@ -77,7 +91,7 @@ public class SysUserAdminController extends WebapiBaseController {
                     dataType = "java.time.LocalDate", example = "2019-10-25"),
             @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
-    @DataSecured(parser = AppTagParser.class)
+    @AuthoritysResource(parser = AppTagParser.class)
     public Mono<JsonResult> userList(String userName, Boolean enabled, @RequestParam(required = false) LocalDate createDateBegin,
                                      @RequestParam(required = false) LocalDate createDateEnd, String appTag, PageRequest page){
         AlitaUserAccount user = new AlitaUserAccount();
@@ -99,7 +113,7 @@ public class SysUserAdminController extends WebapiBaseController {
             @ApiImplicitParam(name = "appTag", value = "应用标识(不传查全部)", paramType = "query"),
     })
     @UseValidator
-    @DataSecured(parser = AppTagParser.class)
+    @AuthoritysResource(parser = AppTagParser.class)
     public Mono<JsonResult> userAllRoles(
             @Required(validatFailMessage = "用户ID不能为空")
             @NotEmpty(validatFailMessage = "用户ID不能为空")
@@ -114,7 +128,7 @@ public class SysUserAdminController extends WebapiBaseController {
     @AuthorityRegister(authorityName = "保存用户拥有的角色(替换原有角色)", authorityType = AuthorityTypeEnum.URL,
             authorityShowIndex = 0)
     @UseValidator
-    @DataSecured(parser = AppTagParser.class)
+    @AuthoritysResource(parser = AppTagParser.class)
     public Mono<JsonResult> saveUserRoles(@RequestBody SaveUserRolesRequest req){
         return Mono.fromFuture(userProvider.saveUserRoles(req.getUserId(), req.getRoleIds(), req.getAppTag()));
     }

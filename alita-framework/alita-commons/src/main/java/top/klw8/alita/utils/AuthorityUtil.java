@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.utils;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -9,23 +24,19 @@ import org.springframework.web.method.HandlerMethod;
 import java.lang.reflect.Method;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: AuthorityUtil
- * @Description: 权限相关工具
- * @date 2020/5/11 14:02
+ * 权限相关工具
+ * 2020/5/11 14:02
  */
 public class AuthorityUtil {
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: httpMethod 和 url 的分隔符
+     * httpMethod 和 url 的分隔符
      */
     private final static String HTTPMETHOD_SEPARATOR_ACTION_URL = "-->";
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 获取完整的url mapping(类配制+方法配制)
-     * @Date 2020/5/11 17:07
+     * 获取完整的url mapping(类配制+方法配制)
+     * 2020/5/11 17:07
      * @param: handlerMethod
      * @return java.lang.String
      */
@@ -83,9 +94,8 @@ public class AuthorityUtil {
     }
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 去除 完整的url mapping(类配制+方法配制) 中的分隔符
-     * @Date 2020/5/12 16:17
+     * 去除 完整的url mapping(类配制+方法配制) 中的分隔符
+     * 2020/5/12 16:17
      * @param: str
      * @return java.lang.String
      */
@@ -97,8 +107,7 @@ public class AuthorityUtil {
     }
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: 字符串的httpMethod 和 url 加分隔符组合
+     * 字符串的httpMethod 和 url 加分隔符组合
      */
     public static String composeWithSeparator2(String strHttpMethod, String url){
         if(url.indexOf(HTTPMETHOD_SEPARATOR_ACTION_URL) != -1){
@@ -108,8 +117,7 @@ public class AuthorityUtil {
     }
 
     /**
-     * @author klw(213539@qq.com)
-     * @Description: httpMethod 和 url 加分隔符组合
+     * httpMethod 和 url 加分隔符组合
      */
     public static String composeWithSeparator(HttpMethod httpMethod, String url){
         if(url.indexOf(HTTPMETHOD_SEPARATOR_ACTION_URL) != -1){

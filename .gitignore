@@ -2,6 +2,7 @@
 
 # .gitignore for maven 
 target/
+${project.build.directory}/
 *.releaseBackup
 
 # web application files

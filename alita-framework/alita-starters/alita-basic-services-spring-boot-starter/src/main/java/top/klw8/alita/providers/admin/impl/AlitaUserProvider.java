@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.providers.admin.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -6,14 +21,15 @@ import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.config.annotation.Service;
+
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.Assert;
-import top.klw8.alita.entitys.authority.SystemAuthoritys;
-import top.klw8.alita.entitys.authority.SystemAuthoritysCatlog;
-import top.klw8.alita.entitys.authority.SystemDataSecured;
-import top.klw8.alita.entitys.authority.SystemRole;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysMenu;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysCatlog;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysResource;
+import top.klw8.alita.entitys.authority.AlitaRole;
 import top.klw8.alita.entitys.authority.enums.AuthorityTypeEnum;
 import top.klw8.alita.entitys.user.AlitaUserAccount;
 import top.klw8.alita.service.api.authority.IAlitaUserProvider;
@@ -35,13 +51,11 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: AlitaUserProvider
- * @Description: 用户相关dubbo提供者
- * @date 2019/8/14 14:16
+ * 用户相关dubbo提供者
+ * 2019/8/14 14:16
  */
 @Slf4j
-@Service(async = true)
+@DubboService(async = true)
 public class AlitaUserProvider implements IAlitaUserProvider {
 
     @Autowired
@@ -79,15 +93,15 @@ public class AlitaUserProvider implements IAlitaUserProvider {
     public CompletableFuture<JsonResult> findUserAuthorityMenus(String userId, String appTag) {
         Map<String, UserMenu> menuMap = new HashMap<>(16);
         // 根据用户ID查询用户角色
-        List<SystemRole> userRoles = userService.getUserAllRoles(userId, appTag);
+        List<AlitaRole> userRoles = userService.getUserAllRoles(userId, appTag);
         // 根据用户角色查询角色对应的权限并更新到SystemRole实体中
-        for (SystemRole role : userRoles) {
-            List<SystemAuthoritys> authoritys = roleService.getRoleAllAuthoritys(role.getId());
-            for(SystemAuthoritys au : authoritys){
+        for (AlitaRole role : userRoles) {
+            List<AlitaAuthoritysMenu> authoritys = roleService.getRoleAllAuthoritys(role.getId());
+            for(AlitaAuthoritysMenu au : authoritys){
                 if(AuthorityTypeEnum.MENU.equals(au.getAuthorityType())) {
                     UserMenu menu = menuMap.get(au.getCatlogId());
                     if (menu == null) {
-                        SystemAuthoritysCatlog catlog = catlogService.getById(au.getCatlogId());
+                        AlitaAuthoritysCatlog catlog = catlogService.getById(au.getCatlogId());
                         menu = new UserMenu(catlog.getCatlogName(), catlog.getShowIndex());
                         menuMap.put(catlog.getId(), menu);
                     }
@@ -164,9 +178,9 @@ public class AlitaUserProvider implements IAlitaUserProvider {
             return CompletableFuture.supplyAsync(() -> JsonResult.badParameter("用户不存在")
             , ServiceContext.executor);
         }
-        List<SystemRole> roleList = new ArrayList<>(roleIds.size());
+        List<AlitaRole> roleList = new ArrayList<>(roleIds.size());
         for(String roleId : roleIds){
-            SystemRole role = roleService.getById(roleId);
+            AlitaRole role = roleService.getById(roleId);
             if(null == role){
                 return CompletableFuture.supplyAsync(() -> JsonResult.badParameter("角色不存在")
                         , ServiceContext.executor);
@@ -215,13 +229,13 @@ public class AlitaUserProvider implements IAlitaUserProvider {
     @Override
     public CompletableFuture<JsonResult> getUserAllRoles(String userId, String appTag) {
         Assert.hasText(userId, "用户ID不能为空!");
-        List<SystemRole> userRoles = userService.getUserAllRoles(userId, appTag);
+        List<AlitaRole> userRoles = userService.getUserAllRoles(userId, appTag);
         // 根据用户角色查询角色对应的权限并更新到SystemRole实体中
-        for (SystemRole role : userRoles) {
-            List<SystemAuthoritys> authoritys = roleService.getRoleAllAuthoritys(role.getId());
-            List<SystemDataSecured> dsList = roleService.getRoleAllDataSecureds(role.getId());
+        for (AlitaRole role : userRoles) {
+            List<AlitaAuthoritysMenu> authoritys = roleService.getRoleAllAuthoritys(role.getId());
+            List<AlitaAuthoritysResource> dsList = roleService.getRoleAllAuthoritysResource(role.getId());
             role.setAuthorityList(authoritys);
-            role.setDataSecuredList(dsList);
+            role.setAuthoritysResourceList(dsList);
         }
         return ServiceUtil.buildFuture(JsonResult.successfu(userRoles));
     }

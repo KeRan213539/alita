@@ -10,9 +10,8 @@ package top.klw8.alita.starter.mongodb.base;
 //
 ///**
 // * @ClassName: LookupPipelineOperation
-// * @Description: Lookup的Pipeline方式集合操作
-// * @author klw
-// * @date 2018年10月19日 下午3:39:22
+// * Lookup的Pipeline方式集合操作
+// * 2018年10月19日 下午3:39:22
 // */
 //public class LookupPipelineOperation implements AggregationOperation {
 //    
@@ -36,8 +35,7 @@ package top.klw8.alita.starter.mongodb.base;
 //
 //	/**
 //	 * @Title: from
-//	 * @author klw
-//	 * @Description: 要关联查询的集合(表)名称,必须与主集合(表)在同一个数据库,不能为空
+//	 * 要关联查询的集合(表)名称,必须与主集合(表)在同一个数据库,不能为空
 //	 * @param name
 //	 * @return
 //	 */
@@ -48,8 +46,7 @@ package top.klw8.alita.starter.mongodb.base;
 //	
 //	/**
 //	 * @Title: addLet
-//	 * @author klw
-//	 * @Description: 设置主表字段为变量(pipeline中不能访问主表字段,只能访问这里定义的变量)
+//	 * 设置主表字段为变量(pipeline中不能访问主表字段,只能访问这里定义的变量)
 //	 * @param letName  变量名
 //	 * @param sourceField  主表字段名(不需要加 $ 符号)
 //	 * @return
@@ -58,8 +55,7 @@ package top.klw8.alita.starter.mongodb.base;
 //	
 //	/**
 //	 * @Title: endLet
-//	 * @author klw
-//	 * @Description: 结束let的设置,开始设置 pipeline
+//	 * 结束let的设置,开始设置 pipeline
 //	 * @return
 //	 */
 //	PipelineMatchBuilder endLet();
@@ -73,8 +69,7 @@ package top.klw8.alita.starter.mongodb.base;
 //	
 //	/**
 //	 * @Title: eq
-//	 * @author klw
-//	 * @Description: 等于
+//	 * 等于
 //	 * @param fieldName  字段名
 //	 * @param value  对比的值,如果是引用let中定义的变量,则传入 "$$变量名"
 //	 * @return
@@ -83,8 +78,7 @@ package top.klw8.alita.starter.mongodb.base;
 //	
 //	/**
 //	 * @Title: nq
-//	 * @author klw
-//	 * @Description: 不等于
+//	 * 不等于
 //	 * @param fieldName
 //	 * @param value 对比的值,如果是引用let中定义的变量,则传入 "$$变量名"
 //	 * @return
@@ -93,8 +87,7 @@ package top.klw8.alita.starter.mongodb.base;
 //	
 //	/**
 //	 * @Title: gt
-//	 * @author klw
-//	 * @Description: 大于
+//	 * 大于
 //	 * @param fieldName
 //	 * @param value 对比的值,如果是引用let中定义的变量,则传入 "$$变量名"
 //	 * @return
@@ -103,8 +96,7 @@ package top.klw8.alita.starter.mongodb.base;
 //	
 //	/**
 //	 * @Title: gte
-//	 * @author klw
-//	 * @Description: 大于等于
+//	 * 大于等于
 //	 * @param fieldName
 //	 * @param value 对比的值,如果是引用let中定义的变量,则传入 "$$变量名"
 //	 * @return
@@ -113,8 +105,7 @@ package top.klw8.alita.starter.mongodb.base;
 //	
 //	/**
 //	 * @Title: lt
-//	 * @author klw
-//	 * @Description: 小于
+//	 * 小于
 //	 * @param fieldName
 //	 * @param value 对比的值,如果是引用let中定义的变量,则传入 "$$变量名"
 //	 * @return
@@ -123,8 +114,7 @@ package top.klw8.alita.starter.mongodb.base;
 //	
 //	/**
 //	 * @Title: lte
-//	 * @author klw
-//	 * @Description: 小于等于
+//	 * 小于等于
 //	 * @param fieldName
 //	 * @param value 对比的值,如果是引用let中定义的变量,则传入 "$$变量名"
 //	 * @return
@@ -133,23 +123,20 @@ package top.klw8.alita.starter.mongodb.base;
 //	
 //	
 //	/**
-//	 * @author klw
-//	 * @Fields endCurrentCondition : 结束当前的 AND或者OR,退到上一层
+//	 * endCurrentCondition : 结束当前的 AND或者OR,退到上一层
 //	 */
 //	PipelineMatchBuilder endCurrentCondition();
 //	
 //	/**
 //	 * @Title: endCondition2Top
-//	 * @author klw
-//	 * @Description: 结束当前的 AND或者OR,退到顶层
+//	 * 结束当前的 AND或者OR,退到顶层
 //	 * @return
 //	 */
 //	PipelineMatchBuilder endCondition2Top();
 //	
 //	/**
 //	 * @Title: end
-//	 * @author klw
-//	 * @Description: 结束AND,进入project
+//	 * 结束AND,进入project
 //	 * @return
 //	 */
 //	PipelineProjectBuilder endMatch();
@@ -157,17 +144,15 @@ package top.klw8.alita.starter.mongodb.base;
 //    
 //    /**
 //     * @ClassName: PipelineProjectBuilder
-//     * @Description: 用于过滤子查询中的返回结果中的字段, 不配制则默认全部返回
+//     * 用于过滤子查询中的返回结果中的字段, 不配制则默认全部返回
 //     * 配制了的话_id也默认会返回,不需要_id需要对ID单独设置不返回,除了ID其他都默认不返回
-//     * @author klw
-//     * @date 2018年10月22日 上午10:05:48
+//     * 2018年10月22日 上午10:05:48
 //     */
 //    public static interface PipelineProjectBuilder{
 //	
 //	/**
 //	 * @Title: inResult
-//	 * @author klw
-//	 * @Description: 将指定字段设置为返回
+//	 * 将指定字段设置为返回
 //	 * @param fieldName
 //	 * @return
 //	 */
@@ -175,8 +160,7 @@ package top.klw8.alita.starter.mongodb.base;
 //	
 //	/**
 //	 * @Title: notInResult
-//	 * @author klw
-//	 * @Description: 将指定字段设置为不返回
+//	 * 将指定字段设置为不返回
 //	 * @param fieldName
 //	 * @return
 //	 */
@@ -184,8 +168,7 @@ package top.klw8.alita.starter.mongodb.base;
 //	
 //	/**
 //	 * @Title: renameInResult
-//	 * @author klw
-//	 * @Description: 将指定字段在结果中重命名-该方法需要在装查询结果bean中(例如实体)需要有重命名后的属性
+//	 * 将指定字段在结果中重命名-该方法需要在装查询结果bean中(例如实体)需要有重命名后的属性
 //	 * @param sourceFieldName  原字段名
 //	 * @param renameTo  重命名后
 //	 * @return
@@ -194,8 +177,7 @@ package top.klw8.alita.starter.mongodb.base;
 //	
 //	/**
 //	 * @Title: end
-//	 * @author klw
-//	 * @Description: 结束 project, 进入 AS
+//	 * 结束 project, 进入 AS
 //	 * @return
 //	 */
 //	AsBuilder endProject();
@@ -204,8 +186,7 @@ package top.klw8.alita.starter.mongodb.base;
 //    public static interface AsBuilder {
 //	/**
 //	 * @Title: as
-//	 * @author klw
-//	 * @Description: 将lookup的结果放到主表实体中的那个属性中
+//	 * 将lookup的结果放到主表实体中的那个属性中
 //	 * @param name 属性名称
 //	 * @return
 //	 */

@@ -7,9 +7,8 @@ package top.klw8.alita.starter.mongodb.base;
 //
 ///**
 // * @ClassName: CustomAggregationOperation
-// * @Description: 自定义集合操作
-// * @author klw
-// * @date 2018年10月18日 下午4:27:28
+// * 自定义集合操作
+// * 2018年10月18日 下午4:27:28
 // */
 //public class CustomAggregationOperation implements AggregationOperation {
 //    private Document document;
