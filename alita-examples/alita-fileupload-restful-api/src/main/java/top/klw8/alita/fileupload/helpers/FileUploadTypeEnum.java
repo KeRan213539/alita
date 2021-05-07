@@ -1,16 +1,28 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.fileupload.helpers;
 
 /**
- * @ClassName: FileUploadTypeEnum
- * @Description: 上传的文件类型和对应文件夹
- * @author klw
- * @date 2018年11月19日 下午3:14:50
+ * 上传的文件类型和对应文件夹
+ * 2018年11月19日 下午3:14:50
  */
 public enum FileUploadTypeEnum {
     
     /**
-     * @author klw
-     * @Fields OSS_BUCKET_NAME : OSS BUCKET 的名称
+     * OSS_BUCKET_NAME : OSS BUCKET 的名称
      */
     OSS_BUCKET_NAME("alita-test"),
 

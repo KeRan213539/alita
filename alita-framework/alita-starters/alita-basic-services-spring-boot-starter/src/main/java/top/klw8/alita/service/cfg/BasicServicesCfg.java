@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.service.cfg;
 
 import org.apache.dubbo.config.ApplicationConfig;
@@ -20,10 +35,8 @@ import top.klw8.alita.service.authority.service.impl.SystemAuthoritysServiceImpl
 import top.klw8.alita.service.authority.service.impl.SystemRoleServiceImpl;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: BasicServicesCfg
- * @Description: basic-services配制
- * @date 2019/9/17 14:08
+ * basic-services配制
+ * 2019/9/17 14:08
  */
 @Configuration
 @MapperScan("top.klw8.alita.service.authority.mapper")
@@ -33,7 +46,7 @@ import top.klw8.alita.service.authority.service.impl.SystemRoleServiceImpl;
         , DevHelperProviderImpl.class, AuthorityAdminProviderImpl.class,
         AuthorityAppChannelServiceImpl.class,
         AlitaUserProvider.class, AuthorityAppProviderImpl.class,
-        AuthorityAdminDataSecuredProviderImpl.class, AuthorityAppChannelProviderImpl.class})
+        AuthorityAdminAuthoritysResourceProviderImpl.class, AuthorityAppChannelProviderImpl.class})
 public class BasicServicesCfg {
 
     @Autowired
@@ -53,7 +66,7 @@ public class BasicServicesCfg {
                                     @Autowired IAuthorityAdminProvider authorityAdminProvider,
                                     @Autowired IAlitaUserProvider alitaUserProvider,
                                     @Autowired IAuthorityAppProvider authorityAppProvider,
-                                    @Autowired IAuthorityAdminDataSecuredProvider authorityAdminDataSecuredProvider,
+                                    @Autowired IAuthorityAdminAuthoritysResourceProvider authorityAdminAuthoritysResourceProvider,
                                     @Autowired IAuthorityAppChannelProvider appChannelProvider) {
         String[] activeprofiles = env.getActiveProfiles();
         for (String activeprofile : activeprofiles) {
@@ -64,7 +77,7 @@ public class BasicServicesCfg {
         exportDubboService(IAlitaUserProvider.class, alitaUserProvider, true);
         exportDubboService(IAuthorityAdminProvider.class, authorityAdminProvider, true);
         exportDubboService(IAuthorityAppProvider.class, authorityAppProvider, true);
-        exportDubboService(IAuthorityAdminDataSecuredProvider.class, authorityAdminDataSecuredProvider, false);
+        exportDubboService(IAuthorityAdminAuthoritysResourceProvider.class, authorityAdminAuthoritysResourceProvider, false);
         exportDubboService(IAuthorityAppChannelProvider.class, appChannelProvider, false);
 
 

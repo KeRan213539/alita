@@ -1,13 +1,26 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.service.result.code;
 
 import top.klw8.alita.service.result.IResultCode;
 import top.klw8.alita.service.result.ISubResultCode;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: AuthorityResultCodeEnum
- * @Description: 权限相关
- * @date 2019/8/15 16:52
+ * 权限相关
+ * 2019/8/15 16:52
  */
 public enum AuthorityResultCodeEnum implements ISubResultCode {
 
@@ -19,28 +32,25 @@ public enum AuthorityResultCodeEnum implements ISubResultCode {
 
     USER_NOT_EXIST("004", "用户不存在"),
 
-    SYSTEM_DATA_SECURED_HAS_EXIST("005", "该资数据权限已存在(全局或者同权限中,数据权限资源标识不能相同)"),
+    SYSTEM_AUTHORITYS_RESOURCE_HAS_EXIST("005", "该资资源权限已存在(全局或者同权限中,资源权限资源标识不能相同)"),
 
     ;
     /**
-     * @author klw
-     * @Description: 所属分类, 写死
-     * @Date 2019/6/6 17:41
+     * 所属分类, 写死
+     * 2019/6/6 17:41
      * @Param
      * @return
      */
     private IResultCode classify = ResultCodeEnum.AUTHORITY;
 
     /**
-     * @author klw
-     * @Description: 业务code(3位)
+     * 业务code(3位)
      */
     private String subCode;
 
 
     /**
-     * @author klw
-     * @Description: code 对应的消息
+     * code 对应的消息
      */
     private String codeMsg;
 

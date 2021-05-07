@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.utils;
 
 import java.text.DateFormat;
@@ -13,10 +28,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 /**
- * @ClassName: DateTimeUtil
- * @Description: 日期时间工具类
- * @author klw
- * @date 2016年6月14日, PM 04:24:25
+ * 日期时间工具类
+ * 2016年6月14日, PM 04:24:25
  */
 public class DateTimeUtil {
 
@@ -34,9 +47,8 @@ public class DateTimeUtil {
 	private static SimpleDateFormat dateFormat_7 = new SimpleDateFormat("yyyyMMddHHmmss");
 
 	/**
-	 * @author xp
-	 * @Description: 判断日期是否在指定日期范围之内
-	 * @Date 2019/11/19 10:21
+	 * 判断日期是否在指定日期范围之内
+	 * 2019/11/19 10:21
 	 * @param: formatStr
 	 * @param: dateStr
 	 * @param: beginDateStr
@@ -53,9 +65,8 @@ public class DateTimeUtil {
 	}
 	
 	/**
-	 * @author xp
-	 * @Description: 判断日期是否在指定日期范围之内
-	 * @Date 2019/11/19 10:12
+	 * 判断日期是否在指定日期范围之内
+	 * 2019/11/19 10:12
 	 * @param: date
 	 * @param: beginDate
 	 * @param: endDate
@@ -74,13 +85,11 @@ public class DateTimeUtil {
     /**
      * 获取上月信息
      * 
-     * @Title: getLastMonth
-     * @Description:
+     * 
      * @Param: @param formart 给定转换格式
      * @Param: @return
      * @Return: String
      * @Comment:
-     * @Author: Administrator
      * @CreateDate: Mar 29, 2012 8:54:59 PM
      */
     public static String getLastMonth(String strFormart) {
@@ -121,12 +130,10 @@ public class DateTimeUtil {
     /**
      * 获取上月信息 以yyyymm格式返回
      * 
-     * @Title: getLastMonthChar6
-     * @Description:
+     * 
      * @Param: @return
      * @Return: String
      * @Comment:
-     * @Author: Administrator
      * @CreateDate: 2012-6-9 下午03:37:12
      */
     public static String getLastMonthChar6() {
@@ -139,7 +146,6 @@ public class DateTimeUtil {
 
     /**
      * 
-     * @Title: getLastMonthChar6ByMonth @Description: 根据穿入的月份获取相应的加减月份 @return @return String 返回类型 @throws
      */
     public static String getLastMonthChar6ByMonth(int month) {
 	GregorianCalendar gerCal = new GregorianCalendar();
@@ -151,7 +157,6 @@ public class DateTimeUtil {
 
     /**
      * 
-     * @Title: getDateChar8 @Description: 根据穿入的年月日获取日期 @param year @param month @param day @return @return String 返回类型 @throws
      */
     public static String getDateChar8(int year, int month, int day) {
 	GregorianCalendar gerCal = new GregorianCalendar();
@@ -229,12 +234,10 @@ public class DateTimeUtil {
     /**
      * 获取昨天日期 格式 yyyy-MM-dd
      * 
-     * @Title: getLastDayChar8En
-     * @Description:
+     * 
      * @Param: @return
      * @Return: String
      * @Comment:
-     * @Author: Administrator
      * @CreateDate: 2012-5-29 上午11:20:37
      */
     public static String getLastDayChar8En() {
@@ -274,7 +277,6 @@ public class DateTimeUtil {
 
     /**
      * 
-     * @Title: getDayChar14ByDays @Description: 根据天数加减当前日期 @param days @return @return String 返回类型 @throws
      */
     public static String getDayChar14ByDays(int days) {
 	GregorianCalendar gerCal = new GregorianCalendar();
@@ -419,14 +421,12 @@ public class DateTimeUtil {
     /**
      * 对日期进行转换
      * 
-     * @Title: getFormatDateTime
-     * @Description:
+     * 
      * @Param: @param charDateTime
      * @Param: @param formatType FORMAT_CHINA 中文 FORMAT_NORMAL以‘-’先分隔 FORMAT_DATATIME 以‘/’分隔
      * @Param: @return
      * @Return: String
      * @Comment:
-     * @Author: Administrator
      * @CreateDate: Mar 29, 2012 8:35:29 PM
      */
     private static String getFormatDateTime(String charDateTime, String formatType) {
@@ -671,8 +671,7 @@ public class DateTimeUtil {
     }
 
     /**
-     * @Title: formatDateStrToOtherStr
-     * @Description: yyyyMMddHHmmss TO yyyy-MM-dd HH:mm:ss
+     * yyyyMMddHHmmss TO yyyy-MM-dd HH:mm:ss
      * @param time
      * @return
      */
@@ -686,8 +685,7 @@ public class DateTimeUtil {
     }
 
     /**
-     * @Title: formatDateStrToOtherStr3
-     * @Description: yyyyMMddHHmmss TO yyyy-MM-dd
+     * yyyyMMddHHmmss TO yyyy-MM-dd
      * @param time
      * @return
      */
@@ -701,8 +699,7 @@ public class DateTimeUtil {
     }
 
     /**
-     * @Title: formatDateStr2ToOtherStr
-     * @Description: yyyy-MM-dd HH:mm:ss TO yyyyMMddHHmmss
+     * yyyy-MM-dd HH:mm:ss TO yyyyMMddHHmmss
      * @param time
      * @return
      */
@@ -716,8 +713,7 @@ public class DateTimeUtil {
     }
 
     /**
-     * @Title: formatDateStrToOtherStr4
-     * @Description: yyyyMM TO yyyy年MM月
+     * yyyyMM TO yyyy年MM月
      * @param time
      * @return
      */
@@ -731,8 +727,7 @@ public class DateTimeUtil {
     }
 
     /**
-     * @Title: formatDateStrToOtherStr5
-     * @Description: yyyyMMdd TO yyyy年MM月dd日
+     * yyyyMMdd TO yyyy年MM月dd日
      * @param time
      * @return
      */
@@ -766,13 +761,11 @@ public class DateTimeUtil {
     /**
      * 将 "2012-5-1" 转换成 "20120501"
      * 
-     * @Title: formatDateStrToOtherStr9
-     * @Description:
+     * 
      * @Param: @param time
      * @Param: @return
      * @Return: String
      * @Comment:
-     * @Author: Administrator
      * @CreateDate: Apr 24, 2012 10:09:38 AM
      */
     public static String formatDateStrToOtherStr9(String time) {
@@ -787,13 +780,11 @@ public class DateTimeUtil {
     /**
      * 将 "20120501" 转换成 "2012-5-1"
      * 
-     * @Title: formatDateStrToOtherStr10
-     * @Description:
+     * 
      * @Param: @param time
      * @Param: @return
      * @Return: String
      * @Comment:
-     * @Author: Administrator
      * @CreateDate: Apr 29, 2012 3:45:54 PM
      */
     public static String formatDateStrToOtherStr10(String time) {
@@ -808,13 +799,11 @@ public class DateTimeUtil {
     /**
      * 将 yyyy-MM-dd HH:mm:ss 转换成 yyyy-MM-dd
      * 
-     * @Title: formatDateStrToOtherStr11
-     * @Description:
+     * 
      * @Param: @param time
      * @Param: @return
      * @Return: String
      * @Comment:
-     * @Author: Administrator
      * @CreateDate: May 4, 2012 10:52:59 AM
      */
     public static String formatDateStrToOtherStr11(String time) {
@@ -828,7 +817,6 @@ public class DateTimeUtil {
 
     /**
      * 
-     * @Title: getDayChar8EnByDays @Description: 根据传入的天数获取日期 @param days @return @return String 返回类型 @throws
      */
     public static String getDayChar8EnByDays(int days) {
 	GregorianCalendar gerCal = new GregorianCalendar();
@@ -841,13 +829,11 @@ public class DateTimeUtil {
     /**
      * 比较时间与当前时间先后
      * 
-     * @Title: compareTime
-     * @Description:
+     * 
      * @Param: @param startTime
      * @Param: @return
      * @Return: 1 晚于当前时间 2 与当前时间相等 3 早于当前时间
      * @Comment:
-     * @Author: Administrator
      * @CreateDate: Mar 29, 2012 8:34:11 PM
      */
     public static String compareTime(String startTime) {
@@ -910,7 +896,6 @@ public class DateTimeUtil {
     }
 
     /**
-     * @Title: getEndTime @Description: 根据传入单位和数量，确定时间 @return @return String 返回类型 @throws
      */
     public static String getEndTime(String unit, int scope, String beginTime) {
 	String endTime = "";
@@ -954,7 +939,6 @@ public class DateTimeUtil {
 
     /**
      * 
-     * @Title: getWeekNumber @Description:获取今天是本周的第几天（数字） @return @return int 返回类型 @throws
      */
     public static int getWeekNumber() {
 	int strResult = 0;
@@ -974,7 +958,6 @@ public class DateTimeUtil {
 
     /**
      * 
-     * @Title: getTodayHours @Description:获取当前小时（0~23） @return @return int 返回类型 @throws
      */
     public static int getTodayHours() {
 	int result = 0;
@@ -984,8 +967,7 @@ public class DateTimeUtil {
     }
 
     /**
-     * @Title: getTodayMinute
-     * @Description: 获取当前分钟
+     * 获取当前分钟
      * @return
      */
     public static int getTodayMinute() {
@@ -997,7 +979,6 @@ public class DateTimeUtil {
 
     /**
      * 
-     * @Title: getStartTimeAndEndTimeBetweenTime @Description: 获取两个日期之间的所有日期 @param startTime @param endTime @return @return List<String> 返回类型 @throws
      */
     public static List<String> getStartTimeAndEndTimeBetweenDays(String startTime, String endTime, String format) {
 	SimpleDateFormat formatTime = new SimpleDateFormat(format);
@@ -1022,7 +1003,6 @@ public class DateTimeUtil {
 
     /**
      * 
-     * @Title: getStartTimeAndEndTimeBetweenMonths @Description: 获取俩个时间之间所有的月份 @param startTime @param endTime @param format @return @return List<String> 返回类型 @throws
      */
     public static List<String> getStartTimeAndEndTimeBetweenMonths(String startTime, String endTime, String format) {
 	SimpleDateFormat formatTime = new SimpleDateFormat(format);
@@ -1053,7 +1033,6 @@ public class DateTimeUtil {
 
     /**
      * 
-     * @Title: getStartTimeAndEndTimeNumbers @Description: 获取两个时间段内月份只差 @return @return int 返回类型 @throws
      */
     public static int getStartTimeAndEndTimeNumbers(String startTime, String endTime, String format) {
 	SimpleDateFormat formatTime = new SimpleDateFormat(format);

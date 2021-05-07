@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.starter.authorization.cfg;
 
 import java.io.IOException;
@@ -10,7 +25,8 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
-import org.apache.dubbo.config.annotation.Reference;
+
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
@@ -46,7 +62,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import lombok.extern.slf4j.Slf4j;
-import top.klw8.alita.entitys.authority.SystemAuthoritysAppChannel;
+import top.klw8.alita.entitys.authority.AlitaAuthoritysAppChannel;
 import top.klw8.alita.service.api.authority.IAlitaUserProvider;
 import top.klw8.alita.service.api.authority.IAuthorityAdminProvider;
 import top.klw8.alita.service.api.authority.IAuthorityAppChannelProvider;
@@ -56,6 +72,7 @@ import top.klw8.alita.starter.authorization.endpoints.LogoutEndpoint;
 import top.klw8.alita.utils.TokenUtil;
 import top.klw8.alita.utils.redis.TokenRedisUtil;
 
+import javax.annotation.Resource;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -64,10 +81,8 @@ import javax.servlet.ServletResponse;
 
 
 /**
- * @ClassName: OAuth2AuthorizationServerConfig
- * @Description: spring-security OAuth2 配制,使用 jwt
- * @author klw
- * @date 2018年11月1日 下午3:52:48
+ * spring-security OAuth2 配制,使用 jwt
+ * 2018年11月1日 下午3:52:48
  */
 @Configuration
 @EnableAuthorizationServer
@@ -94,16 +109,16 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     @Autowired
     private ApplicationContext context;
 
-    @Reference(async=true)
+    @DubboReference(async=true)
     private IAuthorityAdminProvider authorityAdminProvider;
 
-    @Reference(async=true)
+    @DubboReference(async=true)
     private IAlitaUserProvider userProvider;
     
-    @Reference
+    @DubboReference
     private IAuthorityAppChannelProvider channelProvider;
 
-    @javax.annotation.Resource
+    @Resource
     private TokenConfigBean tokenCfg;
 
     private ClientDetailsService clientDetailsService = null;
@@ -118,10 +133,10 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
     private void buildClientDetailsService() {
         Map<String, ClientDetails> clientDetails = new HashMap<>();
-        List<SystemAuthoritysAppChannel> allChannel = channelProvider.allChannel();
+        List<AlitaAuthoritysAppChannel> allChannel = channelProvider.allChannel();
         if(CollectionUtils.isNotEmpty(allChannel)){
             BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
-            for(SystemAuthoritysAppChannel channel : allChannel) {
+            for(AlitaAuthoritysAppChannel channel : allChannel) {
                 BaseClientDetails client = new BaseClientDetails();
                 client.setClientId(channel.getAppTag() + TokenUtil.APP_CHANNEL_COMBINED_CLIENT_SPLIT + channel.getChannelTag());
                 client.setClientSecret(pwdEncoder.encode(channel.getChannelPwd()));

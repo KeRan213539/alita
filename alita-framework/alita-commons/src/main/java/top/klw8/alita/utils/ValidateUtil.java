@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.utils;
 
 import java.text.DateFormat;
@@ -6,16 +21,13 @@ import java.text.SimpleDateFormat;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * @ClassName: ValidateUtil
- * @Description: 一些常用效验
- * @author klw
- * @date 2018-11-22 09:48:57
+ * 一些常用效验
+ * 2018-11-22 09:48:57
  */
 public class ValidateUtil {
 
     /**
-     * @Title: checkStrByRegex
-     * @Description: 根据正则表达式效验字符串
+     * 根据正则表达式效验字符串
      * @param str
      * @param regex
      * @return
@@ -25,8 +37,7 @@ public class ValidateUtil {
     }
     
     /**
-     * @Title: checkIpFormatting
-     * @Description: 检查IP格式是否正确
+     * 检查IP格式是否正确
      * @param ip
      * @return
      */
@@ -36,8 +47,7 @@ public class ValidateUtil {
     }
     
     /**
-     * @Title: checkDateFormatting
-     * @Description: 检查传入的字符串是否是指定的日期格式
+     * 检查传入的字符串是否是指定的日期格式
      * @param dateStr
      * @param formatStr
      * @return
@@ -53,8 +63,7 @@ public class ValidateUtil {
     }
     
     /**
-     * @Title: checkLngLatRange
-     * @Description: 检查经纬度值是否在经纬度范围内(经度: -90~90, 纬度: -180~180)
+     * 检查经纬度值是否在经纬度范围内(经度: -90~90, 纬度: -180~180)
      * @param statusCode
      * @param message
      * @param lng
@@ -71,9 +80,7 @@ public class ValidateUtil {
     }
     
     /**
-     * @Title: checkLongitudeRange
-     * @author klw
-     * @Description: 检查经度范围
+     * 检查经度范围
      * @param lng
      * @return
      */
@@ -88,9 +95,7 @@ public class ValidateUtil {
     }
     
     /**
-     * @Title: checkLatitudeRange
-     * @author klw
-     * @Description: 检查纬度范围
+     * 检查纬度范围
      * @param lat
      * @return
      */
@@ -106,8 +111,7 @@ public class ValidateUtil {
     
     
     /**
-     * @Title: isMobileNO
-     * @Description: 验证手机号格式是否正确
+     * 验证手机号格式是否正确
      * @param mobileNo
      * @return
      */
@@ -117,8 +121,7 @@ public class ValidateUtil {
     }
 
     /**
-     * @Title: isChinaIdCardNo
-     * @Description: 检查是否是身份证号
+     * 检查是否是身份证号
      * @param idCardNo
      * @return
      */
@@ -128,8 +131,7 @@ public class ValidateUtil {
     }
 
     /**
-     * @Title: checkStringByRegx
-     * @Description: 根据正则表达式验证字符串
+     * 根据正则表达式验证字符串
      * @param str
      * @param regx
      * @return
@@ -142,8 +144,7 @@ public class ValidateUtil {
     }
     
     /**
-     * @Title: checkDateFormatting
-     * @Description: 检查日期格式是否是 yyyyMMddHHmmss
+     * 检查日期格式是否是 yyyyMMddHHmmss
      * @param dateStr
      * @return
      */

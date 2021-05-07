@@ -1,9 +1,25 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.providers.admin.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.config.annotation.Service;
+
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,19 +39,19 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: DevHelperProviderImpl
- * @Description: 开发辅助工具
- * @date 2019/8/15 8:44
+ * 开发辅助工具
+ * 2019/8/15 8:44
  */
 @Slf4j
 @Profile("dev")
-@Service(async = true, timeout=10000)
+@DubboService(async = true, timeout=10000)
 public class DevHelperProviderImpl implements IDevHelperProvider {
 
     private static final String ADMIN_USER_ID = "d84c6b4ed9134d468e5a43d467036c46";
 
     private static final String ADMIN_ROLE_ID = "d84c6b4ed9134d468e5a43d467036c47";
+
+    private static final String APP_CHANNEL_TAG = "alita-test";
 
 
     @Autowired
@@ -51,43 +67,52 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
     private IAlitaUserService userService;
 
     @Autowired
-    private ISystemDataSecuredService dsService;
+    private ISystemAuthoritysResourceService dsService;
 
     @Autowired
     private IAuthorityAppService appService;
 
+    @Autowired
+    private IAuthorityAppChannelService channelService;
+
     @Override
-    public CompletableFuture<JsonResult> batchAddAuthoritysAndCatlogs(List<SystemAuthoritysCatlog> catlogList,
-                                                                      List<SystemDataSecured> publicDataSecuredList,
-                                                                      boolean isAdd2SuperAdmin, SystemAuthoritysApp app) {
+    public CompletableFuture<JsonResult> batchAddAuthoritysAndCatlogs(List<AlitaAuthoritysCatlog> catlogList,
+                                                                      List<AlitaAuthoritysResource> publicAuthoritysResourceList,
+                                                                      boolean isAdd2SuperAdmin, AlitaAuthoritysApp app) {
         return CompletableFuture.supplyAsync(() -> {
 
             if(StringUtils.isBlank(app.getAppTag())){
                 return JsonResult.failed("注册失败: appTag 未配制");
             }
             //检查app是否存在
-            SystemAuthoritysApp appFinded = appService.getById(app.getAppTag());
+            AlitaAuthoritysApp appFinded = appService.getById(app.getAppTag());
             if(null == appFinded){
                 //app不存在,检查name是否有值,有就新增app
                 if(StringUtils.isBlank(app.getAppName())){
                     return JsonResult.failed("注册失败: 配制的APP不存在,需要创建,但是缺少app名称");
                 }
-                SystemAuthoritysApp app4Save = new SystemAuthoritysApp();
+                AlitaAuthoritysApp app4Save = new AlitaAuthoritysApp();
                 app4Save.setAppTag(app.getAppTag());
                 app4Save.setAppName(app.getAppName());
                 if(StringUtils.isNotBlank(app.getRemark())){
                     app4Save.setRemark(app.getRemark());
                 }
                 appService.save(app4Save);
+                // 生成 app channel
+                AlitaAuthoritysAppChannel channel4Save = buildAppChannel4Test(app);
+                if (null == channelService.getById(channel4Save.getChannelTag())) {
+                    channelService.save(channel4Save);
+                }
+
             }
 
             boolean processFlag = false;
             if (CollectionUtils.isNotEmpty(catlogList)) {
-                for (SystemAuthoritysCatlog catlog : catlogList) {
+                for (AlitaAuthoritysCatlog catlog : catlogList) {
                     if (StringUtils.isBlank(catlog.getCatlogName())) {
                         continue;
                     }
-                    SystemAuthoritysCatlog catlogFinded = catlogService.findByCatlogNameAndAppTag(catlog.getCatlogName(), app.getAppTag());
+                    AlitaAuthoritysCatlog catlogFinded = catlogService.findByCatlogNameAndAppTag(catlog.getCatlogName(), app.getAppTag());
                     String catlogId;
                     if (EntityUtil.isEntityNoId(catlogFinded)) {
                         catlogId = UUIDUtil.getRandomUUIDString();
@@ -98,8 +123,8 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                         catlogId = catlogFinded.getId();
                     }
                     if (CollectionUtils.isNotEmpty(catlog.getAuthorityList())) {
-                        for (SystemAuthoritys au : catlog.getAuthorityList()) {
-                            SystemAuthoritys auFinded = auService.findByAuActionAndAppTag(au.getAuthorityAction(), app.getAppTag());
+                        for (AlitaAuthoritysMenu au : catlog.getAuthorityList()) {
+                            AlitaAuthoritysMenu auFinded = auService.findByAuActionAndAppTag(au.getAuthorityAction(), app.getAppTag());
                             if (EntityUtil.isEntityNoId(auFinded)) {
                                 au.setId(UUIDUtil.getRandomUUIDString());
                                 au.setCatlogId(catlogId);
@@ -113,11 +138,11 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                                 roleService.addAuthority2Role(ADMIN_ROLE_ID, auFinded);
                             }
 
-                            // 处理数据权限
-                            List<SystemDataSecured> dataSecuredList = au.getDataSecuredList();
-                            if(CollectionUtils.isNotEmpty(dataSecuredList)){
-                                for(SystemDataSecured ds : dataSecuredList){
-                                    SystemDataSecured dsFinded = dsService.findByResourceAndAuId(ds.getResource(), auFinded.getId());
+                            // 处理资源权限
+                            List<AlitaAuthoritysResource> authoritysResourceList = au.getAuthoritysResourceList();
+                            if(CollectionUtils.isNotEmpty(authoritysResourceList)){
+                                for(AlitaAuthoritysResource ds : authoritysResourceList){
+                                    AlitaAuthoritysResource dsFinded = dsService.findByResourceAndAuId(ds.getResource(), auFinded.getId());
                                     if (EntityUtil.isEntityNoId(dsFinded)) {
                                         ds.setId(UUIDUtil.getRandomUUIDString());
                                         ds.setAuthoritysId(auFinded.getId());
@@ -128,7 +153,7 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                                     if (isAdd2SuperAdmin) {
                                         // 添加到超级管理员角色和用户中
                                         checkAdminUserRoleAndAddIfNotExist(app);
-                                        roleService.addDataSecured2Role(ADMIN_ROLE_ID, dsFinded);
+                                        roleService.addAuthoritysResource2Role(ADMIN_ROLE_ID, dsFinded);
                                     }
                                 }
                             }
@@ -138,9 +163,9 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                 }
                 processFlag = true;
             }
-            if (CollectionUtils.isNotEmpty(publicDataSecuredList)) {
-                for(SystemDataSecured ds : publicDataSecuredList){
-                    SystemDataSecured dsFinded = dsService.findByResourceAndAuId(ds.getResource(), null);
+            if (CollectionUtils.isNotEmpty(publicAuthoritysResourceList)) {
+                for(AlitaAuthoritysResource ds : publicAuthoritysResourceList){
+                    AlitaAuthoritysResource dsFinded = dsService.findByResourceAndAuId(ds.getResource(), null);
                     if (EntityUtil.isEntityNoId(dsFinded)) {
                         ds.setId(UUIDUtil.getRandomUUIDString());
                         ds.setAppTag(app.getAppTag());
@@ -150,7 +175,7 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
                     if (isAdd2SuperAdmin) {
                         // 添加到超级管理员角色和用户中
                         checkAdminUserRoleAndAddIfNotExist(app);
-                        roleService.addDataSecured2Role(ADMIN_ROLE_ID, dsFinded);
+                        roleService.addAuthoritysResource2Role(ADMIN_ROLE_ID, dsFinded);
                     }
                 }
                 processFlag = true;
@@ -163,21 +188,25 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
     }
 
     @Override
-    public CompletableFuture<JsonResult> addAllAuthoritys2AdminRole(SystemAuthoritysApp app) {
+    public CompletableFuture<JsonResult> addAllAuthoritys2AdminRole(AlitaAuthoritysApp app) {
 
         // 检查超级管理员角色和用户是否存在,不存在则添加
         checkAdminUserRoleAndAddIfNotExist(app);
 
         // 查询全部权限,并替换管理员角色中的权限
-        List<SystemAuthoritys> authoritysList = auService.list();
-        roleService.replaceAuthority2Role(ADMIN_ROLE_ID, authoritysList.stream().map(SystemAuthoritys::getId).collect(Collectors.toList()));
+        List<AlitaAuthoritysMenu> authoritysList = auService.list();
+        roleService.replaceAuthority2Role(ADMIN_ROLE_ID, authoritysList.stream().map(AlitaAuthoritysMenu::getId).collect(Collectors.toList()));
         return ServiceUtil.buildFuture(JsonResult.successfu("OK"));
     }
 
-    private void checkAdminUserRoleAndAddIfNotExist(SystemAuthoritysApp app){
+    private void checkAdminUserRoleAndAddIfNotExist(AlitaAuthoritysApp app){
         boolean isNeedAddRole2User = false;
         if (null == appService.getById(app.getAppTag())) {
             appService.save(buildAdminApp(app));
+            AlitaAuthoritysAppChannel channel4Save = buildAppChannel4Test(app);
+            if (null == channelService.getById(channel4Save.getChannelTag())) {
+                channelService.save(channel4Save);
+            }
         }
         if (EntityUtil.isEntityNoId(userService.getById(ADMIN_USER_ID))) {
             isNeedAddRole2User = true;
@@ -190,6 +219,7 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
         if (isNeedAddRole2User) {
             userService.addRole2User(ADMIN_USER_ID, ADMIN_ROLE_ID);
         }
+
     }
 
     private AlitaUserAccount buildAdminUser(){
@@ -200,8 +230,8 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
         return superAdmin;
     }
 
-    private SystemRole buildAdminRole(SystemAuthoritysApp app){
-        SystemRole superAdminRole = new SystemRole();
+    private AlitaRole buildAdminRole(AlitaAuthoritysApp app){
+        AlitaRole superAdminRole = new AlitaRole();
         superAdminRole.setId(ADMIN_ROLE_ID);
         superAdminRole.setRoleName("超级管理员");
         superAdminRole.setRemark("超级管理员");
@@ -209,12 +239,22 @@ public class DevHelperProviderImpl implements IDevHelperProvider {
         return superAdminRole;
     }
 
-    private SystemAuthoritysApp buildAdminApp(SystemAuthoritysApp app){
-        SystemAuthoritysApp superAdminApp = new SystemAuthoritysApp();
+    private AlitaAuthoritysApp buildAdminApp(AlitaAuthoritysApp app){
+        AlitaAuthoritysApp superAdminApp = new AlitaAuthoritysApp();
         superAdminApp.setAppTag(app.getAppTag());
         superAdminApp.setAppName("超级管理应用");
         superAdminApp.setRemark("超级管理应用");
         return superAdminApp;
+    }
+
+    private AlitaAuthoritysAppChannel buildAppChannel4Test(AlitaAuthoritysApp app){
+        AlitaAuthoritysAppChannel channel = new AlitaAuthoritysAppChannel();
+        channel.setChannelTag(APP_CHANNEL_TAG);
+        channel.setAppTag(app.getAppTag());
+        channel.setChannelPwd("123");
+        channel.setChannelLoginType("password");
+        channel.setRemark("测试");
+        return channel;
     }
 
 }

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 //package top.klw8.alita.utils;
 //
 //import java.io.IOException;
@@ -26,9 +41,8 @@
 //
 ///**
 // * @ClassName: ElasticSearchRestClientUtil
-// * @Description: ElasticSearchRest 客户端工具类
-// * @author klw
-// * @date 2018年4月13日 上午11:37:19
+// * ElasticSearchRest 客户端工具类
+// * 2018年4月13日 上午11:37:19
 // */
 //public class ElasticSearchRestClient {
 //
@@ -100,7 +114,7 @@
 //
 //    /**
 //     * @Title: isIndexExist
-//     * @Description: 检查索引是否存在
+//     * 检查索引是否存在
 //     * @param indexName 索引名称
 //     * @return
 //     */
@@ -116,7 +130,7 @@
 //
 //    /**
 //     * @Title: createIndex
-//     * @Description: 创建索引
+//     * 创建索引
 //     * @param indexName 索引名称
 //     * @param typeName4Mapping 要做mapping的类型名称
 //     * @param mappingJson mapping Json
@@ -150,8 +164,7 @@
 //
 //    /**
 //     * @Title: putMapping
-//     * @author klw
-//     * @Description: 向索引里添加某类型的 mapping
+//     * 向索引里添加某类型的 mapping
 //     * @param indexName
 //     * @param typeName4Mapping
 //     * @param mappingJson
@@ -172,7 +185,7 @@
 //
 //    /**
 //     * @Title: addData2Index
-//     * @Description: 添加数据到索引
+//     * 添加数据到索引
 //     * @param indexName 索引名称
 //     * @param typeName  type名称
 //     * @param dataJson  JSON格式的数据
@@ -198,7 +211,7 @@
 //
 //    /**
 //     * @Title: addData2Index4Log
-//     * @Description: 添加日志数据
+//     * 添加日志数据
 //     * @param logStr
 //     * @return
 //     */

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018-2021, ranke (213539@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package top.klw8.alita.web.authority.ds;
 
 import com.alibaba.fastjson.JSON;
@@ -6,22 +21,20 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import top.klw8.alita.starter.datasecured.IResourceParser;
-import top.klw8.alita.starter.datasecured.IResourceParserData;
-import top.klw8.alita.starter.datasecured.ResourceParserResult;
+import top.klw8.alita.starter.aures.IResourceParser;
+import top.klw8.alita.starter.aures.IResourceParserData;
+import top.klw8.alita.starter.aures.ResourceParserResult;
 
 import java.util.List;
 
 /**
- * @author klw(213539 @ qq.com)
- * @ClassName: AppTagParser
- * @Description: 从参数中解析appTag的数据权限解析器
- * @date 2020/7/27 14:47
+ * 从参数中解析appTag的资源权限解析器
+ * 2020/7/27 14:47
  */
 @Component
 public class AppTagParser extends DsBaseParser implements IResourceParser {
 
-    @Value("${alita.authority.dataSecured.enable:false}")
+    @Value("${alita.authority.authoritysResource.enable:false}")
     private boolean auDsEnable;
 
     private final String APP_TAG_KEY = "appTag";
