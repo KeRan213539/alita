@@ -45,8 +45,6 @@
     </parent>
 
     <properties>
-        <demo-entitys.version>1.0.0-SNAPSHOT</demo-entitys.version>
-        <demo-service-api.version>1.0.0-SNAPSHOT</demo-service-api.version>
     </properties>
 
     <dependencyManagement>
@@ -55,13 +53,13 @@
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>demo-entitys</artifactId>
-                <version>${demo-entitys.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>top.klw8.alita</groupId>
                 <artifactId>demo-service-api</artifactId>
-                <version>${demo-service-api.version}</version>
+                <version>${revision}</version>
             </dependency>
 
         </dependencies>
