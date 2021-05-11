@@ -16,7 +16,6 @@
 package top.klw8.alita.job.executor.jobhandler;
 
 import com.xxl.job.core.context.XxlJobHelper;
-import com.xxl.job.core.handler.IJobHandler;
 
 
 import java.math.BigDecimal;
@@ -25,6 +24,7 @@ import java.util.concurrent.Future;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rpc.RpcContext;
 
+import com.xxl.job.core.handler.annotation.XxlJob;
 import org.springframework.stereotype.Component;
 import top.klw8.alita.entitys.demo.mongo.MongoDBTest;
 import top.klw8.alita.service.api.demo.ISpringCloudProviderDemoService;
@@ -39,12 +39,12 @@ import top.klw8.alita.service.api.demo.ISpringCloudProviderDemoService;
  * 2018年10月23日 下午3:27:20
  */
 @Component
-public class DemoJobHandler extends IJobHandler {
+public class DemoJobHandler {
 
     @DubboReference(async = true)
     private ISpringCloudProviderDemoService service;
 
-    @Override
+    @XxlJob("demoJobHandler")
     public void execute() throws Exception {
         String param = XxlJobHelper.getJobParam();
         XxlJobHelper.log("XXL-JOB, Hello World.");

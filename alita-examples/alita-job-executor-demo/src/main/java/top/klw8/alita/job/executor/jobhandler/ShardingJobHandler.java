@@ -16,18 +16,18 @@
 package top.klw8.alita.job.executor.jobhandler;
 
 import com.xxl.job.core.context.XxlJobHelper;
-import com.xxl.job.core.handler.IJobHandler;
-import org.springframework.stereotype.Service;
+import com.xxl.job.core.handler.annotation.XxlJob;
+import org.springframework.stereotype.Component;
 
 
 /**
  * 分片广播任务
  *
  */
-@Service
-public class ShardingJobHandler extends IJobHandler {
+@Component
+public class ShardingJobHandler {
 
-    @Override
+    @XxlJob("hardingJobHandler")
     public void execute() throws Exception {
         String param = XxlJobHelper.getJobParam();
         // 分片参数
