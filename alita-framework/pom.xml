@@ -74,7 +74,7 @@
         <springfox.version>3.0.0</springfox.version>
         <xxl-job.version>2.3.0</xxl-job.version>
         <commons-text.version>1.6</commons-text.version>
-        <spring-security.version>5.3.3.RELEASE</spring-security.version>
+        <spring-security.version>5.3.9.RELEASE</spring-security.version>
         <spring-security-jwt.version>1.0.10.RELEASE</spring-security-jwt.version>
         <spring-security-oauth2.version>2.3.8.RELEASE</spring-security-oauth2.version>
         <dubbo.version>2.7.9</dubbo.version>
