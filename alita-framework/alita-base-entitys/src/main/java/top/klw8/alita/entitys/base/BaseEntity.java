@@ -36,7 +36,7 @@ public class BaseEntity implements Serializable, Cloneable {
 	/**
 	 * id : 主键ID
 	 */
-	@TableId(type = IdType.UUID)
+	@TableId(type = IdType.ASSIGN_UUID)
 	private String id;
 
 }

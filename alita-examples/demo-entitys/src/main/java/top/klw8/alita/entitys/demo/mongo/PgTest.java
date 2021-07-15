@@ -32,7 +32,7 @@ import lombok.ToString;
 @TableName("pg_test")
 public class PgTest implements java.io.Serializable {
 
-    @TableId(type = IdType.UUID)
+    @TableId(type = IdType.ASSIGN_UUID)
     private String id;
 
     private String name;
