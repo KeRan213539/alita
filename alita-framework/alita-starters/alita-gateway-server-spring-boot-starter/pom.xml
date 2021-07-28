@@ -61,12 +61,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>com.alibaba.csp</groupId>
 			<artifactId>sentinel-spring-cloud-gateway-adapter</artifactId>
 		</dependency>

@@ -116,6 +116,7 @@ public class AuthorityInterceptor extends BaseWebFilter {
         
         // 判断请求的路径是否需要验证权限
         for (String authPath : cfgBean.getAuthPath()) {
+            //
             if (pathMatcher.match(authPath, reqPath)) {
                 String authorityAction;
                 String jwtToken = ResServerTokenUtil.getToken(request);

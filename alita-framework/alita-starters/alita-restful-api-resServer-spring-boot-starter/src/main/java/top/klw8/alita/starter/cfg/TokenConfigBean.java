@@ -34,7 +34,7 @@ public class TokenConfigBean {
     
     @Getter
     @Setter
-    private boolean storeInRedis;
+    private boolean storeInRedis = false;
     
     private List<String> defaultCheckExcludePaths = Arrays
             .asList(new String[] {"/devHelper/**", "/swagger-ui.html**", "/webjars/**", "/swagger-ui/**",
