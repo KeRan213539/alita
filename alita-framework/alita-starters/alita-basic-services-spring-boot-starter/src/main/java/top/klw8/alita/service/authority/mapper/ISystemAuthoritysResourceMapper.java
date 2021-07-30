@@ -37,7 +37,7 @@ public interface ISystemAuthoritysResourceMapper extends BaseMapper<AlitaAuthori
     int countByAuId(String auId);
 
     @Select("<script> " +
-            "SELECT * FROM alita_role_has_authoritys_resource rhds " +
+            "SELECT * FROM alita_role_has_auth_res rhds " +
             "LEFT JOIN alita_authoritys_resource ds " +
             "on ds.id = rhds.authoritys_resource_id " +
             "where rhds.role_id = #{roleId} " +

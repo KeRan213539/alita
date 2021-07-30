@@ -95,7 +95,7 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
             " from alita_authoritys_resource ds" +
             " left join alita_authoritys_menu au" +
             " on au.id = ds.authoritys_id" +
-            " where ds.id in (select authoritys_resource_id from alita_role_has_authoritys_resource where role_id = #{roleId})")
+            " where ds.id in (select authoritys_resource_id from alita_role_has_auth_res where role_id = #{roleId})")
     List<AlitaAuthoritysResource> selectRoleAuthoritysResources(String roleId);
 
     /**
@@ -105,7 +105,7 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
      * @param: roleId
      * @return int
      */
-    @Insert("INSERT INTO alita_role_has_authoritys_resource(role_id, authoritys_resource_id) VALUES(#{roleId}, #{dsId})")
+    @Insert("INSERT INTO alita_role_has_auth_res(role_id, authoritys_resource_id) VALUES(#{roleId}, #{dsId})")
     int addAuthoritysResource2Role(String dsId, String roleId);
 
     /**
@@ -115,7 +115,7 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
      * @param: roleId
      * @return int
      */
-    @Delete("DELETE FROM alita_role_has_authoritys_resource WHERE role_id = #{roleId} AND authoritys_resource_id = #{dsId}")
+    @Delete("DELETE FROM alita_role_has_auth_res WHERE role_id = #{roleId} AND authoritys_resource_id = #{dsId}")
     int removeAuthoritysResourceFromRole(String dsId, String roleId);
 
     /**
@@ -124,7 +124,7 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
      * @param: roleId
      * @return int
      */
-    @Delete("DELETE FROM alita_role_has_authoritys_resource WHERE role_id = #{roleId}")
+    @Delete("DELETE FROM alita_role_has_auth_res WHERE role_id = #{roleId}")
     int removeAuthoritysResourcesFromRole(String roleId);
 
     /**
@@ -134,7 +134,7 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
      * @return int
      */
     @Insert("<script>" +
-            "INSERT INTO alita_role_has_authoritys_resource(role_id, authoritys_resource_id) VALUES" +
+            "INSERT INTO alita_role_has_auth_res(role_id, authoritys_resource_id) VALUES" +
             "<foreach collection =\"list\" item=\"item\" index= \"index\" separator =\",\"> " +
             "(#{item.roleId}, #{item.dsId})" +
             "</foreach >" +
@@ -148,7 +148,7 @@ public interface ISystemRoleMapper extends BaseMapper<AlitaRole> {
      * @param: dsId
      * @return int
      */
-    @Select("select count(1) from alita_role_has_authoritys_resource WHERE authoritys_resource_id = #{dsId}")
+    @Select("select count(1) from alita_role_has_auth_res WHERE authoritys_resource_id = #{dsId}")
     int countByDsId(String dsId);
 
     /**
