@@ -80,7 +80,7 @@
         <dubbo.version>2.7.12</dubbo.version>
         <druid.version>1.2.6</druid.version>
         <mybatis-plus.version>3.4.3.1</mybatis-plus.version>
-        <postgresql.version>42.2.23</postgresql.version>
+        <postgresql.version>42.3.3</postgresql.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
         <fastjson.version>1.2.76</fastjson.version>
         <freemarker.version>2.3.31</freemarker.version>
