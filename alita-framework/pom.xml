@@ -82,7 +82,7 @@
         <mybatis-plus.version>3.4.3.1</mybatis-plus.version>
         <postgresql.version>42.2.23</postgresql.version>
         <mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
-        <fastjson.version>1.2.76</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <freemarker.version>2.3.31</freemarker.version>
         <cglib.version>3.3.0</cglib.version>
         <commons-net.version>3.8.0</commons-net.version>
