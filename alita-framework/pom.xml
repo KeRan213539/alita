@@ -85,7 +85,7 @@
         <fastjson.version>1.2.76</fastjson.version>
         <freemarker.version>2.3.31</freemarker.version>
         <cglib.version>3.3.0</cglib.version>
-        <commons-net.version>3.8.0</commons-net.version>
+        <commons-net.version>3.9.0</commons-net.version>
         <aliyun-sdk-oss.version>3.13.0</aliyun-sdk-oss.version>
 
         <IK_Analyzer.version>2012FF_hf1_1</IK_Analyzer.version>
